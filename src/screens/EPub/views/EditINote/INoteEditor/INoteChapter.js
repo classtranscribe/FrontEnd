@@ -3,10 +3,10 @@ import React, {useState} from 'react'
 import { Button } from 'pico-ui';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
+import { timestr } from 'utils';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
-import { timestr } from 'utils';
-import cx from 'classnames';
+
 
 function INoteChapter ({
   chapter, 
@@ -134,9 +134,9 @@ function INoteChapter ({
   function watchVideoElement(itemIdx) {
     return altEl(Button, true, {
       ...btnProps,
-      text: 'Watch Video',
-      icon: 'add',
-      onClick: () => handleOpenMDEditor(itemIdx)
+      text: <span className="ml-1">Watch {startTimeStr} - {endTimeStr}</span>,
+      icon: <span className="material-icons">play_circle_filled</span>,
+      onClick: watchInPlayer
   })};
 
   // New Subchapter Button 
@@ -228,14 +228,6 @@ function INoteChapter ({
               {addImgElement(itemIdx)}
               {addTextElement(itemIdx)}
               {watchVideoElement(itemIdx)}
-              <Button
-                  startIcon={<span className="material-icons">play_circle_filled</span>}
-                  className={cx(btnStyles.tealLink, 'justify-content-start')}
-                  onClick={watchInPlayer}
-                  size="large"
-                >
-                  Watch <span className="ml-1">{startTimeStr} - {endTimeStr}</span>
-              </Button>
             </CTFragment>
 
             {typeof content === "object" ? ( // image
