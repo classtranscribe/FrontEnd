@@ -1,6 +1,6 @@
 import React from 'react';
-import { MENU_HIDE, MENU_DOWNLOAD } from '../../../Utils';
 import { connect } from 'dva';
+import { MENU_HIDE, MENU_DOWNLOAD } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function DownloadMenuTrigger({ menu = MENU_HIDE, dispatch }) {

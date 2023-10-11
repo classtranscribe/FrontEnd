@@ -1,6 +1,6 @@
 import React from 'react';
-import { modalControl, MODAL_SHARE, MODAL_HIDE } from '../../../Utils';
 import { connect } from 'dva';
+import { MODAL_SHARE, MODAL_HIDE } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function ShareTrigger({ modal = MODAL_HIDE, dispatch }) {

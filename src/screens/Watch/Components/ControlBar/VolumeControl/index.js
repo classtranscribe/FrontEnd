@@ -49,7 +49,7 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
             onClick={handleButtonClick}
             aria-label={muted ? 'Unmute' : 'Mute'}
             id="volume-mute-btn"
-            position="bottom"
+            // position="bottom"
           >
             <span className="watch-btn-content" tabIndex="-1">
               <i className="material-icons">{iconName}</i>

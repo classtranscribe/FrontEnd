@@ -53,12 +53,17 @@ function EPubToolbar({ view, dispatch, epub }) {
     'help_outline', 'Show Help Guide', null, openHelpGuide, false, true
   );
 
+  const onOpenSettings = () => dispatch({ type: 'epub/setShowFileSettings', payload: true });
+
+  const settingsBtn = _makeTBtn(
+    'edit', 'Edit I-Note Info', null, onOpenSettings, false, true
+  );
 
   return (
     <CTFragment id="ct-epb-header-toolbar" justConBetween>
       <CTFragment alignItCenter className="ct-epb tool-btns">
-        {saveBtnEl}
         {null && previewBtnEl} {/* The preview button causes a crash when clicked (cause unknown) */}
+        {settingsBtn}
         <ToolButtonDivider />
         <DownloadDropdown />
         {!isReadOnly && <ToolButtonDivider />}

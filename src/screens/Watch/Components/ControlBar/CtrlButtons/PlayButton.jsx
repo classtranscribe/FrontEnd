@@ -1,7 +1,7 @@
 import React from 'react';
+import { connect } from 'dva'
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../../Utils';
-import { connect } from 'dva'
 
 export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, dispatch }) {
   const ended = ctpPriEvent === CTP_ENDED;

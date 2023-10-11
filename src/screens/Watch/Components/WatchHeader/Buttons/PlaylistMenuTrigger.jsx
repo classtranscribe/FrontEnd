@@ -1,6 +1,6 @@
 import React from 'react';
-import { MENU_HIDE, MENU_PLAYLISTS } from '../../../Utils';
 import { connect } from 'dva';
+import { MENU_HIDE, MENU_PLAYLISTS } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function PlaylistMenuTrigger({ menu = MENU_HIDE, dispatch }) {

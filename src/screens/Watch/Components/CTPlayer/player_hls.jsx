@@ -325,7 +325,7 @@ const Video = React.memo((props) => {
 
             // const englishTrack = textTrack
             let englishTrack;
-            for (let l = 0; l < Array.from(textTrack).length; l++) {
+            for (let l = 0; l < Array.from(textTrack).length; l += 1) {
                 Array.from(textTrack)[l].mode = 'disabled';
             }
             dispatch({ type: 'watch/setTextTracks', payload: Array.from(textTrack) });
@@ -390,10 +390,6 @@ const Video = React.memo((props) => {
             //     }
             // })
         };
-
-        if (textTrack[0] !== undefined) {
-
-        }
         console.log(hls.audioTracks);
     }, [_videoRef.current])
 

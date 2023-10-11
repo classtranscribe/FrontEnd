@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 import { Button } from 'semantic-ui-react';
 import { search } from 'utils';
-import { AdminListItem } from '../Components';
 import * as KeyCode from 'keycode-js';
+import { AdminListItem } from '../Components';
 
 export default function InstructorList({ instructors, loading, currUni, onInactive }) {
   const [result, setResult] = useState([]);
