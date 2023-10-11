@@ -132,7 +132,7 @@ function INoteChapter ({
   })};
 
   function watchVideoElement(itemIdx) {
-    return altEl(Button, true, {
+    return altEl(Button, itemIdx === 0, {
       ...btnProps,
       text: <span className="ml-1">Watch {startTimeStr} - {endTimeStr}</span>,
       icon: <span className="material-icons">play_circle_filled</span>,
