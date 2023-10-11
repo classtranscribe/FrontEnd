@@ -1,6 +1,7 @@
 import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
@@ -18,6 +19,7 @@ function INoteChapter ({
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
   const [openModalIndex, setOpenModalIndex] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleOpenMDEditor = (itemIdx) => {
     setInsertType('md');
@@ -26,7 +28,6 @@ function INoteChapter ({
       
   const handleClose = () => {
     setInsertType(null);
-    setOpenModalIndex(openModalIndex);
   }
 
   const onInsert = (index) => (val) => {
@@ -162,11 +163,19 @@ function INoteChapter ({
   };
 
   const onRemove = (index) => () => {
+    setDialogOpen(true);
+    setOpenModalIndex(index)
+  };
+  const handleNo = () => {
+    setDialogOpen(false);
+  };
+  const handleYes = () => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
-        action: 'removeChapterContent', payload: { contentIdx: index, type: 'image' }
+        action: 'removeChapterContentAtChapterIdx', payload: { chapterIdx: chIdx, contentIdx: openModalIndex, type: 'image' }
       }
-    })
+    });
+    setDialogOpen(false);
   };
 
   return (
@@ -199,24 +208,43 @@ function INoteChapter ({
               {addTextElement(itemIdx)}
             </CTFragment>
 
-          {typeof content === "object" ? ( // image
-            <CTFragment className='img-con'>   
-              <ChapterImage 
-                id={`ch-content-${chapter.id}-${itemIdx}`}
-                image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                enableChapterScreenshots
-                onChooseImage={onImageChange(itemIdx)}
-                onRemoveImage={onRemove(itemIdx)}
-              />
-            </CTFragment> 
+            {typeof content === "object" ? ( // image
+              <CTFragment className='img-con'>   
+                <ChapterImage 
+                  id={`ch-content-${chapter.id}-${itemIdx}`}
+                  image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                  enableChapterScreenshots
+                  onChooseImage={onImageChange(itemIdx)}
+                  onRemoveImage={onRemove(itemIdx)}
+                />
+                <Dialog
+                  open={dialogOpen}
+                  onClose={handleNo}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    Delete Image Block
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Do you want to delete the Image Block?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleNo} autoFocus>NO</Button>
+                    <Button onClick={handleYes}>YES</Button>
+                  </DialogActions>
+                </Dialog> 
+              </CTFragment> 
             ) : ( // text 
-            <CTFragment className='item-text'>   
-              <ChapterText  
-                id={`ch-content-${chapter.id}-${itemIdx}`}
-                text={content}
-                onSaveText={onTextChange(itemIdx)}
-              />
-            </CTFragment>  
+              <CTFragment className='item-text'>   
+                <ChapterText  
+                  id={`ch-content-${chapter.id}-${itemIdx}`}
+                  text={content}
+                  onSaveText={onTextChange(itemIdx)}
+                />
+              </CTFragment>  
           )}  
           </CTFragment>
         ))}
