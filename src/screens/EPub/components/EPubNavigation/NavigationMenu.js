@@ -43,6 +43,7 @@ function NavMenuItem({
         className={liClasses}
         onClick={onNavigate}
       >
+        
         <span tabIndex="-1">{navTxt}</span>
       </Link>
     </li>

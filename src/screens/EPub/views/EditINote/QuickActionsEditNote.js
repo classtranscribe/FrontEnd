@@ -37,7 +37,7 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
             className={btnClasses}
             onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
           >
-            Reset to Default Chapters
+             Chapters
           </Button>
         }
         {
