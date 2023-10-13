@@ -347,6 +347,7 @@ export default {
                 // append shorter text to previous chapter
                     oldelem.text += " ";
                     oldelem.text += elem.text;
+                    oldelem.end = elem.end;
                     new_items.push(oldelem);
                 }
                 else {
@@ -361,10 +362,11 @@ export default {
         const last_elem = new_items.pop();
         let words = (last_elem.text).split(' ').length;
         if(words < min_word_count) {
-            if(new_items.length !== 0 && words.length !== 0) {
+            if(new_items.length !== 0 && words !== 0) {
                 new_items.push(last_elem);
             } 
         }
+        state.items = new_items;
         let splitChapters = _.map(
             new_items,
             (data, idx) =>

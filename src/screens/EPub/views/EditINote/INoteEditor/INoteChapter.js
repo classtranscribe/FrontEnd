@@ -1,9 +1,10 @@
-import { CTFragment, CTText, altEl} from 'layout'
+import { CTFragment, CTText, altEl, useButtonStyles} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
 import { connect } from 'dva'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
+import { timestr } from 'utils';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers'
 
@@ -19,6 +20,10 @@ function INoteChapter ({
   subChIdx,
   dispatch 
 }) {
+  const { start, end, title } = chapter;
+  const btnStyles = useButtonStyles();
+  const startTimeStr = timestr.toPrettierTimeString(start);
+  const endTimeStr = timestr.toPrettierTimeString(end);
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
   const [openModalIndex, setOpenModalIndex] = useState(null);
@@ -29,6 +34,14 @@ function INoteChapter ({
     setOpenModalIndex(itemIdx)
   };
       
+  const watchInPlayer = () => {
+    dispatch({
+      type: 'epub/openPlayer', payload: {
+        title: `Chapter ${chIdx + 1}: ${title}`, start, end
+      }
+    });
+  };
+
   const handleClose = () => {
     setInsertType(null);
   }
@@ -127,6 +140,14 @@ function INoteChapter ({
       onClick: () => handleOpenMDEditor(itemIdx)
   })};
 
+  function watchVideoElement(itemIdx) {
+    return altEl(Button, itemIdx === 0, {
+      ...btnProps,
+      text: <span className="ml-1">Watch {startTimeStr} - {endTimeStr}</span>,
+      icon: <span className="material-icons">play_circle_filled</span>,
+      onClick: watchInPlayer
+  })};
+
   // New Subchapter Button 
   const splitSChBtnElement = (itemIdx) => {
     return altEl(Button, canSplitSubChapter, {
@@ -215,6 +236,7 @@ function INoteChapter ({
               {/* {subdivideBtnElement(itemIdx)} */}
               {addImgElement(itemIdx)}
               {addTextElement(itemIdx)}
+              {watchVideoElement(itemIdx)}
             </CTFragment>
 
             {typeof content === "object" ? ( // image
