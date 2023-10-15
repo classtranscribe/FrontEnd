@@ -19,7 +19,6 @@ function EditEPubChapter({ dispatch }) {
         <CTFragment width="67%">
           <ChapterEditor />
         </CTFragment>
-
         <CTFragment
           className="ct-epb ech-tool-bar"
           sticky

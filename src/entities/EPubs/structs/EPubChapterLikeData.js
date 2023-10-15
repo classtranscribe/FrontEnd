@@ -6,15 +6,19 @@ import EPubImageData from './EPubImageData';
 
 function _buildContentsFromItems(items) {
   const content = [];
-  if (items[0]) {
-    content.push(new EPubImageData(items[0].image));
+  for (const item of items) {
+    if (item.image) { // if there is an image 
+      const altText = item.ocrPhrases ? `${item.ocrPhrases}` : '' // add in OCR data
+      const imageData = new EPubImageData({src: item.image, alt: altText}); 
+      content.push(imageData)
+    }
+    if (item.text) { // if there is text 
+      const text = item.text
+      if (_.trim(text)) {
+        content.push(text);
+      }
+    }
   }
-
-  const text = buildMDFromItems(items);
-  if (_.trim(text)) {
-    content.push(text);
-  }
-
   return content;
 }
 
