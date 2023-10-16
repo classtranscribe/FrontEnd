@@ -12,8 +12,8 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
   const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
   if (currChIndex >= chapters.length) {currChIndex = 0;}
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
-  // const showSplitAllBtn = chapters.length !== items.length;
-  const showSplitAllBtn = !showResetBtn;
+  const showSplitAllBtn = chapters.length !== items.length;
+  // const showSplitAllBtn = !showResetBtn;
 
   // default state is min word count of 25 for split by screenshots
   const [wordInput, setWordInput] = useState("25");
@@ -29,26 +29,31 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
     <CTFragment margin="10" padding={[15, 10]} width="auto">
       <CTHeading uppercase as="h4" icon="offline_bolt">Quick Split</CTHeading>
 
-      <ButtonGroup fullWidth>
+      <>
         {
           showResetBtn
           &&
-          <Button
-            className={btnClasses}
-            onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
-          >
-            Reset to Default Chapters
-          </Button>
+          <ButtonGroup fullWidth>
+            <Button
+              className={btnClasses}
+              onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
+            >
+              Reset to Default Chapters
+            </Button>
+          </ButtonGroup>
         }
         {
           showSplitAllBtn
           &&
-          <Button
-            className={btnClasses}
-            onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}})}
-          >
-            Split Chapters by Screenshots
-          </Button>
+          <ButtonGroup fullWidth>
+            <Button
+              className={btnClasses}
+              onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}})}
+            >
+              Split Chapters by Screenshots
+            </Button>
+          </ButtonGroup>
+          
         }
         {/* {
           showSubdivideAllBtn
@@ -57,7 +62,7 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
             Subdivide Chapters by Screenshots
           </Button>
         } */}
-      </ButtonGroup>
+      </>
       <CTFragment dFlexCol>
         <form onSubmit={handleOnSubmit}> 
           <TextField
