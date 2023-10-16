@@ -29,32 +29,37 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
     <CTFragment margin="10" padding={[15, 10]} width="auto">
       <CTHeading uppercase as="h4" icon="offline_bolt">Quick Split</CTHeading>
 
-      <>
+      
         {
           showResetBtn
           &&
-          <ButtonGroup fullWidth>
-            <Button
-              className={btnClasses}
-              onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
-            >
-              Reset to Default Chapters
-            </Button>
-          </ButtonGroup>
+          <CTFragment margin="7" width="auto">
+            <ButtonGroup fullWidth>
+              <Button
+                className={btnClasses}
+                onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
+              >
+                Reset to Default Chapters
+              </Button>
+            </ButtonGroup>
+          </CTFragment>
         }
+
         {
           showSplitAllBtn
           &&
-          <ButtonGroup fullWidth>
-            <Button
-              className={btnClasses}
-              onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}})}
-            >
-              Split Chapters by Screenshots
-            </Button>
-          </ButtonGroup>
-          
+          <CTFragment margin="7" width="auto">
+            <ButtonGroup fullWidth>
+              <Button
+                className={btnClasses}
+                onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}})}
+              >
+                Split Chapters by Screenshots
+              </Button>
+            </ButtonGroup>
+          </CTFragment>
         }
+
         {/* {
           showSubdivideAllBtn
           &&
@@ -62,7 +67,8 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
             Subdivide Chapters by Screenshots
           </Button>
         } */}
-      </>
+      
+
       <CTFragment dFlexCol>
         <form onSubmit={handleOnSubmit}> 
           <TextField
