@@ -90,6 +90,14 @@ function INoteChapter ({
       icon: 'unfold_more',
       onClick: () => sliceChapter(itemIdx)
   })};
+  // The split button added to the end of the note list
+  const alwaysSplitBtnElement = (itemIdx) => {
+    return altEl(Button, true, {
+      ...btnProps,
+      text: 'Split Chapter',
+      icon: 'unfold_more',
+      onClick: () => sliceChapter(itemIdx)
+  })};
 
   const mergeChapterBtnElement = (itemIdx) => {
     let canMerge = chIdx > 0 && itemIdx === 0;
@@ -197,7 +205,7 @@ function INoteChapter ({
           </CTFragment>
         </CTFragment>
 
-        {chapter.contents.map((content, itemIdx) => (
+        {chapter.contents.map((content, itemIdx, arr) => (
           <CTFragment key={itemIdx}>
             <CTFragment className="item-actions">
               {mergeChapterBtnElement(itemIdx)}
@@ -245,9 +253,21 @@ function INoteChapter ({
                   onSaveText={onTextChange(itemIdx)}
                 />
               </CTFragment>  
-          )}  
+          )}
+          {itemIdx === arr.length - 1 && (
+            <CTFragment className="item-actions">
+              {/* mergeChapterBtnElement(itemIdx) */}
+              {alwaysSplitBtnElement(itemIdx)}
+              {/* {splitSChBtnElement(itemIdx)} */}
+              {/* {subdivideBtnElement(itemIdx)} */}
+              {addImgElement(itemIdx)}
+              {addTextElement(itemIdx)}
+            </CTFragment>
+      )}  
           </CTFragment>
         ))}
+
+         
       </CTFragment>
 
       {insertType !== null && (
