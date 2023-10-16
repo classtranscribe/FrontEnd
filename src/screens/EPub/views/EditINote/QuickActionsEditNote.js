@@ -33,7 +33,7 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
         {
           showResetBtn
           &&
-          <CTFragment margin="7" width="auto">
+         <CTFragment margin="7" width="auto">
             <ButtonGroup fullWidth>
               <Button
                 className={btnClasses}

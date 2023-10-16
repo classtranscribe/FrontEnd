@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 /**
  * The Player which supports different screen modes
  */
 
- import React, { useCallback, useRef, useEffect } from 'react';
+ import React, { useEffect, useState } from 'react';
  import { connect } from 'dva'
  import { isMobile } from 'react-device-detect';
  import PlayerData from '../../player'
@@ -18,29 +19,36 @@
  import './index.scss';
  import './playerModes.css';
  
- const videoRef1 = (node) => { PlayerData.video1 = node };
- const videoRef2 = (node) => { PlayerData.video2 = node };
+ const videoRef1 = (node) => { PlayerData.video1 = node; console.log("Updating PlayerData 1",node); };
+ const videoRef2 = (node) => { PlayerData.video2 = node; console.log("Updating PlayerData 2",node); };
+ 
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
    const { transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
    const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
+   const [videoPlaybackReady, setPlaybackReady] = useState(0); // dont need redux for this state
+   const bumpPlayerReady = () => { console.log("bumpPlayerReady", videoPlaybackReady+1); setPlaybackReady(videoPlaybackReady + 1); }
+
    // Mute Handler
    useEffect(() => {
      PlayerData.video1 && (PlayerData.video1.muted = muted);
      PlayerData.video2 && (PlayerData.video2.muted = true);
-   }, [muted]);
+   }, [muted,videoPlaybackReady]);
    // Volume Handler
    useEffect(() => {
      PlayerData.video1 && (PlayerData.video1.volume = volume);
      PlayerData.video2 && (PlayerData.video2.volume = volume);
-   }, [volume]);
+   }, [volume,videoPlaybackReady]);
    // Playbackrate Handler
    useEffect(() => {
+    //
+     // eslint-disable-next-line no-console
+     console.log(`Set Playbackrate ${playbackrate} ${PlayerData.video1} ${PlayerData.video2} `);
      PlayerData.video1 && (PlayerData.video1.playbackRate = playbackrate);
      PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
-   }, [playbackrate]);
+   }, [playbackrate,videoPlaybackReady]);
  
    // liveMode speed
    useEffect(() => {
@@ -72,13 +80,14 @@
      isSwitched,
      embedded,
      openCC,
-     videoStyle
+     videoStyle,
+     playerReady: bumpPlayerReady
    }
    useEffect(() => {
      if(window.hls) {
          window.hls.subtitleTrack = openCC ? 0: -1
      }
- }, [openCC])
+ }, [openCC,videoPlaybackReady])
    return (
      <>
        <div
@@ -124,6 +133,7 @@
              path={srcPath2}
              isSwitched={isSwitched}
              embedded={embedded}
+             playerReady={bumpPlayerReady}
            />
          </div>
        )}
