@@ -6,8 +6,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} f
 import { EPubImageData } from 'entities/EPubs';
 import { timestr } from 'utils';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
-import {epub as epubTools} from '../../../controllers'
-
+import {epub as epubTools} from '../../../controllers';
 
 function INoteChapter ({
   chapter, 
@@ -18,6 +17,7 @@ function INoteChapter ({
   epub,
   isSubChapter,
   subChIdx,
+  condition,
   dispatch 
 }) {
   const { start, end, title } = chapter;
@@ -269,14 +269,14 @@ function INoteChapter ({
                 </Dialog> 
               </CTFragment> 
             ) : ( // text 
-              <CTFragment className='item-text'>   
-                <ChapterText  
-                  id={`ch-content-${chapter.id}-${itemIdx}`}
-                  text={content}
-                  onSaveText={onTextChange(itemIdx)}
-                />
-              </CTFragment>  
-          )}  
+            <CTFragment className='item-text'>   
+              <ChapterText  
+                id={`ch-content-${chapter.id}-${itemIdx}`}
+                text={content}
+                onSaveText={onTextChange(itemIdx)}
+              />
+            </CTFragment>  
+          )}
           </CTFragment>
         ))}
       </CTFragment>
