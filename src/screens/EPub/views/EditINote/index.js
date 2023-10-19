@@ -28,7 +28,7 @@ function EditINote ({epub: epubData, dispatch}) {
   const menustyle_extended = {
     transition: "width 100ms linear, padding 100ms linear",
     margin: "10",
-    width: "40%"
+    width: "28%"
   };
   return (
     <EPubNavigationProvider>
