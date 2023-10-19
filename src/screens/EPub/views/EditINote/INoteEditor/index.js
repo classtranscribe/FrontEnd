@@ -1,8 +1,6 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'dva'
 import './index.scss';
-
 
 import INoteChapter from './INoteChapter';
 
@@ -20,9 +18,11 @@ function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem,
       {chapters.map((chapter, chIdx) => (
         <INoteChapter 
           key={chapter.id}
-          chapter={chapter} 
+          chapter={chapter}
+          chapters={chapters} 
           chIdx={chIdx}
           isSubChapter={false}
+          condition={chapter.condition}
           dispatch={dispatch}
         />
       ))}

@@ -1,0 +1,20 @@
+.ct-epub-tag-dialog {
+    min-width: 500px;
+}
+
+.tagGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+    .ct-epb-dropdown-button {
+      margin-left: 20px;
+    }
+    #ct-epub-tag-dropdown {
+      width: max-content;
+      min-width: 180px;
+      white-space: nowrap;
+      font-size: 14px;
+      color: rgb(47, 47, 47);
+    }
+  }
