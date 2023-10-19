@@ -232,8 +232,6 @@ function INoteChapter ({
             <CTFragment className="item-actions">
               {mergeChapterBtnElement(itemIdx)}
               {splitBtnElement(itemIdx)}
-              {/* {splitSChBtnElement(itemIdx)} */}
-              {/* {subdivideBtnElement(itemIdx)} */}
               {addImgElement(itemIdx)}
               {addTextElement(itemIdx)}
               {watchVideoElement(itemIdx)}
