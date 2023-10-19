@@ -13,7 +13,7 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
   if (currChIndex >= chapters.length) {currChIndex = 0;}
   const showResetBtn = chapters.length > 1 || chapters[0].subChapters.length > 0;
   const showSplitAllBtn = chapters.length !== items.length;
-  // const showSplitAllBtn = !showResetBtn;
+
 
   // default state is min word count of 25 for split by screenshots
   const [wordInput, setWordInput] = useState("25");
@@ -60,13 +60,7 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
           </CTFragment>
         }
 
-        {/* {
-          showSubdivideAllBtn
-          &&
-          <Button className={btnClasses} onClick={epub.data.subdivideChaptersByScreenshots}>
-            Subdivide Chapters by Screenshots
-          </Button>
-        } */}
+        
       
 
       <CTFragment dFlexCol>

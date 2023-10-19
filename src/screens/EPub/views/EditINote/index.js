@@ -11,7 +11,7 @@ import INoteEditor from './INoteEditor';
 import QuickActionsEditNote from './QuickActionsEditNote';
 
 
-// import './index.scss';
+
 
 function EditINote ({epub: epubData, dispatch}) {
   const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
