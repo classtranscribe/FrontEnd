@@ -247,12 +247,16 @@ function INoteChapter ({
                 />
               </CTFragment>  
           )}
-          {itemIdx === arr.length - 1 && (
-            <CTFragment className="item-actions">
-              {addImgElement(itemIdx)}
-              {addTextElement(itemIdx)}
-            </CTFragment>
-      )}  
+          
+          {itemIdx === chapter.contents.length - 1 && ( 
+            <CTFragment className="item-actions-end">
+              {mergeChapterBtnElement(chapter.contents.length)}
+              {splitBtnElement(chapter.contents.length)}
+              {addImgElement(chapter.contents.length)}
+              {addTextElement(chapter.contents.length)}
+              {watchVideoElement(chapter.contents.length)}
+            </CTFragment>)}
+
           </CTFragment>
         ))}
 
