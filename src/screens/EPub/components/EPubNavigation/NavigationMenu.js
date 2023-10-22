@@ -24,6 +24,7 @@ function NavMenuItem({
   schIdx,
   navId,
   isTag,
+  needBox,
   selectedChapters,
   setSelectedChapters,
   isSelected,
@@ -65,7 +66,8 @@ function NavMenuItem({
 
   return (
     <li aria-current={current ? "true" : "false"} className="nav-item-li">
-      {isTag && checkBox}
+      {needBox? isTag && checkBox
+      : <></> }
       <Link
         title={navTxt}
         id={navItemId}
@@ -100,17 +102,26 @@ function NavigationMenu({
 
   return (
     <div>
+    {showCheckbox?
       <CTFragment margin="10" padding={[5, 10]} width="auto">
         <ButtonGroup fullWidth>
-          <Button onClick={setShowCheckbox(!showCheckbox)}>Test Button</Button>
+         <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Hide Tags</Button> 
         </ButtonGroup>
       </CTFragment>
+    :
+    <CTFragment margin="10" padding={[5, 10]} width="auto">
+    <ButtonGroup fullWidth>
+     <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Show Tags</Button> 
+    </ButtonGroup>
+  </CTFragment>}
+    {showCheckbox?
     <TagGroup 
       chapters={chapters}
       selectedChapters={selectedChapters}
       setSelectedChapters={setSelectedChapters}
       dispatch={dispatch}
-    />
+    />:
+    <></>}
       <ul
         className="plain-ul"
         id={ID.EPubNavigationMenuID}
@@ -123,6 +134,7 @@ function NavigationMenu({
               chapter={ch}
               navId={navId}
               isTag
+              needBox={showCheckbox}
               selectedChapters={selectedChapters}
               setSelectedChapters={setSelectedChapters}
               isSelected={isSelected}
