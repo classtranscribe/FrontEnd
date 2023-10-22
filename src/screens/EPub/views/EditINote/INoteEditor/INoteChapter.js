@@ -228,7 +228,16 @@ function INoteChapter ({
           </CTFragment>
         </CTFragment>
 
-        {chapter.contents.map((content, itemIdx, arr) => (
+        {chapter.contents.length === 0 ? (
+          <CTFragment className="item-actions">
+            {mergeChapterBtnElement(0)}
+            {splitBtnElement(0)}
+            {addImgElement(0)}
+            {addTextElement(0)}
+            {watchVideoElement(0)}
+          </CTFragment>
+
+        ) : (chapter.contents.map((content, itemIdx, arr) => (
           <CTFragment key={itemIdx}>
             <CTFragment className="item-actions">
               {mergeChapterBtnElement(itemIdx)}
@@ -276,8 +285,17 @@ function INoteChapter ({
                 />
               </CTFragment>  
           )}  
+          {itemIdx === chapter.contents.length - 1 && ( 
+            <CTFragment className="item-actions">
+              {mergeChapterBtnElement(chapter.contents.length)}
+              {splitBtnElement(chapter.contents.length)}
+              {addImgElement(chapter.contents.length)}
+              {addTextElement(chapter.contents.length)}
+              {watchVideoElement(chapter.contents.length)}
+          </CTFragment>)}
+
           </CTFragment>
-        ))}
+          )))}
 
          
       </CTFragment>
