@@ -227,17 +227,20 @@ function INoteChapter ({
             />
           </CTFragment>
         </CTFragment>
+       
 
-        {chapter.contents.length === 0 ? (
+        {chapter.contents.length === 0 ? ( 
+          // If the chapter doesn't have any element, still add an button bar to it for appending
           <CTFragment className="item-actions">
             {mergeChapterBtnElement(0)}
             {splitBtnElement(0)}
             {addImgElement(0)}
             {addTextElement(0)}
-            {watchVideoElement(0)}
+            {/* watchVideoElement(0) */}
           </CTFragment>
-
-        ) : (chapter.contents.map((content, itemIdx, arr) => (
+        
+        ) : (// If the chapter has elements, then iterate through all of them
+          chapter.contents.map((content, itemIdx, arr) => (
           <CTFragment key={itemIdx}>
             <CTFragment className="item-actions">
               {mergeChapterBtnElement(itemIdx)}
