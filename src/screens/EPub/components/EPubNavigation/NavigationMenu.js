@@ -5,8 +5,10 @@ import { connect } from 'dva'
 import { uurl, elem } from 'utils';
 import { findChapterTimeSpan } from 'entities/EPubs/utils';
 import Text from 'layout/CTText/Text';
-import { CTCheckbox} from 'layout';
+import { CTFragment, CTCheckbox} from 'layout';
 import { Checkbox } from '@material-ui/core';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 import { epub } from '../../controllers';
 import TagGroup from '../Tags/TagGroup';
 
@@ -86,6 +88,7 @@ function NavigationMenu({
   dispatch
 }) {
   const [selectedChapters, setSelectedChapters] = useState([]);
+  const [showCheckbox, setShowCheckbox] = useState(true);
   const isSelected = (chIdx) => {
     return selectedChapters.includes(chIdx);
   };
@@ -97,6 +100,11 @@ function NavigationMenu({
 
   return (
     <div>
+      <CTFragment margin="10" padding={[5, 10]} width="auto">
+        <ButtonGroup fullWidth>
+          <Button onClick={setShowCheckbox(!showCheckbox)}>Test Button</Button>
+        </ButtonGroup>
+      </CTFragment>
     <TagGroup 
       chapters={chapters}
       selectedChapters={selectedChapters}
