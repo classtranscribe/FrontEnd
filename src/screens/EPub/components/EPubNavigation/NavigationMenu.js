@@ -5,8 +5,10 @@ import { connect } from 'dva'
 import { uurl, elem } from 'utils';
 import { findChapterTimeSpan } from 'entities/EPubs/utils';
 import Text from 'layout/CTText/Text';
-import { CTCheckbox} from 'layout';
+import { CTFragment, CTCheckbox} from 'layout';
 import { Checkbox } from '@material-ui/core';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 import { epub } from '../../controllers';
 import TagGroup from '../Tags/TagGroup';
 
@@ -22,6 +24,7 @@ function NavMenuItem({
   schIdx,
   navId,
   isTag,
+  needBox,
   selectedChapters,
   setSelectedChapters,
   isSelected,
@@ -63,7 +66,8 @@ function NavMenuItem({
 
   return (
     <li aria-current={current ? "true" : "false"} className="nav-item-li">
-      {isTag && checkBox}
+      {needBox? isTag && checkBox
+      : <></> }
       <Link
         title={navTxt}
         id={navItemId}
@@ -86,6 +90,7 @@ function NavigationMenu({
   dispatch
 }) {
   const [selectedChapters, setSelectedChapters] = useState([]);
+  const [showCheckbox, setShowCheckbox] = useState(true);
   const isSelected = (chIdx) => {
     return selectedChapters.includes(chIdx);
   };
@@ -97,12 +102,26 @@ function NavigationMenu({
 
   return (
     <div>
+    {showCheckbox?
+      <CTFragment margin="10" padding={[5, 10]} width="auto">
+        <ButtonGroup fullWidth>
+         <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Hide Tags</Button> 
+        </ButtonGroup>
+      </CTFragment>
+    :
+    <CTFragment margin="10" padding={[5, 10]} width="auto">
+    <ButtonGroup fullWidth>
+     <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Show Tags</Button> 
+    </ButtonGroup>
+  </CTFragment>}
+    {showCheckbox?
     <TagGroup 
       chapters={chapters}
       selectedChapters={selectedChapters}
       setSelectedChapters={setSelectedChapters}
       dispatch={dispatch}
-    />
+    />:
+    <></>}
       <ul
         className="plain-ul"
         id={ID.EPubNavigationMenuID}
@@ -115,6 +134,7 @@ function NavigationMenu({
               chapter={ch}
               navId={navId}
               isTag
+              needBox={showCheckbox}
               selectedChapters={selectedChapters}
               setSelectedChapters={setSelectedChapters}
               isSelected={isSelected}
