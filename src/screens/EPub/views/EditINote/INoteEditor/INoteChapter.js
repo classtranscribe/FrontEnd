@@ -112,6 +112,7 @@ function INoteChapter ({
       icon: 'unfold_more',
        onClick: () => sliceChapter(itemIdx)
   })};
+ 
 
   const mergeChapterBtnElement = (itemIdx) => {
     let canMerge = chIdx > 0 && itemIdx === 0;
@@ -226,8 +227,20 @@ function INoteChapter ({
             />
           </CTFragment>
         </CTFragment>
+       
 
-        {chapter.contents.map((content, itemIdx) => (
+        {chapter.contents.length === 0 ? ( 
+          // If the chapter doesn't have any element, still add a button bar to it for appending
+          <CTFragment className="item-actions">
+            {mergeChapterBtnElement(0)}
+            {splitBtnElement(0)}
+            {addImgElement(0)}
+            {addTextElement(0)}
+            {/* watchVideoElement(0) */}
+          </CTFragment>
+        
+        ) : (// If the chapter has elements, then iterate through all of them
+          chapter.contents.map((content, itemIdx) => (
           <CTFragment key={itemIdx}>
             <CTFragment className="item-actions">
               {mergeChapterBtnElement(itemIdx)}
@@ -267,16 +280,24 @@ function INoteChapter ({
                 </Dialog> 
               </CTFragment> 
             ) : ( // text 
-            <CTFragment className='item-text'>   
-              <ChapterText  
-                id={`ch-content-${chapter.id}-${itemIdx}`}
-                text={content}
-                onSaveText={onTextChange(itemIdx)}
-              />
-            </CTFragment>  
-          )}
+              <CTFragment className='item-text'>   
+                <ChapterText  
+                  id={`ch-content-${chapter.id}-${itemIdx}`}
+                  text={content}
+                  onSaveText={onTextChange(itemIdx)}
+                />
+              </CTFragment>  
+          )}  
+          {itemIdx === chapter.contents.length - 1 && ( 
+            <CTFragment className="item-actions">
+              {mergeChapterBtnElement(chapter.contents.length)}
+              {splitBtnElement(chapter.contents.length)}
+              {addImgElement(chapter.contents.length)}
+              {addTextElement(chapter.contents.length)}
+              {watchVideoElement(chapter.contents.length)}
+            </CTFragment>)}
           </CTFragment>
-        ))}
+        )))}
       </CTFragment>
 
       {insertType !== null && (
