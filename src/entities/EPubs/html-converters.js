@@ -70,8 +70,7 @@ export function encodeXmlEntities(text) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;")
-    .replace(/\x00/g, "")  // Remove null (ASCII 0)
-    .replace(/[\x01-\x1F]/g, "")  // Remove control characters (ASCII 1-31)
-    .replace(/[\x08]/g, "") // Remove backspace (ASCII 8)
-    .replace(/,/g, "&#44;"); // Encode commas as &#44;
+    /* eslint-disable */
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, ''); // Remove control characters
+    /* eslint-enable */
 }
