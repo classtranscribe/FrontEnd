@@ -61,3 +61,17 @@ export function buildHTMLFromMD(text) {
 export async function buildHTMLFromChapter(chapter) {
   return html.markdown(await buildMDFromChapter(chapter));
 }
+
+// Function to encode special XML characters in a string
+export function encodeXmlEntities(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;")
+    .replace(/\x00/g, "")  // Remove null (ASCII 0)
+    .replace(/[\x01-\x1F]/g, "")  // Remove control characters (ASCII 1-31)
+    .replace(/[\x08]/g, "") // Remove backspace (ASCII 8)
+    .replace(/,/g, "&#44;"); // Encode commas as &#44;
+}
