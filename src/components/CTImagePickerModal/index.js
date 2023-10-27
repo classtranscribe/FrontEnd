@@ -57,21 +57,21 @@ function ImagePickerModal(props) {
       };
     } 
 
-    if (typeof tab === 'string' && tab === 'video' && playerData) {
-      return {
-        menuItem: 'Capture in Video',
-        render: () => (
-          <Tab.Pane>
-            <VideoTab
-              onSaveImage={onSaveImage}
-              sourceType={sourceType}
-              sourceId={sourceId}
-              {...playerData}
-            />
-          </Tab.Pane>
-        )
-      };
-    }
+    // if (typeof tab === 'string' && tab === 'video' && playerData) {
+    //   return {
+    //     menuItem: 'Capture in Video',
+    //     render: () => (
+    //       <Tab.Pane>
+    //         <VideoTab
+    //           onSaveImage={onSaveImage}
+    //           sourceType={sourceType}
+    //           sourceId={sourceId}
+    //           {...playerData}
+    //         />
+    //       </Tab.Pane>
+    //     )
+    //   };
+    // }
     
     if (tab.name && Array.isArray(tab.images)) {
       return {
