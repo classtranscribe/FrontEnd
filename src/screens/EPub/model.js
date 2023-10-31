@@ -184,7 +184,7 @@ const EPubModel = {
                 return;
             }
 
-            uurl.openNewTab(links.epub(newEPubData.id, Constants.EpbEditStructure));
+            uurl.openNewTab(links.epub(newEPubData.id, Constants.EditINote));
         },
         *deleteEPub({ payload: ePubId }, { call, put, select, take }) {
             try {

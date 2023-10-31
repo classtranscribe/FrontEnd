@@ -24,7 +24,11 @@ function DownloadMenu({ onClose = null, trans }) {
   };
 
   return (
-    <div id="watch-download-menu" className="watch-general-menu" role="menu" position="top">
+    <div
+      id="watch-download-menu"
+      className="watch-general-menu"
+      role="menu"
+    >
       <button
         className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn"
         onClick={onClose}
@@ -52,7 +56,7 @@ function DownloadMenu({ onClose = null, trans }) {
                 </div>
               ) : (
                 <i className="material-icons watch-icon-icon">save_alt</i>
-                )}
+              )}
               <div className="watch-icon-name">{langMap[lang.language]}</div>
             </span>
           </button>

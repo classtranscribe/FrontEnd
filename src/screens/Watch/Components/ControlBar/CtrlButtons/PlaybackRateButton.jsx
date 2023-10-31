@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from 'dva'
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { MENU_HIDE, MENU_PLAYBACKRATE } from '../../../Utils';
-import { connect } from 'dva'
+
 export function PlaybackRateButtonWithRedux({ menu = MENU_HIDE, playbackrate = 1.0, dispatch }) {
   const handleMenuTrigger = () => {
     if (menu !== MENU_PLAYBACKRATE) {

@@ -2,9 +2,10 @@ import React from 'react';
 import { withRouter } from 'dva/router';
 import { MediaCard } from 'components';
 import { api, links } from 'utils';
-import { setup, connectWithRedux } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import setup2 from '../../../model/setup'
+
 const Video = ({ media = null, label = false }) => (
   <MediaCard
     {...MediaCard.parse(media)}

@@ -1,0 +1,63 @@
+
+// INoteChapter 
+.ct-epb.ch-img-con {
+    position: relative;
+    width: 98%;
+    height: 98%;
+    margin-left: 3px;
+    padding-top: 3px;
+    flex: 0 0 auto;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    border-top: solid 1px rgb(236, 236, 236);
+    .ch-img-wrapper{
+        position: relative;
+        min-width: 150px;
+        height: max-content;
+
+        .ct-epb.ch-img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            width: 220px;
+            object-fit: contain;
+            cursor: zoom-in;
+        }
+    }
+}
+
+.item-text {
+    position: relative;
+    width: 99%;
+    white-space: pre-wrap;
+    margin-left: 3px;
+    padding-top: 3px;
+    margin-bottom: 3px;
+    font-size: 14px;
+    line-height: 23px;
+    // height: 92px;
+    overflow: hidden;
+}
+
+
+.item-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 50px;
+    width: 100%;
+    opacity: 0;
+    transition: opacity .2s ease-in;
+    pointer-events: auto;
+    border-radius: 10px 20px 20px 10px;
+    background-color: rgb(245, 245, 245);
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.item-actions:hover {
+   opacity: 1;
+}
+

@@ -28,8 +28,8 @@ function removeSubChapter(chapter, subChapterIndex) {
     ];
     return subChapter;
 }
-function insertChapter(chapters, index, chapterLike) {
-    let newChapter = new EPubChapterData(chapterLike);
+function insertChapter(chapters, index, chapterLike, resetText = true) {
+    let newChapter = new EPubChapterData(chapterLike, resetText);
     newChapter = newChapter.__data__ ? newChapter.__data__ : newChapter.toObject();
 
     console.log(`Inserting chapter at ${index}: `, chapterLike);
@@ -266,7 +266,6 @@ export default {
         const chapters = state.epub.chapters;
         const currChp = chapters[chapterIdx];
         const prevChp = chapters[chapterIdx - 1];
-
         console.log(`Undoing split-chapter at ${chapterIdx}`);
         // if the prev chapter has sub-chapters
         // append curr chapter and its sub-chapters to prev's sub-chapters
@@ -279,9 +278,33 @@ export default {
             prevChp.subChapters = currChp?.subChapters;
             // remove combined chapter
             newChapters = removeChapter(chapters, chapterIdx);
-        }
+        } 
         rebuildChapter(chapters, chapterIdx - 1);
         // this.updateAll('Undo split chapters', chapterIdx - 1);
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
+    },
+    sliceChapter(state, { payload: { chapterIdx, itemIdx}}) {
+        console.log(`Splitting Chapter ${chapterIdx} at ItemIdx ${itemIdx}`);
+        const chapters = state.epub.chapters;
+        const chapter = chapters[chapterIdx]
+        // remove contents from current chapter and add to new chapter
+        let contents = _.slice(chapter.contents, itemIdx, chapter.contents.length);
+        chapter.contents = _.slice(chapter.contents, 0, itemIdx);
+        // insert the new chapter
+        const newChapters = insertChapter(chapters, chapterIdx + 1, { contents }, false);
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
+    },
+    mergeChapter(state, { payload: { chapterIdx } }) {
+        console.log(`Merging Contents of Chapters ${chapterIdx - 1} and ${chapterIdx}`);
+        const chapters = state.epub.chapters;
+        const currChp = chapters[chapterIdx];
+        const prevChp = chapters[chapterIdx - 1];
+        
+        // TODO account for sub chapters
+        prevChp.contents = _.concat(prevChp?.contents, currChp?.contents);
+       // prevChp.contents
+       state.epub.chapters[chapterIdx-1].end = state.epub.chapters[chapterIdx].end;
+        let newChapters = removeChapter(chapters, chapterIdx);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     appendChapterAsSubChapter(state, { payload: { chapterIdx } }) {
@@ -303,9 +326,9 @@ export default {
         chapters[chapterIdx].title = value;
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
-    splitChaptersByScreenshots(state, {payload: {wc}}) {
+    splitChaptersByScreenshots(state, {payload: {wc}}) { // Enforces Word Count
         console.log(`Splitting chapters by screenshots`);
-        const new_items = [];
+        const new_items = []; // duplicating some sentences (sentences with less than wc words)
         // min word count that each chapter should have
         const default_word_count = 25;
         let min_word_count = wc;
@@ -317,32 +340,35 @@ export default {
         if (min_word_count > total_word_count) {
             min_word_count = default_word_count;
         }
-        // loop through chapters and enforce minimum wc  
+        // loop through chapters and enforce minimum wc 
         (state.items).forEach(function(elem) {
-            let words = (elem.text).split(' ').length;
-            if (words < min_word_count && new_items.length!==0 ) { 
+            if (new_items.length!==0) { 
                 const oldelem = new_items.pop();
+                let words = (oldelem.text).split(' ').length;
+                if(words < min_word_count ) {
                 // append shorter text to previous chapter
-                oldelem.text += " ";
-                oldelem.text += elem.text;
-                new_items.push(oldelem);
+                    oldelem.text += " ";
+                    oldelem.text += elem.text;
+                    oldelem.end = elem.end;
+                    new_items.push(oldelem);
+                }
+                else {
+                    new_items.push(oldelem);
+                    new_items.push(elem)
+                }
             } else {
                 new_items.push(elem);
             }
            });
         // makes sure the first element also has a min of min_word_count words
-        const first_elem = new_items.shift();
-        let words = (first_elem.text).split(' ').length;
+        const last_elem = new_items.pop();
+        let words = (last_elem.text).split(' ').length;
         if(words < min_word_count) {
-            if(new_items.length !== 0) {
-                let elem_next_text = "";
-                // append first chapter's text to next chapter
-                elem_next_text += " ";
-                elem_next_text += new_items.shift().text;
-                first_elem.text += elem_next_text;
-                new_items.unshift(first_elem);
+            if(new_items.length !== 0 && words !== 0) {
+                new_items.push(last_elem);
             } 
         }
+        state.items = new_items;
         let splitChapters = _.map(
             new_items,
             (data, idx) =>
@@ -358,7 +384,7 @@ export default {
         const defaultChapters = EPubData.__buildEPubDataFromArray(state.items);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(defaultChapters) }, currChIndex: 0 };
     },
-    insertChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
+     insertChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
         if (type === 'image') {
             value = new EPubImageData(value).toObject();
         }
@@ -369,6 +395,21 @@ export default {
         } else {
             console.log(`Inserting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
             insertContentChapter(chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx], contentIdx, value);
+        }
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
+        // this.updateAll('Insert chapter content');
+    },
+    insertChapterContentAtChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx, value } }) {
+        if (type === 'image') {
+            value = new EPubImageData(value).toObject();
+        }
+        const chapters = state.epub.chapters;
+        if (subChapterIdx === undefined) {
+            console.log(`Inserting chapter ${state.currChIndex} content: `, value);
+            insertContentChapter(chapters[chapterIdx], contentIdx, value);
+        } else {
+            console.log(`Inserting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
+            insertContentChapter(chapters?.[chapterIdx]?.subChapters?.[subChapterIdx], contentIdx, value);
         }
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
         // this.updateAll('Insert chapter content');
@@ -395,6 +436,29 @@ export default {
         // this.__feed();
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
+
+    setChapterContentAtChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx, value } }) {
+        if (type === 'image') {
+            value = new EPubImageData(value).toObject();
+        }
+        const chapters = state.epub.chapters;
+        if (subChapterIdx === undefined) {
+            const chapter = chapters[chapterIdx];
+            if (type === 'condition') {
+                chapter.condition = value;
+                console.log(`Setting chapter ${state.currChIndex} condition: `, value);
+            } else{
+                chapter.contents[contentIdx] = value;
+                console.log(`Setting chapter ${state.currChIndex} content: `, value);
+            }
+        } else if (chapters?.[chapterIdx]?.subChapters?.[subChapterIdx]) {
+            chapters[chapterIdx].subChapters[subChapterIdx] = value
+            console.log(`Setting chapter ${state.currChIndex} subchapter ${subChapterIdx} content: `, value);
+        }
+        // this.updateAll('Update the chapter content');
+        // this.__feed();
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
+    },
     removeChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
@@ -404,6 +468,20 @@ export default {
         } else if (chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx]) {
             console.log(`Removing chapter ${state.currChIndex} subchapter ${subChapterIdx} content`);
             removeContent(chapters?.[state.currChIndex]?.subChapters?.[subChapterIdx], contentIdx)
+        }
+        // this.updateAll('Remove the chapter content');
+        // this.__feed('Removed.');
+        return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
+    },
+    removeChapterContentAtChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx } }) {
+        const chapters = state.epub.chapters;
+        if (subChapterIdx === undefined) {
+            const chapter = chapters[chapterIdx];
+            console.log(`Removing chapter ${chapterIdx} content`);
+            removeContent(chapter, contentIdx);
+        } else if (chapters?.[chapterIdx]?.subChapters?.[subChapterIdx]) {
+            console.log(`Removing chapter ${chapterIdx} subchapter ${subChapterIdx} content`);
+            removeContent(chapters?.[chapterIdx]?.subChapters?.[subChapterIdx], contentIdx)
         }
         // this.updateAll('Remove the chapter content');
         // this.__feed('Removed.');

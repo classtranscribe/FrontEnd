@@ -61,3 +61,16 @@ export function buildHTMLFromMD(text) {
 export async function buildHTMLFromChapter(chapter) {
   return html.markdown(await buildMDFromChapter(chapter));
 }
+
+// Function to encode special XML characters in a string
+export function encodeXmlEntities(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;")
+    /* eslint-disable */
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, ''); // Remove control characters
+    /* eslint-enable */
+}

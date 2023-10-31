@@ -10,7 +10,7 @@ import {
 } from '../../Utils/constants.util';
 
 const Video = React.memo((props) => {
-    const { id = 1, videoRef, path, dispatch, isSwitched, embedded, videoStyle} = props;
+    const { id = 1, videoRef, path, dispatch, isSwitched, embedded, videoStyle, playerReady} = props;
     const isPrimary = (id === 1);
     // eslint-disable-next-line no-console
     console.log('Render - Video', path);
@@ -60,12 +60,20 @@ const Video = React.memo((props) => {
         }
     }, [isPrimary]);
     const onPause = useCallback(() => {
-        if (!isPrimary) return;
+        // if (!isPrimary) return;
         // Pause Handler
     }, [isPrimary]);
     const onCanPlayPri = useCallback(() => {
         dispatch({ type: 'watch/onPlayerReady', payload: { isPrimary } })
     }, [isPrimary]);
+    const onCanPlayAll = useCallback(() => {
+        if(playerReady) {
+            // playback rate and other properties should be set after the video has loaded
+            playerReady();
+        }
+        onCanPlayPri();
+    });
+    
     const onLoadStartPri = useCallback(() => {
         setCTPEvent(CTP_LOADING);
     }, [isPrimary]);
@@ -108,7 +116,7 @@ const Video = React.memo((props) => {
         onTimeUpdate={onTimeUpdate}
         onProgress={onProgress}
         onPause={onPause}
-        onCanPlay={onCanPlayPri}
+        onCanPlay={onCanPlayAll}
         onLoadStart={onLoadStartPri}
         onLoadedData={onLoadedDataPri}
         onWaiting={onWaitingPri}
