@@ -328,6 +328,8 @@ export default {
     },
     splitChaptersByScreenshots(state, {payload: {wc}}) { // Enforces Word Count
         console.log(`Splitting chapters by screenshots`);
+        console.log(state.items);
+        console.log(state.epub.chapters);
         const new_items = []; // duplicating some sentences (sentences with less than wc words)
         // min word count that each chapter should have
         const default_word_count = 25;
@@ -336,12 +338,18 @@ export default {
             min_word_count = default_word_count;
         }
         // find total word count in i-note and make sure user input is not larger than total wc 
-        const total_word_count = state.items.reduce((wordCount, a) => wordCount + a.text.split(' ').length, 0);
+        const total_word_count = state.items.reduce((wordCount, a) => {
+            if (a === undefined || a === null) {
+                return wordCount;
+            }
+                return wordCount + a.text.split(' ').length;
+        }, 0);
         if (min_word_count > total_word_count) {
             min_word_count = default_word_count;
         }
         // loop through chapters and enforce minimum wc 
         (state.items).forEach(function(elem) {
+            if (elem !== undefined && elem !== null) {
             if (new_items.length!==0) { 
                 const oldelem = new_items.pop();
                 let words = (oldelem.text).split(' ').length;
@@ -359,16 +367,31 @@ export default {
             } else {
                 new_items.push(elem);
             }
-           });
+    }});
         // makes sure the first element also has a min of min_word_count words
-        const last_elem = new_items.pop();
+       /* const last_elem = new_items.pop();
         let words = (last_elem.text).split(' ').length;
         if(words < min_word_count) {
             if(new_items.length !== 0 && words !== 0) {
                 new_items.push(last_elem);
             } 
-        }
+        } */
+        console.log(new_items);
         state.items = new_items;
+        console.log(new_items);
+        let splitChapters = _.map(new_items, (data, idx) => {
+            if (data === undefined || data === null) {
+              return null; 
+            }
+          
+            return new EPubChapterData({
+              items: [data],
+              title: data.title,
+            }).toObject();
+          });
+          splitChapters = _.compact(splitChapters);
+          
+        /*
         let splitChapters = _.map(
             new_items,
             (data, idx) =>
@@ -376,11 +399,13 @@ export default {
                     items: [data],
                     title: data.title,
                 }).toObject(),
-        );
+        ); */
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
     },
     resetToDefaultChapters(state) {
         console.log(`Resetting to default chapters`);
+        console.log(state.items);
+        console.log(state.epub.chapters);
         const defaultChapters = EPubData.__buildEPubDataFromArray(state.items);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(defaultChapters) }, currChIndex: 0 };
     },
