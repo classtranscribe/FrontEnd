@@ -363,10 +363,17 @@ export default {
         // makes sure the first element also has a min of min_word_count words
         const last_elem = new_items.pop();
         let words = (last_elem.text).split(' ').length;
-        if(words < min_word_count) {
-            if(new_items.length !== 0 && words !== 0) {
+        if(words !==0) {
+            if(words > min_word_count) {
                 new_items.push(last_elem);
-            } 
+            }
+            else {
+                const oldelem = new_items.pop();
+                oldelem.text += " ";
+                oldelem.text += last_elem.text;
+                oldelem.end = last_elem.end;
+                new_items.push(oldelem);
+            }
         }
         state.items = new_items;
         let splitChapters = _.map(
