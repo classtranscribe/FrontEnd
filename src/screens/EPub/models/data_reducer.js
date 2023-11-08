@@ -369,13 +369,13 @@ export default {
             }
     }});
         // makes sure the first element also has a min of min_word_count words
-       /* const last_elem = new_items.pop();
+       const last_elem = new_items.pop();
         let words = (last_elem.text).split(' ').length;
         if(words < min_word_count) {
             if(new_items.length !== 0 && words !== 0) {
                 new_items.push(last_elem);
             } 
-        } */
+        } 
         console.log(new_items);
         state.items = new_items;
         console.log(new_items);
