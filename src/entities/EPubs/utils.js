@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { _buildID } from 'utils';
 
 export function findChapterTimeSpan(chapterLike) {
+  console.log(chapterLike)
   const { items, subChapters } = chapterLike;
   let start = '00:00:00';
   let end = '00:00:00';

@@ -24,6 +24,7 @@ import TimeDisplay from './TimeDisplay';
 import ProgressBar from './ProgressBar';
 
 export function ControlBarWithRedux(props) {
+  console.log(props)
   const { dispatch, media = {}, bulkEditing = false } = props;
   const { isTwoScreen, transcriptions } = media;
   const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0;
@@ -66,6 +67,6 @@ export function ControlBarWithRedux(props) {
   );
 }
 
-export const ControlBar = connect(({ watch : { media, bulkEditing}, loading }) => ({
+export const ControlBar = connect(({ watch : { descriptions, media, bulkEditing}, loading }) => ({
   media, bulkEditing
 }))(ControlBarWithRedux);

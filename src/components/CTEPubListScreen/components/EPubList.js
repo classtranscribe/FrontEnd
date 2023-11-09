@@ -40,6 +40,7 @@ export function _getEPubListItems(ePubs, onDelete, onRename, isSelected, handleS
 }
 
 function EPubList(props) {
+  console.log(props)
   const {
     ePubs, languages, rawEPubData,
     sourceType, sourceId,

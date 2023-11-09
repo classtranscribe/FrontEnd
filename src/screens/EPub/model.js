@@ -122,7 +122,7 @@ const EPubModel = {
             }
             */
             let _epub = yield call(getEPubById, ePubId);
-
+            console.log(_epub)
             const { view, h } = uurl.useHash();
             if (Constants.EPubViews.includes(view)) {
                 yield put({ type: 'setView', payload: view });

@@ -314,6 +314,7 @@ const WatchModel = {
          */
         setTranscript(state, { payload }) {
             // Todo check that the payload is immutable because we use the subobjects in our immutable model
+            console.log(state)
             let transcript = payload || unionTranscript(state.captions, state.descriptions);
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
             if (! state.liveMode) {

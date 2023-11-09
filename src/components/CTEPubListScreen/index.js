@@ -47,7 +47,7 @@ function CTEPubListScreen(props) {
     });
     await setupEPubsData();
   };
-
+  console.log(props)
   // Delete an I•Note by epubId
   const handleDeleteEPub = async (epubId) => {
     try {

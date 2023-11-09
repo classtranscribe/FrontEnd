@@ -52,8 +52,9 @@ export default {
     *setCurrTrans({ payload: tran }, { call, put, select, take }) {
         // Get and set corresponding captions
         const { data = [] } = yield call(api.getCaptionsByTranscriptionId, tran.id);
+        console.log(data)
         yield put.resolve({ type: 'setCaptions', payload: data });
-        const descriptions = []; // adSample // need to modify
+        const descriptions = data; // adSample // need to modify
         yield put.resolve({ type: 'setDescriptions', payload: descriptions });
         yield put({ type: 'setTranscript' });
     },
