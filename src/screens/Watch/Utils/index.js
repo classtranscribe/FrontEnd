@@ -69,7 +69,7 @@ export const getCCStyle = (options) => {
     color: cc_color,
     fontSize: `${cc_size + 0.25}rem`, // +.25 to get a larger default font size
     fontFamily: cc_font,
-    'word-spacing': `${cc_spacing}rem`,
+    wordSpacing: `${cc_spacing}rem`,
   };
 
   const ccContainerStyle = {};
