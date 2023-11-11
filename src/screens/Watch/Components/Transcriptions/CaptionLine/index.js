@@ -95,13 +95,6 @@ function CaptionLine({ isCurrent = false, isEditing = false,
         </button>
 
         {/* Caption Line */}
-        {kind === WEBVTT_DESCRIPTIONS ? (
-          <div className="description-line-text">
-            {text}
-            <br />
-            <span className="description-line-text-title">(Description)</span>
-          </div>
-        ) : (
           <div
             ref={ref}
             contentEditable={!isMobile}
@@ -114,7 +107,6 @@ function CaptionLine({ isCurrent = false, isEditing = false,
             onKeyDown={handleKeyDown}
             spellCheck={false}
           />
-        )}
       </div>
 
       {/* Action Buttons */}

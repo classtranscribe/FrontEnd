@@ -464,7 +464,7 @@ const WatchModel = {
             } 
             return { ...state, transcript };
         },
-        /**
+        /** 
          * Function called for setting captions array
          */
         setCaptions(state, { payload }) {
