@@ -54,7 +54,11 @@ export default {
         const { data = [] } = yield call(api.getCaptionsByTranscriptionId, tran.id);
         yield put.resolve({ type: 'setCaptions', payload: data });
         const descriptions = yield call(api.getCaptionsByTranscriptionId, "b1d6ae5b-8591-4779-a2dd-57910c3ace04");; // TODO dont hard code 
-        yield put.resolve({ type: 'setDescriptions', payload: descriptions.data });
+        const descirptionsData = descriptions.data.map(caption => ({
+            ...caption,
+            end: caption.begin, // Set endTime to match beginTime
+          }));
+        yield put.resolve({ type: 'setDescriptions', payload: descirptionsData });
         yield put({ type: 'setTranscript' });
     },
     *setTranscriptions({ payload: trans }, { call, put, select, take }) {
@@ -77,11 +81,13 @@ export default {
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
         if (next && next.id) {
             // pause video if it's AD
-            // if (next.kind === WEBVTT_DESCRIPTIONS) {
-            //     this.updateDescription(next);
-            //     // if (preferControl.pauseWhileAD() && this.prevCaption_ !== next) videoControl.pause(); NOT IMPLEMNTED
-            // }
-
+            if (next.kind === WEBVTT_DESCRIPTIONS) {
+                yield put({ type: 'media_pause' });
+                // Speak out loud 
+                // this.updateDescription(next);
+                
+                // if (preferControl.pauseWhileAD() && this.prevCaption_ !== next) videoControl.pause(); NOT IMPLEMNTED
+            }
             // determine whether should scroll smoothly
             const smoothScroll =
                 prevCaption_ && next && Math.abs(prevCaption_.index - next.index) === 1;

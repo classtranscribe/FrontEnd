@@ -18,7 +18,6 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
     }
   }, [show]);
 
-  descriptions.push("TEST")
   const disabled = descriptions.length <= 0;
 
   return (
