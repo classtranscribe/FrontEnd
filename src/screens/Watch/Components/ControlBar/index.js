@@ -71,6 +71,6 @@ export function ControlBarWithRedux(props) {
   );
 }
 
-export const ControlBar = connect(({ watch : { descriptions, media, bulkEditing}, loading }) => ({
+export const ControlBar = connect(({ watch : { media, bulkEditing}, loading }) => ({
   media, bulkEditing
 }))(ControlBarWithRedux);

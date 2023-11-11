@@ -222,14 +222,19 @@ const WatchModel = {
         setTranscript(state, { payload }) {
             // Todo check that the payload is immutable because we use the subobjects in our immutable model
             console.log(`setTranscript: ${payload ? payload.length : 'none'}`)
-            if(!payload || payload.length === 0) 
-                return { ...state, transcript : ARRAY_EMPTY};
+            // if(!payload || payload.length === 0) 
+            //    return { ...state, transcript : ARRAY_EMPTY};
             // payload = _.sortBy(payload, (item) => timeStrToSec(item.begin));
             // payload = _.map(payload, (item, index) => ({ ...item, index }));
 
             //  unionTranscript(state.captions, state.descriptions);
             // or use payload?
-            let transcript = _.sortBy(state.captions, (item) => timeStrToSec(item.begin));
+            
+            let all = [... state.captions,...state.descriptions]
+
+            let transcript = payload || all;
+             
+            transcript = _.sortBy(transcript, (item) => timeStrToSec(item.begin));
             transcript= _.map(transcript, (item, index) => ({ ...item, index }));
 
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
