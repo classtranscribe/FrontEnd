@@ -287,8 +287,17 @@ const WatchModel = {
         setTranscriptions(state, { payload }) {
             return { ...state, transcriptions: payload };
         },
-        setCurrTrans(state, { payload }) {
-            return { ...state, currTrans: payload };
+        // setCurrTrans(state, { payload }) {
+        //    return { ...state, currTrans: payload };
+        // },
+        setCurrentTranscriptionMulti(state, { payload }) {
+            const { halfKey, active } = payload;
+            let { currentTranscriptionMulti = {halfKeysSelected:[] } } = state;
+            let newKeys = currentTranscriptionMulti.halfKeysSelected.filter(i => (i !== halfKey))
+            if( active ) {
+                newKeys.push(halfKey)
+            }
+            return { ...state, currentTranscriptionMulti: {halfKeysSelected: newKeys} };
         },
         setUpdating(state, { payload }) {
             // 
