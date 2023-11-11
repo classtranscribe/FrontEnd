@@ -49,15 +49,30 @@ const findCurrent = (array = [], prev = {}, now = 0, deterFunc) => {
     return next;
 }
 export default {
-    *setCurrTrans({ payload: tran }, { call, put, select, take }) {
+
+    // We have an array of transcript Ids to display, time to get the actual transcripts from the server
+    *setCurrTrans({ payload: trans }, { all, call, put}) {
         // Get and set corresponding captions
-        const { data = [] } = yield call(api.getCaptionsByTranscriptionId, tran.id);
-        yield put.resolve({ type: 'setCaptions', payload: data });
-        const descriptions = yield call(api.getCaptionsByTranscriptionId, "b1d6ae5b-8591-4779-a2dd-57910c3ace04");; // TODO dont hard code 
+        if( !Array.isArray(trans) ) { trans = [trans]; }
+
+        let alldata = []
+        if(trans.length >0) {
+            // let {data = []} = yield api.getCaptionsByTranscriptionId(trans[0].id);
+            // alldata = [...alldata, ...data];
+            const allTranscriptionData = yield all(
+                trans.map((tran) => call(api.getCaptionsByTranscriptionId, tran.id))
+            );
+            alldata= allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
+        }
+        // eslint-disable-next-line no-console
+        console.log(`*setCurrTrans ${alldata.length} captions`)
+
+        yield put({ type: 'setCaptions', payload: alldata });
+        const descriptions = [] ; // yield call(api.getCaptionsByTranscriptionId, "b1d6ae5b-8591-4779-a2dd-57910c3ace04");; // TODO dont hard code 
         yield put.resolve({ type: 'setDescriptions', payload: descriptions.data });
-        yield put({ type: 'setTranscript' });
+        yield put({ type: 'setTranscript' , payload: alldata }); // ????
     },
-    *setTranscriptions({ payload: trans }, { call, put, select, take }) {
+    *setTranscriptions({ payload: trans }, { put,}) {
         const currTrans = findTransByLanguage(ENGLISH, trans);
         uEvent.registerLanguage(ENGLISH);
         if (currTrans) {
@@ -69,8 +84,9 @@ export default {
             }
         }
     },
-    *updateTranscript({ payload: currentTime }, { call, put, select, take }) {
-        const nextCaption = {};
+    *updateTranscript({ payload: currentTime }, { put, select }) {
+        // eslint-disable-next-line no-console
+        console.log("*updateTranscript");
         const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
         if (watch.transcript === ARRAY_EMPTY) return null;
@@ -95,7 +111,7 @@ export default {
         return next || null;
         // transControl.updateTranscript(currentTime);
     },
-    *setLanguage({ payload: language }, { call, put, select, take }) {
+    *setLanguage({ payload: language }, { put, select }) {
         const { watch } = yield select();
         const currTrans = findTransByLanguage(language, watch.transcriptions);
         if (currTrans) {
@@ -104,7 +120,22 @@ export default {
         uEvent.langchange(watch.time, language);
         uEvent.registerLanguage(language);
     },
-    *setTransEditMode({ payload: { caption, innerText } }, { call, put, select, take }) {
+    *setCurrentTranscriptionMulti( _ignore, { put, select }) {
+        const { watch } = yield select();
+       
+        const selected = watch.currentTranscriptionMulti.halfKeysSelected
+        
+        const currTrans = watch.transcriptions.filter((t) => selected.includes(t.halfKey));
+        
+        if (currTrans.length > 0) {
+            yield put({ type: 'setCurrTrans', payload: currTrans });
+        }
+        // TODO - fix uEvent
+        // uEvent.langchange(watch.time, language);
+        // uEvent.registerLanguage(language);
+    },
+
+    *setTransEditMode({ payload: { caption } }, { put, select }) {
         // if no param caption, edit current caption
         const { watch, playerpref } = yield select();
         const currCap = caption || watch.currCaption_;
@@ -117,7 +148,7 @@ export default {
             yield put({ type: 'playerpref/setPreference', payload: { showCaptionTips: false } });
         }
     },
-    *saveCaption({ payload: { caption, text } }, { call, put, select, take }) {
+    *saveCaption({ payload: { caption, text } }, { call, put, select }) {
         const { watch } = yield select();
         /**
          * @todo check PROFANITY_LIST

@@ -1,24 +1,18 @@
 /* eslint-disable no-console */
 import React from 'react';
-import sortBy from 'lodash/sortBy';
-import { connectWithRedux , langMap } from '../../../Utils';
+import { connectWithRedux } from '../../../Utils';
 
 function TranscriptionMenu({ media, currentTranscriptionMulti= {}, onClose = null, dispatch }) {
   const { transcriptions = [] } = media;
   const { halfKeysSelected = [] } = currentTranscriptionMulti;
-  console.log('TranscriptionMenu. ' );
-  console.log(currentTranscriptionMulti)
   // create new sorted version with half-good keys. ideally these would be unique
   // and would be useful across different videos with different transcription labels 
-  const transcriptionOptions = sortBy( transcriptions.map( t => ({ ...t,
-    halfKey : `${t.transcriptionType}/${t.language}/${t.label}`,
-    publicLabel :  t.label?.length>0 ? `${t.label} (${langMap[t.language]})` : langMap[t.language]
-  })) , (i) => i.halfKey );
+  const transcriptionOptions = [...transcriptions]
   // now halfkeys are defined, can decide if the item is active (i.e. selected)
   transcriptionOptions.forEach(t => (t.active = halfKeysSelected.includes(t.halfKey)))
 
   // eslint-disable-next-line no-console
-  console.log(transcriptionOptions)
+  // console.log(transcriptionOptions)
   
   const toggleChooseTranscription= (halfKey,active) => () => {
     dispatch({ type: 'watch/setCurrentTranscriptionMulti', payload: {halfKey, active} });

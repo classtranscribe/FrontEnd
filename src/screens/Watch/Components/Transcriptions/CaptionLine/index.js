@@ -51,7 +51,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === KeyCode.KEY_RETURN) {
+    if (e.keyCode === KeyCode.KEY_RETURN && ! e.shiftKey) {
       e.preventDefault();
       handleSave();
       blurFromInput();
@@ -95,24 +95,24 @@ function CaptionLine({ isCurrent = false, isEditing = false,
         </button>
 
         {/* Caption Line */}
-          <div
-            ref={ref}
-            contentEditable={!isMobile}
-            id={`caption-line-textarea-${id}`}
-            className={`caption-line-text-${fontSize}`}
-            dangerouslySetInnerHTML={{ __html: text }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onInput={handleChange}
-            onKeyDown={handleKeyDown}
-            spellCheck={false}
-          />
+        <div
+          ref={ref}
+          contentEditable={!isMobile}
+          id={`caption-line-textarea-${id}`}
+          className={`caption-line-text-${fontSize}`}
+          dangerouslySetInnerHTML={{ __html: text }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onInput={handleChange}
+          onKeyDown={handleKeyDown}
+          spellCheck={false}
+        />
       </div>
 
       {/* Action Buttons */}
       <div className="caption-line-btns">
         {hasUnsavedChanges && (
-          <div className="mt-2 mr-3 caption-line-prompt">Hit return to save changes</div>
+          <div className="mt-2 mr-3 caption-line-prompt">Press return to save changes</div>
         )}
 
         {/* Save Button */}

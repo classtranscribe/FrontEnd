@@ -19,8 +19,8 @@
  import './index.scss';
  import './playerModes.css';
  
- const videoRef1 = (node) => { PlayerData.video1 = node; console.log("Updating PlayerData 1",node); };
- const videoRef2 = (node) => { PlayerData.video2 = node; console.log("Updating PlayerData 2",node); };
+ const videoRef1 = (node) => { PlayerData.video1 = node; };
+ const videoRef2 = (node) => { PlayerData.video2 = node; };
  
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
@@ -29,7 +29,7 @@
    const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
    const [videoPlaybackReady, setPlaybackReady] = useState(0); // dont need redux for this state
-   const bumpPlayerReady = () => { console.log("bumpPlayerReady", videoPlaybackReady+1); setPlaybackReady(videoPlaybackReady + 1); }
+   const bumpPlayerReady = () => { setPlaybackReady(videoPlaybackReady + 1); }
 
    // Mute Handler
    useEffect(() => {
@@ -43,9 +43,6 @@
    }, [volume,videoPlaybackReady]);
    // Playbackrate Handler
    useEffect(() => {
-    //
-     // eslint-disable-next-line no-console
-     console.log(`Set Playbackrate ${playbackrate} ${PlayerData.video1} ${PlayerData.video2} `);
      PlayerData.video1 && (PlayerData.video1.playbackRate = playbackrate);
      PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
    }, [playbackrate,videoPlaybackReady]);

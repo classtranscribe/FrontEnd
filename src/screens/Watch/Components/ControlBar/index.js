@@ -26,7 +26,6 @@ import ProgressBar from './ProgressBar';
 
 // eslint-disable-next-line complexity
 export function ControlBarWithRedux(props) {
-  console.log(props)
   const { dispatch, media = {}, bulkEditing = false } = props;
   const { isTwoScreen, transcriptions } = media;
   const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0;
@@ -48,7 +47,7 @@ export function ControlBarWithRedux(props) {
         <TimeDisplay />
       </div>
       <div className="watch-ctrl-bar-right-elems">
-        {/* May 20 Jiaxi */}
+        
         <GlossaryButton />
 
         {isMobile && <NextVideoButton nextBtn={false} />}

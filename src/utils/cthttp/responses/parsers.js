@@ -1,4 +1,7 @@
+/* eslint-disable complexity */
 import _ from 'lodash';
+import sortBy from 'lodash/sortBy';
+import { langMap } from '../../../screens/Watch/Utils';
 import { user } from '../../user';
 import { env } from '../../env';
 
@@ -198,14 +201,25 @@ export function parseMedia(media) {
   re.videos.push({ srcPath1, srcPath2 });
 
   /** Transcriptions */
+  // eslint-disable-next-line no-console
+  // console.log(transcriptions);
+
   _.forEach(transcriptions, (trans) => {
     if (trans.file || trans.path) {
       re.transcriptions.push({
         id: trans.id,
+        // Put English and Descriptions at top
+        halfKey : `${trans.language.replace('en-us','@')}/${10-trans.transcriptionType}/${trans.sourceLabel}`,
+        transcriptionType: trans.transcriptionType,
+        label: trans.label,
+        sourceLabel: trans.sourceLabel ,
         language: trans.language,
+        publicLabel :  langMap[trans.language] + (trans.transcriptionType >0 ? ' descriptions' : ''),
         src: `${baseUrl}${trans.path || trans.file.path}`,
       });
-    }
+  }
+  // todo add more to the halfkey if these are not unique
+  re.transcriptions = sortBy( re.transcriptions , (i) => i.halfKey );
   });
 
   /** Watch history */
