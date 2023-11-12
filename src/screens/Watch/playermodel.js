@@ -107,8 +107,11 @@ const PlayerModel = {
             setTimeout(() => {
                 if (watch.caption?.id) {
                     scrollTransToView(watch.currCaption.id, false, watch.media?.isTwoScreen); 
+                } else {
+                    // eslint-disable-next-line no-console
+                    console.log("Skipping - No watch.caption to update")
                 }
-            }, 200);
+            }, 1);
             if (sendUserAction) {
                 uEvent.transviewchange(watch.time, view);
             }

@@ -1,14 +1,16 @@
+/* eslint-disable no-console */
+/* eslint-disable complexity */
 
 import { api } from 'utils';
 import _ from 'lodash';
 import { isMobile } from 'react-device-detect';
 import {
     ENGLISH, ARRAY_EMPTY,
-    WEBVTT_DESCRIPTIONS,
+    // WEBVTT_DESCRIPTIONS,
     // PROFANITY_LIST,
 } from '../Utils/constants.util';
 import { promptControl } from '../Utils/prompt.control';
-import { timeStrToSec, colorMap } from '../Utils/helpers';
+import { timeStrToSec } from '../Utils/helpers';
 
 import { uEvent } from '../Utils/UserEventController';
 import { findTransByLanguage, scrollTransToView } from '../Utils'
@@ -107,14 +109,9 @@ export default {
         if (watch.transcript === ARRAY_EMPTY) return null;
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
         if (next && next.id) {
+            // console.log(next);
             // pause video if it's AD
-            if (next.kind === WEBVTT_DESCRIPTIONS) {
-                yield put({ type: 'media_pause' });
-                // Speak out loud 
-                // this.updateDescription(next);
-                
-                // if (preferControl.pauseWhileAD() && this.prevCaption_ !== next) videoControl.pause(); NOT IMPLEMNTED
-            }
+            
             // determine whether should scroll smoothly
             const smoothScroll =
                 prevCaption_ && next && Math.abs(prevCaption_.index - next.index) === 1;
@@ -124,6 +121,17 @@ export default {
                 const { media = {} } = watch;
                 scrollTransToView(next.id, smoothScroll, media.isTwoScreen);
             }
+        }
+        const nextDescription = findCurrent(watch.descriptions, null, currentTime);
+        console.log(`nextDescription: ${nextDescription}`);
+        // console.log(`pauseWhileAD:${playerpref.pauseWhileAD}`);
+        if (nextDescription !== null) {
+            if (playerpref.pauseWhileAD) {
+                yield put({ type: 'media_pause' });
+            }
+            // Speak out loud 
+            console.log(`SPEAK ${nextDescription.text}`);
+            // this.updateDescription(next);
         }
         return next || null;
         // transControl.updateTranscript(currentTime);

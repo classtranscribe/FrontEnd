@@ -221,7 +221,7 @@ const WatchModel = {
 
         setTranscript(state, { payload }) {
             // Todo check that the payload is immutable because we use the subobjects in our immutable model
-            console.log(`setTranscript: ${payload ? payload.length : 'none'}`)
+            console.log(`setTranscript: ${payload ? payload.length : 'no payload'}`)
             // if(!payload || payload.length === 0) 
             //    return { ...state, transcript : ARRAY_EMPTY};
             // payload = _.sortBy(payload, (item) => timeStrToSec(item.begin));
@@ -233,10 +233,12 @@ const WatchModel = {
             let all = [... state.captions,...state.descriptions]
 
             let transcript = payload || all;
-             
-            transcript = _.sortBy(transcript, (item) => timeStrToSec(item.begin));
+            // Using String sort so numbers (1.123 21.0) must be right aligned with same number of decimal places 
+            // Put Closed Captions after Descriptions
+            transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${item.captionType === 0?'Z':item.captionType}`);
             transcript= _.map(transcript, (item, index) => ({ ...item, index }));
 
+            
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
             
             return { ...state, transcript };
@@ -246,6 +248,7 @@ const WatchModel = {
          * Function called for setting captions array
          */
         setCaptions(state, { payload }) {
+            console.log(`setCaptions ${payload.length}`)
             let parsedCap = _.map(payload, (c) => ({ ...c, kind: WEBVTT_SUBTITLES }));
             if (parsedCap.length === 0) parsedCap = ARRAY_EMPTY;
             return { ...state, captions: parsedCap };
@@ -255,9 +258,13 @@ const WatchModel = {
         },
         /**
          * * Function called for get or set audio descriptions
-        * @todo how??
+        * 
         */
         setDescriptions(state, { payload }) {
+            console.log(`setDescriptions ${payload.length}`)
+            if(payload.length>0) {
+                console.log(payload[0])
+            }
             const parsedDes = _.map(payload, (d) => ({ ...d, kind: WEBVTT_DESCRIPTIONS }));
             return { ...state, descriptions: parsedDes };
         },
