@@ -1,4 +1,5 @@
 import './index.scss';
+import './EPubCTList/index.scss';
 
 export { default as EPubList } from './EPubList';
 export { default as EPubPoster } from './EPubPoster';

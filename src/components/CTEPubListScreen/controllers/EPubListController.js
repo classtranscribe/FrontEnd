@@ -161,7 +161,28 @@ class EPubListController {
       console.error(`Failed to rename a epub for ${epubId}`)
     }
   }
+
+  // Controller to pin an INote
+  async pinEpub(epubId) {
+    let resp;
+    try {
+      resp = await api.getEPubById(epubId);
+      let pinned = resp.data.publishStatus !== 0 ? 0 : 1;
+      resp.data.publishStatus = pinned;
+    } catch {
+      console.error(`Unable to fetch data for ${epubId}`);
+    }
+
+    try {
+      await api.updateEPubSimple(epubId, resp.data);
+    } catch {
+      console.error(`Failed to pin a epub for ${epubId}`)
+    }
+  }
 }
+
+
+
 
 export default EPubListController;
 export const EPubListCtrl = new EPubListController();

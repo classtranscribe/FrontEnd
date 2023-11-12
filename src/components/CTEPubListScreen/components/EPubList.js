@@ -13,9 +13,20 @@ import EPubCTList from './EPubCTList/EPubCTList';
 
 
 
-export function _getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect) { 
+export function _getEPubListItems(ePubs, onDelete, onRename, onPin, isSelected, handleSelect) { 
   if (ePubs.length > 0) { 
-    return ePubs.map(epub => {
+    // Sort to make sure pinned INotes are on top
+    ePubs.sort((a, b) => {
+      if (a.publishStatus > 0 && b.publishStatus === 0) {
+        return -1;
+      }
+      if (b.publishStatus > 0 && a.publishStatus === 0) {
+        return 1;
+      }
+      return 0;
+    });
+
+    return ePubs.map((epub, idx) => {
       let lang = LanguageConstants.decode(epub.language);
       // let status = epub.isPublished ? 'Published' : 'Unpublished'
       return {
@@ -31,9 +42,11 @@ export function _getEPubListItems(ePubs, onDelete, onRename, isSelected, handleS
         },
         onDelete: onDelete(epub.id),
         onRename: onRename(epub.id, epub.title),
+        onPin: onPin(epub.id),
         enableButtons: true,
         isSelected: isSelected(epub.id),
-        handleSelect: handleSelect(epub.id)
+        handleSelect: handleSelect(epub.id),
+        isPinned: epub.publishStatus > 0
       }
     });
   }
@@ -46,6 +59,7 @@ function EPubList(props) {
     onCreate,
     onDelete,
     onRename,
+    onPin,
     isSelected,
     isSelectedAll,
     handleSelect,
@@ -64,7 +78,7 @@ function EPubList(props) {
   const noLangElement = altEl(NoLangWrapper, noLang);
   const noEPubElement = altEl(NoEPubWrapper, noEPub, { sourceType, sourceId });
   const newEPubBtnElement = makeEl(NewEPubButton, { onCreate });
-  const newEPubListItems = makeEl(<EPubCTList items={_getEPubListItems(ePubs, onDelete, onRename, isSelected, handleSelect, epubsSelected)} />);
+  const newEPubListItems = makeEl(<EPubCTList items={_getEPubListItems(ePubs, onDelete, onRename, onPin, isSelected, handleSelect, epubsSelected)} />);
 
   const [open, setOpen] = useState(false);
 
