@@ -58,9 +58,9 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     }
   };
 
-  const timeStr = prettierTimeStr(String(startTime));
+  const timeStr = prettierTimeStr(String(begin));
   const hasUnsavedChanges = ref && ref.current && ref.current.innerText !== text;
-  let roundedTime = Math.round(startTime);
+  let roundedTime = Math.round(begin);
   let beginTime= Math.floor(roundedTime / 60)
   let secondsTime = roundedTime % 60
   let secondsTimeString = String(secondsTime);
@@ -76,7 +76,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
 
   return (
     <div
-      id={begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
+      id={`caption-line-${id}`} // {begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
       className="watch-caption-line"
       // current={isCurrent.toString()}
       // editing={isEditing.toString()}
@@ -112,7 +112,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
       {/* Action Buttons */}
       <div className="caption-line-btns">
         {hasUnsavedChanges && (
-          <div className="mt-2 mr-3 caption-line-prompt">Press return to save changes</div>
+          <div className="mt-2 mr-3 caption-line-prompt">Return (save changes). Shift-Return (newline)</div>
         )}
 
         {/* Save Button */}
