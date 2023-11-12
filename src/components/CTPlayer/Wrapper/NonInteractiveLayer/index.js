@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  SecondaryPlayerWrapper,
+  // SecondaryPlayerWrapper,
   BigPlayButton,
-  ClosedCaption,
-  AudioDescription,
+  // ClosedCaption,
+  // AudioDescription,
 } from 'screens/Watch/Components/Overlays';
 import ErrorWrapper from './ErrorWrapper';
-import EventVisualPopup from './EventVisualPopup';
+// import EventVisualPopup from './EventVisualPopup';
 import './index.scss';
 
 
 function NonInteractiveLayer(props) {
   let {
     error,
-    event,
-    volume,
+    // event,
+    // volume,
     onTogglePause,
   } = props;
 
