@@ -302,6 +302,8 @@ export default {
         
         // TODO account for sub chapters
         prevChp.contents = _.concat(prevChp?.contents, currChp?.contents);
+       // prevChp.contents
+       state.epub.chapters[chapterIdx-1].end = state.epub.chapters[chapterIdx].end;
         let newChapters = removeChapter(chapters, chapterIdx);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
