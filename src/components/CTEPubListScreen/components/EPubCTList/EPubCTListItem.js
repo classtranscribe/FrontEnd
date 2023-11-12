@@ -228,7 +228,6 @@ function EPubCTListItem(props) {
               {/* {title || children} */}
             </CTText>}
           {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
-          {/* styles={{color: "orange"}} */}
           {enablePinButton && isStar && <CTText textCenter bold className='ct-listitem-approved'>This book has been approved by an instructor.</CTText>}
         </CTFragment>
       </CTFragment>
