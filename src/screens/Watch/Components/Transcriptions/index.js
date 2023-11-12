@@ -51,17 +51,7 @@ function TranscriptionsWithRedux(props) {
   };
 
   const displayTrans = search.status === SEARCH_HIDE || true;
-  useEffect(() => {
-    if (currCaption != null && liveMode) {
-      if (true) {
-        let z = document.getElementById(`caption-line-${currCaption.startTime}`)
-        // console.log(z)
-        if (z != null) {
-          z.scrollIntoView({block: "center"})
-        }
-      }
-    }
-  }, [currCaption, currCaptionIndex, currentTime])
+
 
   return displayTrans ? (
     <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
