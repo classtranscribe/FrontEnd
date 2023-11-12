@@ -18,7 +18,7 @@ import {
     scrollTransToView
 } from './Utils';
 import { uEvent } from './Utils/UserEventController';
-import { LINE_VIEW, TRANSCRIPT_VIEW, SEARCH_TRANS_IN_VIDEO } from './Utils/constants.util';
+import { LINE_VIEW, TRANSCRIPT_VIEW } from './Utils/constants.util';
 
 function storageAvailable(type) {
     let storage;
@@ -130,15 +130,15 @@ const PlayerModel = {
             // uEvent.pauseWhenEdit(!pauseWhileEditing);
             // use same api to report NOT IMPLEMENTED
         },
-        *toggleOpenAD({ payload }, { call, put, select, take }) {
+        *toggleOpenAD( _unused, { put, select }) {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openAD: !playerpref.openAD } })
         },
-        *toggleOpenCC({ payload }, { call, put, select, take }) {
+        *toggleOpenCC(_unused, { put, select }) {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openCC: !playerpref.openCC } })
         },
-        *changePlaybackrateByValue({ payload: delta }, { call, put, select, take }) {
+        *changePlaybackrateByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.playbackrate - 0 + delta;
             if (target > 4 || target < 0.25) {
@@ -146,17 +146,17 @@ const PlayerModel = {
             }
             yield put({ type: 'setPreference', payload: { playbackrate: target } });
         },
-        *changeXTranslateByValue({ payload: delta }, { call, put, select, take }) {
+        *changeXTranslateByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.magnifyX + delta;
             yield put({ type: 'setPreference', payload: { magnifyX: target } });
         },
-        *changeYTranslateByValue({ payload: delta }, { call, put, select, take }) {
+        *changeYTranslateByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.magnifyY + delta;
             yield put({ type: 'setPreference', payload: { magnifyY: target } });
         },
-        *changeCCSizeByValue({ payload: delta }, { call, put, select, take }) {
+        *changeCCSizeByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.cc_size - 0 + delta;
             if (target > 2 || target < 0.75) {
@@ -166,7 +166,7 @@ const PlayerModel = {
         }
     },
     subscriptions: {
-        setup({ dispatch }, done) {
+        setup({ dispatch }) {
             if (storageAvailablity) {
                 try {
                     const preference = JSON.parse(localStorage.getItem('CT_preference'));

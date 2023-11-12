@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { connect } from 'dva'
-import _, { filter, transform } from 'lodash'
+import _ from 'lodash'
 import { 
   // timeStrToSec, 
   colorMap } from './helpers';
@@ -149,7 +149,7 @@ export const scrollTransToView = (id, smoothScroll = true, isTwoScreen) => {
   if(prevCurrentId && prevCurrentId !== capId) {
     let prevElem = document.getElementById(`caption-line-${prevCurrentId}`);
     if(prevElem) {
-      prevElem.removeAttribute('current');
+       prevElem.removeAttribute('current');
     }
   }
   prevCurrentId = capId;

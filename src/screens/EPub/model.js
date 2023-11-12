@@ -122,6 +122,7 @@ const EPubModel = {
             }
             */
             let _epub = yield call(getEPubById, ePubId);
+            // eslint-disable-next-line no-console
             console.log(_epub)
             const { view, h } = uurl.useHash();
             if (Constants.EPubViews.includes(view)) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CTInput, CTUploadButton, CTFormHelp } from 'layout';
+import { /* CTInput, */ CTUploadButton, CTFormHelp } from 'layout';
 import { _createImage } from 'components/CTPlayer';
 import { prompt } from 'utils';
 import ImagePreview from './ImagePreview';

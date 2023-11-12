@@ -47,6 +47,7 @@ function CTEPubListScreen(props) {
     });
     await setupEPubsData();
   };
+  // eslint-disable-next-line no-console
   console.log(props)
   // Delete an I•Note by epubId
   const handleDeleteEPub = async (epubId) => {
