@@ -38,11 +38,13 @@ export { transControl } from './trans.control';
 export { promptControl } from './prompt.control';
 export { downloadControl } from './download.control';
 export { uEvent } from './UserEventController';
-export function findTransByLanguage(language, trans) {
-  return _.find(trans, { language });
+
+export const findTransByLanguages = (trans,languages=['en-US']) =>{
+   return _.filter(trans, (t)=> languages.includes(t.language));
 }
+
 export const connectWithRedux = (Component, property) => {
-  return connect(({ watch, loading, history }) => {
+  return connect(({ watch }) => {
     if (!property) {
       return {};
     }

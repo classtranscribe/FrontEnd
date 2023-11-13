@@ -13,7 +13,7 @@ import { promptControl } from '../Utils/prompt.control';
 import { timeStrToSec } from '../Utils/helpers';
 
 import { uEvent } from '../Utils/UserEventController';
-import { findTransByLanguage, scrollTransToView } from '../Utils'
+import { scrollTransToView, findTransByLanguages } from '../Utils'
 
 /**
  * * Find item based on current time
@@ -73,32 +73,22 @@ export default {
         let descriptions = alldata.filter((c)=>c.captionType !==0);
 
         yield put({ type: 'setCaptions', payload: closedcaptions });
-
-        // let descriptions = [] ; // yield call(api.getCaptionsByTranscriptionId, "b1d6ae5b-8591-4779-a2dd-57910c3ace04");; // TODO dont hard code 
-        // yield put.resolve({ type: 'setDescriptions', payload: descriptions.data });
-
-        // descriptions = yield call(api.getCaptionsByTranscriptionId, "b1d6ae5b-8591-4779-a2dd-57910c3ace04");; // TODO dont hard code 
-        // eslint-disable-next-line no-console
-        // console.log(alldata[1]); 
         
         const descirptionsData = descriptions.map(caption => ({
             ...caption,
-            end: caption.begin, // Set endTime to match beginTime
+            end: caption.begin, // Set endTime to match beginTime. Why?
           }));
         yield put.resolve({ type: 'setDescriptions', payload: descirptionsData });
         yield put({ type: 'setTranscript' });
-        // yield put({ type: 'setTranscript' , payload: alldata }); // ????
     },
-    *setTranscriptions({ payload: trans }, { put,}) {
-        const currTrans = findTransByLanguage(ENGLISH, trans);
-        uEvent.registerLanguage(ENGLISH);
-        if (currTrans) {
-            yield put({ type: 'setCurrTrans', payload: currTrans });
-        } else {
-            yield put({ type: 'setTranscript', payload: ARRAY_EMPTY });
-            if (!isMobile) {
-                // this.transView(HIDE_TRANS, { updatePrefer: false });
-            }
+    *setTranscriptions({ payload: trans }, { put}) {
+        const selectedTrans = findTransByLanguages(trans, [ENGLISH]);
+       
+        for (const t of selectedTrans) {
+            yield put({
+                type: 'setCurrentTranscriptionMulti',
+                payload: { halfKey: t.halfKey, active: true },
+            });
         }
     },
     *updateTranscript({ payload: currentTime }, { put, select }) {
@@ -138,7 +128,7 @@ export default {
     },
     *setLanguage({ payload: language }, { put, select }) {
         const { watch } = yield select();
-        const currTrans = findTransByLanguage(language, watch.transcriptions);
+        const currTrans = findTransByLanguages(watch.transcriptions,[language]);
         if (currTrans) {
             yield put({ type: 'setCurrTrans', payload: currTrans });
         }
