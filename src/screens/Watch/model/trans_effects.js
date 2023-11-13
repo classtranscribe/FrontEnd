@@ -5,7 +5,7 @@ import { api } from 'utils';
 import _ from 'lodash';
 import { isMobile } from 'react-device-detect';
 import {
-    ENGLISH, ARRAY_EMPTY,
+    ENGLISH, ARRAY_EMPTY, WEBVTT_SUBTITLES, WEBVTT_DESCRIPTIONS,
     // WEBVTT_DESCRIPTIONS,
     // PROFANITY_LIST,
 } from '../Utils/constants.util';
@@ -16,21 +16,18 @@ import { uEvent } from '../Utils/UserEventController';
 import { scrollTransToView, findTransByLanguages } from '../Utils'
 
 /**
- * * Find item based on current time
+ * * Find subtitle based on current time
 */
 const findCurrent = (array = [], prev = {}, now = 0, deterFunc) => {
     let next = prev;
     const isCurrent = (item) => {
-        if (!item) return false;
+        if (!item) return false; // Check the item type
         const end = timeStrToSec(item.end);
         const begin = timeStrToSec(item.begin);
         let deter = true;
         if (deterFunc) deter = deterFunc(item, prev);
         return begin <= now && now <= end && deter;
     };
-    // if (isCurrent(prev)) {
-    //   next = prev
-    // }
 
     // if it's the first time to find captions
     if (!prev) {
@@ -45,11 +42,26 @@ const findCurrent = (array = [], prev = {}, now = 0, deterFunc) => {
         next = _.findLast(array, isCurrent, prev.index - 1) || prev;
     }
 
-    // if (next) { this.prev = next; } NOT IMPLEMENTED
-    // if (next) console.error(next.kind)
-    // else console.error('null')
     return next;
 }
+
+const findCurrentDescription = (descriptions, currentTime) => {
+    let closestDescription = null;
+    let maxEndTime = -Infinity;
+
+    for (const description of descriptions) {
+        const endTime = timeStrToSec(description.end);
+
+        // Check if the description ends before or at the current time
+        if (endTime <= currentTime && endTime > maxEndTime) {
+            maxEndTime = endTime;
+            closestDescription = description;
+        }
+    }
+
+    return closestDescription;
+};
+
 export default {
 
     // We have an array of transcript Ids to display, time to get the actual transcripts from the server
@@ -93,7 +105,6 @@ export default {
     },
     *updateTranscript({ payload: currentTime }, { put, select }) {
         // eslint-disable-next-line no-console
-        console.log("*updateTranscript");
         const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
         if (watch.transcript === ARRAY_EMPTY) return null;
@@ -112,16 +123,20 @@ export default {
                 scrollTransToView(next.id, smoothScroll, media.isTwoScreen);
             }
         }
-        const nextDescription = findCurrent(watch.descriptions, null, currentTime);
-        console.log(`nextDescription: ${nextDescription}`);
+        // console.log(watch)
         // console.log(`pauseWhileAD:${playerpref.pauseWhileAD}`);
-        if (nextDescription !== null) {
-            if (playerpref.pauseWhileAD) {
-                yield put({ type: 'media_pause' });
-            }
+        const nextDescription = findCurrentDescription(watch.descriptions, currentTime);
+        if (nextDescription) {
+            const nextDescriptionBeginTime = timeStrToSec(nextDescription.begin);
+            if (Math.abs(currentTime - nextDescriptionBeginTime) <= 1) {
+                if (playerpref.pauseWhileAD) {
+                    yield put({ type: 'media_pause' });
+                }
             // Speak out loud 
             console.log(`SPEAK ${nextDescription.text}`);
             // this.updateDescription(next);
+            // prevDesc_ = nextDescription
+            }
         }
         return next || null;
         // transControl.updateTranscript(currentTime);
