@@ -1,5 +1,6 @@
+/* eslint-disable complexity */
 import { isMobile } from 'react-device-detect';
-import { api, user, prompt, InvalidDataError, uurl, links, timestr } from 'utils';
+import { api, user, uurl, links, timestr } from 'utils';
 import PlayerData from '../player'
 import { uEvent } from '../Utils/UserEventController';
 import {
@@ -66,7 +67,7 @@ function enterFullScreen(watch) {
 function exitFullScreen(watch) {
     try {
         if (isMobile) {
-            const elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
+            // const elem = document.getElementById(watch.isSwitched ? 'ct-video-2' : 'ct-video-1') || {};
             // console.log(elem.webkitExitFullscreen)
         }
         if (!PlayerData.video1) return;
@@ -89,7 +90,7 @@ function exitFullScreen(watch) {
     }
 }
 export default {
-    *media_play({ payload }, { put, select }) {
+    *media_play(_unused, { put }) {
         try {
             PlayerData.video1 && (yield PlayerData.video1.play());
             PlayerData.video2 && (yield PlayerData.video2.play());
@@ -119,7 +120,7 @@ export default {
         }
         yield put({ type: 'media_setCurrTime', payload: Math.max(now - sec, 0), realTime: true });
     },
-    *media_pause({ payload }, { put, select }) {
+    *media_pause(_unused, { put }) {
         try {
             PlayerData.video1 && (PlayerData.video1.pause());
             PlayerData.video2 && (PlayerData.video2.pause());
@@ -130,7 +131,7 @@ export default {
         PlayerData.video1 && uEvent.pause(PlayerData.video1?.currentTime);
         yield put({ type: 'sendMediaHistories' });
     },
-    *media_replay({ payload }, { put, select }) {
+    *media_replay(_unused, { put }) {
         yield put.resolve({ type: 'media_setCurrTime', payload: 0 })
         yield put({ type: 'media_play' })
     },
@@ -142,11 +143,11 @@ export default {
         }
         yield put({ type: 'playerpref/setPreference', payload: { muted: toSet } })
     },
-    *media_volume({ payload: toSet }, { put, select }) {
+    *media_volume({ payload: toSet }, { put }) {
         // Could be removed
         yield put({ type: 'playerpref/setPreference', payload: { volume: toSet } })
     },
-    *media_brightness({ payload: toSet }, { put, select }) {
+    *media_brightness({ payload: toSet }, { put }) {
         // Could be removed
         yield put({ type: 'playerpref/setPreference', payload: { brightness: toSet } })
     },
