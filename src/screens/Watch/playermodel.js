@@ -101,7 +101,7 @@ const PlayerModel = {
         }
     },
     effects: {
-        *setTransView({ payload: { view, config = {} } }, { call, put, select, take }) {
+        *setTransView({ payload: { view, config = {} } }, { select }) {
             const { sendUserAction = true, updatePrefer = true } = config;
             const { watch } = yield select();
             setTimeout(() => {
@@ -121,7 +121,7 @@ const PlayerModel = {
                 updateLocalStorage(playerpref);
             }
         },
-        *setPreference({ payload }, { call, put, select, take }) {
+        *setPreference(_unused, { select }) {
             const { playerpref } = yield select();
             // This is the latest playerpref after reducers get executed
             updateLocalStorage(playerpref);

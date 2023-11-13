@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { env } from 'utils/env';
 import { links, uurl } from 'utils';
 import { accountStorage } from 'utils/user/storage';

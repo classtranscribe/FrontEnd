@@ -218,26 +218,18 @@ const WatchModel = {
             return { ...state, fontSize: payload };
         },
 
-
-        setTranscript(state, { payload }) {
+        // setup the transcript UI model; the caption and description data must already be loaded
+        // eslint-disable-next-line no-unused-vars
+        setTranscript(state, _unused) {
             // Todo check that the payload is immutable because we use the subobjects in our immutable model
-            console.log(`setTranscript: ${payload ? payload.length : 'no payload'}`)
-            // if(!payload || payload.length === 0) 
-            //    return { ...state, transcript : ARRAY_EMPTY};
-            // payload = _.sortBy(payload, (item) => timeStrToSec(item.begin));
-            // payload = _.map(payload, (item, index) => ({ ...item, index }));
-
-            //  unionTranscript(state.captions, state.descriptions);
-            // or use payload?
-            
+            console.log("setTranscript")          
             let all = [... state.captions,...state.descriptions]
 
-            let transcript = payload || all;
+            let transcript = all;
             // Using String sort so numbers (1.123 21.0) must be right aligned with same number of decimal places 
             // Put Closed Captions after Descriptions
             transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${item.captionType === 0?'Z':item.captionType}`);
             transcript= _.map(transcript, (item, index) => ({ ...item, index }));
-
             
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
             
@@ -263,7 +255,7 @@ const WatchModel = {
         setDescriptions(state, { payload }) {
             console.log(`setDescriptions ${payload.length}`)
             if(payload.length>0) {
-                console.log(payload[0])
+                console.log(`First description: ${payload[0]}`)
             }
             const parsedDes = _.map(payload, (d) => ({ ...d, kind: WEBVTT_DESCRIPTIONS }));
             return { ...state, descriptions: parsedDes };
@@ -377,7 +369,7 @@ const WatchModel = {
         },
     },
     effects: {
-        *setupMedia({ payload }, { call, put, select, take }) {
+        *setupMedia(_unused, { call, put }) {
             // Get media
             yield put.resolve({ type: 'changeVideo', payload: { media: {} } })
             const { id } = uurl.useSearch();

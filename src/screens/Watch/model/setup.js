@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
-import { api, links, uurl } from 'utils';
-
+// import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
+import { api } from 'utils';
 
 export default {
     media_: api.parseMedia(),
@@ -11,11 +10,6 @@ export default {
     init(props, dispatch) {
         this.dispatch = dispatch;
     },
-
-    /**
-     * Functions for setting data
-     * ************************************************************************
-     */
 
     /**
      * Helper functions
