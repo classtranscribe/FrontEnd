@@ -24,7 +24,7 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
     const [initialData, setInitialData] = useState([]);
 
     const apiInstance = axios.create({
-        baseURL: 'https://ct-dev.ncsa.illinois.edu',
+        baseURL: window.location.hostname,
         timeout: 1000,
     });
 

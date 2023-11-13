@@ -31,8 +31,8 @@ const ASLVideoPlayer = (word, videoURL, source) => {
 const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
   const [opvalue, setOpvalue] = useState(0.75); // variable for transparency
   const OPSTEP = 0.125; // the amount of changed opvalue for each operation
-  // const hostName = window.location.hostname;
-  const hostName = "ct-dev.ncsa.illinois.edu"; // for local test
+  const hostName = window.location.hostname;
+  // const hostName = "ct-dev.ncsa.illinois.edu"; // for local test
   // below are variables for videos and explanations for chosen glossary
   const [term, setTerm] = useState({
     word: '',
