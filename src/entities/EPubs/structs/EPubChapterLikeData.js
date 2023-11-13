@@ -28,6 +28,7 @@ class EPubChapterLikeData {
     title: '',
     start: '00:00:00',
     end: '00:00:00',
+    timemerge: '00:00:00',
     items: [],
     condition: ['default'],
     contents: []
