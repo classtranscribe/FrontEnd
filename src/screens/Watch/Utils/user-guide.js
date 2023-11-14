@@ -11,22 +11,34 @@ const guides = [
   {
     intro: false,
     element: '#wp-h-search-btn',
-    header: '1/3. Search in this video',
+    header: 'Search in this video',
     description:
       'Find captions, video names, and shortcuts here. You can also search the captions across an entire course.',
   },
   {
-    element: '#menu-language',
-    header: '2/3. Captions in other languages',
+    element: '#menu-transcription',
+    header: 'Audio Descriptions and Captions in other languages',
     description:
-      'We support multiple languages for the video transcriptions. Select your native language here!',
+      'We support multiple transcriptions. Select your native language here!',
   },
   {
     element: '#watch-share-btn',
-    header: '3/3. Share this video moment with your class',
+    header: 'Share this video moment with your class',
     description: 'You can get a shareable link of this video here.',
   },
-];
+  {
+    element: '#menu-glossary',
+    header: 'Find out more in the glossary',
+    description: 'Review meanings and learn ASL.',
+  },
+  {
+    element: '#menu-shortcuts',
+    header: 'Shortcuts for the win!',
+    description: 'Save time by learning shortcuts here.',
+  },
+  
+
+]; 
 
 async function isWatchPageOnBoarded() {
   // // only display user guide for logged-in users
