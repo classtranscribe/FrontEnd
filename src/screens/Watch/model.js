@@ -228,7 +228,7 @@ const WatchModel = {
             let transcript = all;
             // Using String sort so numbers (1.123 21.0) must be right aligned with same number of decimal places 
             // Put Closed Captions after Descriptions
-            transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${item.captionType === 0?'Z':item.captionType}`);
+            transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${item.tran.transcriptionType === 0?'Z':item.tran.transcriptionType}`);
             transcript= _.map(transcript, (item, index) => ({ ...item, index }));
             
             if (transcript.length === 0) transcript = ARRAY_EMPTY;

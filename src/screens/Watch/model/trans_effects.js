@@ -69,20 +69,29 @@ export default {
         // Get and set corresponding captions
         if( !Array.isArray(trans) ) { trans = [trans]; }
 
-        let alldata = []
+        let alldata = ARRAY_EMPTY;
         if(trans.length >0) {
             // let {data = []} = yield api.getCaptionsByTranscriptionId(trans[0].id);
             // alldata = [...alldata, ...data];
             const allTranscriptionData = yield all(
                 trans.map((tran) => call(api.getCaptionsByTranscriptionId, tran.id))
             );
-            alldata= allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
+            
+            // Inplace add a reference to the transcription object for all captions
+            allTranscriptionData.forEach((captionList, listIndex) =>{
+                const tran = trans[listIndex];
+                captionList.data?.forEach( (c) => {
+                    c.tran = tran;
+                  });
+            });
+
+            alldata = allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
         }
         // eslint-disable-next-line no-console
         console.log(`*setCurrTrans ${alldata.length} captions`)
 
-        let closedcaptions = alldata.filter((c)=>c.captionType === 0);
-        let descriptions = alldata.filter((c)=>c.captionType !==0);
+        let closedcaptions = alldata.filter((c)=>c.tran.transcriptionType === 0);
+        let descriptions = alldata.filter((c)=>c.tran.transcriptionType !==0);
 
         yield put({ type: 'setCaptions', payload: closedcaptions });
         
@@ -178,6 +187,7 @@ export default {
             yield put({ type: 'playerpref/setPreference', payload: { showCaptionTips: false } });
         }
     },
+    // This is a transcript caption
     *saveCaption({ payload: { caption, text } }, { call, put, select }) {
         const { watch } = yield select();
         /**
@@ -196,13 +206,19 @@ export default {
         uEvent.edittrans(watch.currTime, watch.currEditing.text, text);
         // update new text
         // this.currEditing_.text = text; ?
+        const isClosedCaption = caption.trans.transcriptionType === 0;
+
         yield put({ type: 'setCurrEditing', payload: null });
         try {
             yield call(api.updateCaptionLine, { id, text });
-            yield put({ type: 'setCaptions', payload: watch.captions });
-            promptControl.savedCaption();
+            if(isClosedCaption) {
+                yield put({ type: 'setCaptions', payload: watch.captions });
+            } else {
+                yield put({ type: 'setDescriptions', payload: watch.descriptions });
+            }
+            promptControl.savedCaption(isClosedCaption, true);
         } catch (error) {
-            promptControl.savedCaption(false);
+            promptControl.savedCaption(isClosedCaption, false);
         }
     },
     *setFontSize({ payload: fontSize }, { put, select }) {
