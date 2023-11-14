@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import { isSafari, isIPad13, isIPhone13, isMobile } from 'react-device-detect';
-import { api, user, prompt, InvalidDataError, uurl } from 'utils';
+import { api, prompt, uurl } from 'utils';
 import _ from 'lodash';
 import { ARRAY_INIT, DEFAULT_ROLE } from 'utils/constants';
-import { timeStrToSec, colorMap } from './Utils/helpers';
+import { timeStrToSec } from './Utils/helpers';
 import PlayerData from './player'
 import {
     WEBVTT_SUBTITLES,
@@ -364,7 +364,8 @@ const WatchModel = {
             };
         },
 
-        resetStates(state, { payload }) {
+        // eslint-disable-next-line no-unused-vars
+        resetStates(_state, { _unused }) {
             return { ...initState };
         },
     },
@@ -434,7 +435,7 @@ const WatchModel = {
                 prompt.addOne({ text: "Couldn't load watch histories.", status: 'error' });
             }
         },
-        *setupEmbeddedMedia({ payload }, { call, put, select, take }) {
+        *setupEmbeddedMedia({ payload }, { call, put }) {
             const { mediaId, ...props } = payload;
             let media = payload.media;
             if (!media) {

@@ -1,5 +1,4 @@
 import _ from 'lodash';
-// import { isSafari, isIPad13, isIPhone13 } from 'react-device-detect';
 import { api } from 'utils';
 
 export default {
@@ -29,7 +28,7 @@ export default {
     },
 
     /**
-     * Funcitons for setup watch page
+     * Functions for setup watch page
      * ************************************************************************
      */
 

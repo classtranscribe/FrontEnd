@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { downloadControl, langMap, langOptions, findTransByLanguages } from '../../../Utils';
+import { downloadControl} from '../../../Utils';
 import './index.scss';
 
 function DownloadMenu({ onClose = null, trans }) {

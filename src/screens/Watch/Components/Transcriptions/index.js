@@ -1,5 +1,4 @@
-import React, {useEffect} from 'react';
-import { isMobile } from 'react-device-detect';
+import React from 'react';
 import { connect } from 'dva';
 import {
   // transControl,
@@ -29,9 +28,9 @@ function TranscriptionsWithRedux(props) {
     currEditing = null,
     search = SEARCH_INIT,
     dispatch,
-    updating,
-    currCaptionIndex,
-    currentTime,
+    // updating,
+    // currCaptionIndex,
+    // currentTime,
     liveMode,
     fontSize
   } = props;

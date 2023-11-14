@@ -1,7 +1,7 @@
 import { connect } from 'dva';
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import * as KeyCode from 'keycode-js';
+// unused import * as KeyCode from 'keycode-js';
 import { playbackRateOptions } from '../../../Utils';
 import './index.scss';
 import './slider.scss';

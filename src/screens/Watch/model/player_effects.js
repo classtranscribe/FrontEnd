@@ -251,14 +251,14 @@ export default {
         }
         uEvent.seeking(watch.time);
     },
-    *onFullScreenChange({ payload: e }, { put, select }) {
+    *onFullScreenChange(_unused, { put, select }) {
         const isFullscreen = !!document.fullscreenElement;
         const { watch } = yield select();
         if (isFullscreen !== watch.isFullscreen) {
             yield put({ type: 'toggleFullScreen', payload: isFullscreen })
         }
     },
-    *sendMediaHistories({ payload }, {call, select }) {
+    *sendMediaHistories(_unused ,{call, select }) {
         const { watch } = yield select();
         const { id } = watch.media
         if (id && user.isLoggedIn) {
