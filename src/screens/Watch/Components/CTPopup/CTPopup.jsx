@@ -127,7 +127,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
         if (ret.status === 200) {
           // request success
           ret.data.forEach(element => {
-            const URL = `${origin}/data/aslvideos/aslcore/original/${element.uniqueASLIdentifier.replace(' ', '_')}.mp4`
+            const URL = `${origin}/data/aslvideos/${element.source.toLowerCase()}/original/${element.uniqueASLIdentifier}.mp4`
             // eslint-disable-next-line no-console
             console.log(`CTPopup URL:${URL}`)
             
