@@ -6,6 +6,7 @@
  import React, { useEffect, useState } from 'react';
  import { connect } from 'dva'
  import { isMobile } from 'react-device-detect';
+ import { useSpeechSynthesis } from 'react-speech-kit';
  import PlayerData from '../../player'
  import Video from './player'
  import VideoHls from './player_hls'
@@ -24,12 +25,13 @@
  
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
-   const { transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY } = props;
+   const { transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY, description } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
    const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
    const [videoPlaybackReady, setPlaybackReady] = useState(0); // dont need redux for this state
    const bumpPlayerReady = () => { setPlaybackReady(videoPlaybackReady + 1); }
+   const { speak, supported, voices } = useSpeechSynthesis()
 
    // Mute Handler
    useEffect(() => {
@@ -59,6 +61,12 @@
        PlayerData.video2.load()
      }
    }, [srcPath1, srcPath2]);
+   // Audio Description Handler 
+   useEffect(() => {
+    console.log(description)
+    speak({text: description, volume: 0.7, rate: 1.1});
+   }, [description, videoPlaybackReady]);
+
    const player1Position = isSwitched ? SECONDARY : PRIMARY;
    const player2Position = isSwitched ? PRIMARY : SECONDARY;
    const { videoStyle } = getVideoStyle({brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY});
@@ -143,9 +151,11 @@
  }, playerpref: {
    transView, muted, volume, playbackrate, openCC,
    brightness, contrast, rotateColor, invert,
-   scale, magnifyX, magnifyY
+   scale, magnifyX, magnifyY, 
+   description 
  }, loading }) => ({
    media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, 
    brightness, contrast, rotateColor, invert,
-   scale, magnifyX, magnifyY
+   scale, magnifyX, magnifyY,
+   description
  }))(ClassTranscribePlayerNew);

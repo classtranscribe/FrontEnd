@@ -82,8 +82,10 @@ const PlayerModel = {
         magnifyX: 0,
         magnifyY: 0,
 
-
+        // Audio Description options 
         pauseWhileAD: false,
+        description: "",
+
         autoScroll: true,
         pauseWhileEditing: !isMobile,
         showCaptionTips: true

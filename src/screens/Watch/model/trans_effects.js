@@ -14,7 +14,6 @@ import { timeStrToSec } from '../Utils/helpers';
 
 import { uEvent } from '../Utils/UserEventController';
 import { scrollTransToView, findTransByLanguages } from '../Utils'
-
 /**
  * * Find subtitle based on current time
 */
@@ -116,7 +115,6 @@ export default {
         // eslint-disable-next-line no-console
         const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
-        if (watch.transcript === ARRAY_EMPTY) return null;
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
         if (next && next.id) {
             // console.log(next);
@@ -141,10 +139,11 @@ export default {
                 if (playerpref.pauseWhileAD) {
                     yield put({ type: 'media_pause' });
                 }
-            // Speak out loud 
-            console.log(`SPEAK ${nextDescription.text}`);
-            // this.updateDescription(next);
-            // prevDesc_ = nextDescription
+                // Speak out loud 
+                console.log(`SPEAK ${nextDescription.text}`);
+                // yield put({ type: 'media_speak', payload: { description: nextDescription.text }});
+                // yield put({ type: 'playerpref/setPreference',  })
+                yield put({ type: 'playerpref/setPreference', payload: { description: nextDescription.text } }) 
             }
         }
         return next || null;
