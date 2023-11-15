@@ -63,7 +63,6 @@
    }, [srcPath1, srcPath2]);
    // Audio Description Handler 
    useEffect(() => {
-    console.log(description)
     speak({text: description, volume: 0.7, rate: 1.1});
    }, [description, videoPlaybackReady]);
 
