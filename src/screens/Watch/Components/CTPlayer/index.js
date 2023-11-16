@@ -6,6 +6,7 @@
  import React, { useEffect, useState } from 'react';
  import { connect } from 'dva'
  import { isMobile } from 'react-device-detect';
+ import { useSpeechSynthesis } from 'react-speech-kit';
  import PlayerData from '../../player'
  import Video from './player'
  import VideoHls from './player_hls'
@@ -19,17 +20,18 @@
  import './index.scss';
  import './playerModes.css';
  
- const videoRef1 = (node) => { PlayerData.video1 = node; console.log("Updating PlayerData 1",node); };
- const videoRef2 = (node) => { PlayerData.video2 = node; console.log("Updating PlayerData 2",node); };
+ const videoRef1 = (node) => { PlayerData.video1 = node; };
+ const videoRef2 = (node) => { PlayerData.video2 = node; };
  
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
-   const { transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY } = props;
+   const { transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY, description, ADVolume, ADSpeed } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
    const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, useHls = false } = videos[0] || {};
    const [videoPlaybackReady, setPlaybackReady] = useState(0); // dont need redux for this state
-   const bumpPlayerReady = () => { console.log("bumpPlayerReady", videoPlaybackReady+1); setPlaybackReady(videoPlaybackReady + 1); }
+   const bumpPlayerReady = () => { setPlaybackReady(videoPlaybackReady + 1); }
+   const { speak, supported, voices } = useSpeechSynthesis()
 
    // Mute Handler
    useEffect(() => {
@@ -43,9 +45,6 @@
    }, [volume,videoPlaybackReady]);
    // Playbackrate Handler
    useEffect(() => {
-    //
-     // eslint-disable-next-line no-console
-     console.log(`Set Playbackrate ${playbackrate} ${PlayerData.video1} ${PlayerData.video2} `);
      PlayerData.video1 && (PlayerData.video1.playbackRate = playbackrate);
      PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
    }, [playbackrate,videoPlaybackReady]);
@@ -62,6 +61,11 @@
        PlayerData.video2.load()
      }
    }, [srcPath1, srcPath2]);
+   // Audio Description Handler 
+   useEffect(() => {
+    speak({text: description, volume: ADVolume, rate: ADSpeed});
+   }, [description, videoPlaybackReady]);
+
    const player1Position = isSwitched ? SECONDARY : PRIMARY;
    const player2Position = isSwitched ? PRIMARY : SECONDARY;
    const { videoStyle } = getVideoStyle({brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY});
@@ -146,9 +150,11 @@
  }, playerpref: {
    transView, muted, volume, playbackrate, openCC,
    brightness, contrast, rotateColor, invert,
-   scale, magnifyX, magnifyY
+   scale, magnifyX, magnifyY, 
+   description, ADVolume, ADSpeed
  }, loading }) => ({
    media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, 
    brightness, contrast, rotateColor, invert,
-   scale, magnifyX, magnifyY
+   scale, magnifyX, magnifyY,
+   description, ADVolume, ADSpeed
  }))(ClassTranscribePlayerNew);

@@ -114,7 +114,7 @@ const EPubModel = {
         ...model_data_reducer
     },
     effects: {
-        *setupEPub({ payload: ePubId }, { call, put, select, take }) {
+        *setupEPub({ payload: ePubId }, { call, put}) {
             /*
             if (this.ePubId === ePubId) {
                 epubState.resetStates();
@@ -122,7 +122,8 @@ const EPubModel = {
             }
             */
             let _epub = yield call(getEPubById, ePubId);
-
+            // eslint-disable-next-line no-console
+            console.log(_epub)
             const { view, h } = uurl.useHash();
             if (Constants.EPubViews.includes(view)) {
                 yield put({ type: 'setView', payload: view });
@@ -147,7 +148,7 @@ const EPubModel = {
                 yield put({ type: 'setMedia', payload: media });
             }
         },
-        *openPlayer({ payload: { title, start, end } }, { call, put, select, take }) {
+        *openPlayer({ payload: { title, start, end } }, { put, select }) {
             const { epub } = yield select();
             if (!epub.media) return;
             yield put({
@@ -158,7 +159,7 @@ const EPubModel = {
                 }
             });
         },
-        *duplicateEPub({ payload: { newData, copyChapterStructure } }, { call, put, select, take }) {
+        *duplicateEPub({ payload: { newData, copyChapterStructure } }, { call, select }) {
             prompt.addOne({ text: 'Copying I-Note data...', timeout: 4000 });
             const { epub } = yield select();
             const oldData = epub.epub;
@@ -207,7 +208,7 @@ const EPubModel = {
             },
             { type: "takeLatest" }
         ],
-        *updateEPub_Internal(action, { call, put, select, take }) {
+        *updateEPub_Internal(action, { call, put, select }) {
             yield put.resolve({ type: 'setSaved', payload: (Constants.EpbSaving) });
             const { epub } = yield select();
             try {
@@ -224,11 +225,11 @@ const EPubModel = {
                 yield put({ type: 'setSaved', payload: (Constants.EpbSaveFailed) });
             }
         },
-        *updateEpubData({ payload: { action, payload } }, { call, put, select, take }) {
+        *updateEpubData({ payload: { action, payload } }, { put }) {
             yield put.resolve({ type: action, payload })
             yield put({ type: 'updateEPub' })
         },
-        *splitChaptersByScreenshots({ payload: {wc} }, { call, put, select, take }) {
+        *splitChaptersByScreenshots({ payload: {wc} }, { put }) {
             prompt.addOne({
                 text: 'Split chapters by screenshots.',
                 position: 'left bottom',
@@ -236,7 +237,7 @@ const EPubModel = {
             });
             yield put({ type: 'updateEPub' })
         },
-        *resetToDefaultChapters({ payload }, { call, put, select, take }) {
+        *resetToDefaultChapters(_unused, { put }) {
             // this.updateAll('Reset to the default chapters', 0);
             prompt.addOne({
                 text: 'Reset to the default chapters.',

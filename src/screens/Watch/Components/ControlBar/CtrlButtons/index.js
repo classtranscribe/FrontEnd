@@ -10,4 +10,5 @@ export { ClosedCaptionButton } from './ClosedCaptionButton';
 export { LanguagePickerButton } from './LanguagePickerButton';
 export { AudioDescriptionButton } from './AudioDescriptionButton';
 export { ScreenModeSettingButton } from './ScreenModeSettingButton';
+export { TranscriptionPickerButton } from './TranscriptionPickerButton';
 export { GlossaryButton } from './GlossaryButton'; // May 20 Jiaxi

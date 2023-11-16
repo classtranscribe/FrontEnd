@@ -16,9 +16,9 @@ function InteractiveLayer(props) {
 
   const [openSettings, setOpenSettings] = useState(false);
 
-  const handleOpenSettings = () => {
-    setOpenSettings(true);
-  }
+  // const handleOpenSettings = () => {
+  //   setOpenSettings(true);
+  // }
   const handleCloseSettings = () => setOpenSettings(false);
 
   const wrapperClasses = cx('ctp', 'wrapper', 'interact', {

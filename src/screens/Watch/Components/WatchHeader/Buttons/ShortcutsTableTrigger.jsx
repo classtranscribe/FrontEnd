@@ -13,11 +13,11 @@ function ShortcutsTableTrigger({ menu = MENU_HIDE, dispatch }) {
       onClick={handleMenuTrigger}
       active={menu === MENU_SHORTCUTS}
       position="top"
-      label="Shortcuts (SHIFT+/)"
+      label="Shortcuts"
       id={MENU_SHORTCUTS}
       ariaTags={{
         'aria-label': `Shortcuts`,
-        'aria-keyshortcuts': 'Shift+/ ',
+        // 'aria-keyshortcuts': 'Shift+/ ', // shift / is used for search
         'aria-controls': 'watch-shortcuts-menu',
         'aria-expanded': menu === MENU_SHORTCUTS ? 'false' : 'true',
       }}

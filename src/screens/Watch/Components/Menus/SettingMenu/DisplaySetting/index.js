@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Select, Form, Popup} from 'semantic-ui-react';
 import { connect } from 'dva';
 import './index.scss';
@@ -19,7 +19,7 @@ import {
   getCCSelectOptions,screen_zoomOptions
 } from '../../../../Utils';
 
-function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, scale, dispatch, magnifyX, magnifyY }) {
+function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, scale, dispatch, /* magnifyX, magnifyY */}) {
   const handleBrightness = ({ target: { value } }) => {
     dispatch({ type: 'playerpref/setPreference', payload: { brightness:  value} })
   };

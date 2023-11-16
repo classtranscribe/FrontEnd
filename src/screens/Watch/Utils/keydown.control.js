@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import $ from 'jquery';
 // import { isDeveloping } from '../../../utils';
 
