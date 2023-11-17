@@ -281,6 +281,10 @@ export const UA_SHARE_VIDEO = 'sharelink';
 export const UA_CHANGE_VIDEO = 'changevideo';
 export const UA_SELECT_COURSE = 'selectcourse';
 
+// Audio Description 
+export const AD_VOLUME_DEFAULT = 0.5;
+export const AD_SPEED_DEFAULT = 0.7;
+
 /**
  * Others
  */

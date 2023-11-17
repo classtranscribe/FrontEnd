@@ -39,6 +39,7 @@
    const { srcPath1, srcPath2, aslPath, useHls = false } = videos[0] || {};
    const [videoPlaybackReady, setPlaybackReady] = useState(0); // dont need redux for this state
    const bumpPlayerReady = () => { setPlaybackReady(videoPlaybackReady + 1); }
+   const { speak, supported, voices } = useSpeechSynthesis()
 
    
    // Mute Handler
@@ -177,9 +178,12 @@
  }, playerpref: {
    transView, muted, volume, playbackrate, openCC,
    brightness, contrast, rotateColor, invert,
-   scale, magnifyX, magnifyY,aslCorner
+
+   scale, magnifyX, magnifyY, aslCorner,
+   description, ADVolume, ADSpeed
  }, loading }) => ({
    media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, 
    brightness, contrast, rotateColor, invert,
-   scale, magnifyX, magnifyY,aslCorner
+   scale, magnifyX, magnifyY,aslCorner,
+   description, ADVolume, ADSpeed
  }))(ClassTranscribePlayerNew);

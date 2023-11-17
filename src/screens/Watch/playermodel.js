@@ -14,6 +14,8 @@ import {
     SCREEN_ZOOM_100,
     ROTATE_COLOR_0,
     INVERT_0,
+    AD_VOLUME_DEFAULT,
+    AD_SPEED_DEFAULT,
 
     scrollTransToView
 } from './Utils';
@@ -83,8 +85,12 @@ const PlayerModel = {
         magnifyX: 0,
         magnifyY: 0,
 
-
+        // Audio Description options 
         pauseWhileAD: false,
+        description: "",
+        ADVolume: AD_VOLUME_DEFAULT,
+        ADSpeed: AD_SPEED_DEFAULT, 
+
         autoScroll: true,
         pauseWhileEditing: !isMobile,
         showCaptionTips: true

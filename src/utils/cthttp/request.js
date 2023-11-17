@@ -10,7 +10,7 @@ class CTHTTPRequest {
    * @param {Boolean} withAuth true if send request with authorization
    * @returns {AxiosInstance} the axios instance with ClassTranscribe authorization
    */
-  request(withAuth = true) {
+  request(withAuth = true,timeout = DEFAULT_LOG_TIMEOUT) {
     let authToken = accountStorage.authToken;
     let loginAsAuthToken = accountStorage.loginAsUserInfo.authToken;
     if (!uurl.isEqual(links.admin()) && loginAsAuthToken) {
@@ -19,7 +19,7 @@ class CTHTTPRequest {
 
     return axios.create({
       baseURL: env.baseURL || window.location.origin,
-      timeout: DEFAULT_LOG_TIMEOUT,
+      timeout,
       headers: {
         Authorization:
           authToken && withAuth
