@@ -233,7 +233,7 @@ const GlossaryTable = props => {
               </th>
               <th>LINK</th>
               <th>DEFINITION</th>
-              <th>SOURSE</th>
+              <th>SOURCE</th>
               {/* <th>
                 <button
                   type="button"
