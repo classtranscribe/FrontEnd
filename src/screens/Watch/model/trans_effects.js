@@ -3,7 +3,7 @@
 
 import { api } from 'utils';
 import _ from 'lodash';
-import { isMobile } from 'react-device-detect';
+// import { isMobile } from 'react-device-detect';
 import {
     ENGLISH, ARRAY_EMPTY, WEBVTT_SUBTITLES, WEBVTT_DESCRIPTIONS,
     // WEBVTT_DESCRIPTIONS,
@@ -82,6 +82,7 @@ export default {
                 const tran = trans[listIndex];
                 captionList.data?.forEach( (c) => {
                     c.tran = tran;
+                    // c.kind = tran.transcriptionType;
                   });
             });
 

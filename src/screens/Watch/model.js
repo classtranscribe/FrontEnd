@@ -46,6 +46,7 @@ const initState = {
         mediaName: '',
         createdAt: '',
         isTwoScreen: false,
+        hasASL: false,
         videos: [],
         transcriptions: [],
         isUnavailable: false,
@@ -342,6 +343,7 @@ const WatchModel = {
                 duration: 0,
                 bufferedTime: 0,
                 isFullscreen: false,
+                hasASL: false,
                 ctpPriEvent: CTP_LOADING,
                 ctpSecEvent: CTP_LOADING,
                 paused: true,
@@ -397,7 +399,6 @@ const WatchModel = {
 
             // setTranscriptions
             yield put({ type: 'setTranscriptions', payload: transcriptions })
-
             // Get Playlist
             const { playlistId } = media;
             const playlist = yield call(setup.getPlaylist, playlistId);
