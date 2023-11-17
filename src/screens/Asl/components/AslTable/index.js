@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useEffect, useCallback, useRef} from 'react';
+import React, { useState, useMemo, useEffect, useCallback} from 'react';
+
 import './index.scss';
 import "rsuite/dist/rsuite.css";
 import { cthttp } from 'utils/cthttp/request';
-
+import {env} from 'utils/env';
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
 // reference: https://segmentfault.com/a/1190000038615186#item-3
@@ -122,15 +123,14 @@ const AslTable = props => {
       setSelectedTerm(term);
       const source = term.source;
       const uniqueASLIdentifier = term.uniqueASLIdentifier;
-      const hostName = window.location.hostname;
-      if (hostName !== '') {
-        if (source === 'ASLCORE') {
-          setVideoUrl(`https://${hostName}/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
-        } else {
-          setVideoUrl(`https://${hostName}/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
+      const origin = env.baseURL || window.location.hostname;
+      if (origin !== '') {
+        const src = source.toLowerCase();
+        if (src) {
+          setVideoUrl(`${origin}/data/aslvideos/${src}/original/${uniqueASLIdentifier}.mp4`);
+          setShowVideo(true);
         }
       }
-      setShowVideo(true);
     }
 
     const handlePrevPage = () => {
