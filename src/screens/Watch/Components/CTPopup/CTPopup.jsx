@@ -128,15 +128,15 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
           // request success
           ret.data.forEach(element => {
             const URL = `${origin}/data/aslvideos/${element.source.toLowerCase()}/original/${element.uniqueASLIdentifier}.mp4`
-            // eslint-disable-next-line no-console
-            console.log(`CTPopup URL:${URL}`)
+            element.URL = URL;
+            
             
             if (element.kind === 1) {
-              setSignURL(URL);
+              setSignURL(element);
             } else if (element.kind === 2) {
-              setDefinitionURL(URL);
+              setDefinitionURL(element);
             } else if (element.kind === 3) {
-              setExampleURL(URL);
+              setExampleURL(element);
             }
           })
         }
@@ -189,6 +189,8 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
   // }
   const aslIcon = <i className="material-icons">asl</i>;
 
+  const cite = (t) => (<><a target="_blank" rel="noopener noreferrer" href={t.websiteURL}>More information</a></>)
+
   return (
     <Draggable cancel='.search-bar'>
       <div style={glossaryOuterStyle} className="video1 video2">
@@ -218,7 +220,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
             <TabPanel>
               {signURL === '' ? (<span>sign video for this term is not found</span>)
                     :
-                    (<video
+                    (<><video
                       className="video-js vjs-default-skin video-player"
                       controls
                       preload="auto"
@@ -226,15 +228,17 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
                       autoPlay
                       muted
                     >
-                      <source src={signURL} type='video/mp4' />
-                     </video>)}
+                      <source src={signURL.URL} type='video/mp4' />
+                       </video>
+                      {cite(signURL)}
+                    </>)}
             </TabPanel>)}
             {definitionURL !== '' && (
             <TabPanel>
                  
               {definitionURL === '' ? (<span>definition video for this term is not found</span>)
                     :
-                    (<video
+                    (<><video
                       className="video-js vjs-default-skin video-player"
                       controls
                       preload="auto"
@@ -242,15 +246,16 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
                       autoPlay
                       muted
                     >
-                      <source src={definitionURL} type='video/mp4' />
-                     </video>)}
+                      <source src={definitionURL.URL} type='video/mp4' />
+                       </video>{cite(definitionURL)}
+                    </>)}
             </TabPanel>)}
             {exampleURL !== '' && (
             <TabPanel>
                  
               {exampleURL === '' ? (<span>example video for this term is not found</span>)
                     :
-                    (<video
+                    (<><video
                       className="video-js vjs-default-skin video-player"
                       controls
                       preload="auto"
@@ -258,8 +263,9 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
                       autoPlay
                       muted
                     >
-                      <source src={exampleURL} type='video/mp4' />
-                     </video>)}
+                      <source src={exampleURL.URL} type='video/mp4' />
+                       </video>{cite(exampleURL)}
+                    </>)}
             </TabPanel>)}
           </Tabs>
         
