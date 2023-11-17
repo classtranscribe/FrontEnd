@@ -26,7 +26,7 @@ const SearchModel = {
         },
     },
     effects: {
-        *searchValue({ payload }, { call, put, select, take }) {
+        *searchValue({ payload }, { put, select }) {
             const { home } = yield select();
             yield put({type: 'setSearchValue', payload })
             if (!payload) {

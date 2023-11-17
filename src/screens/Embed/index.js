@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { api, uurl } from 'utils';
+import React from 'react';
+import { uurl } from 'utils';
 import CTPlayer, {
   CTPlayerConstants as PConstants,
   LanguageConstants as LangConstants
 } from 'components/CTPlayer';
-import { useParams } from "dva/router";
 import { connect } from 'dva';
 
 /* 
@@ -16,7 +15,7 @@ Set default playback rate: playbackRate
 0 for 2x speed, 1 for 1.75x, and so on. 4 for original speed (1x)
 */
 
-function EmbedWithRedux({ dispatch, match }) {
+function EmbedWithRedux({ match }) {
   const {
     begin = 0,
     openCC = 'false',

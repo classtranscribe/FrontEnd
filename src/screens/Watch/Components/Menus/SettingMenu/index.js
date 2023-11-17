@@ -37,7 +37,7 @@ const panes = [
   
 ];
 
-function SettingMenu({ show = false, onClose = null }) {
+function SettingMenu({ onClose = null }) {
   const [tab, setTab] = useState(SMTAB_GENERAL);
   const changeTab = (tabId) => () => {
     setTab(tabId);

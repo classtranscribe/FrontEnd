@@ -14,11 +14,13 @@ import {
     SCREEN_ZOOM_100,
     ROTATE_COLOR_0,
     INVERT_0,
+    AD_VOLUME_DEFAULT,
+    AD_SPEED_DEFAULT,
 
     scrollTransToView
 } from './Utils';
 import { uEvent } from './Utils/UserEventController';
-import { LINE_VIEW, TRANSCRIPT_VIEW, SEARCH_TRANS_IN_VIDEO } from './Utils/constants.util';
+import { LINE_VIEW, TRANSCRIPT_VIEW } from './Utils/constants.util';
 
 function storageAvailable(type) {
     let storage;
@@ -82,8 +84,12 @@ const PlayerModel = {
         magnifyX: 0,
         magnifyY: 0,
 
-
+        // Audio Description options 
         pauseWhileAD: false,
+        description: "",
+        ADVolume: AD_VOLUME_DEFAULT,
+        ADSpeed: AD_SPEED_DEFAULT, 
+
         autoScroll: true,
         pauseWhileEditing: !isMobile,
         showCaptionTips: true
@@ -101,14 +107,17 @@ const PlayerModel = {
         }
     },
     effects: {
-        *setTransView({ payload: { view, config = {} } }, { call, put, select, take }) {
+        *setTransView({ payload: { view, config = {} } }, { select }) {
             const { sendUserAction = true, updatePrefer = true } = config;
             const { watch } = yield select();
             setTimeout(() => {
                 if (watch.caption?.id) {
                     scrollTransToView(watch.currCaption.id, false, watch.media?.isTwoScreen); 
+                } else {
+                    // eslint-disable-next-line no-console
+                    console.log("Skipping - No watch.caption to update")
                 }
-            }, 200);
+            }, 1);
             if (sendUserAction) {
                 uEvent.transviewchange(watch.time, view);
             }
@@ -118,7 +127,7 @@ const PlayerModel = {
                 updateLocalStorage(playerpref);
             }
         },
-        *setPreference({ payload }, { call, put, select, take }) {
+        *setPreference(_unused, { select }) {
             const { playerpref } = yield select();
             // This is the latest playerpref after reducers get executed
             updateLocalStorage(playerpref);
@@ -127,15 +136,15 @@ const PlayerModel = {
             // uEvent.pauseWhenEdit(!pauseWhileEditing);
             // use same api to report NOT IMPLEMENTED
         },
-        *toggleOpenAD({ payload }, { call, put, select, take }) {
+        *toggleOpenAD( _unused, { put, select }) {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openAD: !playerpref.openAD } })
         },
-        *toggleOpenCC({ payload }, { call, put, select, take }) {
+        *toggleOpenCC(_unused, { put, select }) {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openCC: !playerpref.openCC } })
         },
-        *changePlaybackrateByValue({ payload: delta }, { call, put, select, take }) {
+        *changePlaybackrateByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.playbackrate - 0 + delta;
             if (target > 4 || target < 0.25) {
@@ -143,17 +152,17 @@ const PlayerModel = {
             }
             yield put({ type: 'setPreference', payload: { playbackrate: target } });
         },
-        *changeXTranslateByValue({ payload: delta }, { call, put, select, take }) {
+        *changeXTranslateByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.magnifyX + delta;
             yield put({ type: 'setPreference', payload: { magnifyX: target } });
         },
-        *changeYTranslateByValue({ payload: delta }, { call, put, select, take }) {
+        *changeYTranslateByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.magnifyY + delta;
             yield put({ type: 'setPreference', payload: { magnifyY: target } });
         },
-        *changeCCSizeByValue({ payload: delta }, { call, put, select, take }) {
+        *changeCCSizeByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();
             const target = state.cc_size - 0 + delta;
             if (target > 2 || target < 0.75) {
@@ -163,7 +172,7 @@ const PlayerModel = {
         }
     },
     subscriptions: {
-        setup({ dispatch }, done) {
+        setup({ dispatch }) {
             if (storageAvailablity) {
                 try {
                     const preference = JSON.parse(localStorage.getItem('CT_preference'));

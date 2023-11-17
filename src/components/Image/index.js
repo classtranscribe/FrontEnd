@@ -1,4 +1,4 @@
-import { string } from 'prop-types';
+// unused import { string } from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import EPubParser from 'screens/EPub/controllers/file-builders/EPubParser';
 
@@ -20,6 +20,7 @@ function Image({ src, ...props }) {
             setDataUrl(src);
         }
     }, [src])
+    // eslint-disable-next-line jsx-a11y/alt-text
     return <img src={dataUrl} {...props} />
 }
 

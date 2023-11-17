@@ -67,7 +67,8 @@ export const MENU_HIDE = 'menu-hide';
 export const MENU_PLAYLISTS = 'menu-playlists';
 export const MENU_PLAYBACKRATE = 'menu-playbackrate';
 export const MENU_SETTING = 'menu-setting';
-export const MENU_LANGUAGE = 'menu-language';
+export const MENU_LANGUAGE = 'menu-language'; // Marked for removal in future release
+export const MENU_TRANSCRIPTION = 'menu-transcription';
 export const MENU_SCREEN_MODE = 'menu-screen-mode';
 export const MENU_DOWNLOAD = 'menu-download';
 export const MENU_SHORTCUTS = 'menu-shortcuts';
@@ -277,6 +278,10 @@ export const UA_TRANS_PAUSE_WHEN_AD_STARTS = 'pauseWhenADStarts';
 export const UA_SHARE_VIDEO = 'sharelink';
 export const UA_CHANGE_VIDEO = 'changevideo';
 export const UA_SELECT_COURSE = 'selectcourse';
+
+// Audio Description 
+export const AD_VOLUME_DEFAULT = 0.5;
+export const AD_SPEED_DEFAULT = 0.7;
 
 /**
  * Others

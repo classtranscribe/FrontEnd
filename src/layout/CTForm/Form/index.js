@@ -19,7 +19,7 @@ import './index.scss';
 function Form(props) {
   let {
     id,
-    padding,
+    // padding,
     className,
     collapsible = false,
     expanded = false,

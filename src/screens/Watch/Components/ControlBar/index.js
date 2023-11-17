@@ -14,6 +14,7 @@ import {
   PlaybackRateButton,
   ClosedCaptionButton,
   LanguagePickerButton,
+  TranscriptionPickerButton,
   AudioDescriptionButton,
   ScreenModeSettingButton,
   GlossaryButton, // May 20 Jiaxi
@@ -23,6 +24,7 @@ import VolumeControl from './VolumeControl';
 import TimeDisplay from './TimeDisplay';
 import ProgressBar from './ProgressBar';
 
+// eslint-disable-next-line complexity
 export function ControlBarWithRedux(props) {
   const { dispatch, media = {}, bulkEditing = false } = props;
   const { isTwoScreen, transcriptions } = media;
@@ -45,7 +47,7 @@ export function ControlBarWithRedux(props) {
         <TimeDisplay />
       </div>
       <div className="watch-ctrl-bar-right-elems">
-        {/* May 20 Jiaxi */}
+        
         <GlossaryButton />
 
         {isMobile && <NextVideoButton nextBtn={false} />}
@@ -55,7 +57,10 @@ export function ControlBarWithRedux(props) {
         <ClosedCaptionButton />
         <AudioDescriptionButton />
 
-        {hasTrans && <LanguagePickerButton />}
+        {/* marked for removal in future version */}
+        {false && hasTrans && <LanguagePickerButton />}
+        
+        {hasTrans && <TranscriptionPickerButton />}
 
         {showScreenModes && <ScreenModeSettingButton isTwoScreen={isTwoScreen} />}
 
