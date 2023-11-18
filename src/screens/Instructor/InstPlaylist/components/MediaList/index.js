@@ -16,6 +16,18 @@ function MediaListWithRedux(props) {
     medias,
   } = instplaylist;
   const loading = medias === ARRAY_INIT;
+  if (!loading) {
+      // TODO: delete later, just stubbing the JSON
+    medias[0].aslVideo = {
+      videoId: "id",
+      srcPath: "path"
+    };
+    medias[1].aslVideo = null;
+    medias[0].frozen=false;
+    medias[1].frozen=true;
+    /* eslint no-console: 0 */
+    console.log(medias)
+  }
   const error = ErrorTypes.isError(medias);
 
   const [filterValue, setFilterValue] = useState('');

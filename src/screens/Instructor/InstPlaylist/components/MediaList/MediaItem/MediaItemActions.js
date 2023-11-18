@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, setState } from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
@@ -7,6 +7,8 @@ import { useButtonStyles, CTText } from 'layout';
 function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
+  const hasAsl = ('aslVideo' in media) && media.aslVideo !== null;
+  const [frozen, setFrozen] = useState(('frozen' in media) && media.frozen === true);
 
   const handleDelete = () => {
     const confirm = {
@@ -15,6 +17,20 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
     };
     dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });
   };
+
+  // TODO: fix this function's payload
+  const handleASLDelete = () => {
+    const confirm = {
+      text: 'Are you sure you want to delete this media\'s ASL video? This action cannot be undone.',
+      onConfirm: () => dispatch({ type: 'instplaylist/deleteASL', payload: [media]}),
+    };
+    dispatch({ type: 'instplaylist/setConfirmation', payload: confirm});
+  }
+
+  const handleFreeze = () => {
+    setFrozen(!frozen);
+    dispatch({type: 'instplaylist/freezeCaptions', payload: [media.transcriptions]})
+  }
 
   const setEpubErrorText = () => {
     if (!media.transReady && !media.sceneDetectReady)
@@ -59,6 +75,28 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
           onClick={handleDelete}
         >
           delete
+        </Button>
+
+        { !hasAsl &&
+          <UploadASLButton playlistId={playlistId} videoId={mediaId} /> }        
+        <Route path="/playlist/:playlistId/:videoId/upload-asl" component={UploadSingleFile} />
+        
+        { hasAsl &&
+          <Button
+            className={btnClassName}
+            startIcon={<i className="material-icons upload">delete</i>}
+            onClick={handleASLDelete}
+            title="Delete ASL video"
+          >
+            delete ASL
+          </Button> }
+
+        <Button
+          className={btnClassName}
+          startIcon={frozen? <i className="material-icons edit">edit</i> : <i className="material-icons editOff">edit_off</i>}
+          onClick={handleFreeze}
+        >
+          {frozen? "unfreeze captions" : "freeze captions"}
         </Button>
       </div>
       <div>

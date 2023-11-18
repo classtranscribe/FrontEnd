@@ -42,3 +42,16 @@ export function updateMediaMetadata(mediaId, jsonMetadata) {
 export function deleteMedia(mediaId) {
   return cthttp.delete(`Media/${mediaId}`);
 }
+
+// DELETE ASL
+// TODO
+
+export function deleteASLVideo(mediaId) {
+  return cthttp.delete(`Media/asl/${mediaId}`)
+}
+
+// FREEZE CAPTIONS
+// TODO
+export function freezeCaptions(transcription) {
+  
+}

@@ -163,6 +163,27 @@ const InstPlaylistModel = {
             } catch (error) {
                 prompt.error('Failed to delete the video.', { timeout: 5000 });
             }
+        },
+        *deleteASL({ payload: media }, { call, put, select, take }) {
+            try {
+                const { instplaylist } = yield select();
+                yield call(api.deleteASLVideo, media.aslVideo.videoId);
+                yield put({ type: 'setMedias', payload: _.filter(instplaylist.medias, me => !_.includes(media, me.id)) });
+                prompt.addOne({ text: 'Video deleted.', timeout: 3000 });
+            } catch (error) {
+                prompt.error('Failed to delete the video.', { timeout: 5000 });
+            }
+        },
+        *freezeCaptions({ payload: transcriptions }, { call, put, select, take }) {
+            try {
+                const { instplaylist } = yield select();
+                for(const transcription of transcriptions) {
+                    yield call(api.freezeCaption, transcription)
+                }
+                prompt.addOne({ text: "Captions for the selected video were frozen.", timeout: 5000 });
+            } catch (error) {
+                prompt.error('Failed to freeze the captions for the selected video.', {timeout: 5000})
+            }
         }
     },
     subscriptions: {
