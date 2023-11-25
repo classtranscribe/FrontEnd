@@ -1,13 +1,13 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { videoPosterImg as defaultImg } from 'assets/images';
+import { theVideoPosterImg } from 'assets/images';
 import timestr from 'utils/use-time';
 import Image from 'components/Image';
 import './index.scss';
 
 function MediaPoster({
-  src = defaultImg,
+  src = theVideoPosterImg,
   progress = 0,
   width = '150px',
   height,

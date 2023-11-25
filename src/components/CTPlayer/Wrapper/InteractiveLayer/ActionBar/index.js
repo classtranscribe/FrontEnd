@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva'
 import { api, links, uurl } from 'utils';
-import { logoOutlineSvg, UISlogo } from 'assets/images';
+import { theLogoOutlineSvg } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
 import Share from './Share';
 import Screenshot from './Screenshot';
@@ -21,8 +21,7 @@ function ActionBar(props) {
   } = props;
   const { allowScreenshot: isScreenshotAllowed } = embedded;
   const { mediaName, id } = media || {};
-  const isLiveLogo = media.isLive;
-
+  
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
     let url = window.location.origin + links.watch(id, { begin: time });
@@ -38,22 +37,11 @@ function ActionBar(props) {
     <div className="ctp action-bar">
       <div className="left">
         <div className="media-name">
-          {
-            isLiveLogo ? (
-              <img
-                alt="UISLogo"
-                src={UISlogo}
-                className="ctp ct-logo"
-              />
-            ) : (
-              <img
-                alt="ClassTranscribe Logo"
-                src={logoOutlineSvg}
-                className="ctp ct-logo"
-              />
-            )
-
-          }
+          <img
+            alt="ClassTranscribe Logo"
+            src={theLogoOutlineSvg}
+            className="ctp ct-logo"
+          />
 
 
           <CTPopoverLabel label="Watch this video on ClassTranscribe" placement="bottom-start">

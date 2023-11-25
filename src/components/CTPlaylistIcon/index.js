@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { boxLogo, kalturaLogo } from 'assets/images';
+import { theBoxLogo, theKalturaLogo } from 'assets/images';
 import './index.scss';
 
 const getColor = (type) => {
@@ -63,7 +63,7 @@ function CTPlaylistIcon(props) {
 
   const imgIconProps = {
     alt:  getSourceName(type),
-    src: [null,null,null, kalturaLogo,boxLogo][type],
+    src: [null,null,null, theKalturaLogo,theBoxLogo][type],
     className: cx('ct-pl-icon', size),
     'aria-hidden': 'true'
   };
