@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// delete? import PropTypes from 'prop-types';
 import MenuItem from './MenuItem';
 
 function PlaybackRateMenu(props) {

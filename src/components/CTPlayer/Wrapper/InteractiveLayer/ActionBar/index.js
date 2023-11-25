@@ -87,7 +87,7 @@ ActionBar.propTypes = {
   time: PropTypes.number
 };
 
-export default connect(({ watch: { media, embedded }, playerpref }) => ({
+export default connect(({ watch: { media, embedded } /* , playerpref */ }) => ({
   media, embedded
 }))(ActionBar);
 

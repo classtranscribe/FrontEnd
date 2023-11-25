@@ -7,6 +7,7 @@ import { CTFragment, CTText, CTCheckbox, CTPopoverLabel, CTInput } from 'layout'
 import { Button } from 'pico-ui';
 import { prompt } from 'utils';
 
+// eslint-disable-next-line complexity
 function EPubCTListItem(props) {
   const {
     id,
@@ -49,10 +50,10 @@ function EPubCTListItem(props) {
     }
   };
 
-  const handleDeleteEPub = (event) => {
-     setOpen(true);
-     event.preventDefault();
-  };
+  // const handleDeleteEPub = (event) => {
+  //    setOpen(true);
+  //    event.preventDefault();
+  // };
   const handleYes = () => {
     onDelete(id);
     setOpen(false);
@@ -121,7 +122,7 @@ function EPubCTListItem(props) {
     />
   ) : null);
 
-  const deleteButton = (enableButtons ? (
+  /* unused const deleteButton = (enableButtons ? (
     <Button
       id={id} 
       lowercase
@@ -130,7 +131,7 @@ function EPubCTListItem(props) {
       classNames="mr-2"
       onClick={handleDeleteEPub}
     />
-  ) : null);
+  ) : null); */
 
   const dialogue = (enableButtons ? (
     <Dialog

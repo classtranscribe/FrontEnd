@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CTFragment } from 'layout';
 import { CourseCardList } from 'components';
-import { ARRAY_INIT } from 'utils/constants';
 
 function SearchResultWithRedux(props) {
   const {search} = props;

@@ -28,6 +28,6 @@ const HistoryWithRedux = (props) => {
   )
 }
 
-export const History = connect(({ historypage, loading }) => ({
+export const History = connect(({ historypage }) => ({
   historypage
 }))(HistoryWithRedux);

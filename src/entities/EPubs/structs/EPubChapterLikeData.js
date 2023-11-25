@@ -46,7 +46,7 @@ class EPubChapterLikeData {
       contents = []
     } = data;
 
-    const { start, end } = findChapterTimeSpan(data);
+    const { start, end } = findChapterTimeSpan(data); // TODO 
     
     if (!title && typeof getTitle === 'function') {
       title = getTitle();

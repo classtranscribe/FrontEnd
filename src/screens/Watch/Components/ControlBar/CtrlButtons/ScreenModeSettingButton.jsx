@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import {
   screenModes,
-  MENU_HIDE,
   MENU_SCREEN_MODE,
   NORMAL_MODE,
 } from '../../../Utils';

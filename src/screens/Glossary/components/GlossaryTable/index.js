@@ -99,7 +99,7 @@ const GlossaryTable = props => {
         // pagenumber is valid
         setPageNumber(jumpNumber);
       } else {
-        alert("please enter a valid page number!");
+        // alert("please enter a valid page number!");
       }
     }
 
@@ -233,7 +233,7 @@ const GlossaryTable = props => {
               </th>
               <th>LINK</th>
               <th>DEFINITION</th>
-              <th>SOURSE</th>
+              <th>SOURCE</th>
               {/* <th>
                 <button
                   type="button"

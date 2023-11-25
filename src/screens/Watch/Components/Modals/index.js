@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'dva'
 import {
   MODAL_HIDE,
@@ -33,6 +33,6 @@ function ModalsWithRedux({ modal = MODAL_HIDE, dispatch, media }) {
   );
 }
 
-export const Modals = connect(({ watch: { modal, media }, loading }) => ({
+export const Modals = connect(({ watch: { modal, media } }) => ({
   modal, media
 }))(ModalsWithRedux);

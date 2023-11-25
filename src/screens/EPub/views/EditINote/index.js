@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash'
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -17,7 +17,8 @@ function EditINote ({epub: epubData, dispatch}) {
   const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
   const onScroll = (e) => dispatchScroll(e.target)
 
-  const [iNoteItem, setINoteItem] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [_iNoteItem, setINoteItem] = useState(null);
   const [hidden, setHidden] = useState(true);
 
   const menustyle_short = {

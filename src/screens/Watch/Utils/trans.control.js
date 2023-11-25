@@ -1,16 +1,9 @@
 import _ from 'lodash';
-import { isMobile } from 'react-device-detect';
-import { api } from 'utils';
+// import { api } from 'utils';
 
 import { promptControl } from './prompt.control';
-import { uEvent } from './UserEventController';
+// import { uEvent } from './UserEventController';
 import {
-  CC_COLOR_WHITE,
-  CC_COLOR_BLACK,
-  CC_OPACITY_75,
-  CC_POSITION_BOTTOM,
-  CC_FONT_SANS_SERIF,
-  CC_SIZE_100,
   WEBVTT_SUBTITLES,
   WEBVTT_DESCRIPTIONS,
 } from './constants.util';
