@@ -4,7 +4,8 @@
  */
 
  import React, { useEffect, useState } from 'react';
- import Draggable from 'react-draggable';
+ // import Draggable from 'react-draggable';
+ import { useSpeechSynthesis } from 'react-speech-kit';
 
  import { connect } from 'dva'
  import { isMobile } from 'react-device-detect';
