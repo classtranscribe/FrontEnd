@@ -41,6 +41,7 @@ function change(data, url) {
 async function fetchConfig(url) {
   let d = await axios.get(`${url}/config.js`)
                   .then(({data}) => data)
+                  // eslint-disable-next-line no-unused-vars
                   .catch(err => {})
   return d;
 }

@@ -8,7 +8,7 @@ import { useButtonStyles } from 'layout';
 
 function StarButton(props) {
   const { isStarred, onStarAction } = props;
-  const setup = {};
+  // const setup = {};
   const btn = useButtonStyles();
   return (
     <Button 

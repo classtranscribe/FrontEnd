@@ -11595,6 +11595,11 @@ react-semantic-ui-range@^0.7.1:
   resolved "https://registry.yarnpkg.com/react-semantic-ui-range/-/react-semantic-ui-range-0.7.1.tgz#bc552f889e4243d500d4673dd7966752664935fe"
   integrity sha512-6AQLuFeARHcIO7yl4Pd0BBIB9sJyeNK1mku7luK6aTXrj9EGaqr1fWS7w4b0+GUP7CvkixmcyYqykxzpKS4Lcw==
 
+react-speech-kit@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-speech-kit/-/react-speech-kit-3.0.1.tgz#8bd936adfe064be1c5a07e2992dfdfd772e80d14"
+  integrity sha512-MXNOciISanhmnxpHJkBOev3M3NPDpW1T7nTc/eGw5pO9cXpoUccRxZkmr/IlpTPbPEneDNeTmbwri/YweyctZg==
+
 react-tabs@^4.2.1:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-4.3.0.tgz#9f4db0fd209ba4ab2c1e78993ff964435f84af62"

@@ -37,7 +37,7 @@ const MediaSettingModel = {
         },
     },
     effects: {
-        *loadMediaSettings({ payload: mediaId }, { call, put, select, take }) {
+        *loadMediaSettings({ payload: mediaId }, { call, put }) {
             links.title('Media Settings');
 
             const media = yield call(getMedia, mediaId);

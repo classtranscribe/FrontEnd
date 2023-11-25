@@ -1,6 +1,7 @@
 import React from 'react';
-import { connectWithRedux, transControl, langMap } from '../../../Utils';
+import { connectWithRedux, langMap } from '../../../Utils';
 
+// No longer clear that we need this UI element - it will likely be removed in a future version
 function LanguageMenu({ media, currTrans = {}, onClose = null, dispatch }) {
   const { transcriptions } = media;
   const langOptions = (transcriptions || []).map((trans) => trans.language);
@@ -38,7 +39,7 @@ function LanguageMenu({ media, currTrans = {}, onClose = null, dispatch }) {
               <div className="watch-icon-listitem-checkmark">
                 {lang === currTrans.language && <i className="material-icons">check</i>}
               </div>
-              <i className="material-icons watch-icon-icon">closed_caption</i>
+              {/* <i className="material-icons watch-icon-icon">closed_caption</i> */}
               <div className="watch-icon-name">{langMap[lang]}</div>
             </span>
           </button>

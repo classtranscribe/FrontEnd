@@ -197,6 +197,7 @@ export function AdvancedForm() {
 export function UploadForm() {
   const handleFileUpload = (files) => {
     if (files.length > 0) {
+      // eslint-disable-next-line no-alert
       alert(`Uploaded file ${files[0].name}`);
     }
   };

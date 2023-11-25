@@ -8,7 +8,7 @@ import {
 import Wrapper from '../Wrapper';
 import './index.scss';
 
-const Player = function(props) {
+const Player = (props) => {
   const { media, beginAt, allowScreenshot, mediaId, error, screenshotActionElement, dispatch, isFullscreen } = props;
   const onKeyDown = (event) => {
     const { keyCode,

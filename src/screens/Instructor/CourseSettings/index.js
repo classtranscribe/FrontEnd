@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { CTLayout, CTFragment } from 'layout';
 import { connect } from 'dva';
 import { Students, Staffs, CourseInfo, RemoveCourse } from './components';
@@ -44,6 +44,6 @@ const CourseSettingsWithRedux = (props) => {
   );
 }
 
-export const CourseSettings = connect(({ course, loading }) => ({
+export const CourseSettings = connect(({ course }) => ({
   course
 }))(CourseSettingsWithRedux);

@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import cx from 'classnames';
 import { Link } from 'dva/router';
 import { connect } from 'dva'
 import { uurl, elem } from 'utils';
-import { findChapterTimeSpan } from 'entities/EPubs/utils';
-import Text from 'layout/CTText/Text';
+// import { findChapterTimeSpan } from 'entities/EPubs/utils';
+// import Text from 'layout/CTText/Text';
 import { CTFragment, CTCheckbox} from 'layout';
 import { Checkbox } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -102,26 +102,26 @@ function NavigationMenu({
 
   return (
     <div>
-    {showCheckbox?
-      <CTFragment margin="10" padding={[5, 10]} width="auto">
-        <ButtonGroup fullWidth>
-         <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Hide Tags</Button> 
-        </ButtonGroup>
-      </CTFragment>
+      {showCheckbox?
+        <CTFragment margin="10" padding={[5, 10]} width="auto">
+          <ButtonGroup fullWidth>
+            <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Hide Tags</Button> 
+          </ButtonGroup>
+        </CTFragment>
     :
-    <CTFragment margin="10" padding={[5, 10]} width="auto">
-    <ButtonGroup fullWidth>
-     <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Show Tags</Button> 
-    </ButtonGroup>
-  </CTFragment>}
-    {showCheckbox?
-    <TagGroup 
-      chapters={chapters}
-      selectedChapters={selectedChapters}
-      setSelectedChapters={setSelectedChapters}
-      dispatch={dispatch}
-    />:
-    <></>}
+        <CTFragment margin="10" padding={[5, 10]} width="auto">
+          <ButtonGroup fullWidth>
+            <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Show Tags</Button> 
+          </ButtonGroup>
+        </CTFragment>}
+      {showCheckbox?
+        <TagGroup 
+          chapters={chapters}
+          selectedChapters={selectedChapters}
+          setSelectedChapters={setSelectedChapters}
+          dispatch={dispatch}
+        />:
+        <></>}
       <ul
         className="plain-ul"
         id={ID.EPubNavigationMenuID}
@@ -169,6 +169,6 @@ function NavigationMenu({
   );
 }
 
-export default connect(({ epub: { navId, view, currChIndex, epub: { chapters } }, loading }) => ({
+export default connect(({ epub: { navId, view, currChIndex, epub: { chapters } } }) => ({
   navId, chapters, view, currChIndex
 }))(NavigationMenu);

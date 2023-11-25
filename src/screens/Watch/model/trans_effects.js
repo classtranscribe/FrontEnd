@@ -1,34 +1,31 @@
+/* eslint-disable no-console */
+/* eslint-disable complexity */
 
 import { api } from 'utils';
 import _ from 'lodash';
-import { isMobile } from 'react-device-detect';
+// import { isMobile } from 'react-device-detect';
 import {
-    ENGLISH, ARRAY_EMPTY,
-    WEBVTT_DESCRIPTIONS,
+    ENGLISH, ARRAY_EMPTY // , WEBVTT_SUBTITLES, WEBVTT_DESCRIPTIONS,
     // PROFANITY_LIST,
 } from '../Utils/constants.util';
 import { promptControl } from '../Utils/prompt.control';
-import { timeStrToSec, colorMap } from '../Utils/helpers';
+import { timeStrToSec } from '../Utils/helpers';
 
 import { uEvent } from '../Utils/UserEventController';
-import { findTransByLanguage, scrollTransToView } from '../Utils'
-
+import { scrollTransToView, findTransByLanguages } from '../Utils'
 /**
- * * Find item based on current time
+ * * Find subtitle based on current time
 */
 const findCurrent = (array = [], prev = {}, now = 0, deterFunc) => {
     let next = prev;
     const isCurrent = (item) => {
-        if (!item) return false;
+        if (!item) return false; // Check the item type
         const end = timeStrToSec(item.end);
         const begin = timeStrToSec(item.begin);
         let deter = true;
         if (deterFunc) deter = deterFunc(item, prev);
         return begin <= now && now <= end && deter;
     };
-    // if (isCurrent(prev)) {
-    //   next = prev
-    // }
 
     // if it's the first time to find captions
     if (!prev) {
@@ -43,45 +40,86 @@ const findCurrent = (array = [], prev = {}, now = 0, deterFunc) => {
         next = _.findLast(array, isCurrent, prev.index - 1) || prev;
     }
 
-    // if (next) { this.prev = next; } NOT IMPLEMENTED
-    // if (next) console.error(next.kind)
-    // else console.error('null')
     return next;
 }
+
+const findCurrentDescription = (descriptions, currentTime) => {
+    let closestDescription = null;
+    let maxEndTime = -Infinity;
+
+    for (const description of descriptions) {
+        const endTime = timeStrToSec(description.end);
+
+        // Check if the description ends before or at the current time
+        if (endTime <= currentTime && endTime > maxEndTime) {
+            maxEndTime = endTime;
+            closestDescription = description;
+        }
+    }
+
+    return closestDescription;
+};
+
 export default {
-    *setCurrTrans({ payload: tran }, { call, put, select, take }) {
+
+    // We have an array of transcript Ids to display, time to get the actual transcripts from the server
+    *setCurrTrans({ payload: trans }, { all, call, put}) {
         // Get and set corresponding captions
-        const { data = [] } = yield call(api.getCaptionsByTranscriptionId, tran.id);
-        yield put.resolve({ type: 'setCaptions', payload: data });
-        const descriptions = []; // adSample // need to modify
-        yield put.resolve({ type: 'setDescriptions', payload: descriptions });
+        if( !Array.isArray(trans) ) { trans = [trans]; }
+
+        let alldata = ARRAY_EMPTY;
+        if(trans.length >0) {
+            // let {data = []} = yield api.getCaptionsByTranscriptionId(trans[0].id);
+            // alldata = [...alldata, ...data];
+            const allTranscriptionData = yield all(
+                trans.map((tran) => call(api.getCaptionsByTranscriptionId, tran.id))
+            );
+            
+            // Inplace add a reference to the transcription object for all captions
+            allTranscriptionData.forEach((captionList, listIndex) =>{
+                const tran = trans[listIndex];
+                captionList.data?.forEach( (c) => {
+                    c.tran = tran;
+                    // c.kind = tran.transcriptionType;
+                  });
+            });
+
+            alldata = allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
+        }
+        // eslint-disable-next-line no-console
+        console.log(`*setCurrTrans ${alldata.length} captions`)
+
+        let closedcaptions = alldata.filter((c)=>c.tran.transcriptionType === 0);
+        let descriptions = alldata.filter((c)=>c.tran.transcriptionType !==0);
+
+        yield put({ type: 'setCaptions', payload: closedcaptions });
+        
+        const descirptionsData = descriptions.map(caption => ({
+            ...caption,
+            end: caption.begin, // Set endTime to match beginTime. Why?
+          }));
+        yield put.resolve({ type: 'setDescriptions', payload: descirptionsData });
         yield put({ type: 'setTranscript' });
     },
-    *setTranscriptions({ payload: trans }, { call, put, select, take }) {
-        const currTrans = findTransByLanguage(ENGLISH, trans);
-        uEvent.registerLanguage(ENGLISH);
-        if (currTrans) {
-            yield put({ type: 'setCurrTrans', payload: currTrans });
-        } else {
-            yield put({ type: 'setTranscript', payload: ARRAY_EMPTY });
-            if (!isMobile) {
-                // this.transView(HIDE_TRANS, { updatePrefer: false });
-            }
+    *setTranscriptions({ payload: trans }, { put}) {
+        const selectedTrans = findTransByLanguages(trans, [ENGLISH]);
+       
+        for (const t of selectedTrans) {
+            yield put({
+                type: 'setCurrentTranscriptionMulti',
+                payload: { halfKey: t.halfKey, active: true },
+            });
         }
     },
-    *updateTranscript({ payload: currentTime }, { call, put, select, take }) {
-        const nextCaption = {};
+    *updateTranscript({ payload: currentTime }, { put, select }) {
+        // eslint-disable-next-line no-console
         const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
-        if (watch.transcript === ARRAY_EMPTY) return null;
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
         if (next && next.id) {
+            // console.log(next);
             // pause video if it's AD
-            if (next.kind === WEBVTT_DESCRIPTIONS) {
-                this.updateDescription(next);
-                // if (preferControl.pauseWhileAD() && this.prevCaption_ !== next) videoControl.pause(); NOT IMPLEMNTED
-            }
-
+            
             // determine whether should scroll smoothly
             const smoothScroll =
                 prevCaption_ && next && Math.abs(prevCaption_.index - next.index) === 1;
@@ -92,19 +130,50 @@ export default {
                 scrollTransToView(next.id, smoothScroll, media.isTwoScreen);
             }
         }
+        // console.log(watch)
+        // console.log(`pauseWhileAD:${playerpref.pauseWhileAD}`);
+        const nextDescription = findCurrentDescription(watch.descriptions, currentTime);
+        if (nextDescription) {
+            const nextDescriptionBeginTime = timeStrToSec(nextDescription.begin);
+            if (Math.abs(currentTime - nextDescriptionBeginTime) <= 1) {
+                if (playerpref.pauseWhileAD) {
+                    yield put({ type: 'media_pause' });
+                }
+                // Speak out loud 
+                console.log(`SPEAK ${nextDescription.text}`);
+                // yield put({ type: 'media_speak', payload: { description: nextDescription.text }});
+                // yield put({ type: 'playerpref/setPreference',  })
+                yield put({ type: 'playerpref/setPreference', payload: { description: nextDescription.text } }) 
+            }
+        }
         return next || null;
         // transControl.updateTranscript(currentTime);
     },
-    *setLanguage({ payload: language }, { call, put, select, take }) {
+    *setLanguage({ payload: language }, { put, select }) {
         const { watch } = yield select();
-        const currTrans = findTransByLanguage(language, watch.transcriptions);
+        const currTrans = findTransByLanguages(watch.transcriptions,[language]);
         if (currTrans) {
             yield put({ type: 'setCurrTrans', payload: currTrans });
         }
         uEvent.langchange(watch.time, language);
         uEvent.registerLanguage(language);
     },
-    *setTransEditMode({ payload: { caption, innerText } }, { call, put, select, take }) {
+    *setCurrentTranscriptionMulti( _ignore, { put, select }) {
+        const { watch } = yield select();
+       
+        const selected = watch.currentTranscriptionMulti.halfKeysSelected
+        
+        const currTrans = watch.transcriptions.filter((t) => selected.includes(t.halfKey));
+        
+        if (currTrans.length > 0) {
+            yield put({ type: 'setCurrTrans', payload: currTrans });
+        }
+        // TODO - fix uEvent
+        // uEvent.langchange(watch.time, language);
+        // uEvent.registerLanguage(language);
+    },
+
+    *setTransEditMode({ payload: { caption } }, { put, select }) {
         // if no param caption, edit current caption
         const { watch, playerpref } = yield select();
         const currCap = caption || watch.currCaption_;
@@ -117,7 +186,8 @@ export default {
             yield put({ type: 'playerpref/setPreference', payload: { showCaptionTips: false } });
         }
     },
-    *saveCaption({ payload: { caption, text } }, { call, put, select, take }) {
+    // This is a transcript caption
+    *saveCaption({ payload: { caption, text } }, { call, put, select }) {
         const { watch } = yield select();
         /**
          * @todo check PROFANITY_LIST
@@ -135,13 +205,19 @@ export default {
         uEvent.edittrans(watch.currTime, watch.currEditing.text, text);
         // update new text
         // this.currEditing_.text = text; ?
+        const isClosedCaption = caption.trans.transcriptionType === 0;
+
         yield put({ type: 'setCurrEditing', payload: null });
         try {
             yield call(api.updateCaptionLine, { id, text });
-            yield put({ type: 'setCaptions', payload: watch.captions });
-            promptControl.savedCaption();
+            if(isClosedCaption) {
+                yield put({ type: 'setCaptions', payload: watch.captions });
+            } else {
+                yield put({ type: 'setDescriptions', payload: watch.descriptions });
+            }
+            promptControl.savedCaption(isClosedCaption, true);
         } catch (error) {
-            promptControl.savedCaption(false);
+            promptControl.savedCaption(isClosedCaption, false);
         }
     },
     *setFontSize({ payload: fontSize }, { put, select }) {

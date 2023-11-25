@@ -1,4 +1,4 @@
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import Papa from 'papaparse';
 import { api } from 'utils';
 

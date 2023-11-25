@@ -71,6 +71,6 @@ function ProgressBar(props) {
   );
 }
 
-export default connect(({ watch, loading }) => ({
+export default connect(({ watch }) => ({
   watch
 }))(ProgressBar);

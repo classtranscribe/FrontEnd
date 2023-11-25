@@ -96,7 +96,7 @@ async function getInCourseTransSearchResults(value, playlist, lang) {
   }
 }
 export default {
-  *search_open({ payload }, { call, put, select, take }) {
+  *search_open(_unused, { put, select }) {
     const { watch } = yield select();
     if (watch.search.status !== SEARCH_HIDE) {
       elem.focus('watch-search-input');
@@ -105,11 +105,11 @@ export default {
     const status = watch.search.hasResult ? SEARCH_RESULT : SEARCH_BEGIN;
     yield put({ type: 'setSearch', payload: { status } });
   },
-  *search_close({ payload }, { put }) {
+  *search_close(_unused, { put }) {
     yield put({ type: 'setSearch', payload: { status: SEARCH_HIDE } });
   },
   // Function used to get search results from captions and videos
-  *search_getResults({ payload: value }, { call, put, select, take }) {
+  *search_getResults({ payload: value }, { call, put, select }) {
     if (!value) {
       return yield put({ type: 'resetSearch' })
     }
