@@ -5,7 +5,7 @@ export function findChapterTimeSpan(chapterLike) {
   const { items, subChapters } = chapterLike;
   let start = '00:00:00';
   let end = '00:00:00';
-  if (items && items.length > 0) {
+  if (items && items.length > 0 && items[0] != null) {
     start = items[0].start;
   } else if (subChapters && subChapters.length > 0) {
     start = subChapters[0].start;
@@ -13,7 +13,7 @@ export function findChapterTimeSpan(chapterLike) {
 
   if (subChapters && subChapters.length > 0) {
     end = subChapters[subChapters.length - 1].end;
-  } else if (items && items.length > 0) {
+  } else if (items && items.length > 0 && items[items.length - 1] != null) {
     end = items[items.length - 1].end;
   }
 
