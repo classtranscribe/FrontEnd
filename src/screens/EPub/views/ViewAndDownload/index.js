@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import _ from 'lodash'
 import { CTFragment } from 'layout';
 import { connect } from 'dva'

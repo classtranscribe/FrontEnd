@@ -1,4 +1,5 @@
 export { PlayButton } from './PlayButton';
+export { ShowASLButton } from './ShowASLButton';
 export { RewindButton } from './RewindButton';
 export { ForwardButton } from './ForwardButton';
 export { SettingButton } from './SettingButton';

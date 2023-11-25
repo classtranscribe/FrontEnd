@@ -30,8 +30,8 @@ function EPubToolbar({ view, dispatch, epub }) {
     { disabled: !canRedo }
   );
 
-  const saveEPub = () => dispatch({ type: 'epub/updateEPub_Internal' })
-  const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
+  // const saveEPub = () => dispatch({ type: 'epub/updateEPub_Internal' })
+  // const saveBtnEl = _makeTBtn('cloud_upload', 'Save', '⌘S', saveEPub, false, true);
 
   const openPreview = () => dispatch({ type: 'epub/setShowPreview', payload: true });
   const previewBtnEl = _makeTBtn(

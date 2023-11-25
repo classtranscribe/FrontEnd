@@ -74,6 +74,7 @@ const PlayerModel = {
 
         openCC: true,
         openAD: false,
+        aslCorner : 0,
 
         autoPlay: !isMobile,
         brightness: SCREEN_OPACITY_100,
@@ -143,6 +144,10 @@ const PlayerModel = {
         *toggleOpenCC(_unused, { put, select }) {
             const { playerpref } = yield select();
             yield put({ type: 'setPreference', payload: { openCC: !playerpref.openCC } })
+        },
+        *toggleASLPosition(_unused, { put, select }) {
+            const { playerpref } = yield select();
+            yield put({ type: 'setPreference', payload: { aslCorner: (1+playerpref.aslCorner) % 3 } })
         },
         *changePlaybackrateByValue({ payload: delta }, { put, select }) {
             const { playerpref: state } = yield select();

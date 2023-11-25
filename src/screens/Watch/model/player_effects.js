@@ -94,6 +94,7 @@ export default {
         try {
             PlayerData.video1 && (yield PlayerData.video1.play());
             PlayerData.video2 && (yield PlayerData.video2.play());
+            PlayerData.aslVideo && (yield PlayerData.aslVideo.play());
             yield put({ type: 'setPause', payload: false })
             PlayerData.video1 && uEvent.play(PlayerData.video1?.currentTime);
         } catch (error) {
@@ -124,6 +125,7 @@ export default {
         try {
             PlayerData.video1 && (PlayerData.video1.pause());
             PlayerData.video2 && (PlayerData.video2.pause());
+            PlayerData.aslVideo && (PlayerData.aslVideo.pause());
         } catch (error) {
             // 
         }
@@ -165,6 +167,9 @@ export default {
         
         if (PlayerData.video2 != null) {
             PlayerData.video2.currentTime = payload;
+        }
+        if (PlayerData.aslVideo != null) {
+            PlayerData.aslVideo.currentTime = payload;
         }
         
         yield put({ type: 'setTime', payload })
@@ -214,6 +219,7 @@ export default {
         const { playerpref, watch } = yield select();
         const { playbackrate = 1 } = playerpref;
         if (PlayerData.param.canPlayDone) { return; }
+        (PlayerData.aslVideo) && (PlayerData.aslVideo.playbackRate = playbackrate);
         if (isPrimary) {
             PlayerData.param.video1CanPlay = true;
             if (PlayerData.param.video2CanPlay || !PlayerData.video2) {

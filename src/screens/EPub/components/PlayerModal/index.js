@@ -71,6 +71,6 @@ function PlayerModal({
   );
 }
 
-export default connect(({ epub: { playerData, media, epub }, loading }) => ({
+export default connect(({ epub: { playerData, media, epub } }) => ({
   playerData, media, epub
 }))(PlayerModal);

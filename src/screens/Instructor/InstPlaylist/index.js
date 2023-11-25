@@ -58,6 +58,6 @@ export class InstPlaylistWithRedux extends Component {
   }
 }
 
-export const InstPlaylist = connect(({ instplaylist, loading }) => ({
+export const InstPlaylist = connect(({ instplaylist }) => ({
   instplaylist
 }))(InstPlaylistWithRedux);

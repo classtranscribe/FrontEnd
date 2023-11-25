@@ -1,4 +1,4 @@
-import { api, user, prompt, InvalidDataError, ARRAY_INIT, links } from 'utils';
+import { api, user, prompt, ARRAY_INIT, links } from 'utils';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import ErrorTypes from 'entities/ErrorTypes';

@@ -50,10 +50,10 @@ function EPubCTListItem(props) {
     }
   };
 
-  const handleDeleteEPub = (event) => {
-     setOpen(true);
-     event.preventDefault();
-  };
+  // const handleDeleteEPub = (event) => {
+  //    setOpen(true);
+  //    event.preventDefault();
+  // };
   const handleYes = () => {
     onDelete(id);
     setOpen(false);

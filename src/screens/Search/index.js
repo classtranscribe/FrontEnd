@@ -30,6 +30,6 @@ const SearchWithRedux = (props) => {
   );
 }
 
-export const Search = connect(({ search, loading }) => ({
+export const Search = connect(({ search }) => ({
   search
 }))(SearchWithRedux);

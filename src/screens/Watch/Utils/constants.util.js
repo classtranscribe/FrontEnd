@@ -31,10 +31,11 @@ export const ARRAY_RETRY = ['retry'];
  */
 export const NORMAL_MODE = 'normal-mode';
 export const THEATRE_MODE = 'theatre-mode';
-export const PS_MODE = 'ps-mode';
+export const PS_MODE = 'ps-mode'; // primary secondary mode
 export const EQUAL_MODE = 'equal-mode';
 export const NESTED_MODE = 'nested-mode';
 export const BULK_EDIT_MODE = 'bulk-edit-mode';
+export const ASL_CORNER_MODE = 'asl-corner-mode' // used for ASL Stream
 export const screenModes = [
   { type: NORMAL_MODE, name: 'Primary View', icon: 'video_label' },
   { type: PS_MODE, name: 'Distributed View', icon: 'view_carousel' },
@@ -49,6 +50,7 @@ export const screenModes = [
  */
 export const PRIMARY = 'ct-player-primary';
 export const SECONDARY = 'ct-player-secondary';
+export const ASL_PRIMARY = 'ct-player-asl';
 
 /**
  * Player Events

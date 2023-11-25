@@ -43,6 +43,6 @@ const AslWithRedux = (props) => {
     )
 }
 
-export const Asl = connect(({ aslpage, loading }) => ({
+export const Asl = connect(({ aslpage }) => ({
     aslpage
 }))(AslWithRedux);

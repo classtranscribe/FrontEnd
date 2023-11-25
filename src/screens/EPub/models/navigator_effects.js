@@ -107,7 +107,7 @@ function* updateNavIdForEditChaper(e, epub, put) {
 
 export default {
     onScroll: [
-        function* ({ payload: e }, { call, put, select, take }) {
+        function* ({ payload: e }, { call, put, select }) {
             const { epub } = yield select();
             switch (epub.view) {
                 case Constants.EpbEditStructure:
@@ -136,7 +136,7 @@ export default {
         });
         yield scrollToSubCh(epub, payload)
     },
-    *navigateChapter({ payload: chId }, { call, put, select, take }) {
+    *navigateChapter({ payload: chId }, { put, select }) {
         const { epub } = yield select();
         if (epub.view === Constants.EpbEditChapter) {
             let chIdx = _.findIndex(epub.epub.chapters, { id: chId });
