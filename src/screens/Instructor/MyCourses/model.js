@@ -106,7 +106,7 @@ const InstCourseModel = {
         },
     },
     effects: {
-        *loadModel({ payload }, { call, put, select, take }) {
+        *loadModel({ _payload }, { call, put }) {
             let terms = yield call(getTerms);
             yield put({type: 'setTerms', payload: terms});
 

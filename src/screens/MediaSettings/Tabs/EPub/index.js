@@ -21,6 +21,6 @@ export function EpubWithRedux(props) {
   return <CTEPubListScreen {...ePubLiProps} />;
 }
 
-export const EPub = connect(({ mediasetting, loading }) => ({
+export const EPub = connect(({ mediasetting }) => ({
   mediasetting
 }))(EpubWithRedux);

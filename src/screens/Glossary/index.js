@@ -55,6 +55,6 @@ const GolssaryWithRedux = (props) => {
     )
 }
 
-export const Glossary = connect(({ glossarypage, loading }) => ({
+export const Glossary = connect(({ glossarypage }) => ({
     glossarypage
 }))(GolssaryWithRedux);

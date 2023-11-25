@@ -459,7 +459,7 @@ export default {
         // this.__feed();
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
-    removeChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx } }) {
+    removeChapterContent(state, { payload: { _type = 'text', contentIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
             const chapter = chapters[state.currChIndex];

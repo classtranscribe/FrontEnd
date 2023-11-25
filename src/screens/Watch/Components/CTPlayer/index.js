@@ -18,11 +18,11 @@
    SECONDARY,
    PS_MODE,
    NESTED_MODE,
-   ASL_CORNER_MODE,
+   // ASL_CORNER_MODE,
    ASL_PRIMARY,
    getVideoStyle,
-   THEATRE_MODE,
-   NORMAL_MODE
+   // THEATRE_MODE,
+   // NORMAL_MODE
  } from '../../Utils';
  import './index.scss';
  import './playerModes.css';

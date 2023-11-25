@@ -3,7 +3,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { CTForm } from 'layout';
 import { api, user, prompt } from 'utils';
-import UniversitySelection from './UniversitySelection';
+// import UniversitySelection from './UniversitySelection';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
 
@@ -20,7 +20,7 @@ function CourseForm(props) {
     defaultSelCourses = [],
     saveButtonText = 'create',
     onSave,
-    allowUniSelection = false,
+    // allowUniSelection = false,
   } = props;
 
   const defaultUniId = user.getUserInfo().universityId;
@@ -98,11 +98,11 @@ function CourseForm(props) {
     }
   };
 
-  const uniSelProps = {
-    uniId,
-    universities,
-    handleUniChange
-  };
+  // const uniSelProps = {
+  //   uniId,
+  //   universities,
+  //   handleUniChange
+  // };
 
   const basicInfoProps = {
     error,

@@ -41,7 +41,7 @@ function CourseInfoWithRedux(props) {
   );
 }
 
-export const CourseInfo = connect(({ course, loading }) => ({
+export const CourseInfo = connect(({ course }) => ({
   course
 }))(CourseInfoWithRedux);
 

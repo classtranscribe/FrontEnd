@@ -1,6 +1,5 @@
-import { ARRAY_INIT } from 'utils/constants';
 import _ from 'lodash';
-import { api, user, prompt, InvalidDataError, links, uurl, elem, timestr } from 'utils';
+import { api, prompt, links, uurl, elem, timestr } from 'utils';
 import { delay } from 'dva/saga'
 import pathToRegexp from 'path-to-regexp';
 import { EPubListCtrl } from 'components/CTEPubListScreen/controllers/EPubListController';
@@ -108,7 +107,7 @@ const EPubModel = {
         toggleShortcuts(state) {
             return { ...state, showShortcuts: !state.showShortcuts }
         },
-        resetStates(state, { payload }) {
+        resetStates(state, { _payload }) {
             return { ...initState };
         },
         ...model_data_reducer
@@ -187,8 +186,8 @@ const EPubModel = {
 
             uurl.openNewTab(links.epub(newEPubData.id, Constants.EditINote));
         },
-        *deleteEPub({ payload: ePubId }, { call, put, select, take }) {
-            try {
+        *deleteEPub({ payload: ePubId }, { call }) {
+            try { 
                 yield call(api.deleteEPub, ePubId);
                 window.close();
             } catch (error) {

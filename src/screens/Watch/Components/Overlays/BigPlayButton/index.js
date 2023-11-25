@@ -80,6 +80,6 @@ function BigPlayButtonWithRedux(props) {
   ) : null;
 }
 
-export const BigPlayButton = connect(({ watch: { paused, ctpPriEvent }, loading }) => ({
+export const BigPlayButton = connect(({ watch: { paused, ctpPriEvent } }) => ({
   paused, ctpPriEvent
 }))(BigPlayButtonWithRedux);

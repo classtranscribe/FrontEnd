@@ -52,7 +52,7 @@ const CourseModel = {
         },
     },
     effects: {
-        *loadCourse({ payload }, { call, put, select, take }) {
+        *loadCourse({ payload }, { call, put, select }) {
             const { course } = yield select();
             const offeringId = payload;
             // determine whether to reset the redux store
@@ -95,7 +95,7 @@ const CourseModel = {
                 yield put({ type: 'setPlaylists', payload: ErrorTypes.NotFound404 })
             }
         },
-        *setStar({ payload: { offeringId, isStar } }, { call, put, select, take }) {
+        *setStar({ payload: { offeringId, isStar } }, { call, put, select }) {
             const { course } = yield select();
             const starredOfferings = course.starredOfferings;
             if (isStar) {
@@ -113,7 +113,7 @@ const CourseModel = {
                 prompt.addOne({ text: 'Faild to star the course', status: 'error' });
             }
         },
-        *updatePlaylists({ payload }, { call, put, select, take }) {
+        *updatePlaylists({ payload }, { call, put, select }) {
             const { course } = yield select();
             const oldPlaylists = [...course.playlists];
             yield put({ type: 'setPlaylists', payload })
