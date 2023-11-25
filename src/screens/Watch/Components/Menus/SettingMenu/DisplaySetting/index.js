@@ -181,6 +181,6 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
     
   );
 }
-export default connect(({ playerpref: { brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY }, loading }) => ({
+export default connect(({ playerpref: { brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY } }) => ({
   brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY
 }))(DisplaySetting);

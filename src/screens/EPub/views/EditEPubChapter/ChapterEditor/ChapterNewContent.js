@@ -52,6 +52,6 @@ function ChapterNewContent({ onInsert, currChIndex, images, epub, dispatch }) {
   );
 }
 
-export default connect(({ epub: { currChIndex, epub, images }, loading }) => ({
+export default connect(({ epub: { currChIndex, epub, images } }) => ({
   currChIndex, images, epub
 }))(ChapterNewContent);

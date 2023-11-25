@@ -127,7 +127,7 @@ const CourseModel = {
                 prompt.addOne({ text: 'Failed to reorder playlists.', timeout: 5000 });
             }
         },
-        *getPlaylistById({ payload: playlistId }, { call, put, select, take }) {
+        *getPlaylistById({ payload: playlistId }, { call, put}) {
             try {
                 let { data } = yield call(api.getPlaylistById, playlistId);
                 yield put({ type: 'setPlaylist', payload: data })

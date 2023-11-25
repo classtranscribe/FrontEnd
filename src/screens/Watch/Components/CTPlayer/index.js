@@ -182,7 +182,7 @@
 
    scale, magnifyX, magnifyY, aslCorner,
    description, ADVolume, ADSpeed
- }, loading }) => ({
+ } }) => ({
    media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, 
    brightness, contrast, rotateColor, invert,
    scale, magnifyX, magnifyY,aslCorner,

@@ -51,7 +51,7 @@ function WatchHistoriesWithRedux(props) {
   );
 }
 
-export default connect(({ historypage, loading }) => ({
+export default connect(({ historypage }) => ({
   historypage
 }))(WatchHistoriesWithRedux);
 

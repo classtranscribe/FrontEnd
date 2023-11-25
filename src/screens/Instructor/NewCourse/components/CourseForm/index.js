@@ -34,9 +34,9 @@ function CourseForm(props) {
   const [accessType, setAccess] = useState(defaultAccessType);
   const [coursesText, setCoursesText] = useState('');
 
-  const [universities, setUniversities] = useState([]);
+  const [_universities, setUniversities] = useState([]);
   const [uniId, setUniId] = useState(defaultUniId);
-  const handleUniChange = ({ target: { value } }) => setUniId(value);
+  // const handleUniChange = ({ target: { value } }) => setUniId(value);
 
   // course selection
   const [selCourses, setSelCourses] = useState(defaultSelCourses);
