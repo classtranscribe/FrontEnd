@@ -90,6 +90,6 @@ const WatchWithRedux = (props) => {
   );
 }
 
-export const Watch = connect(({ loading, watch: { menu, error, isFullscreen } }) => ({
+export const Watch = connect(({ watch: { menu, error, isFullscreen } }) => ({
   menu, error, isFullscreen
 }))(WatchWithRedux);

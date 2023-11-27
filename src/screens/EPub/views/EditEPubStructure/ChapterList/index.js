@@ -33,6 +33,6 @@ function ChapterList({ chapters = [], foldedIds = [], currChIndex, setEPubItem, 
   );
 }
 
-export default connect(({ epub: { currChIndex, epub: { chapters }, foldedIds }, loading }) => ({
+export default connect(({ epub: { currChIndex, epub: { chapters }, foldedIds } }) => ({
   currChIndex, chapters, foldedIds
 }))(ChapterList);

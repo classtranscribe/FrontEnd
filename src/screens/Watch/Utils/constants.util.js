@@ -31,10 +31,11 @@ export const ARRAY_RETRY = ['retry'];
  */
 export const NORMAL_MODE = 'normal-mode';
 export const THEATRE_MODE = 'theatre-mode';
-export const PS_MODE = 'ps-mode';
+export const PS_MODE = 'ps-mode'; // primary secondary mode
 export const EQUAL_MODE = 'equal-mode';
 export const NESTED_MODE = 'nested-mode';
 export const BULK_EDIT_MODE = 'bulk-edit-mode';
+export const ASL_CORNER_MODE = 'asl-corner-mode' // used for ASL Stream
 export const screenModes = [
   { type: NORMAL_MODE, name: 'Primary View', icon: 'video_label' },
   { type: PS_MODE, name: 'Distributed View', icon: 'view_carousel' },
@@ -49,6 +50,7 @@ export const screenModes = [
  */
 export const PRIMARY = 'ct-player-primary';
 export const SECONDARY = 'ct-player-secondary';
+export const ASL_PRIMARY = 'ct-player-asl';
 
 /**
  * Player Events
@@ -67,7 +69,8 @@ export const MENU_HIDE = 'menu-hide';
 export const MENU_PLAYLISTS = 'menu-playlists';
 export const MENU_PLAYBACKRATE = 'menu-playbackrate';
 export const MENU_SETTING = 'menu-setting';
-export const MENU_LANGUAGE = 'menu-language';
+export const MENU_LANGUAGE = 'menu-language'; // Marked for removal in future release
+export const MENU_TRANSCRIPTION = 'menu-transcription';
 export const MENU_SCREEN_MODE = 'menu-screen-mode';
 export const MENU_DOWNLOAD = 'menu-download';
 export const MENU_SHORTCUTS = 'menu-shortcuts';
@@ -277,6 +280,10 @@ export const UA_TRANS_PAUSE_WHEN_AD_STARTS = 'pauseWhenADStarts';
 export const UA_SHARE_VIDEO = 'sharelink';
 export const UA_CHANGE_VIDEO = 'changevideo';
 export const UA_SELECT_COURSE = 'selectcourse';
+
+// Audio Description 
+export const AD_VOLUME_DEFAULT = 0.5;
+export const AD_SPEED_DEFAULT = 0.7;
 
 /**
  * Others

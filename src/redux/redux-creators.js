@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, Reducer } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { connect } from 'dva';
 import logger from 'redux-logger';
 import { isDeveloping } from 'utils';

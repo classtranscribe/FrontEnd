@@ -26,6 +26,6 @@ const HomeWithRedux = (props) => {
   );
 }
 
-export const Home = connect(({ home, loading }) => ({
+export const Home = connect(({ home }) => ({
   ...home
 }))(HomeWithRedux);

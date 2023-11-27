@@ -1,13 +1,12 @@
 import { connect } from 'dva';
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
-import * as KeyCode from 'keycode-js';
+// unused import * as KeyCode from 'keycode-js';
 import { playbackRateOptions } from '../../../Utils';
 import './index.scss';
 import './slider.scss';
 
 function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
-  // console.log('???', setPlaybackrate)
   const [sliderValue, setSliderValue] = useState(1);
   // isCustomized - 0:unset, 1:
   const [isCustomized, setIsCustomized] = useState(0);
@@ -60,7 +59,7 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
       {!isMobile && (
         <div className="customize-playbackrate">
           <label className="customize-playbackrate-title" htmlFor="playback-rate-slider">
-            Customized rate -<span className="customize-playbackrate-num">{sliderValue}</span>
+            Playback rate <span className="customize-playbackrate-num">{sliderValue}</span>
           </label>
           <input
             id="playback-rate-slider"

@@ -101,6 +101,6 @@ const MyCoursesWithRedux = (props) => {
     </CTLayout>
   );
 };
-export const MyCourses = connect(({ instcourse, loading }) => ({
+export const MyCourses = connect(({ instcourse }) => ({
   instcourse
 }))(MyCoursesWithRedux);

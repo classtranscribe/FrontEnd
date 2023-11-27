@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
-import { boxLogo, kalturaLogo } from 'assets/images';
+import { theBoxLogo, theKalturaLogo } from 'assets/images';
 import './index.scss';
 
 const getColor = (type) => {
@@ -30,7 +30,17 @@ const getIconName = (type) => {
       return 'file video';
   }
 };
-
+const getSourceName = (type) => {
+  switch(type) {
+    case 0: return "Echo360";
+    case 1: return "YouTube";
+    case 2: return "File upload";
+    case 3: return "Kaltura/Mediasapce";
+    case 4: return "Box";
+    default:
+       return "Unspecified Source";
+  }
+}
 
 /**
  * The icon component for playlists
@@ -42,6 +52,7 @@ function CTPlaylistIcon(props) {
   } = props;
 
   const iconProps = {
+    alt : getSourceName(type),
     className: cx('ct-pl-icon', size),
     color: getColor(type),
     name: getIconName(type),
@@ -51,7 +62,8 @@ function CTPlaylistIcon(props) {
   };
 
   const imgIconProps = {
-    src: type === 4 ? boxLogo : kalturaLogo,
+    alt:  getSourceName(type),
+    src: [null,null,null, theKalturaLogo,theBoxLogo][type],
     className: cx('ct-pl-icon', size),
     'aria-hidden': 'true'
   };
@@ -59,6 +71,8 @@ function CTPlaylistIcon(props) {
   switch (type) {
     case 4:
     case 3:
+      // alt text defined above
+      // eslint-disable-next-line jsx-a11y/alt-text
       return <img {...imgIconProps} />;
     default:
       return <Icon {...iconProps} />;

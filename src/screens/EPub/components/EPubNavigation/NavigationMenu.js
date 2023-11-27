@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import cx from 'classnames';
 import { Link } from 'dva/router';
 import { connect } from 'dva'
 import { uurl, elem } from 'utils';
-import { findChapterTimeSpan } from 'entities/EPubs/utils';
-import Text from 'layout/CTText/Text';
+// import { findChapterTimeSpan } from 'entities/EPubs/utils';
+// import Text from 'layout/CTText/Text';
 import { CTFragment, CTCheckbox} from 'layout';
 import { Checkbox } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -170,6 +170,6 @@ function NavigationMenu({
   );
 }
 
-export default connect(({ epub: { navId, view, currChIndex, epub: { chapters } }, loading }) => ({
+export default connect(({ epub: { navId, view, currChIndex, epub: { chapters } } }) => ({
   navId, chapters, view, currChIndex
 }))(NavigationMenu);

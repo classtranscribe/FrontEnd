@@ -14,8 +14,10 @@ import {
   PlaybackRateButton,
   ClosedCaptionButton,
   LanguagePickerButton,
+  TranscriptionPickerButton,
   AudioDescriptionButton,
   ScreenModeSettingButton,
+  ShowASLButton,
   GlossaryButton, // May 20 Jiaxi
 } from './CtrlButtons';
 
@@ -23,10 +25,12 @@ import VolumeControl from './VolumeControl';
 import TimeDisplay from './TimeDisplay';
 import ProgressBar from './ProgressBar';
 
+// eslint-disable-next-line complexity
 export function ControlBarWithRedux(props) {
   const { dispatch, media = {}, bulkEditing = false } = props;
-  const { isTwoScreen, transcriptions } = media;
+  const { isTwoScreen, transcriptions, hasASL , aslCorner} = media;
   const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0;
+  // eslint-disable-next-line no-console
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile;
 
   return (
@@ -45,7 +49,7 @@ export function ControlBarWithRedux(props) {
         <TimeDisplay />
       </div>
       <div className="watch-ctrl-bar-right-elems">
-        {/* May 20 Jiaxi */}
+        
         <GlossaryButton />
 
         {isMobile && <NextVideoButton nextBtn={false} />}
@@ -55,10 +59,13 @@ export function ControlBarWithRedux(props) {
         <ClosedCaptionButton />
         <AudioDescriptionButton />
 
-        {hasTrans && <LanguagePickerButton />}
+        {/* marked for removal in future version */}
+        {false && hasTrans && <LanguagePickerButton />}
+        
+        {hasTrans && <TranscriptionPickerButton />}
 
         {showScreenModes && <ScreenModeSettingButton isTwoScreen={isTwoScreen} />}
-
+        {hasASL && <ShowASLButton hasASL={hasASL} aslCorner={aslCorner} />}
         <SettingButton />
         <FullscreenButton />
       </div>
@@ -66,6 +73,6 @@ export function ControlBarWithRedux(props) {
   );
 }
 
-export const ControlBar = connect(({ watch : { media, bulkEditing}, loading }) => ({
+export const ControlBar = connect(({ watch : { media, bulkEditing} }) => ({
   media, bulkEditing
 }))(ControlBarWithRedux);

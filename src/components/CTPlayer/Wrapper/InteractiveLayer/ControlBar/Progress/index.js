@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'dva'
 import Slider from '@material-ui/core/Slider';
 import timestr from 'utils/use-time';
@@ -14,7 +14,7 @@ function Progress(props) {
     endAt,
     duration,
     time,
-    bufferedTime,
+    // bufferedTime,
     liveMode,
     dispatch
   } = props;
@@ -41,6 +41,7 @@ function Progress(props) {
     dispatch({ type: 'watch/media_setCurrTime', payload: newTime });
   };
 
+/* unused 
   const bufferSliderProps = {
     className: 'ctp buffer-slider',
     min: 0,
@@ -49,7 +50,7 @@ function Progress(props) {
     value: bufferedTime,
     'aria-hidden': 'true'
   };
-
+*/
   const TSLP1 = liveMode ? {
     min: -duration,
     max: 0,

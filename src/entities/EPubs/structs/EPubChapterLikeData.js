@@ -7,17 +7,19 @@ import EPubImageData from './EPubImageData';
 function _buildContentsFromItems(items) {
   const content = [];
   for (const item of items) {
-    if (item.image) { // if there is an image 
-      const altText = item.ocrPhrases ? JSON.parse(item.ocrPhrases).map(encodeXmlEntities).join(', ') : '' // add in OCR data
-      const imageData = new EPubImageData({src: item.image, alt: altText}); 
-      content.push(imageData)
-    }
-    if (item.text) { // if there is text 
-      const text = item.text
-      if (_.trim(text)) {
-        content.push(text);
+   if (item !== undefined) { 
+      if (item.image) { // if there is an image 
+        const altText = item.ocrPhrases ? JSON.parse(item.ocrPhrases).map(encodeXmlEntities).join(', ') : '' // add in OCR data
+        const imageData = new EPubImageData({src: item.image, alt: altText}); 
+        content.push(imageData)
       }
-    }
+      if (item.text) { // if there is text 
+        const text = item.text
+        if (_.trim(text)) {
+          content.push(text);
+        }
+      }
+   }
   }
   return content;
 }
@@ -46,7 +48,7 @@ class EPubChapterLikeData {
       contents = []
     } = data;
 
-    const { start, end } = findChapterTimeSpan(data);
+    const { start, end } = findChapterTimeSpan(data); // TODO 
     
     if (!title && typeof getTitle === 'function') {
       title = getTitle();

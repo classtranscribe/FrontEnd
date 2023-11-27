@@ -42,6 +42,6 @@ function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {
   );
 }
 
-export default connect(({ epub: { imgPickerData, media, epub }, loading }) => ({
+export default connect(({ epub: { imgPickerData, media, epub } }) => ({
   imgPickerData, media, epub
 }))(ImagePickerModal);

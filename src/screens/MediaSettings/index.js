@@ -80,6 +80,6 @@ class MediaSettingsWithRedux extends React.Component {
   }
 }
 
-export const MediaSettings = connect(({ mediasetting, loading }) => ({
+export const MediaSettings = connect(({ mediasetting }) => ({
   mediasetting
 }))(MediaSettingsWithRedux);

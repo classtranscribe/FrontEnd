@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import dynamic from "dva/dynamic";
@@ -35,7 +36,7 @@ import {
 
 import './App.css';
 // import 'braft-editor/dist/index.scss';
-import { altEl } from './layout';
+// Can this be deleted? import { altEl } from './layout';
 import { user, env } from './utils';
 
 class App extends React.Component {
@@ -46,7 +47,8 @@ class App extends React.Component {
   render() {
     const isAdminOrInstructor = user.isInstructor || user.isAdmin;
 
-    const adminRoute = altEl();
+    // no apparent purpose const adminRoute = altEl();
+    
     // Lazy Load
     const WatchPage = dynamic({
       app: this.props.app,

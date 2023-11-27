@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useArray } from 'hooks';
-import { prompt, api, links } from 'utils';
+import { prompt, api } from 'utils';
 import { EmailList } from '../EmailList';
 
 async function getInstructorsByOfferingId(offeringId) {

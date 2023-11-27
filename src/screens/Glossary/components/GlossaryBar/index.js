@@ -4,6 +4,7 @@ import { Cascader } from 'rsuite';
 import axios from 'axios';
 import FolderFillIcon from "@rsuite/icons/FolderFill";
 import PageIcon from "@rsuite/icons/Page";
+import { env } from 'utils/env';
 
 // the config header will avoid cors blocked by the chrome
 const config = {
@@ -23,8 +24,9 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
     const [terms, setTerms] = useState({});
     const [initialData, setInitialData] = useState([]);
 
+    // see cthttp request
     const apiInstance = axios.create({
-        baseURL: 'https://ct-dev.ncsa.illinois.edu',
+        baseURL: env.baseURL || window.location.origin,
         timeout: 1000,
     });
 

@@ -56,7 +56,7 @@ function ClosedCaptionWithRedux({
 
 export const ClosedCaption = connect(({ watch: { currCaption, embedded },
   playerpref: { openCC, cc_color, cc_bg, cc_size,
-    cc_opacity, cc_font, cc_position, cc_spacing }, loading }) => ({
+    cc_opacity, cc_font, cc_position, cc_spacing } }) => ({
       embedded,
       currCaption, cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing, openCC
     }))(ClosedCaptionWithRedux);
