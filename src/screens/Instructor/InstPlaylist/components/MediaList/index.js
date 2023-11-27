@@ -108,6 +108,7 @@ function MediaListWithRedux(props) {
                 <NoVideoHolder type={playlist.sourceType} />
               ) : result.length > 0 ? (
                 <MediaDNDList
+                  playlistId={playlist.id}
                   medias={result}
                   setFilterResult={setResult}
                   {...dndListProps}
