@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import CTError from 'utils/use-error';

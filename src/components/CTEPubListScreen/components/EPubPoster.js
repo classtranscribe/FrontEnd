@@ -1,5 +1,5 @@
 import React from 'react';
-import { epubExampleTop, epubExampleBottom } from 'assets/images';
+import { theEpubExampleTop, theEpubExampleBottom } from 'assets/images';
 import { CTFragment } from 'layout';
 
 function EPubPoster() {
@@ -8,7 +8,7 @@ function EPubPoster() {
       <CTFragment h100 dFlexCol alignItCenter justConBetween overflowHidden>
         <img
           className="w-100 ct-pointer-event-none" 
-          src={epubExampleTop}
+          src={theEpubExampleTop}
           alt="ePub generator screenshot"
           aria-hidden="true"
         />
@@ -19,7 +19,7 @@ function EPubPoster() {
 
         <img 
           className="w-100 ct-pointer-event-none" 
-          src={epubExampleBottom} 
+          src={theEpubExampleBottom} 
           alt="ePub generator screenshot"
           aria-hidden="true"
         />

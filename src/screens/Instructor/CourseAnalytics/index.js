@@ -46,6 +46,6 @@ export class CourseAnalyticsWithRedux extends Component {
   }
 }
 
-export const CourseAnalytics = connect(({ course, loading }) => ({
+export const CourseAnalytics = connect(({ course }) => ({
   course
 }))(CourseAnalyticsWithRedux);

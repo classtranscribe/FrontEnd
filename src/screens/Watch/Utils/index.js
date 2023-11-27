@@ -1,5 +1,6 @@
+/* eslint-disable complexity */
 import { connect } from 'dva'
-import _, { filter, transform } from 'lodash'
+import _ from 'lodash'
 import { 
   // timeStrToSec, 
   colorMap } from './helpers';
@@ -37,11 +38,13 @@ export { transControl } from './trans.control';
 export { promptControl } from './prompt.control';
 export { downloadControl } from './download.control';
 export { uEvent } from './UserEventController';
-export function findTransByLanguage(language, trans) {
-  return _.find(trans, { language });
+
+export const findTransByLanguages = (trans,languages=['en-US']) =>{
+   return _.filter(trans, (t)=> languages.includes(t.language));
 }
+
 export const connectWithRedux = (Component, property) => {
-  return connect(({ watch, loading, history }) => {
+  return connect(({ watch }) => {
     if (!property) {
       return {};
     }
@@ -69,7 +72,7 @@ export const getCCStyle = (options) => {
     color: cc_color,
     fontSize: `${cc_size + 0.25}rem`, // +.25 to get a larger default font size
     fontFamily: cc_font,
-    'word-spacing': `${cc_spacing}rem`,
+    wordSpacing: `${cc_spacing}rem`,
   };
 
   const ccContainerStyle = {};
@@ -128,7 +131,11 @@ export const getVideoStyle = (options) => {
 /**
 * Function that scrolls the captions
 */
+let prevCurrentId = null;
+
 export const scrollTransToView = (id, smoothScroll = true, isTwoScreen) => {
+  // eslint-disable-next-line no-console
+  // console.log(`scrollTransToView ${id} ${smoothScroll}`)
   let capId = id;
   if (!capId) return;
   const capElem = document.getElementById(`caption-line-${capId}`);
@@ -137,12 +144,20 @@ export const scrollTransToView = (id, smoothScroll = true, isTwoScreen) => {
   const tranBox = document.getElementById('watch-trans-container');
 
   const shouldSmoothScroll = smoothScroll && tranBox.scrollTop - capElem.offsetTop < 0;
-
-  if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'auto';
-  capElem.classList.add('curr-line');
+  
+  tranBox.style.scrollBehavior = shouldSmoothScroll ? 'smooth': 'auto' ;
+  // capElem.classList.add('curr-line'); // A grep suggests this style is not defined?
+  capElem.setAttribute('current','true');
+  if(prevCurrentId && prevCurrentId !== capId) {
+    let prevElem = document.getElementById(`caption-line-${prevCurrentId}`);
+    if(prevElem) {
+       prevElem.removeAttribute('current');
+    }
+  }
+  prevCurrentId = capId;
   const scrollTop =
       window.innerWidth < 900 || !isTwoScreen ? capElem.offsetTop - 50 : capElem.offsetTop - 80;
   // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400 NOT IMPLEMENTED
   tranBox.scrollTop = scrollTop;
-  if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'smooth';
+  // if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'smooth';
 }

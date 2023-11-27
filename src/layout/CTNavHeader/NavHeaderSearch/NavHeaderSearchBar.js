@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import './index.scss';
-import _ from 'lodash';
 
 import SearchIcon from '@material-ui/icons/Search';
 import { NavHeaderSearchResult } from './NavHeaderSearchResult';

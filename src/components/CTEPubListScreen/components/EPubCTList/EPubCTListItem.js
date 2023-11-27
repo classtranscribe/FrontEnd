@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'dva/router';
@@ -12,6 +12,7 @@ import { prompt } from 'utils';
 
 const starTheme = createTheme({ palette: { primary: amber } });
 
+// eslint-disable-next-line complexity
 function EPubCTListItem(props) {
   const {
     id,
@@ -58,10 +59,10 @@ function EPubCTListItem(props) {
     }
   };
 
-  const handleDeleteEPub = (event) => {
-     setOpen(true);
-     event.preventDefault();
-  };
+  // const handleDeleteEPub = (event) => {
+  //    setOpen(true);
+  //    event.preventDefault();
+  // };
   const handleYes = () => {
     onDelete(id);
     setOpen(false);
@@ -156,7 +157,7 @@ function EPubCTListItem(props) {
     />
   ) : null);
 
-  const deleteButton = (enableButtons ? (
+  /* unused const deleteButton = (enableButtons ? (
     <Button
       id={id} 
       lowercase
@@ -165,7 +166,7 @@ function EPubCTListItem(props) {
       classNames="mr-2"
       onClick={handleDeleteEPub}
     />
-  ) : null);
+  ) : null); */
 
   const dialogue = (enableButtons ? (
     <Dialog

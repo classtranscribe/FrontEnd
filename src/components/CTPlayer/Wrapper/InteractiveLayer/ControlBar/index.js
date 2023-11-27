@@ -15,7 +15,7 @@ import {
   ClosedCaption,
 } from 'screens/Watch/Components/Overlays';
 import Progress from './Progress';
-import ClosedCaptionMenu from '../SettingsMenu/ClosedCaptionMenu';
+// unused import ClosedCaptionMenu from '../SettingsMenu/ClosedCaptionMenu';
 
 function ControlBar(props) {
   const {

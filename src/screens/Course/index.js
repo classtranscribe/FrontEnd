@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'dva';
 import ErrorTypes from 'entities/ErrorTypes';
 import { INSTRUCTOR } from 'utils';
@@ -60,6 +60,6 @@ const CourseWithRedux = (props) => {
   );
 }
 
-export const Course = connect(({ course, loading }) => ({
+export const Course = connect(({ course }) => ({
   course
 }))(CourseWithRedux);

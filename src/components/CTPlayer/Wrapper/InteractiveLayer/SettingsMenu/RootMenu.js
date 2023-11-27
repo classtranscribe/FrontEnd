@@ -8,26 +8,20 @@ function RootMenu(props) {
     live,
     isTwoScreen,
     screenMode,
-    openCC,
-    language,
+    // openCC,
+    // language,
     playbackRate,
-    onOpenCCMenu,
+   // onOpenCCMenu,
     openPlaybackRateMenu,
     openLiveCaptionMenu,
-    onOpenScreenModeManu,
+    // onOpenScreenModeManu,
     fontSize,
     onOpenLiveTextTrackSelection,
     englishTrack,
     onOpenScreenModeMenu,
-    onOpenCCSettingMenu,
+   // onOpenCCSettingMenu,
   } = props;
 
-  let currentLang;
-  if (openCC && language && language.text) {
-    currentLang = language.text;
-  } else {
-    currentLang = 'OFF';
-  }
 
   if (fontSize == null) fontSize = "normal";
   // const cl = !openCC ? 'OFF' : (language.text || 'OFF');
@@ -96,13 +90,3 @@ RootMenu.propTypes = {
 };
 
 export default RootMenu;
-
-/*
-      <MenuItem
-        isSubMenu
-        text="Closed Caption"
-        current={currentLang}
-        onClick={onOpenCCMenu}
-      />
-      NOT IMPLEMENTED
-*/

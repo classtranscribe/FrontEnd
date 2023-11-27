@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTheme, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { useTheme, createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CTFragment } from 'layout';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Slide from '@material-ui/core/Slide';
@@ -38,7 +38,7 @@ function Modal(props) {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-  const darkTheme = createMuiTheme({
+  const darkTheme = createTheme({
     palette: {
       type: darkMode ? 'dark' : 'light',
     },

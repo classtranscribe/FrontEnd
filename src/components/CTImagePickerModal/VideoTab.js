@@ -34,7 +34,7 @@ function VideoTab({
     </CTFragment>
   );
 
-  const cameraIcon = <i className="material-icons">camera_alt</i>;
+  // const cameraIcon = <i className="material-icons">camera_alt</i>;
 
   return (
     <div className="ct-img-picker-con">

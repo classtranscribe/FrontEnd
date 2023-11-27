@@ -1,4 +1,4 @@
-import { api, user, prompt, InvalidDataError, ARRAY_INIT, links } from 'utils';
+import { api, user, prompt, ARRAY_INIT, links } from 'utils';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import ErrorTypes from 'entities/ErrorTypes';
@@ -77,7 +77,7 @@ const InstPlaylistModel = {
         },
     },
     effects: {
-        *loadModel({ payload: playlistId }, { call, put, select, take }) {
+        *loadModel({ payload: playlistId }, { call, put, select }) {
             yield put.resolve({ type: 'clearData' })
 
             let offeringLoaded = false;
@@ -120,7 +120,7 @@ const InstPlaylistModel = {
                 window.location = links.course(offering.id, playlist.id);
             }
         },
-        *reorderMedias({ payload: { medias, callback } }, { call, put, select, take }) {
+        *reorderMedias({ payload: { medias, callback } }, { call, put, select }) {
             const { instplaylist } = yield select();
             const oldMedias = [...instplaylist.medias];
             yield put({ type: 'setMedias', payload: medias });
@@ -135,7 +135,7 @@ const InstPlaylistModel = {
                 prompt.error('Failed to reorder videos.', { timeout: 5000 });
             }
         },
-        *renameMedia({ payload: { mediaId, name } }, { call, put, select, take }) {
+        *renameMedia({ payload: { mediaId, name } }, { call, put, select }) {
             try {
                 const { instplaylist } = yield select();
                 yield call(api.renameMedia, mediaId, name);
@@ -152,7 +152,7 @@ const InstPlaylistModel = {
                 prompt.error('Failed to rename the video.', { timeout: 5000 });
             }
         },
-        *deleteMedias({ payload: mediaIds }, { call, put, select, take }) {
+        *deleteMedias({ payload: mediaIds }, { call, put, select }) {
             try {
                 const { instplaylist } = yield select();
                 for(const mediaId of mediaIds) {

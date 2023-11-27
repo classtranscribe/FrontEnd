@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'dva/router';
 import { links } from 'utils/links';
 
-import { textBrand, darkTextBrand, logoOutline } from 'assets/images';
+import { theTextBrand, theDarkTextBrand, theLogoOutline } from 'assets/images';
 
 
 export function CTBrand(props) {
@@ -21,10 +21,10 @@ export function CTBrand(props) {
 
   const imgSrc = 
   logo 
-  ? logoOutline.default
+  ? theLogoOutline
   : darkMode
-    ? darkTextBrand.default
-    : textBrand.default;
+    ? theDarkTextBrand
+    : theTextBrand;
 
   const linkProps = {
     'aria-label': 'Home',

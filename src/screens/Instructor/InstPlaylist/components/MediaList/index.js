@@ -128,6 +128,6 @@ function MediaListWithRedux(props) {
   );
 }
 
-export const MediaList = connect(({ instplaylist, loading }) => ({
+export const MediaList = connect(({ instplaylist }) => ({
   instplaylist
 }))(MediaListWithRedux);

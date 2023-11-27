@@ -44,6 +44,6 @@ export const NewPlaylistWithRedux = (props) => {
   );
 }
 
-export const NewPlaylist = connect(({ course, loading }) => ({
+export const NewPlaylist = connect(({ course }) => ({
   course
 }))(NewPlaylistWithRedux);

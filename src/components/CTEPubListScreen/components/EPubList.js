@@ -4,7 +4,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import { prompt } from 'utils';
 import ErrorTypes from 'entities/ErrorTypes';
 import { links } from 'utils/links';
-import { altEl, makeEl, CTFragment, CTHeading, CTText, CTList } from 'layout';
+import { altEl, makeEl, CTFragment, CTHeading, CTText /* , CTList */} from 'layout';
 import { SelectCtrlButton } from 'components/SelectCtrlButton';
 import { LanguageConstants } from '../../CTPlayer';
 import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
@@ -53,6 +53,8 @@ export function _getEPubListItems(ePubs, onDelete, onRename, onPin, isSelected, 
 }
 
 function EPubList(props) {
+  // eslint-disable-next-line no-console
+  console.log(props)
   const {
     ePubs, languages, rawEPubData,
     sourceType, sourceId,
