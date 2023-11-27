@@ -1,4 +1,3 @@
-
 // INoteChapter 
 .ct-epb.ch-img-con {
     position: relative;
@@ -10,7 +9,8 @@
     padding-bottom: 5px;
     margin-top: 10px;
     border-top: solid 1px rgb(236, 236, 236);
-    .ch-img-wrapper{
+
+    .ch-img-wrapper {
         position: relative;
         min-width: 150px;
         height: max-content;
@@ -49,15 +49,15 @@
     justify-content: flex-start;
     gap: 50px;
     width: 100%;
-    opacity: 0;
-    transition: opacity .2s ease-in;
+    //opacity: 0;
+    //transition: opacity .2s ease-in;
     pointer-events: auto;
     border-radius: 10px 20px 20px 10px;
     background-color: rgb(245, 245, 245);
     margin-bottom: 5px;
     margin-top: 5px;
 }
-.item-actions:hover {
-   opacity: 1;
-}
 
+// .item-actions:hover {
+//     opacity: 1;
+// }

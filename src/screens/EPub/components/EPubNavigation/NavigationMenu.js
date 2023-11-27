@@ -9,6 +9,7 @@ import { CTFragment, CTCheckbox} from 'layout';
 import { Checkbox } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
+import TagIcon from '@material-ui/icons/LabelOutlined'
 import { epub } from '../../controllers';
 import TagGroup from '../Tags/TagGroup';
 
@@ -105,13 +106,13 @@ function NavigationMenu({
     {showCheckbox?
       <CTFragment margin="10" padding={[5, 10]} width="auto">
         <ButtonGroup fullWidth>
-         <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Hide Tags</Button> 
+         <Button startIcon={<TagIcon />} onClick={()=>setShowCheckbox(!showCheckbox)}>Hide Tags</Button> 
         </ButtonGroup>
       </CTFragment>
     :
     <CTFragment margin="10" padding={[5, 10]} width="auto">
     <ButtonGroup fullWidth>
-     <Button onClick={()=>setShowCheckbox(!showCheckbox)}>Show Tags</Button> 
+     <Button startIcon={<TagIcon />} onClick={()=>setShowCheckbox(!showCheckbox)}>Show Tags</Button> 
     </ButtonGroup>
   </CTFragment>}
     {showCheckbox?
