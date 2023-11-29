@@ -163,6 +163,28 @@ const InstPlaylistModel = {
             } catch (error) {
                 prompt.error('Failed to delete the video.', { timeout: 5000 });
             }
+        },
+        *deleteASL({ payload: mediaId }, { call, put, select }) {
+            try {
+                const { instplaylist } = yield select();
+                let medias = [];
+                instplaylist.medias.array.forEach(m => {
+                    if(m.id === mediaId) {
+                        // see  api.parseMedia
+                        m = {...m}
+                        m.hasASL = false;
+                        m.aslVideo = undefined
+                        m.aslPath = undefined
+                        delete m.videos[0].aslPath
+                    }
+                    medias.push(m)
+                });
+                yield call(api.deleteASLVideo, mediaId);
+                yield put({ type: 'setMedias', payload: medias });
+                prompt.addOne({ text: 'ASL Video deleted.', timeout: 3000 });
+            } catch (error) {
+                prompt.error('Failed to delete the video.', { timeout: 5000 });
+            }
         }
     },
     subscriptions: {
