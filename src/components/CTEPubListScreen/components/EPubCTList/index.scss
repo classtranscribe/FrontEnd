@@ -2,6 +2,10 @@
   background-color: #ffffff;
   transition: background 200ms ease-in-out;
 
+  .ct-listitem-approved {
+    color: orange;
+  }
+
   &:not(:last-child) {
     .ct-listitem-text {
       border-bottom: 1px solid rgb(233, 233, 233);
