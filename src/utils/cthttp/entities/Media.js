@@ -42,3 +42,14 @@ export function updateMediaMetadata(mediaId, jsonMetadata) {
 export function deleteMedia(mediaId) {
   return cthttp.delete(`Media/${mediaId}`);
 }
+
+export function uploadASLVideo(mediaId, video, onUploadProgress) {
+  const formData = new FormData();
+  formData.append('aSLVideo', video);
+  formData.append('mediaId', mediaId);
+  return cthttp.post('Media/ASLVideo', formData, { onUploadProgress, timeout: UPLOAD_MEDIA_TIMEOUT });
+}
+
+export function deleteASLVideo(mediaId) {
+  return cthttp.delete(`Media/ASLVideo/${mediaId}`)
+} 

@@ -195,6 +195,10 @@ export class ClassTranscribeLinks {
     return `/playlist/${playlistId}/upload-files`;
   }
 
+  videoUploadASL(playlistId, mediaId) {
+    return `/playlist/${playlistId}/media/${mediaId}/upload-asl`;
+  }
+
   /**
    * to `/media-settings/<media_id>/<tab_name>`
    * @param {String} mediaId - media id

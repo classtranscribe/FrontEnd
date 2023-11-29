@@ -9,6 +9,7 @@ import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
 
 function MediaItem({
+  playlistId,
   media,
   selecting,
   filtering,
@@ -120,6 +121,7 @@ function MediaItem({
         </CTText>
 
         <MediaItemActions
+          playlistId={playlistId}
           media={media}
           mediaId={id}
           isUnavailable={isUnavailable}

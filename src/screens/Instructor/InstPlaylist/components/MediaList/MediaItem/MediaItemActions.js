@@ -1,12 +1,16 @@
 import React from 'react';
+import { Route } from 'dva/router.js';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
 import { links } from 'utils';
 import { useButtonStyles, CTText } from 'layout';
+import UploadASLButton from './UploadASLButton.js';
+import { UploadSingleFile } from '../UploadFile/index.js';
 
-function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
+function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
+  const hasASL = media.hasAsl;
 
   const handleDelete = () => {
     const confirm = {
@@ -15,6 +19,14 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
     };
     dispatch({ type: 'instplaylist/setConfirmation', payload: confirm });
   };
+
+  const handleASLDelete = () => {
+    const confirm = {
+      text: 'Are you sure you want to delete this media\'s ASL video? This action cannot be undone.',
+      onConfirm: () => dispatch({ type: 'instplaylist/deleteASL', payload: [mediaId]}),
+    };
+    dispatch({ type: 'instplaylist/setConfirmation', payload: confirm});
+  }
 
   const setEpubErrorText = () => {
     if (!media.transReady && !media.sceneDetectReady)
@@ -60,6 +72,19 @@ function MediaItemActions({ mediaId, media, isUnavailable, dispatch }) {
         >
           delete
         </Button>
+        { !hasASL &&
+          <UploadASLButton playlistId={playlistId} mediaId={mediaId} /> }        
+        <Route path="/playlist/:playlistId/media/:mediaId/upload-asl" component={UploadSingleFile} /> 
+
+        { hasASL &&
+          <Button
+            className={btnClassName}
+            startIcon={<i className="material-icons upload">delete</i>}
+            onClick={handleASLDelete}
+            title="Delete ASL video"
+          >
+            delete ASL
+          </Button> }
       </div>
       <div>
         {!media.transReady || !media.sceneDetectReady ? (

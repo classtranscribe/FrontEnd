@@ -116,6 +116,16 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
+  // Pin an Epub
+  const handlePinEpub = async(epubId) => {
+    try {
+      await EPubListCtrl.pinEpub(epubId);
+    } catch(e) {
+      prompt.addOne({text: 'Cannot pin the I•Note...', timeout: 4000});
+    }
+    await setupEPubsData();
+  }
+
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
     ePubs, languages, rawEPubData,
@@ -123,6 +133,7 @@ function CTEPubListScreen(props) {
     onCreate: () => setOpenNewEPubModal(true),
     onDelete: () => handleDeleteEPub,
     onRename: () => handleRenameEPub,
+    onPin: () => handlePinEpub,
     handleSelect: () => handleSelect,
     isSelected: () => isSelected,
     isSelectedAll,
