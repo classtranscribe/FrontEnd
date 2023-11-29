@@ -61,8 +61,11 @@
    }, [playbackrate,videoPlaybackReady]);
    // Audio Description Handler 
    useEffect(() => {
-    speak({text: description, volume: ADVolume, rate: ADSpeed});
-   }, [description, videoPlaybackReady]);
+    if (description !== null) {
+      speak({text: description, volume: ADVolume, rate: ADSpeed});
+      dispatch({ type: 'playerpref/setPreference', payload: { description: null } }) 
+    } 
+  }, [description, videoPlaybackReady]);
 
    // liveMode speed
    useEffect(() => {
