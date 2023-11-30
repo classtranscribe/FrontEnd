@@ -39,7 +39,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
       <div className="w-100">
         <MenuRadio
           id="ad-open-radio"
-          label="Open Audio Description"
+          label="Enable Audio Description"
           onChange={handleAD}
           checked={openAD && !disabled}
           disabled={disabled}

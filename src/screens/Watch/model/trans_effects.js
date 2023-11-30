@@ -133,7 +133,7 @@ export default {
         // console.log(watch)
         // console.log(`pauseWhileAD:${playerpref.pauseWhileAD}`);
         const nextDescription = findCurrentDescription(watch.descriptions, currentTime);
-        if (nextDescription) {
+        if (playerpref.openAD && nextDescription) {
             const nextDescriptionBeginTime = timeStrToSec(nextDescription.begin);
             if (Math.abs(currentTime - nextDescriptionBeginTime) <= 1) {
                 if (playerpref.pauseWhileAD) {
