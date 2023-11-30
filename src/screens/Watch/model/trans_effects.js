@@ -141,8 +141,6 @@ export default {
                 }
                 // Speak out loud 
                 console.log(`SPEAK ${nextDescription.text}`);
-                // yield put({ type: 'media_speak', payload: { description: nextDescription.text }});
-                // yield put({ type: 'playerpref/setPreference',  })
                 yield put({ type: 'playerpref/setPreference', payload: { description: nextDescription.text } }) 
             }
         }

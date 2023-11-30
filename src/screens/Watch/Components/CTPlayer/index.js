@@ -34,7 +34,7 @@
  
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
-   const { aslCorner, transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY } = props;
+   const { aslCorner, transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY, description, ADVolume, ADSpeed } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
    const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, aslPath, useHls = false } = videos[0] || {};
@@ -59,7 +59,14 @@
      PlayerData.video2 && (PlayerData.video2.playbackRate = playbackrate);
      PlayerData.aslVideo && (PlayerData.aslVideo.playbackRate = playbackrate);
    }, [playbackrate,videoPlaybackReady]);
- 
+   // Audio Description Handler 
+   useEffect(() => {
+    if (description !== null) {
+      speak({text: description, volume: ADVolume, rate: ADSpeed});
+      dispatch({ type: 'playerpref/setPreference', payload: { description: null } }) 
+    } 
+  }, [description, videoPlaybackReady]);
+
    // liveMode speed
    useEffect(() => {
      PlayerData.param = {};
