@@ -285,5 +285,8 @@ export default {
         // }
         yield put({ type: 'setMode', payload: mode })
         if (sendUserAction) uEvent.screenmodechange(watch.time, mode);
-    }
+    },
+    *acknowledgeflashwarning(_unused ,{ put }) {
+        yield put({ type: 'setFlashAcknowledged', payload: true });
+    },
 }

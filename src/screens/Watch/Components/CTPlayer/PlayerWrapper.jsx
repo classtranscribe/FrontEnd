@@ -8,6 +8,7 @@ import {
   BigPlayButton,
   ClosedCaption,
   AudioDescription,
+  FlashWarningButton,
 } from '../Overlays';
 
 function PlayerWrapper(props) {
@@ -27,6 +28,7 @@ function PlayerWrapper(props) {
         <>
           <ClosedCaption isPrimary={isPrimary} />
           <BigPlayButton isPrimary={isPrimary} />
+          <FlashWarningButton isPrimary={isPrimary} />
           <AudioDescription isPrimary={isPrimary} />
         </>
         )}
@@ -36,6 +38,6 @@ function PlayerWrapper(props) {
     );
 }
 
-export default connect(({ watch: { ctpPriEvent }, loading }) => ({
+export default connect(({ watch: { ctpPriEvent } }) => ({
   ctpPriEvent
 }))(PlayerWrapper);

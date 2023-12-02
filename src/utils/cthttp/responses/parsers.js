@@ -2,6 +2,7 @@
 /* eslint-disable complexity */
 import _ from 'lodash';
 import sortBy from 'lodash/sortBy';
+import { FLASH_UNKNOWN, CROWDEDIT_ALLOW } from 'utils/constants';
 import { langMap } from '../../../screens/Watch/Utils';
 import { user } from '../../user';
 import { env } from '../../env';
@@ -156,6 +157,8 @@ export function parseMedia(media) {
     sceneDetectReady: false,
     watchHistory: { timestamp: 0, ratio: 0 },
     duration: null,
+    flashWarning: FLASH_UNKNOWN,
+    crowdEditMode: CROWDEDIT_ALLOW
   };
 
   // console.log(media)
@@ -173,6 +176,8 @@ export function parseMedia(media) {
     watchHistory,
     duration,
     sceneDetectReady,
+    flashWarning,
+    crowdEditMode
   } = media;
 
   if (!id || !jsonMetadata) return re;
@@ -185,6 +190,8 @@ export function parseMedia(media) {
   re.sceneDetectReady = sceneDetectReady;
   re.mediaName = _.replace(name, '.mp4', '');
   re.duration = duration;
+  re.flashWarning = flashWarning;
+  re.crowdEditMode = crowdEditMode;
 
   /** video src */
   const baseUrl = env.baseURL;
@@ -203,9 +210,7 @@ export function parseMedia(media) {
     if(video.aslPath) aslPath = baseUrl + video.aslPath;
     else if (video.aslVideo && video.aslVideo.path) aslPath = baseUrl + video.aslVideo.path;
   }
- // HACK for testing
-  aslPath = srcPath1;
-
+ 
   re.isUnavailable = !srcPath1;
   re.isTwoScreen = Boolean(srcPath2);
   re.aslPath = aslPath;

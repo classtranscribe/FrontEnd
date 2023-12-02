@@ -4,6 +4,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiCheckbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { CTPopoverLabel, CTCheckbox, CTText } from 'layout';
+import { CROWDEDIT_ALLOW /* , FLASH_DETECT_NO,FLASH_UNKNOWN */} from 'utils/constants.js';
 
 import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
@@ -25,7 +26,7 @@ function MediaItem({
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(mediaName);
-
+  
   const stopPropagation = (event) => {
     if (event && event.stopPropagation) {
       event.stopPropagation();
@@ -71,7 +72,7 @@ function MediaItem({
   const renameBtnClick = editing ? handleRename : handleEdit;
 
   const checkBoxClasses = CTCheckbox.useStyles();
-
+  
   return (
     <Accordion className="media-item" expanded={expanded} onChange={handleExpansionChange}>
       <AccordionSummary
@@ -126,6 +127,7 @@ function MediaItem({
           mediaId={id}
           isUnavailable={isUnavailable}
           dispatch={dispatch}
+          
         />
       </AccordionDetails>
     </Accordion>
