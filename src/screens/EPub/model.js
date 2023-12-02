@@ -107,7 +107,7 @@ const EPubModel = {
         toggleShortcuts(state) {
             return { ...state, showShortcuts: !state.showShortcuts }
         },
-        resetStates(state, { _payload }) {
+        resetStates() {
             return { ...initState };
         },
         ...model_data_reducer
@@ -228,7 +228,8 @@ const EPubModel = {
             yield put.resolve({ type: action, payload })
             yield put({ type: 'updateEPub' })
         },
-        *splitChaptersByScreenshots({ payload: {wc} }, { put }) {
+        // eslint-disable-next-line no-unused-vars
+        *splitChaptersByScreenshots({ payload }, { put }) {
             prompt.addOne({
                 text: 'Split chapters by screenshots.',
                 position: 'left bottom',

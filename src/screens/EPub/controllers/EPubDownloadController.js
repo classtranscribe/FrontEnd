@@ -49,14 +49,16 @@ class EPubDownloadController {
       // eslint-disable-next-line
       let PDF = new jsPDF();
       PDF.setLanguage("en-US");
-      const html = await builder.getIndexHTML(true, print, PDF, subchapterImages);
+      // This has the side-effect of bulding the PDF
+      // eslint-disable-next-line no-unused-vars
+      const _html = await builder.getIndexHTML(true, print, PDF, subchapterImages);
       PDF.save();
     } catch (error) {
       _logError(error);
     }
   }
 
-  static async downloadPDF(onDownloaded) {
+  static async downloadPDF() {
     await EPubDownloadController.preview(true);
   }
 

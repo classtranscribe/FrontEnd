@@ -29,6 +29,6 @@ function DownloadMenuTrigger({ menu = MENU_HIDE, dispatch }) {
   );
 }
 
-export default connect(({ watch: { menu }, loading }) => ({
+export default connect(({ watch: { menu } }) => ({
   menu
 }))(DownloadMenuTrigger);

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { CTLayout } from 'layout';
 import { connect } from 'dva';
 import WatchHistories from './components/WatchHistories';
 
-const HistoryWithRedux = (props) => {
+const HistoryWithRedux = () => {
   const layoutProps = CTLayout.createProps({
     transition: true,
     responsive: true,

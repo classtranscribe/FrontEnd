@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /**
  * Overlay Button Group used in Transcription box
  */

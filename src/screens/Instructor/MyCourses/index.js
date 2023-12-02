@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
 import _ from 'lodash';

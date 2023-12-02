@@ -7,7 +7,7 @@ import Cancel from '@material-ui/icons/Cancel';
 import ChapterNewContent from './ChapterNewContent';
 import { ChapterImage, ChapterText } from '../../../components';
 
-let Tags = function({data, handleDelete}) {
+let Tags = ({data, handleDelete}) => {
   const boxstyle = {
     backgroundColor: '#D3D3D3', 
     overflow: 'scroll',
@@ -36,9 +36,9 @@ let Tags = function({data, handleDelete}) {
   );
 }
 
-const ChapterContent = function({
+const ChapterContent = ({
   id,
-  key,
+  // key,
   content,
   index,
   condition,
@@ -47,7 +47,7 @@ const ChapterContent = function({
   onTextChange,
   onImageChange,
   onInsert,
-}) {
+}) =>{
   const isTextContent = typeof content === 'string';
   const [tags, SetTags] = useState(() => !condition ? [] : condition);
   const Ref = useRef();

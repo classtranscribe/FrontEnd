@@ -32,6 +32,6 @@ export function TranscriptionPickerButtonWithRedux({ menu = MENU_HIDE, currentTr
   );
 }
 
-export const TranscriptionPickerButton = connect(({ watch: { menu, currentTranscriptionMulti }, loading }) => ({
+export const TranscriptionPickerButton = connect(({ watch: { menu, currentTranscriptionMulti } }) => ({
   menu, currentTranscriptionMulti
 }))(TranscriptionPickerButtonWithRedux);

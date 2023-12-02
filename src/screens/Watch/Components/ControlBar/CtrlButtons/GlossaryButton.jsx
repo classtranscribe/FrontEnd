@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'dva'
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { MENU_GLOSSARY } from '../../../Utils';
@@ -30,6 +30,6 @@ export function GlossaryButtonWithRedux({menu = MENU_GLOSSARY, dispatch}) {
   );
 }
 
-export const GlossaryButton = connect(({ watch : { menu}, loading }) => ({menu
+export const GlossaryButton = connect(({ watch : { menu} }) => ({menu
 }))(GlossaryButtonWithRedux)
 

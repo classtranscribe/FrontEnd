@@ -32,6 +32,6 @@ export function SettingButtonWithRedux({ menu = MENU_HIDE, dispatch }) {
   );
 }
 
-export const SettingButton = connect(({ watch: { menu }, loading }) => ({
+export const SettingButton = connect(({ watch: { menu } }) => ({
   menu
 }))(SettingButtonWithRedux);

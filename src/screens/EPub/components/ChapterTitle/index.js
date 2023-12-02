@@ -21,7 +21,7 @@ function ChapterTitle({
   const [inputValue, setInputValue] = useState(value);
   const inputRef = useRef();
 
-  const handleFocus = (e) => {
+  const handleFocus = () => {
     // to do select all
   };
 

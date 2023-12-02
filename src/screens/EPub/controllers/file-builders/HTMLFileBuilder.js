@@ -1,8 +1,9 @@
+/* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
-import { EPubData } from 'entities/EPubs';
-import { doc } from 'prettier';
-import { jsPDF as JsPDF } from 'jspdf';
+// import { EPubData } from 'entities/EPubs';
+// import { doc } from 'prettier';
+// import { jsPDF as JsPDF } from 'jspdf';
 
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
@@ -12,7 +13,7 @@ import {
   getChapterGlossaryAndTextHighlight,
 } from './GlossaryCreator';
 
-import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS, PRISM_JS } from './file-templates/html';
+import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS/* , PRISM_JS */ } from './file-templates/html';
 
 import { env as reactEnv } from '../../../../utils/env';
 
@@ -126,9 +127,9 @@ class HTMLFileBuilder {
     });
   }
   getImageDimensions(src) {
-    return new Promise(function (resolved, rejected) {
+    return new Promise( (resolved /* , rejected */) => {
       let i = new Image();
-      i.onload = function () {
+      i.onload = ()=> {
         resolved({ w: i.width, h: i.height });
       };
       i.src = src;

@@ -6,7 +6,7 @@ const AslModel = {
     },
     reducers: {
         
-        setWatchHistories(state, { payload }) {
+        setWatchHistories() {
             return null;
         }
     },

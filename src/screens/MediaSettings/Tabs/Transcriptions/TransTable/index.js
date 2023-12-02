@@ -11,7 +11,9 @@ import Table from '@material-ui/core/Table';
 
 
 function TransTable(media = undefined) {
+  // eslint-disable-next-line no-unused-vars
   const [language, _setLanguage] = useState('en-US')
+  // eslint-disable-next-line no-unused-vars
   const [_captions, setCaptions] = useState([])
 
 

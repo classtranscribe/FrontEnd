@@ -15,7 +15,7 @@ const config = {
 /**
  * object for the whole Glossary page
  */
-const AslWithRedux = (props) => {
+const AslWithRedux = () => {
     const layoutProps = CTLayout.createProps({
         transition: true,
         responsive: true,

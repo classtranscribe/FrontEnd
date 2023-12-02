@@ -115,15 +115,15 @@ function EPubCTListItem(props) {
 
   const renameButton = (enableButtons ? (
     <CTPopoverLabel label={renameBtnLabel}>
-        <IconButton
-          size="small"
-          className="ml-4"
-          onClick={renameBtnClick}
-          aria-label={renameBtnLabel}
-          onMouseDown={(e) => stopPropagation(e)}
-        >
-          <i className="material-icons rename-icon">{renameBtnIcon}</i>
-        </IconButton>
+      <IconButton
+        size="small"
+        className="ml-4"
+        onClick={renameBtnClick}
+        aria-label={renameBtnLabel}
+        onMouseDown={(e) => stopPropagation(e)}
+      >
+        <i className="material-icons rename-icon">{renameBtnIcon}</i>
+      </IconButton>
     </CTPopoverLabel>
   ): null);
 

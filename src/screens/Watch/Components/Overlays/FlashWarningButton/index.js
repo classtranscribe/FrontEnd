@@ -22,9 +22,10 @@ function FlashWarningButtonWithRedux(props) {
         className="ack-button-container"
         aria-hidden="true"
         onClick={handleClick}
-      > <span className="ack-text"><i className="material-icons">warning</i><i className="material-icons">bolt</i>
-        {warningText}
-      </span>
+      > 
+        <span className="ack-text"><i className="material-icons">warning</i><i className="material-icons">bolt</i>
+          {warningText}
+        </span>
       
         <span className="ack-button-content" tabIndex="-1" />
       </div>

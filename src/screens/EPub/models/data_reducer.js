@@ -346,7 +346,7 @@ export default {
             min_word_count = default_word_count;
         }
         // loop through chapters and enforce minimum wc 
-        (state.items).forEach(function(elem) {
+        (state.items).forEach((elem)=> {
             if (elem !== undefined && elem !== null) {
             if (new_items.length!==0) { 
                 const oldelem = new_items.pop();
@@ -382,7 +382,7 @@ export default {
             }
         }
         state.items = new_items;
-        let splitChapters = _.map(new_items, (data, idx) => {
+        let splitChapters = _.map(new_items, (data) => {
             if (data === undefined || data === null) {
               return null; 
             }
@@ -485,6 +485,7 @@ export default {
         // this.__feed();
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
+    // eslint-disable-next-line no-unused-vars
     removeChapterContent(state, { payload: { _type = 'text', contentIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
@@ -499,7 +500,7 @@ export default {
         // this.__feed('Removed.');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
-    removeChapterContentAtChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx } }) {
+    removeChapterContentAtChapterIdx(state, { payload: { contentIdx, chapterIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
             const chapter = chapters[chapterIdx];

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { withReduxProvider } from 'redux/redux-provider';
+import React from 'react';
+// import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
 import { Playlist } from 'entities/Playlists';
 import { links } from 'utils/links';

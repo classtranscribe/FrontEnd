@@ -26,7 +26,7 @@ export function _getEPubListItems(ePubs, onDelete, onRename, onPin, isSelected, 
       return 0;
     });
 
-    return ePubs.map((epub, idx) => {
+    return ePubs.map((epub) => {
       let lang = LanguageConstants.decode(epub.language);
       // let status = epub.isPublished ? 'Published' : 'Unpublished'
       return {

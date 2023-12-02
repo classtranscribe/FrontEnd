@@ -30,6 +30,6 @@ function ShareTrigger({ modal = MODAL_HIDE, dispatch }) {
   );
 }
 
-export default connect(({ watch: { modal }, loading }) => ({
+export default connect(({ watch: { modal } }) => ({
   modal
 }))(ShareTrigger);

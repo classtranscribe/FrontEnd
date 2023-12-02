@@ -54,6 +54,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   }
   */
 
+  // eslint-disable-next-line complexity
   const onKeyDown = (e) => {
     const { keyCode, metaKey, shiftKey } = e;
     if (shouldDisable()) {
@@ -117,7 +118,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   );
 }
 
-export const EPub = connect(({ epub: { view, chapters, epub }, loading }) => ({
+export const EPub = connect(({ epub: { view, chapters, epub } }) => ({
   view, chapters, epub
 }))(EPubWithRedux);
 

@@ -59,11 +59,11 @@ function EditINote ({epub: epubData, dispatch}) {
             </CTFragment>
             <QuickActionsEditNote />
           </CTFragment>
-          </>}
+        </>}
       </CTFragment>
     </EPubNavigationProvider>
   )
 }
-export default connect(({epub: {epub}, loading }) => ({
+export default connect(({epub: {epub} }) => ({
     epub
   }))(EditINote);

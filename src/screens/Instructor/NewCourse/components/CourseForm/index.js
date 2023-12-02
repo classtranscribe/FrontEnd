@@ -34,7 +34,9 @@ function CourseForm(props) {
   const [accessType, setAccess] = useState(defaultAccessType);
   const [coursesText, setCoursesText] = useState('');
 
+  // eslint-disable-next-line no-unused-vars
   const [_universities, setUniversities] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [uniId, setUniId] = useState(defaultUniId);
   // const handleUniChange = ({ target: { value } }) => setUniId(value);
 

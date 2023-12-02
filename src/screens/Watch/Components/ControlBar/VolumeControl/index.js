@@ -87,6 +87,6 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
   );
 }
 
-export default connect(({ playerpref, loading }) => ({
+export default connect(({ playerpref }) => ({
   muted: playerpref.muted, volume: playerpref.volume
 }))(VolumeControl);

@@ -75,14 +75,14 @@ class EPubHistoryManager {
     ];
   }
 
-  pushAndUpdateAll(
-    actionName,
-    nextChapters,
-    currChIndex
-  ) {
-    // this.push(actionName, epubState.chapters, nextChapters); NOT IMPLEMENTED
-    // epubState.updateContentChanges(nextChapters, currChIndex); NOT IMPLEMENTED
-  }
+  // pushAndUpdateAll(
+  //   actionName,
+  //   nextChapters,
+  //   currChIndex
+  // ) {
+  //   // this.push(actionName, epubState.chapters, nextChapters); NOT IMPLEMENTED
+  //   // epubState.updateContentChanges(nextChapters, currChIndex); NOT IMPLEMENTED
+  // }
 
   undo() {
     if (!this.canUndo) {
