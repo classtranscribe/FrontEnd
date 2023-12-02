@@ -2,15 +2,26 @@ import React from 'react';
 import { Route } from 'dva/router.js';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
+
+import {
+  useButtonStyles,
+  CTCheckbox,
+  CTText
+} from 'layout';
+
 import { links } from 'utils';
-import { useButtonStyles, CTText } from 'layout';
+import { CROWDEDIT_ALLOW, CROWDEDIT_FREEZE_ALL, FLASH_SET_YES ,FLASH_DETECT_YES,FLASH_SET_NO /* , FLASH_DETECT_NO,FLASH_UNKNOWN */} from 'utils/constants.js';
 import UploadASLButton from './UploadASLButton.js';
 import { UploadSingleFile } from '../UploadFile/index.js';
 
+
 function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch }) {
   const btn = useButtonStyles();
+  const checkboxStyles = CTCheckbox.useStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
   const hasASL = media.hasAsl;
+  const flashWarningIsChecked = media.flashWarning === FLASH_DETECT_YES || media.flashWarning === FLASH_SET_YES;
+  const crowdEdit = media.crowdEditMode !== CROWDEDIT_FREEZE_ALL;
 
   const handleDelete = () => {
     const confirm = {
@@ -33,6 +44,15 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
       return 'epub creation waiting for transcription and scene analysis to complete.';
     if (!media.transReady) return 'epub creation waiting for transcription to complete.';
     if (!media.sceneDetectReady) return 'epub creation waiting for scene analysis to complete.';
+  };
+
+  const toggleFlashWarning = () => {
+    const flashWarning = flashWarningIsChecked ? FLASH_SET_NO : FLASH_SET_YES;
+    dispatch({ type: 'instplaylist/setFlashingWarning', payload: {mediaId, flashWarning}});
+  };
+  const toggleCrowdEditing = () => {
+    const crowdEditMode = crowdEdit ? CROWDEDIT_FREEZE_ALL : CROWDEDIT_ALLOW;
+    dispatch({ type: 'instplaylist/setCrowdEditMode', payload: {mediaId, crowdEditMode}});
   };
 
   return (
@@ -85,6 +105,26 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
           >
             delete ASL
           </Button> }
+        
+        <div className='media-item-check'><CTCheckbox 
+          className={checkboxStyles}
+          id={`FlashWarning-${mediaId}`}
+          label="Seizure warning"
+          checked={flashWarningIsChecked}
+          onChange={toggleFlashWarning}
+        />
+        </div>
+        
+        
+        <div className='media-item-check'><CTCheckbox 
+          classNames={checkboxStyles}
+          id={`CrowdEdit-${mediaId}`}
+          label="Freeze Captions &amp; Descriptions"
+          checked={!crowdEdit}
+          onChange={toggleCrowdEditing}
+        /> 
+        </div>
+
       </div>
       <div>
         {!media.transReady || !media.sceneDetectReady ? (
@@ -93,6 +133,7 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
           </CTText>
         ) : null}
       </div>
+      
     </div>
   );
 }
