@@ -28,7 +28,7 @@ export const transControl = {
   /**
    * Function called for setting current transcription (aka language)
    */
-  async currTrans(tran) {
+  async currTrans() {
     // done
   },
 
@@ -118,7 +118,7 @@ export const transControl = {
    * Function called when mouse over the transcription area
    * To prevent scrolling
    */
-  handleMourseOver(bool) {
+  handleMourseOver() {
     // isMourseOverTrans
   },
   /**

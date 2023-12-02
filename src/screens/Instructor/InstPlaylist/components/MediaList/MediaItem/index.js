@@ -4,7 +4,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MuiCheckbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { CTPopoverLabel, CTCheckbox, CTText } from 'layout';
-import { CROWDEDIT_ALLOW /* , FLASH_DETECT_NO,FLASH_UNKNOWN */} from 'utils/constants.js';
 
 import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';

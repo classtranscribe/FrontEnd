@@ -43,6 +43,6 @@ function CCSetting({ show = false, openCC = false, captions = [], dispatch }) {
   );
 }
 
-export default connect(({ watch : { captions}, playerpref: { openCC }, loading }) => ({
+export default connect(({ watch : { captions}, playerpref: { openCC } }) => ({
   openCC, captions
 }))(CCSetting)

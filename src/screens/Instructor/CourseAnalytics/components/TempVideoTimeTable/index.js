@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Dimmer, Loader, Segment, Dropdown } from 'semantic-ui-react';
 import { Button } from 'pico-ui';
-import _, { filter } from 'lodash';
+import _ from 'lodash';
 import './index.css';
-import { CTHeading, CTFragment, CTText, CTSelect } from 'layout';
+import { CTHeading, CTFragment, CTText } from 'layout';
 import { search } from 'utils/search';
 import { vtime } from './vtime';
 import CTFilter from '../../../../../layout/CTFilter';
@@ -13,6 +13,7 @@ function TempVideoTimeTable({ offeringId }) {
   const [playlistData, setPlaylistData] = useState([]);
   const [playListVideoMap, setPlaylistVideoMap] = useState({});
   const [videoList, setVideoList] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [total, setTotal] = useState([]);
   const [allLogs, setAllLogs] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -121,23 +122,23 @@ function TempVideoTimeTable({ offeringId }) {
     setSelectVideos(selectedVideos.filter((item) => item !== id));
   };
 
-  const addPlayList = (id) => {
-    for (let i = 0; i < playListVideoMap[id].length; i += 1) {
-      if (!(playListVideoMap[id][i] in selectedVideos)) {
-        addVideo(playListVideoMap[id][i]);
-      }
-    }
-  };
-  const removePlaylist = (id) => {
-    for (let i = 0; i < playListVideoMap[id].length; i += 1) {
-      if (playListVideoMap[id][i] in selectedVideos) {
-        removeVideo(playListVideoMap[id][i]);
-      }
-  }
-  };
+  // const addPlayList = (id) => {
+  //   for (let i = 0; i < playListVideoMap[id].length; i += 1) {
+  //     if (!(playListVideoMap[id][i] in selectedVideos)) {
+  //       addVideo(playListVideoMap[id][i]);
+  //     }
+  //   }
+  // };
+  // const removePlaylist = (id) => {
+  //   for (let i = 0; i < playListVideoMap[id].length; i += 1) {
+  //     if (playListVideoMap[id][i] in selectedVideos) {
+  //       removeVideo(playListVideoMap[id][i]);
+  //     }
+  // }
+  // };
 
 
-  const handleChange = (e, {searchInput, value}) => {
+  const handleChange = (e, {value}) => {
 	  setSelectVideos(value);
   }
   const handleSearchChange = (event) => {

@@ -6,13 +6,13 @@ import {
   transControl,
   timeStrToSec,
   prettierTimeStr,
-  WEBVTT_DESCRIPTIONS,
+  // WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
 import './index.scss';
 
-function CaptionLine({ isCurrent = false, isEditing = false,
-  shouldHide = false, caption = {}, dispatch, fontSize }) {
-  let { text, id, startTime, begin, kind = "web" } = caption;
+function CaptionLine({ /* isCurrent = false, isEditing = false,
+  shouldHide = false, */ caption = {}, dispatch, fontSize }) {
+  let { text, id, /* startTime, */ begin, kind = "web" } = caption;
   const ref = useRef();
 
   const blurFromInput = () => {
@@ -28,7 +28,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
-  const handleChange = ({ target }) => {
+  const handleChange = () => {
     // console.log(target.innerText)
   };
 
@@ -41,7 +41,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     transControl.handleBlur();
   };
 
-  const handleSave = (cap) => {
+  const handleSave = () => {
     dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } })
   };
 

@@ -28,6 +28,6 @@ export function ShowASLButtonWithRedux({ hasASL = true, aslCorner = 0, dispatch 
   ) : null;
 }
 
-export const ShowASLButton = connect(({ watch: { media: { hasASL }}, playerpref: { aslCorner }, loading }) => ({
+export const ShowASLButton = connect(({ watch: { media: { hasASL }}, playerpref: { aslCorner } }) => ({
    hasASL, aslCorner
 }))(ShowASLButtonWithRedux);

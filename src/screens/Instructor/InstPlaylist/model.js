@@ -72,7 +72,7 @@ const InstPlaylistModel = {
         setConfirmation(state, { payload }) {
             return { ...state, confirmation: payload };
         },
-        clearData(state, { payload }) {
+        clearData() {
             return { ...initialState };
         },
     },

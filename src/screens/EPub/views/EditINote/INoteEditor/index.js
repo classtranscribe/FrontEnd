@@ -4,7 +4,7 @@ import './index.scss';
 
 import INoteChapter from './INoteChapter';
 
-function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem, dispatch }) {
+function INoteEditor({ chapters = [], /* foldedIds = [], */ currChIndex, /* setINoteItem, */ dispatch }) {
   useEffect(() => {
     if (currChIndex > 0) {
       setTimeout(() => {
@@ -30,6 +30,6 @@ function INoteEditor({ chapters = [], foldedIds = [], currChIndex, setINoteItem,
   )
 }
 
-export default connect(({ epub: { currChIndex, epub: { chapters, images}, foldedIds }, loading }) => ({
+export default connect(({ epub: { currChIndex, epub: { chapters, images}, foldedIds } }) => ({
     currChIndex, chapters, images, foldedIds
   }))(INoteEditor); 

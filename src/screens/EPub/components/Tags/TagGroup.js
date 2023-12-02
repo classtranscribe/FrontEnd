@@ -18,9 +18,9 @@ function TagGroup({
     let tagsObject = null;
     const anchorRef = useRef(null);
 
-    const handleOpenDropdown = () => {
-        setOpenDropdown(true);
-    };
+    // unused const handleOpenDropdown = () => {
+    //     setOpenDropdown(true);
+    // };
     const handleCloseDropdown = () => {
         setOpenDropdown(false);
     };
@@ -43,7 +43,7 @@ function TagGroup({
     const getTagsList = () => {
       let tagsSet = new Set();
       let tagsObj = {};
-      chapters.forEach((chapter, idx) => {
+      chapters.forEach((chapter) => {
         chapter.condition.forEach((tag) => {
           tagsSet.add(tag);
         })

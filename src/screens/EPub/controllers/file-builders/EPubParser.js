@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Prism from 'prismjs';
 import { uurl, api, CTError } from 'utils';
-import { EPubData, EPubDataValidationError, EPubChapterData } from 'entities/EPubs';
+import { /* EPubData, EPubDataValidationError, */ EPubChapterData } from 'entities/EPubs';
 
 const buildHTMLFromChapter = EPubChapterData.__buildHTMLFromChapter;
 
@@ -154,6 +154,7 @@ class EPubParser {
    * @param {Any[]} chapters 
    * @param {Boolean} replaceImageSrc 
    */
+  // eslint-disable-next-line no-unused-vars
   async parseChapters(chapters, replaceImageSrc = true) {
     return Promise.all(_.map(chapters, async (chapter, chIdx) => {
       const chapterId = `chapter-${chIdx + 1}`;

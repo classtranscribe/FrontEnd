@@ -12,6 +12,7 @@ const HistoryModel = {
         }
     },
     effects: {
+        // eslint-disable-next-line no-unused-vars
         *setupWatchHistories({ payload }, { call, put }) {
             if (!user.isLoggedIn) return;
             try {
@@ -24,7 +25,7 @@ const HistoryModel = {
     },
     subscriptions: {
         setup({ dispatch }) {
-            document.addEventListener('readystatechange', e => {
+            document.addEventListener('readystatechange', () => {
                 if (document.readyState === "complete") {
                     dispatch({ type: 'setupWatchHistories' });
                 }

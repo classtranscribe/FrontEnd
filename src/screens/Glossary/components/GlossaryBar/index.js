@@ -20,6 +20,7 @@ const config = {
  * @param setSelectOffering, used for seting offeringId for getting glossaries
  */
 export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
+    // eslint-disable-next-line no-unused-vars
     const [isLoading, setIsLoading] = useState(true);
     const [terms, setTerms] = useState({});
     const [initialData, setInitialData] = useState([]);

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { _buildID } from 'utils';
 
+// eslint-disable-next-line complexity
 export function findChapterTimeSpan(chapterLike) {
   const { items, subChapters } = chapterLike;
   let start = '00:00:00';

@@ -134,6 +134,6 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
   );
 }
 
-export default connect(({ watch : { time }, loading }) => ({
+export default connect(({ watch : { time } }) => ({
   currTime: time
 }))(ShareModal);

@@ -119,6 +119,6 @@ function QuickActions({ chapters = {}, items, currChIndex = 0, dispatch }) {
   );
 }
 
-export default connect(({ epub: { currChIndex, epub: { chapters }, items }, loading }) => ({
+export default connect(({ epub: { currChIndex, epub: { chapters }, items } }) => ({
   currChIndex, chapters, items
 }))(QuickActions);

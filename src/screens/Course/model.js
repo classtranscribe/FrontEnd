@@ -47,7 +47,7 @@ const CourseModel = {
             return { ...state, isInstMode: payload };
         },
 
-        clearCourseData(state, { payload }) {
+        clearCourseData() { // state, { payload } 
             return { ...initState }
         },
     },

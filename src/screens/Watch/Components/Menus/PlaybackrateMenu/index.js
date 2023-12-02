@@ -72,6 +72,7 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
             onChange={handleSliderChange}
             onKeyDown={handleKeyDown}
           />
+          
         </div>
       )}
 
@@ -125,6 +126,6 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
   );
 }
 
-export default connect(({ playerpref: { playbackrate }, loading }) => ({
+export default connect(({ playerpref: { playbackrate } }) => ({
   playbackrate
 }))(PlaybackrateMenu);

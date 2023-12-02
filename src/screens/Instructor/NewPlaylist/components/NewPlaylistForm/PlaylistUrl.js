@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react';
 import { CTFragment, CTFormHelp, CTInput } from 'layout';
 

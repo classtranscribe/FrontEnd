@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Button } from 'pico-ui';
 import { CTFragment, CTInput } from 'layout';
 import { useInput } from 'hooks';

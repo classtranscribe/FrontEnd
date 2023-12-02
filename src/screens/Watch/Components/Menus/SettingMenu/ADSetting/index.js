@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Select, Form, Grid, Popup } from 'semantic-ui-react';
+import React, { /* useState, */useEffect } from 'react';
+import { /* Select, Form, Grid, */Popup } from 'semantic-ui-react';
 import { connect } from 'dva'
-import { Adb } from '@material-ui/icons';
+// import { Adb } from '@material-ui/icons';
 import MenuRadio from '../MenuRadio';
 
 import './slider.scss';
@@ -112,6 +112,6 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
 }
 
 export default connect(({ watch: { descriptions },
-  playerpref: { openAD, pauseWhileAD, ADVolume, ADSpeed }, loading }) => ({
+  playerpref: { openAD, pauseWhileAD, ADVolume, ADSpeed } }) => ({
     openAD, descriptions, pauseWhileAD, ADVolume, ADSpeed
   }))(ADSetting);

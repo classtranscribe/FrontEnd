@@ -32,6 +32,6 @@ export function LanguagePickerButtonWithRedux({ menu = MENU_HIDE, currTrans = {}
   );
 }
 
-export const LanguagePickerButton = connect(({ watch: { menu, currTrans }, loading }) => ({
+export const LanguagePickerButton = connect(({ watch: { menu, currTrans } }) => ({
   menu, currTrans
 }))(LanguagePickerButtonWithRedux);

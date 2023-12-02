@@ -7,7 +7,7 @@ import {
   SecondaryPlayerWrapper,
   BigPlayButton,
   ClosedCaption,
-  AudioDescription,
+  // AudioDescription,
   FlashWarningButton,
 } from '../Overlays';
 
@@ -29,7 +29,7 @@ function PlayerWrapper(props) {
           <ClosedCaption isPrimary={isPrimary} />
           <BigPlayButton isPrimary={isPrimary} />
           <FlashWarningButton isPrimary={isPrimary} />
-          <AudioDescription isPrimary={isPrimary} />
+          {/* <AudioDescription isPrimary={isPrimary} /> */}
         </>
         )}
     </div>
