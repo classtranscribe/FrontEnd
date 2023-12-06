@@ -73,7 +73,7 @@ MediaPoster.propTypes = {
   round: PropTypes.bool,
 
   /** Video duration */
-  duration: PropTypes.oneOfType(PropTypes.number, PropTypes.string)
+  duration: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default MediaPoster;
