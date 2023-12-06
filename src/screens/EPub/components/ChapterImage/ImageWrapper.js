@@ -112,7 +112,8 @@ function ImageWrapper({
           underlined
           darkMode
           id={`image-alt-input-${id}`}
-          label="Image Alt"
+          label={`Image Alt Text${ alt.value.length >100 ? ` - Too long! (${alt.value.length} characters). Maximum 100 characters recommended.`:
+          alt.value.length === 0 ? " - A short text description is needed here" : ""}`}
           value={alt.value}
           onChange={alt.onChange}
           onReturn={handleSaveAlt}

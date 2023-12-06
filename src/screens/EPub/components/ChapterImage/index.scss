@@ -4,7 +4,7 @@
   width: 100%;
   // max-width: 550px;
   min-height: 40px;
-
+ 
   .ct-epb.ch-img {
     position: relative;
     width: 100%;
@@ -28,10 +28,21 @@
       width: 100%;
       height: 100%;
       opacity: 0;
-      background: rgba(0, 0, 0, 0.788);
+      background: rgba(64, 64, 64, 0.1);
       // background: linear-gradient(to top,rgba(0, 0, 0, 0.788),rgba(255, 255, 255, 0));
       color: white;
       transition: opacity 100ms linear;
+
+      .align-items-end {
+        background: rgba(32, 32, 32, 0.97);
+        padding: 10px;
+        margin: 0px;
+        border-radius: 10px; 
+
+        label {
+          font-size: 1.5em;
+        }
+      }
     }
   }
 }
