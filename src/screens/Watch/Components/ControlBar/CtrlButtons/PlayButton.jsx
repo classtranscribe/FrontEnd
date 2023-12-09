@@ -38,6 +38,6 @@ export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, 
   );
 }
 
-export const PlayButton = connect(({ watch : { paused, ctpPriEvent }, loading }) => ({
+export const PlayButton = connect(({ watch : { paused, ctpPriEvent } }) => ({
   paused, ctpPriEvent
 }))(PlayButtonWithRedux);
