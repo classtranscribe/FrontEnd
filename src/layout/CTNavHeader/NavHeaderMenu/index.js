@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Menu } from '@material-ui/core';
@@ -9,7 +10,6 @@ import { styles } from './styles';
 import MenuTrigger from './MenuTrigger';
 import ProfileInfo from './ProfileInfo';
 import ProfileMenu from './ProfileMenu';
-import { SignInMenu } from './SignInMenu';
 
 function UserMenu(props) {
   let { darkMode = false } = props;
@@ -47,32 +47,36 @@ function UserMenu(props) {
   let loginAsUserUni = _.find(universities, { id: loginAsUserInfo.universityId }) || { name: '' };
 
   const open = Boolean(anchorEl);
-  const myRef = useRef(null); // better approach for the anchorEl
+  /* This generates two errors  in the browser console that appear to be harmless.
+  This code also used to use  e.currentTarget, and useRef was also investigated.
+  Ultimately we just positioned it top right . */
+  /* Warning: Failed prop type: Material-UI: The `anchorEl` prop provided to the component is invalid.
+     It should be an Element instance but it's `undefined` instead. */
+  /* Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+     Check the render method of `ForwardRef(Menu)`.
+      in ProfileInfo (at NavHeaderMenu/index.js:74)
+      in ul (created by ForwardRef(List)) */
+
 
   return (
     <div className="profile-menu">
       <MenuTrigger
-        ref={myRef}
         picture={picture}
         isLoggedIn={user.isLoggedIn}
         email={emailId}
         handleClick={handleClick}
+        onKeyUp={handleClick} 
       />
 
       {
         user.isLoggedIn ?
         /** Signed in menu */
           <Menu
-            anchorEl={myRef.current}
             anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical:'top',
+              horizontal: 'right'
             }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
+            keepMounted={false}
             open={open}
             onClose={handleClose}
             PaperProps={{ style: styles.menu }}
@@ -90,11 +94,7 @@ function UserMenu(props) {
             <ProfileMenu roles={roles} />
           </Menu>
         :
-          <SignInMenu 
-            open={open} 
-            anchorEl={anchorEl} 
-            handleClose={handleClose}
-          />
+         null
       }
     </div>
   );
