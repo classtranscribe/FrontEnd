@@ -59,7 +59,7 @@ function EditINote ({epub: epubData, dispatch}) {
             </CTFragment>
             <QuickActionsEditNote />
           </CTFragment>
-        </>}
+          </>}
       </CTFragment>
     </EPubNavigationProvider>
   )

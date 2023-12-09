@@ -109,7 +109,7 @@ function CTCookieAgreement() {
               onClick={() => handlePolicyClicking(policies.name, link)}
             > 
               {policies.name} {index === 0 ?'' : `Supplement-${index}`}
-                                                                                        </ButtonBase>
+            </ButtonBase>
             </>)
           ))
         )}    

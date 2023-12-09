@@ -201,6 +201,7 @@ const EPubModel = {
         },
         // Debounce
         updateEPub: [
+            // eslint-disable-next-line func-names
             function* ({ payload: timeout = 3000 }, { put }) {
                 yield delay(timeout);
                 yield put({ type: 'updateEPub_Internal' })
