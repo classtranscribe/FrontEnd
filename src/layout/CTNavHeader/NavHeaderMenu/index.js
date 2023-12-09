@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Menu } from '@material-ui/core';
 
@@ -47,10 +47,12 @@ function UserMenu(props) {
   let loginAsUserUni = _.find(universities, { id: loginAsUserInfo.universityId }) || { name: '' };
 
   const open = Boolean(anchorEl);
+  const myRef = useRef(null); // better approach for the anchorEl
 
   return (
     <div className="profile-menu">
       <MenuTrigger
+        ref={myRef}
         picture={picture}
         isLoggedIn={user.isLoggedIn}
         email={emailId}
@@ -61,7 +63,15 @@ function UserMenu(props) {
         user.isLoggedIn ?
         /** Signed in menu */
           <Menu
-            anchorEl={anchorEl}
+            anchorEl={myRef.current}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
             keepMounted
             open={open}
             onClose={handleClose}
