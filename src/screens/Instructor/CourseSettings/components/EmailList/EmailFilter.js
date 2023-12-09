@@ -98,8 +98,8 @@ function EmailFilter(props) {
         handleRemoveEmail,
       };
 
-      emailListElement = result.map((email,index) => (
-        <EmailItem key={`${email}${index}`} email={email} {...emailLiProps} />
+      emailListElement = result.map((email) => (
+        <EmailItem key={email} email={email} {...emailLiProps} />
       ));
     }
 

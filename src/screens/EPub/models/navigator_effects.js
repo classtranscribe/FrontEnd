@@ -3,7 +3,7 @@ import { elem } from 'utils';
 import ID from '../controllers/constants/EPubIDs';
 import Constants from '../controllers/constants/EPubConstants';
 
-function getChTop(id, view) {
+const getChTop = (id, view) => {
     try {
         const chId = view === Constants.EpbReadOnly ? id : ID.chID(id);
         const chEl = elem.getElement(chId);
@@ -11,8 +11,8 @@ function getChTop(id, view) {
     } catch {
         return 0;
     }
-}
-function getSubChTop(epub, id, view, offset = 75) {
+};
+const getSubChTop = (epub, id, view, offset = 75) => {
     const schId = view === Constants.EpbReadOnly ? id : ID.schID(id);
     const schEl = elem.getElement(schId);
     if (!schEl) {
@@ -24,8 +24,8 @@ function getSubChTop(epub, id, view, offset = 75) {
         return schEl.offsetTop + schUlEl.offsetTop + chEl.offsetTop - offset;
     }
     return schEl.offsetTop - offset;
-}
-function scrollToSubCh(epub, id) {
+};
+const scrollToSubCh = (epub, id) => {
     try {
         const chListEl = elem.getElement(ID.EPubChapterListID);
         chListEl.scrollTop = getSubChTop(epub, id, epub.view);
@@ -33,7 +33,7 @@ function scrollToSubCh(epub, id) {
         // 
     }
 }
-function scrollToCh(id, view) {
+const scrollToCh = (id, view) => {
     try {
         const chListEl = elem.getElement(ID.EPubChapterListID);
         chListEl.scrollTop = getChTop(id, view);
@@ -104,10 +104,10 @@ function* updateNavIdForEditChaper(e, epub, put) {
     });
     yield put({ type: 'setNavId', payload: navId })
 }
-
+// The "function*" syntax defines a generator function.
 export default {
     onScroll: [
-        function* ({ payload: e }, { call, put, select }) {
+        function* onScroll ({ payload: e }, { call, put, select }) {
             const { epub } = yield select();
             switch (epub.view) {
                 case Constants.EpbEditStructure:
