@@ -41,10 +41,11 @@ class EPubListController {
       prompt.error('Failed to create the I-Note.');
       return null;
     }
+    const url = links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew);
 
-    uurl.openNewTab(
-      links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew)
-    );
+    window.location.href = url;
+    // Don't open in new tab; the user may not have enabled that.
+    // nope: uurl.openNewTab(url)
 
     return newEPubData;
   }

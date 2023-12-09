@@ -16,12 +16,13 @@ function EmailItem({
   };
 
   return (
-    <CTFragment role="listitem" alignItCenter className="cs-email-filter-li">
+    <CTFragment key={`item-${email}`} role="listitem" alignItCenter className="cs-email-filter-li">
       <CTFragment alignItCenter>
         <MuiCheckbox
           classes={checkBoxClasses}
           checked={isSelected(email)}
           onChange={handleCheckChange}
+          key={`checkbox-${email}`}
         />
         <span>{email}</span>
       </CTFragment>

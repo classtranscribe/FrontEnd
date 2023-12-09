@@ -191,7 +191,7 @@ const Video = React.memo((props) => {
             newHls.on(Hls.Events.MANIFEST_LOADED, (_, event) => {
                 console.log(event)
             });
-            newHls.on(Hls.Events.ERROR, function (event, data) {
+            newHls.on(Hls.Events.ERROR, (event, data) => {
                 if (data.fatal) {
                     switch (data.type) {
                         case Hls.ErrorTypes.NETWORK_ERROR:

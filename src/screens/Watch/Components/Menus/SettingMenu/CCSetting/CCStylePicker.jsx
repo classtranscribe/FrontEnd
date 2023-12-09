@@ -176,6 +176,6 @@ function SettingMenu({
   );
 }
 
-export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing}, loading }) => ({
+export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing} }) => ({
   cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing
 }))(SettingMenu);

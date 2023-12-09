@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';

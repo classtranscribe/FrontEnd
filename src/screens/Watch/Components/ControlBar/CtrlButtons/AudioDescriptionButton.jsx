@@ -27,6 +27,6 @@ export function AudioDescriptionButtonWithRedux({ openAD = false, descriptions =
   ) : null;
 }
 
-export const AudioDescriptionButton = connect(({ watch: { descriptions }, playerpref: { openAD }, loading }) => ({
+export const AudioDescriptionButton = connect(({ watch: { descriptions }, playerpref: { openAD } }) => ({
   openAD, descriptions
 }))(AudioDescriptionButtonWithRedux);
