@@ -115,5 +115,8 @@
     "react-error-overlay": "6.0.9",
     "sass": "^1.63.6",
     "update-browserslist-db": "^1.0.13"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   }
 }
