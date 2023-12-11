@@ -278,6 +278,8 @@ class HTMLFileBuilder {
             }
           } else if (subContents.src) {
             const subImgData = subchapterImages[subContents.src];
+
+            // eslint-disable-next-line no-await-in-loop
             dimensions = await this.getImageDimensions(subImgData);
             ratio = dimensions.w / dimensions.h;
             imgWidth = Math.round(ratio * 100);

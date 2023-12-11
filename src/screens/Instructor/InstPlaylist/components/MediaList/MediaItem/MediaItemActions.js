@@ -54,7 +54,7 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
     const crowdEditMode = crowdEdit ? CROWDEDIT_FREEZE_ALL : CROWDEDIT_ALLOW;
     dispatch({ type: 'instplaylist/setCrowdEditMode', payload: {mediaId, crowdEditMode}});
   };
-
+  const showTranscriptionSettings = false; // This is experimental/ in development
   return (
     <div>
       <div className="media-item-actions">
@@ -66,7 +66,7 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
         >
           Watch
         </Button>
-        {false ? (
+        {showTranscriptionSettings ? (
           <Button
             className={btnClassName}
             startIcon={<i className="material-icons">text_snippet</i>}

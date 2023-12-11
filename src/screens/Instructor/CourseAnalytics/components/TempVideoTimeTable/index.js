@@ -6,11 +6,13 @@ import './index.css';
 import { CTHeading, CTFragment, CTText } from 'layout';
 import { search } from 'utils/search';
 import { vtime } from './vtime';
-import CTFilter from '../../../../../layout/CTFilter';
+// import CTFilter from '../../../../../layout/CTFilter';
 
 function TempVideoTimeTable({ offeringId }) {
   const [selectedVideos, setSelectVideos] = useState([]);
   const [playlistData, setPlaylistData] = useState([]);
+
+  // eslint-disable-next-line no-unused-vars
   const [playListVideoMap, setPlaylistVideoMap] = useState({});
   const [videoList, setVideoList] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -115,12 +117,12 @@ function TempVideoTimeTable({ offeringId }) {
       setDirection(direction === 'ascending' ? 'descending' : 'ascending');
     }
   };
-  const addVideo = (id) => {
-    setSelectVideos(selectedVideos.concat(id));
-  };
-  const removeVideo = (id) => {
-    setSelectVideos(selectedVideos.filter((item) => item !== id));
-  };
+  // const addVideo = (id) => {
+  //   setSelectVideos(selectedVideos.concat(id));
+  // };
+  // const removeVideo = (id) => {
+  //   setSelectVideos(selectedVideos.filter((item) => item !== id));
+  // };
 
   // const addPlayList = (id) => {
   //   for (let i = 0; i < playListVideoMap[id].length; i += 1) {
