@@ -11,8 +11,6 @@ import { NoEPubWrapper, NoLangWrapper } from './Wrappers';
 import NewEPubButton from './NewEPubButton';
 import EPubCTList from './EPubCTList/EPubCTList';
 
-
-
 export function _getEPubListItems(ePubs, onDelete, onRename, onPin, isSelected, handleSelect) { 
   if (ePubs.length > 0) { 
     // Sort to make sure pinned INotes are on top
@@ -54,7 +52,7 @@ export function _getEPubListItems(ePubs, onDelete, onRename, onPin, isSelected, 
 
 function EPubList(props) {
   // eslint-disable-next-line no-console
-  console.log(props)
+  // console.log(props)
   const {
     ePubs, languages, rawEPubData,
     sourceType, sourceId,

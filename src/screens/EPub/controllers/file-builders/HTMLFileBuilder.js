@@ -167,6 +167,9 @@ class HTMLFileBuilder {
         if (imgStart !== -1 && (imgStart < transcriptStart || transcriptStart === -1)) {
           let imgEnd = curText.indexOf('alt=');
           let imgData = curText.substring(imgStart + 5, imgEnd - 2);
+          // It's okay to have an await in a loop when the result of one iteration
+          // affects the next iteration
+          // eslint-disable-next-line no-await-in-loop
           dimensions = await this.getImageDimensions(imgData);
           ratio = dimensions.w / dimensions.h;
           imgWidth = Math.round(ratio * 100);
