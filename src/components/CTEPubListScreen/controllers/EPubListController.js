@@ -1,6 +1,6 @@
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt, uurl, links } from 'utils';
+import { api, prompt, links } from 'utils';
 import { EPubData } from 'entities/EPubs/structs';
 import Constants from 'screens/EPub/controllers/constants/EPubConstants';
 import { LanguageConstants } from '../../CTPlayer';

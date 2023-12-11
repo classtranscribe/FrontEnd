@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-closing-tag-location */
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { DialogActions, ButtonBase } from '@material-ui/core';

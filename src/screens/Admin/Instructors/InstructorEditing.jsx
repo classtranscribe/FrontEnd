@@ -6,6 +6,7 @@ import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Compo
 export default function InstructorEditing({ match: { params }, history }) {
   const isNew = params.type === 'new';
   // const id = params.id
+  // eslint-disable-next-line no-unused-vars
   const [loading, setloading] = useState(!isNew);
   const [mailId, setMailId] = useState('');
 

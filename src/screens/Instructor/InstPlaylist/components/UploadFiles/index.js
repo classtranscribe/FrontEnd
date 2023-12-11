@@ -36,6 +36,8 @@ const mediaControl = {
     for (let i = 0; i < uploadedMedias.length; i += 1) {
       setUploadingIndex(i);
       setProgress(0);
+      // It's okay to upload one at a time
+      // eslint-disable-next-line no-await-in-loop
       let successed = await this.upload(playlistId, uploadedMedias[i], onUploadProgress);
       if (successed) {
         successedVideos.push(i);
