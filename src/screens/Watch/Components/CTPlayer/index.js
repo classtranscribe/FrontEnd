@@ -34,13 +34,13 @@
  
  const ClassTranscribePlayerNew = (props) => {
    const { dispatch } = props;
-   const { aslCorner, transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY, description, ADVolume, ADSpeed } = props;
+   const { aslCorner, transView, muted, volume, playbackrate, openCC, brightness, contrast, rotateColor, invert, scale,magnifyX, magnifyY, description, ADVolume, ADSpeed, stopAD } = props;
    const { media = {}, mode, isSwitched, isFullscreen, embedded } = props;
    const { videos = [], isTwoScreen } = media;
    const { srcPath1, srcPath2, aslPath, useHls = false } = videos[0] || {};
    const [videoPlaybackReady, setPlaybackReady] = useState(0); // dont need redux for this state
    const bumpPlayerReady = () => { setPlaybackReady(videoPlaybackReady + 1); }
-   const { speak /* , supported, voices */ } = useSpeechSynthesis()
+   const { speak, supported, voices, cancel } = useSpeechSynthesis()
 
    
    // Mute Handler
@@ -66,6 +66,12 @@
       dispatch({ type: 'playerpref/setPreference', payload: { description: null } }) 
     } 
   }, [description, videoPlaybackReady]);
+  useEffect(() => {
+    if (stopAD === true) {
+      cancel();
+      dispatch({ type: 'playerpref/setPreference', payload: { stopAD: false } }) 
+    }
+  }, [stopAD] );
 
    // liveMode speed
    useEffect(() => {
@@ -188,10 +194,10 @@
    brightness, contrast, rotateColor, invert,
 
    scale, magnifyX, magnifyY, aslCorner,
-   description, ADVolume, ADSpeed
+   description, ADVolume, ADSpeed, stopAD
  } }) => ({
    media, mode, isSwitched, isFullscreen, embedded, transView, muted, volume, playbackrate, openCC, 
    brightness, contrast, rotateColor, invert,
    scale, magnifyX, magnifyY,aslCorner,
-   description, ADVolume, ADSpeed
+   description, ADVolume, ADSpeed, stopAD
  }))(ClassTranscribePlayerNew);

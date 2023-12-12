@@ -47,7 +47,7 @@ class Playlist extends Entity {
    * @returns {Playlist} - a Playlist instance
    */
   static async create(offeringId, newPlaylist) {
-    const { name, sourceType, url } = newPlaylist;
+    const { name, sourceType, url, options } = newPlaylist;
     if (!name || !PlaylistTypes.isValidUrl(sourceType, url)) {
       throw InvalidDataError;
     }
@@ -65,7 +65,8 @@ class Playlist extends Entity {
       name,
       sourceType,
       playlistIdentifier,
-      jsonMetadata
+      jsonMetadata,
+      options
     };
 
     try {
@@ -88,18 +89,27 @@ class Playlist extends Entity {
   }
 
   /**
-   * Rename the playlist
+   * Rename the playlist and modify UI options
    * @param {String} newName - New name for the playlist
+   * @param {String} newOptions - New options for the playlist
    * @returns {Playlist} true if successed
    */
-  static async rename(playlist, newName) {
-    if (!playlist.id || !newName) return;
+  static async update(playlist, newName, newOptions) {
+    if (!playlist.id || ! (newName || newOptions)) return;
     try {
-      playlist.name = newName;
-      await api.updatePlaylist(playlist);
-      prompt.addOne({ text: 'Playlist renamed.', timeout: 3000 });
+      if(newName !== undefined) {
+        playlist.name = newName;
+      }
+      if(newOptions !== undefined) {
+        playlist.options = newOptions;
+      }
+      const data = { id:playlist.id,offeringId:playlist.offeringId,
+        name:playlist.name, publishStatus:playlist.publishStatus,
+        options:playlist.options};
+      await api.updatePlaylist(data);
+      prompt.addOne({ text: 'Playlist updated.', timeout: 3000 });
     } catch (error) {
-      prompt.error('Failed to rename the playlist.', { timeout: 5000 });
+      prompt.error('Could not update the playlist.', { timeout: 5000 });
       return;
     }
 
@@ -116,7 +126,7 @@ class Playlist extends Entity {
       await api.deletePlaylist(playlistId);
       prompt.addOne({ text: 'Playlist deleted.', timeout: 3000 });
     } catch (error) {
-      prompt.error('Failed to delete the playlist.', { timeout: 5000 });
+      prompt.error('Could not delete the playlist.', { timeout: 5000 });
       return false;
     }
 
