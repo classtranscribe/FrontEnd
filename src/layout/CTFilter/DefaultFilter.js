@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { v1 as uuidv1 } from 'uuid';
 import React, { useState, useCallback } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
@@ -35,6 +36,7 @@ function DefaultFilter(props) {
   } = props;
 
   const [inputVal, setInputVal] = useState(value);
+  const inputId = uuidv1();
 
   // check whether a reverse button should be provided
   const supportReverse = typeof onToggleReverse === 'function';
@@ -54,7 +56,10 @@ function DefaultFilter(props) {
   return (
     <CTFragment padding={[20, 0]} {...fragmentProps}>
       <div className={containerClasses}>
-        <input 
+        {/* https://www.w3.org/WAI/tutorials/forms/labels/#associating-labels-explicitly */}
+        <label htmlFor={inputId} className="sr-only">{placeholder}</label>
+        <input
+          id={inputId}
           value={inputVal}
           placeholder={placeholder}
           onChange={handleInputChange}
@@ -110,4 +115,3 @@ DefaultFilter.propTypes = {
 };
 
 export default DefaultFilter;
-
