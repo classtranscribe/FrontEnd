@@ -33,12 +33,16 @@ export function renameMedia(mediaId, name) {
   return cthttp.put('Media/PutMediaName', null, { params: { name, mediaId } });
 }
 
-export function updateFlashWarningMedia(mediaId, flashWarning) {
-  return cthttp.put('Media/PutFlashWarning', null, { params: { flashWarning, mediaId } });
+export function updateMediaOption(mediaId, option, type, value) {
+  return cthttp.put(`Media/Option/${mediaId}/${option}/${type}/${value}`));
 }
 
 export function updateCrowdEditModeMedia(mediaId, crowdEditMode) {
-  return cthttp.put('Media/PutCrowdEditMode', null, { params: { crowdEditMode, mediaId } });
+  return updateMediaOption(mediaId, 'crowdEditMode', 'int', crowdEditMode);
+}
+
+export function updateFlashWarningMedia(mediaId, flashWarning) {
+  return updateMediaOption(mediaId, 'flashWarning', 'int', flashWarning);
 }
 
 export function updateMediaMetadata(mediaId, jsonMetadata) {
