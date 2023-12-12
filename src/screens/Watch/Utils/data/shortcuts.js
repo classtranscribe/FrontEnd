@@ -100,6 +100,15 @@ export const shortcuts = [
       },
     ],
   },
+  {
+    name: 'Audio Description',
+    rows: [
+      {
+        keys: [{ key1: '⇧ Shift', key2: 'ESC' }],
+        action: 'Stop AD Playback',
+      },
+    ]
+  },
 
   {
     name: 'menu',
