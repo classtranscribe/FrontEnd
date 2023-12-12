@@ -21,7 +21,7 @@ function MenuRadio({
           <label className="radio-label" htmlFor={id}>
             {label}
           </label>
-          <label className="ct-radio">
+          <label className="ct-radio"> {/* eslint-disable-line jsx-a11y/label-has-associated-control */}
             <input
               aria-required="false"
               id={id}

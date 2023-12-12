@@ -47,7 +47,7 @@
     "jsx-a11y/alt-text": "warn",
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/click-events-have-key-events": "warn",
-    "jsx-a11y/label-has-for": "warn",
+    "jsx-a11y/label-has-for": "off", // deprecated: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/commit/2a490286937fa8eba3ed213a4637edec932748de
     "jsx-a11y/label-has-associated-control": "warn",
     "jsx-a11y/no-static-element-interactions": "warn",
     "jsx-a11y/role-has-required-aria-props": "warn",
