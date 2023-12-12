@@ -39,7 +39,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
       <div className="w-100">
         <MenuRadio
           id="ad-open-radio"
-          label="Open Audio Description"
+          label="Enable Audio Description"
           onChange={handleAD}
           checked={openAD && !disabled}
           disabled={disabled}
@@ -98,9 +98,10 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
                 aria-label={`Audio Description Speed Slider - Current Speed: ${Math.floor( ADVolume * 100)}`}
                 type="range"
                 min={0}
-                max={2}
+                max={3}
                 step={0.05}
                 value={ADSpeed}
+                defaultValue={1.2}
                 onChange={handleADSpeed}
               />
             }

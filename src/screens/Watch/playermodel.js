@@ -90,6 +90,7 @@ const PlayerModel = {
         description: "",
         ADVolume: AD_VOLUME_DEFAULT,
         ADSpeed: AD_SPEED_DEFAULT, 
+        stopAD: false, 
 
         autoScroll: true,
         pauseWhileEditing: !isMobile,
