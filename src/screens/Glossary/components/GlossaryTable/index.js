@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import './index.scss';
-import "rsuite/dist/rsuite.css";
+import 'rsuite/dist/rsuite.css';
+import { v1 as uuidv1 } from 'uuid';
 import { cthttp } from 'utils/cthttp/request';
 import { prompt } from 'utils';
 import GlossaryEditForm from '../GlossaryEditForm';
@@ -59,8 +60,11 @@ const GlossaryTable = props => {
     const { items, requestSort, sortConfig } = useSortableData(words);
     const [pageNumber, setPageNumber] = useState(1); // the page number is at first 1
     const [jumpNumber, setJumpNumber] = useState(1);
+    const jumpId = uuidv1();
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
+    const searchId = uuidv1();
+    const searchPlaceholder = 'Search for glossaries';
     const [onePage, setOnePage] = useState([]);
     const [isExplanation, setIsExplanation] = useState(new Array(ONE_PAGE_NUM).fill(false));
     const [edit, setEdit] = useState(false); // show the edit form if true
@@ -205,16 +209,19 @@ const GlossaryTable = props => {
     return (
       <div>
         <div className='tableBar'>
-          <input 
+          <label htmlFor={searchId} className="sr-only">{searchPlaceholder}</label>
+          <input
+            id={searchId}
             className='searchBox'
             type='text'
-            placeholder='Search for Glossaries' 
+            placeholder={`${searchPlaceholder}...`}
             onChange={(e) => setSearch(e.target.value)}
           />
           <span className='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / ONE_PAGE_NUM)}`)}</span>
           <button onClick={handlePrevPage} disabled={(pageNumber <= 1)}>Prev</button>
           <button onClick={handleNextPage} disabled={(pageNumber*ONE_PAGE_NUM >= length)}>Next</button>
-          <input className='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
+          <label htmlFor={jumpId} className="sr-only">Jump to page</label>
+          <input id={jumpId} className='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
           <button onClick={handleJump}>Go</button>
           <button onClick={() => setAdd(true)} disabled={offeringId==='' || courseId===''}>AddGlossary</button>
         </div>
