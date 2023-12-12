@@ -34,7 +34,7 @@ export function renameMedia(mediaId, name) {
 }
 
 export function updateMediaOption(mediaId, option, type, value) {
-  return cthttp.put(`Media/Option/${mediaId}/${option}/${type}/${value}`));
+  return cthttp.put(`Media/Option/${mediaId}/${option}/${type}/${value}`);
 }
 
 export function updateCrowdEditModeMedia(mediaId, crowdEditMode) {
