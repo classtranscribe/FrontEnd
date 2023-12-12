@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { uurl, links } from 'utils';
 import { Playlist } from 'entities/Playlists';
 import { InfoAndListLayout } from 'components';
+import { CTCheckbox } from 'layout';
 import BreadCrumb from './BreadCrumb';
 import PlaylistName from './PlaylistName';
 import Actions from './Actions';
@@ -40,7 +41,12 @@ function PlaylistInfoWithRedux(props) {
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(playlist.name);
-
+  const [restrictRoomStream, setRestrictRoomStream] = useState(playlist?.options?.restrictRoomStream || true);
+  const [swapStreams, setSwapStreams] = useState(playlist?.options?.swapStreams || false);
+  const [doAIDescriptions, setDoAIDescriptions] = useState(parseInt(playlist?.options?.doAIDescriptions,10) || 0);
+  const [doCaptions, setDoCaptions] = useState(parseInt(playlist?.options?.doCaptions,10)||1);
+  const [doAISummary, setDoAISummary] = useState(parseInt(playlist?.options?.doCaptions,10)||0);
+  const [doTranslation, setDoTranslation] = useState(playlist?.options?.doTranslation || "defaulttranslations");
   const handleEdit = () => setEditing(true);
 
   const onInputChange = ({ target: { value } }) => {
@@ -51,11 +57,22 @@ function PlaylistInfoWithRedux(props) {
 
   const handleRename = async () => {
     if (!inputValue) return;
-    const playlist_ = await Playlist.rename(playlist, inputValue);
-    if (playlist_) {
-      dispatch({type: 'instplaylist/setPlaylist', payload: playlist_.toObject()});
+    const newOptions = {... playlist.options} || {};
+    newOptions.restrictRoomStream = restrictRoomStream;
+    newOptions.swapStreams = swapStreams;
+    newOptions.doAIDescriptions = doAIDescriptions;
+    newOptions.doCaptions = doCaptions;
+    newOptions.doAISummary = doAISummary;
+    newOptions.doTranslation = doTranslation;
+    
+
+    if (playlist.name !== inputValue || playlist.options !== newOptions) {
+      const playlist_ = await Playlist.update(playlist, inputValue, newOptions);
+      if (playlist_) {
+        dispatch({type: 'instplaylist/setPlaylist', payload: playlist_.toObject()});
+      }
     }
-    handleCancelRename();
+      handleCancelRename();
   };
 
   const handleDelete = () => {
@@ -91,13 +108,24 @@ function PlaylistInfoWithRedux(props) {
     playlistId: playlist.id,
     offeringId: offering.id
   };
-
+// todo refactor checkbox options into a component
   return (
     <InfoAndListLayout.Info id="ipl-pl-info">
       <BreadCrumb offering={offering} playlist={playlist} />
 
       <PlaylistName {...plNameprops} />
-
+      {editing ?
+      (
+        <>
+          <CTCheckbox id="cb-swapStreams" label="Fix incoming stream order (projector content is secondary stream)" checked={swapStreams} onChange={()=>setSwapStreams(!swapStreams)} />  
+          <CTCheckbox id="cb-restrictRoomStream" label="For student privacy hide the secondary room-camera view" checked={restrictRoomStream} onChange={()=>setRestrictRoomStream(!restrictRoomStream)} /> 
+          <CTCheckbox id="cb-doAIDescriptions" label="AI-generated descriptions" checked={doAIDescriptions===1} onChange={()=>setDoAIDescriptions((doAIDescriptions+1)%2)} />  
+          <CTCheckbox id="cb-doAISummary" label="AI-generated summarization" checked={doAISummary===1} onChange={()=>setDoAISummary((doAISummary+1)%2)} />
+          <CTCheckbox id="cb-doCaptions" label="Send audio to Microsoft for captioning" checked={doCaptions===1} onChange={()=>setDoCaptions((doCaptions+1)%2)} />  
+          {doCaptions===1? <CTCheckbox id="cb-doTranslations" label="Translate captions into other languages" checked={doTranslation.length>0} onChange={()=>setDoTranslation(doTranslation.length===0?"defaulttranslations":"")} /> : null}
+          
+        </>)
+      : null }
       <Actions {...actionProps} />
     </InfoAndListLayout.Info>
   );
