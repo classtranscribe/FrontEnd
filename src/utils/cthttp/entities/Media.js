@@ -33,6 +33,14 @@ export function renameMedia(mediaId, name) {
   return cthttp.put('Media/PutMediaName', null, { params: { name, mediaId } });
 }
 
+export function updateFlashWarningMedia(mediaId, flashWarning) {
+  return cthttp.put('Media/PutFlashWarning', null, { params: { flashWarning, mediaId } });
+}
+
+export function updateCrowdEditModeMedia(mediaId, crowdEditMode) {
+  return cthttp.put('Media/PutCrowdEditMode', null, { params: { crowdEditMode, mediaId } });
+}
+
 export function updateMediaMetadata(mediaId, jsonMetadata) {
   return cthttp.put(`Media/PutJsonMetaData/${mediaId}`, jsonMetadata);
 }

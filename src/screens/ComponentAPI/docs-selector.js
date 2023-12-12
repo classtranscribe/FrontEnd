@@ -11,7 +11,7 @@ const createDocsData = (title, Component) => ({
  * @param {String} type - the type of the component api
  * @returns {{title:string, Component:ReactNode}} the docs data
  */
-export default function(type) {
+export default (type) => {
   const docsSelector = {
     'ct-form': createDocsData('CTForm', CTFormUsage)
   };

@@ -106,6 +106,7 @@ const InstCourseModel = {
         },
     },
     effects: {
+        // eslint-disable-next-line no-unused-vars
         *loadModel({ _payload }, { call, put }) {
             let terms = yield call(getTerms);
             yield put({type: 'setTerms', payload: terms});

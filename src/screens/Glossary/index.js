@@ -5,8 +5,6 @@ import { cthttp } from 'utils/cthttp/request.js';
 import GlossaryTable from './components/GlossaryTable/index.js';
 import GlossaryBar from './components/GlossaryBar/index.js';
 
-
-
 // the config header will avoid cors blocked by the chrome
 const config = {
     headers: {
@@ -18,7 +16,7 @@ const config = {
 /**
  * object for the whole Glossary page
  */
-const GolssaryWithRedux = (props) => {
+const GlossaryWithRedux = () => {
     const layoutProps = CTLayout.createProps({
         transition: true,
         responsive: true,
@@ -57,4 +55,4 @@ const GolssaryWithRedux = (props) => {
 
 export const Glossary = connect(({ glossarypage }) => ({
     glossarypage
-}))(GolssaryWithRedux);
+}))(GlossaryWithRedux);

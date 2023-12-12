@@ -84,7 +84,7 @@ class App extends React.Component {
     return (
       // <AppInsightsProvider>
       <Switch>
-        <Route exact path={user.callbackPaths} component={AuthCallback} />
+        {user.callbackPaths.map((path)=><Route exact path={path} key={path} component={AuthCallback} /> )}
         <Route exact path="/sign-in" component={SignIn} />
 
         {/* Admin */}

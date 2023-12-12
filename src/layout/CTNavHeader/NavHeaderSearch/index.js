@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import './index.scss';
 import { links } from 'utils';
@@ -42,7 +41,7 @@ export function NavHeaderSearch() {
   // parse url
   const url = new URL(links.currentUrl());
   const currOfferingId = url.pathname.split('/').pop();
-  const currPlaylistId = url.hash.split('=').pop();
+  // const currPlaylistId = url.hash.split('=').pop();
 
   async function updateTransObject() {
     try {

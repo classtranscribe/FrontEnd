@@ -5,3 +5,4 @@ export { ClosedCaption } from './ClosedCaption';
 export { AudioDescription } from './AudioDescription';
 export { UpNext } from './UpNext';
 export { TransCtrlButtons } from './TransCtrlButtons';
+export { FlashWarningButton } from './FlashWarningButton';

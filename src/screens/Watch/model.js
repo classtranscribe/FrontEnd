@@ -50,7 +50,9 @@ const initState = {
         videos: [],
         transcriptions: [],
         isUnavailable: false,
+        flashDetected: false
     },
+    flashAcknowledged: false,
     playlist: {},
     playlists: [],
     offering: {},
@@ -335,6 +337,11 @@ const WatchModel = {
             return { ...state, ...payload };
         },
 
+
+        setFlashAcknowledged(state, { payload }) {
+            return { ...state, flashAcknowledged: payload };
+        },
+
         changeVideo(state, { payload }) {
             return {
                 ...state,
@@ -363,6 +370,7 @@ const WatchModel = {
                 liveMode: false,
                 prompt: null,
                 search: SEARCH_INIT,
+                flashAcknowledged: false,
             };
         },
 

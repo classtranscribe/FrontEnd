@@ -76,7 +76,7 @@ const HomeModel = {
         setSelTerms(state, { payload }) {
             return buildSections({ ...state, selTerms: payload })
         },
-        pageLoadError(state, { payload }) {
+        pageLoadError(state) {
             if (state.error === HomeConstants.CTHomepageLoadError) return state;
             console.error(state.error)
             state.error = HomeConstants.CTHomepageLoadError
@@ -156,6 +156,7 @@ const HomeModel = {
                 return [];
             }
         },
+        // eslint-disable-next-line no-unused-vars
         *getStarredOfferings({ payload }, { call, put }) {
             if (!user.isLoggedIn) return [];
             try {
@@ -226,7 +227,7 @@ const HomeModel = {
     subscriptions: {
         setup({ dispatch }) {
             // api.contentLoaded(); <- THIS WILL BE COMPLETED BY THE LOADING EFFECTS
-            document.addEventListener('readystatechange', e => {
+            document.addEventListener('readystatechange', () => {
                 if (document.readyState === "complete") {
                     dispatch({ type: 'initialize' });
                 }

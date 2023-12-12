@@ -1,4 +1,4 @@
-import { CTFragment, CTText, altEl, useButtonStyles} from 'layout'
+import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
 import { connect } from 'dva'
@@ -11,17 +11,17 @@ import {epub as epubTools} from '../../../controllers';
 function INoteChapter ({
   chapter, 
   chIdx,
-  canSplitSubChapter = true,
-  canSubdivide = true,
+  // canSplitSubChapter = true,
+  // canSubdivide = true,
   images,
   epub,
-  _isSubChapter,
-  _subChIdx,
-  _condition,
+  // _isSubChapter,
+  // _subChIdx,
+  // _condition,
   dispatch 
 }) {
   const { start, end, title } = chapter;
-  const btnStyles = useButtonStyles();
+  // const btnStyles = useButtonStyles();
   const startTimeStr = timestr.toPrettierTimeString(start);
   const endTimeStr = timestr.toPrettierTimeString(end);
   const [insertType, setInsertType] = useState(null);
@@ -150,22 +150,27 @@ function INoteChapter ({
   })};
 
   // New Subchapter Button 
-  const splitSChBtnElement = (itemIdx) => {
-    return altEl(Button, canSplitSubChapter, {
-      ...btnProps,
-      text: 'New Sub-Chapter',
-      icon: 'subdirectory_arrow_right',
-      // onClick: splitSubChapter
-  })};
+  // There is another splitSChBtnElement function in EpubListItem.js !?
+  // This one does not seem to be used anywhere
+  // const splitSChBtnElement = () => {
+  //   return altEl(Button, canSplitSubChapter, {
+  //     ...btnProps,
+  //     text: 'New Sub-Chapter',
+  //     icon: 'subdirectory_arrow_right',
+  //     // onClick: splitSubChapter
+  // })};
 
   // Subdivide Button 
-  const subdivideBtnElement = (itemIdx) => {
-    return altEl(Button, canSubdivide, {
-      ...btnProps,
-      text: 'subdivide',
-      icon: 'subdirectory_arrow_right',
-      // onClick: subdivideChapter
-  })};
+  // There is another implementation in EPubListItem!?
+  // This one does not seem to be used anywhere
+  // eslint-disable-next-line no-unused-vars
+  // const subdivideBtnElement = () => {
+  //   return altEl(Button, canSubdivide, {
+  //     ...btnProps,
+  //     text: 'subdivide',
+  //     icon: 'subdirectory_arrow_right',
+  //     // onClick: subdivideChapter
+  // })};
 
   // DISPATCH FUNCTIONS 
   // Save Chapter Title Handler 

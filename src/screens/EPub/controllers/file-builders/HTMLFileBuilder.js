@@ -1,8 +1,9 @@
+/* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
-import { EPubData } from 'entities/EPubs';
-import { doc } from 'prettier';
-import { jsPDF as JsPDF } from 'jspdf';
+// import { EPubData } from 'entities/EPubs';
+// import { doc } from 'prettier';
+// import { jsPDF as JsPDF } from 'jspdf';
 
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
@@ -12,7 +13,7 @@ import {
   getChapterGlossaryAndTextHighlight,
 } from './GlossaryCreator';
 
-import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS, PRISM_JS } from './file-templates/html';
+import { INDEX_HTML_LIVE, INDEX_HTML_LOCAL, STYLE_CSS/* , PRISM_JS */ } from './file-templates/html';
 
 import { env as reactEnv } from '../../../../utils/env';
 
@@ -126,9 +127,9 @@ class HTMLFileBuilder {
     });
   }
   getImageDimensions(src) {
-    return new Promise(function (resolved, rejected) {
+    return new Promise( (resolved /* , rejected */) => {
       let i = new Image();
-      i.onload = function () {
+      i.onload = ()=> {
         resolved({ w: i.width, h: i.height });
       };
       i.src = src;
@@ -166,6 +167,9 @@ class HTMLFileBuilder {
         if (imgStart !== -1 && (imgStart < transcriptStart || transcriptStart === -1)) {
           let imgEnd = curText.indexOf('alt=');
           let imgData = curText.substring(imgStart + 5, imgEnd - 2);
+          // It's okay to have an await in a loop when the result of one iteration
+          // affects the next iteration
+          // eslint-disable-next-line no-await-in-loop
           dimensions = await this.getImageDimensions(imgData);
           ratio = dimensions.w / dimensions.h;
           imgWidth = Math.round(ratio * 100);
@@ -274,6 +278,8 @@ class HTMLFileBuilder {
             }
           } else if (subContents.src) {
             const subImgData = subchapterImages[subContents.src];
+
+            // eslint-disable-next-line no-await-in-loop
             dimensions = await this.getImageDimensions(subImgData);
             ratio = dimensions.w / dimensions.h;
             imgWidth = Math.round(ratio * 100);

@@ -4,6 +4,15 @@ import { links, uurl } from 'utils';
 import { accountStorage } from 'utils/user/storage';
 
 const DEFAULT_LOG_TIMEOUT = 120000;
+// Should we add a version of the  following as the default config?
+// (At least during development when running the frontend on a different server)
+// const defaultconfig = {
+//   headers: {
+//     "Access-Control-Allow-Origin": "*", // or something more limited?
+//     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+//   }
+// };
+
 class CTHTTPRequest {
   /**
    * Create an axios instance with ClassTranscribe authorization

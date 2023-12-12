@@ -21,7 +21,7 @@ export function getDefaultSidebarType(
 export function getScreenResizeListener(defaultSidebar, setSidebar) {
   let lastSidebar = defaultSidebar;
 
-  function screenResizeListener(e) {
+  const screenResizeListener = ()=> {
     if (window.innerWidth < 600) {
       if (lastSidebar !== null) {
         lastSidebar = null;

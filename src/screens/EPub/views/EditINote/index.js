@@ -64,6 +64,6 @@ function EditINote ({epub: epubData, dispatch}) {
     </EPubNavigationProvider>
   )
 }
-export default connect(({epub: {epub}, loading }) => ({
+export default connect(({epub: {epub} }) => ({
     epub
   }))(EditINote);

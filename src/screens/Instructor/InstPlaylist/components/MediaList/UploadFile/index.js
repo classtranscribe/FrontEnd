@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { useState } from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -30,22 +29,23 @@ const mediaControl = {
     onUploadProgress,
     setFailedVideos
   ) {
+    if(uploadedMedias.length === 0) return;
     let successedVideos = [];
-    for (let i = 0; i < uploadedMedias.length; i += 1) {
-      setUploadingIndex(i);
-      setProgress(0);
-      let successed = await this.uploadasl(mediaId, uploadedMedias[i], onUploadProgress);
-      if (successed) {
-        successedVideos.push(i);
-      } else {
-        setFailedVideos(fvis => [...fvis, i]);
-      }
+    // Just upload one video.
+    const index = uploadedMedias.length - 1;
+    const oneMedia = uploadedMedias[index]
+    setUploadingIndex(index);
+    setProgress(0);
+    let successed = await this.uploadasl(mediaId, oneMedia, onUploadProgress);
+    if (successed) {
+        successedVideos.push(index);
+    } else {
+        setFailedVideos(fvis => [...fvis, index]);
     }
 
     if (successedVideos.length > 0) {
-      prompt.addOne({ text: `Uploaded ${successedVideos.length} videos.`, timeout: 4000 });
+      prompt.addOne({ text: `Uploaded video.`, timeout: 4000 });
     }
-
     return successedVideos;
   },
   async uploadasl(mediaId, aslvideo, onUploadProgress) {

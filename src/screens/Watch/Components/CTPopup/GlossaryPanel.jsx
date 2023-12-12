@@ -13,6 +13,8 @@ function GlossaryPanel(props) {
   useEffect(() => {
     const byChar = [...glossaries];
     const byTime = [...glossaries];
+    // eslint-disable-next-line no-console, no-alert
+
     byChar.sort((a, b) => {
       if (a.word.toLowerCase() < b.word.toLowerCase()) {
         return -1;
@@ -68,8 +70,8 @@ function GlossaryPanel(props) {
             <ul>
               {sortByChar.filter(glossaryEntry => {
                 return glossaryEntry.word.toLowerCase().includes(searchKeyword.toLowerCase());
-                }).map((element, index) => 
-                  <li className='glossary-entry' key={index}>
+                }).map((element) => 
+                  <li className='glossary-entry' key={element.key}>
                     <button onClick={() => setTerm(element)}>
                       <span>
                         {element.word}
@@ -85,14 +87,14 @@ function GlossaryPanel(props) {
         <TabPanel className='glossary-list-container'>
           <div className="glossary-scrollable">
             <ul>
-              {sortByTime.map((element, index) => {              
+              {sortByTime.map((element) => {              
                 if (element.begin <= time && element.end >= time) {
                   // height light
                   return (
                     <li 
                       className='glossary-entry glossary-entry-highlighted'
-                      key={index}
-                      id={`glossary-item-${index}`}
+                      key={element.key}
+                      id={`glossary-item-${element.key}`}
                     >
                       <button onClick={() => setTerm(element)}>
                         <span>
@@ -106,8 +108,8 @@ function GlossaryPanel(props) {
                   return (
                     <li 
                       className='glossary-entry'
-                      key={index}
-                      id={`glossary-item-${index}`}
+                      key={element.key}
+                      id={`glossary-item-${element.key}`}
                     >
                       <button onClick={() => setTerm(element)}>
                         <span>

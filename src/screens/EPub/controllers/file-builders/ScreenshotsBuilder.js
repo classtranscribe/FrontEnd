@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import AdmZip from 'adm-zip';
 // import { EPubData } from 'entities/EPubs';
 import EPubParser from './EPubParser';

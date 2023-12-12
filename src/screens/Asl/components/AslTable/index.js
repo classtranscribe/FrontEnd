@@ -207,11 +207,11 @@ const AslTable = props => {
     })
 
     // release mouse
-    const onMouseUp = useCallback((e) => {
+    const onMouseUp = useCallback(() => {
       setIsDown(false);
     }, [])
 
-    const onMouseLeave = useCallback((e) => {
+    const onMouseLeave = useCallback(() => {
       setIsDown(false);
     }, [])
 
@@ -305,7 +305,7 @@ const AslTable = props => {
             </tr>
           </thead>
           <tbody>
-            {onePage.map((term, i) => {
+            {onePage.map((term) => {
               return (
                 <tr key={term.id}>
                   <td>{term.term}</td>

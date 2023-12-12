@@ -107,7 +107,7 @@ const EPubModel = {
         toggleShortcuts(state) {
             return { ...state, showShortcuts: !state.showShortcuts }
         },
-        resetStates(state, { _payload }) {
+        resetStates() {
             return { ...initState };
         },
         ...model_data_reducer
@@ -201,6 +201,7 @@ const EPubModel = {
         },
         // Debounce
         updateEPub: [
+            // eslint-disable-next-line func-names
             function* ({ payload: timeout = 3000 }, { put }) {
                 yield delay(timeout);
                 yield put({ type: 'updateEPub_Internal' })
@@ -228,7 +229,8 @@ const EPubModel = {
             yield put.resolve({ type: action, payload })
             yield put({ type: 'updateEPub' })
         },
-        *splitChaptersByScreenshots({ payload: {wc} }, { put }) {
+        // eslint-disable-next-line no-unused-vars
+        *splitChaptersByScreenshots({ payload }, { put }) {
             prompt.addOne({
                 text: 'Split chapters by screenshots.',
                 position: 'left bottom',

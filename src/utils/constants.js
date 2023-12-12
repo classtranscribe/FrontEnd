@@ -26,3 +26,14 @@ export const isDeveloping = Boolean(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 );
+
+// Flash Detection
+// 0 = Unknown, 1= Detect-No 2= Set-No 3=Detect-Yes 4=Set-Yes
+export const FLASH_SET_YES = 4
+export const FLASH_DETECT_YES = 3
+export const FLASH_SET_NO = 2
+export const FLASH_DETECT_NO = 1
+export const FLASH_UNKNOWN = 0
+
+export const CROWDEDIT_ALLOW = 0
+export const CROWDEDIT_FREEZE_ALL = 1

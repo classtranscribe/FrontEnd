@@ -72,7 +72,7 @@ const InstPlaylistModel = {
         setConfirmation(state, { payload }) {
             return { ...state, confirmation: payload };
         },
-        clearData(state, { payload }) {
+        clearData() {
             return { ...initialState };
         },
     },
@@ -183,7 +183,35 @@ const InstPlaylistModel = {
                 yield put({ type: 'setMedias', payload: medias });
                 prompt.addOne({ text: 'ASL Video deleted.', timeout: 3000 });
             } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log('deleteASL', error);
                 prompt.error('Failed to delete the video.', { timeout: 5000 });
+            }
+        },
+        *setFlashingWarning({payload: {mediaId, flashWarning }}, {call,put, select }) {
+            try {
+                yield call(api.updateFlashWarningMedia, mediaId, flashWarning);
+                const { instplaylist: {medias} } = yield select();
+                const media = medias.find((m)=> m.id === mediaId);
+                media.flashWarning = flashWarning;
+                yield put({ type: 'setMedias', payload: [...medias] });
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log('setFlashingWarning', error);
+                prompt.error('Failed to change flash warning for the video.', { timeout: 5000 });
+            }
+        },
+        *setCrowdEditMode({payload: {mediaId, crowdEditMode }}, {call,put, select }) {
+            try {
+                yield call(api.updateCrowdEditModeMedia, mediaId, crowdEditMode);
+                const { instplaylist: {medias} } = yield select();
+                const media = medias.find((m)=> m.id === mediaId);
+                media.crowdEditMode = crowdEditMode;
+                yield put({ type: 'setMedias', payload: [...medias] });
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log('setCrowdEditMode', error);
+                prompt.error('Failed to change flash warning for the video.', { timeout: 5000 });
             }
         }
     },

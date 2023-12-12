@@ -2,16 +2,16 @@
 // import _ from 'lodash';
 // import { api, user, prompt, InvalidDataError } from 'utils';
 
-const GlossaryModel = {
-    namespace: 'glossarypage',
-    state: {
+// const GlossaryModel = {
+//     namespace: 'glossarypage',
+//     state: {
         
-    },
-    reducers: {
+//     },
+//     reducers: {
         
-        setWatchHistories(state, { payload }) {
-            return null;
-        }
-    },
-}
-export default GlossaryModel
+//         setWatchHistories(state, { payload }) {
+//             return null;
+//         }
+//     },
+// }
+// export default GlossaryModel

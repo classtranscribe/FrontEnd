@@ -93,6 +93,6 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
   return selectedMenu;
 }
 
-export const Menus = connect(({ watch: { menu, transcriptions }, loading }) => ({
+export const Menus = connect(({ watch: { menu, transcriptions } }) => ({
   menu, transcriptions
 }))(MenusWithRedux);

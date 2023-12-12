@@ -42,6 +42,6 @@ export function ScreenModeSettingButtonWithRedux({ isFullscreen = false, mode = 
   ) : null;
 }
 
-export const ScreenModeSettingButton = connect(({ watch: { menu, mode, isFullscreen }, loading }) => ({
+export const ScreenModeSettingButton = connect(({ watch: { menu, mode, isFullscreen } }) => ({
   menu, mode, isFullscreen
 }))(ScreenModeSettingButtonWithRedux);

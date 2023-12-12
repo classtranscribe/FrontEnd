@@ -60,18 +60,20 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
         <div className="customize-playbackrate">
           <label className="customize-playbackrate-title" htmlFor="playback-rate-slider">
             Playback rate <span className="customize-playbackrate-num">{sliderValue}</span>
+          
+            <input
+              id="playback-rate-slider"
+              className="playbackrate-slider"
+              type="range"
+              min={0.25}
+              max={4}
+              step={0.05}
+              value={sliderValue}
+              onChange={handleSliderChange}
+              onKeyDown={handleKeyDown}
+            />
           </label>
-          <input
-            id="playback-rate-slider"
-            className="playbackrate-slider"
-            type="range"
-            min={0.25}
-            max={4}
-            step={0.05}
-            value={sliderValue}
-            onChange={handleSliderChange}
-            onKeyDown={handleKeyDown}
-          />
+          
         </div>
       )}
 
@@ -125,6 +127,6 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
   );
 }
 
-export default connect(({ playerpref: { playbackrate }, loading }) => ({
+export default connect(({ playerpref: { playbackrate } }) => ({
   playbackrate
 }))(PlaybackrateMenu);

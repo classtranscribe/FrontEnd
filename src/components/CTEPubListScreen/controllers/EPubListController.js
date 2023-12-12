@@ -1,6 +1,6 @@
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt, uurl, links } from 'utils';
+import { api, prompt, links } from 'utils';
 import { EPubData } from 'entities/EPubs/structs';
 import Constants from 'screens/EPub/controllers/constants/EPubConstants';
 import { LanguageConstants } from '../../CTPlayer';
@@ -41,10 +41,11 @@ class EPubListController {
       prompt.error('Failed to create the I-Note.');
       return null;
     }
+    const url = links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew);
 
-    uurl.openNewTab(
-      links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew)
-    );
+    window.location.href = url;
+    // Don't open in new tab; the user may not have enabled that.
+    // nope: uurl.openNewTab(url)
 
     return newEPubData;
   }

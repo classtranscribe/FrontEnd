@@ -4,6 +4,7 @@
 import { api } from 'utils';
 import _ from 'lodash';
 // import { isMobile } from 'react-device-detect';
+import { /* CROWDEDIT_ALLOW, */CROWDEDIT_FREEZE_ALL } from 'utils/constants.js';
 import {
     ENGLISH, ARRAY_EMPTY // , WEBVTT_SUBTITLES, WEBVTT_DESCRIPTIONS,
     // PROFANITY_LIST,
@@ -86,8 +87,6 @@ export default {
 
             alldata = allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
         }
-        // eslint-disable-next-line no-console
-        console.log(`*setCurrTrans ${alldata.length} captions`)
 
         let closedcaptions = alldata.filter((c)=>c.tran.transcriptionType === 0);
         let descriptions = alldata.filter((c)=>c.tran.transcriptionType !==0);
@@ -112,7 +111,6 @@ export default {
         }
     },
     *updateTranscript({ payload: currentTime }, { put, select }) {
-        // eslint-disable-next-line no-console
         const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
@@ -174,6 +172,13 @@ export default {
     *setTransEditMode({ payload: { caption } }, { put, select }) {
         // if no param caption, edit current caption
         const { watch, playerpref } = yield select();
+        
+        const media = watch.media;
+        const crowdEdit = media.crowdEditMode !== CROWDEDIT_FREEZE_ALL;
+        if (! crowdEdit) {
+            return;
+        }
+
         const currCap = caption || watch.currCaption_;
         yield put({ type: 'setCurrEditing', payload: currCap });
         if (playerpref.pauseWhileEditing) {

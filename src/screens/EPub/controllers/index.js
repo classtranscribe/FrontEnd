@@ -13,7 +13,7 @@ export const epub = {
 };
 // Transition Function
 export const connectWithRedux = (Component, property) => {
-  return connect(({ epub : _epub, loading, history }) => {
+  return connect(({ epub : _epub}) => {
     if (!property) {
       return {};
     }

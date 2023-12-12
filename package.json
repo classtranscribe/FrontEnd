@@ -112,6 +112,11 @@
     "lint-staged": "^10.2.4",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "sass": "^1.63.6"
+    "react-error-overlay": "6.0.9",
+    "sass": "^1.63.6",
+    "update-browserslist-db": "^1.0.13"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   }
 }

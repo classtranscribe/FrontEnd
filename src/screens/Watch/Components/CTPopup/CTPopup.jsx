@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-indent */
 /* eslint-disable no-console */
 /* eslint-disable complexity */
 // import { parseSec } from 'screens/Watch/Utils';
 import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.scss';
-import { ButtonGroup } from 'semantic-ui-react';
+// import { ButtonGroup } from 'semantic-ui-react';
 import { cthttp } from 'utils/cthttp/request';
 import { env } from 'utils/env';
 import { connect } from 'dva';
@@ -30,13 +31,10 @@ import GlossaryPanel from './GlossaryPanel';
 //     </TabPanel>)
 // }
 
-const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
+const CTPopup = ({ time = 0 }) => {
   // const [opvalue, setOpvalue] = useState(0.95); // variable for transparency
   // const OPSTEP = 0.125 / 2; // the amount of changed opvalue for each operation
   const origin = env.baseURL || window.location.origin; // e.g. https://localhost https://ct-dev....
-  // eslint-disable-next-line no-console
-  console.log(`CTPopup origin:${origin}`)
-  // const hostName = "ct-dev.ncsa.illinois.edu"; // for local test
   // below are variables for videos and explanations for chosen glossary
   const [term, setTerm] = useState({
     word: '',
@@ -48,7 +46,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
   const [exampleURL, setExampleURL] = useState('');
 
 
-  // const show = useRef();
+  // eslint-disable-next-line no-unused-vars
   const [show, setShow] = useState([{
     word: 'toy',
     begin: 0,
@@ -74,18 +72,15 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     async function fetchData() {
       const queryParameter = new URLSearchParams(window.location.search);
       const mid = queryParameter.get('id');
-      // setMediaId(mid);
-      // console.log(`mediaId: ${mid}`);
       const ret = await cthttp.get(`Media/${mid}`);
       const vid = ret.data.video.id;
-      // console.log(`videoId: ${vid}`); //f1ebd193-4590-4776-a910-226fe22f17c6
-      // setVideoId(vid);
       const res2 = await cthttp.get(`Task/GetGlossaryTimestamp?videoId=${vid}`);
       const times = res2.data.glossaryTimestamp;
       const res = await cthttp.get(`Task/GetGlossary?videoId=${vid}`); // English And potentially ASL Glossary entries
       
-      console.log(res);
       const gdata = [];
+      const keys = {};
+      let tiebreaker = 0;
       res.data.Glossary.forEach(element => {
         const curdata = {
           word: element[0],
@@ -95,14 +90,21 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
           detail: element[6],
         };
         const curword = element[0];
+        let basekey = curword;
         const curstamp = times[curword];
         if (curstamp !== undefined) {
           curdata.begin = parseTimestamp(curstamp[0].substring(0, 8));
           curdata.end = parseTimestamp(curstamp[1].substring(0, 8));
-        } else {
-          // console.warn(`${curword} not found in time stamp`);
+          basekey = `${curdata.begin}-${curdata.end}-${basekey}`;
+        } 
+        let key = basekey;
+
+        while (keys[key] !== undefined) {
+          tiebreaker += 1;
+          key = `${tiebreaker}-${basekey}`;
         }
-        // console.log(curdata);
+        keys[key] = true;
+        curdata.key = key;
         gdata.push(curdata);
       });
 
@@ -155,11 +157,11 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     opacity: 0.98,
   };
 
-  const btngpStyle = {
-    // color: 'blue',
-    // visibility: disp,
-    float: 'right',
-  };
+  // const btngpStyle = {
+  //   // color: 'blue',
+  //   // visibility: disp,
+  //   float: 'right',
+  // };
 
   // used for transparency
   // const addOpValue = () => {
@@ -187,7 +189,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
   //   str += "%";
   //   return str;
   // }
-  const aslIcon = <i className="material-icons">asl</i>;
+  // const aslIcon = <i className="material-icons">asl</i>;
 
   const cite = (t) => (<><a target="_blank" rel="noopener noreferrer" href={t.websiteURL}>More information</a></>)
 
@@ -220,18 +222,18 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
             <TabPanel>
               {signURL === '' ? (<span>sign video for this term is not found</span>)
                     :
-                    (<><video
-                      className="video-js vjs-default-skin video-player"
-                      controls
-                      preload="auto"
-                      data-setup="{}"
-                      autoPlay
-                      muted
-                    >
-                      <source src={signURL.URL} type='video/mp4' />
-                       </video>
+                    (<>
+                      <video
+                        className="video-js vjs-default-skin video-player"
+                        controls
+                        preload="auto"
+                        data-setup="{}"
+                        autoPlay
+                        muted
+                      ><source src={signURL.URL} type='video/mp4' />
+                      </video>
                       {cite(signURL)}
-                    </>)}
+                     </>)}
             </TabPanel>)}
             {definitionURL !== '' && (
             <TabPanel>
@@ -248,7 +250,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
                     >
                       <source src={definitionURL.URL} type='video/mp4' />
                        </video>{cite(definitionURL)}
-                    </>)}
+                     </>)}
             </TabPanel>)}
             {exampleURL !== '' && (
             <TabPanel>
@@ -262,10 +264,9 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
                       data-setup="{}"
                       autoPlay
                       muted
-                    >
-                      <source src={exampleURL.URL} type='video/mp4' />
+                    ><source src={exampleURL.URL} type='video/mp4' />
                        </video>{cite(exampleURL)}
-                    </>)}
+                     </>)}
             </TabPanel>)}
           </Tabs>
         

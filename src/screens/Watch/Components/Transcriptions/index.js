@@ -67,7 +67,7 @@ function TranscriptionsWithRedux(props) {
           </div>
         ) : transView === LINE_VIEW ? (
           <div className="trans-list" style={{zIndex: 10}}>
-            {transcript.map((caption, index) => {
+            {transcript.map((caption) => {
               return <CaptionLine
                 key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
                 caption={caption}
@@ -83,7 +83,7 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-article">
             {transcript.map((caption, index) => (
               <TranscriptText
-                key={index}
+                key={caption.id}
                 caption={caption}
                 isCurrent={isCurrent(index)}
                 dispatch={dispatch}

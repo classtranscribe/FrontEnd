@@ -12,8 +12,8 @@ function PlaylistsWithRedux(props) {
     isInstMode,
     offering = {},
     playlist,
-    playlists = [],
-    setPlaylist
+    playlists = []
+    // setPlaylist
   } = course
   const setup = {}; // TO DISPATCH
   const { hash } = props.location || {};
