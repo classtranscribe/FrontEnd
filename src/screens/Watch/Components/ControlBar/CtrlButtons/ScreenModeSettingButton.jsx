@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import {
   screenModes,
-  MENU_HIDE,
   MENU_SCREEN_MODE,
   NORMAL_MODE,
 } from '../../../Utils';
@@ -43,6 +42,6 @@ export function ScreenModeSettingButtonWithRedux({ isFullscreen = false, mode = 
   ) : null;
 }
 
-export const ScreenModeSettingButton = connect(({ watch: { menu, mode, isFullscreen }, loading }) => ({
+export const ScreenModeSettingButton = connect(({ watch: { menu, mode, isFullscreen } }) => ({
   menu, mode, isFullscreen
 }))(ScreenModeSettingButtonWithRedux);

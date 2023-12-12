@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { links, timestr } from 'utils'
 import ListItem from '@material-ui/core/ListItem';
-import _ from 'lodash';
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';

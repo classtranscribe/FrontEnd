@@ -18,9 +18,9 @@ function TagGroup({
     let tagsObject = null;
     const anchorRef = useRef(null);
 
-    const handleOpenDropdown = () => {
-        setOpenDropdown(true);
-    };
+    // unused const handleOpenDropdown = () => {
+    //     setOpenDropdown(true);
+    // };
     const handleCloseDropdown = () => {
         setOpenDropdown(false);
     };
@@ -43,7 +43,7 @@ function TagGroup({
     const getTagsList = () => {
       let tagsSet = new Set();
       let tagsObj = {};
-      chapters.forEach((chapter, idx) => {
+      chapters.forEach((chapter) => {
         chapter.condition.forEach((tag) => {
           tagsSet.add(tag);
         })
@@ -121,33 +121,34 @@ function TagGroup({
       <CTFragment>
         {selectedChapters.length !== 0 &&
         <CTFragment className='tagGroup'>
-            <SelectCtrlButton
-              selecting={selectedChapters.length > 0}
-              isSelectedAll={selectedChapters.length === chapters.length}
-              selectAll={() => handleSelectAll()}
-              removeAll={() => handleRemoveAll()}
-            />
-            <Button 
-              className='ct-epb-dropdown-button'
-              variant="contained" 
-              endIcon={<ArrowDropDown />}
-              onClick={setOpenDropdown}
-              ref={anchorRef}
-            >Add/Remove Tags</Button>
-            <CTDropdown
-              id="ct-epub-tag-dropdown"
-              options={getTagsList()}
-              open={openDropdown}
-              anchorRef={anchorRef}
-              onClose={handleCloseDropdown}
-              onChange={handleChange}
-            />
+          <SelectCtrlButton
+            selecting={selectedChapters.length > 0}
+            isSelectedAll={selectedChapters.length === chapters.length}
+            selectAll={() => handleSelectAll()}
+            removeAll={() => handleRemoveAll()}
+          />
+          <Button 
+            className='ct-epb-dropdown-button'
+            variant="contained" 
+            endIcon={<ArrowDropDown />}
+            onClick={setOpenDropdown}
+            ref={anchorRef}
+          >Add/Remove Tags
+          </Button>
+          <CTDropdown
+            id="ct-epub-tag-dropdown"
+            options={getTagsList()}
+            open={openDropdown}
+            anchorRef={anchorRef}
+            onClose={handleCloseDropdown}
+            onChange={handleChange}
+          />
         </CTFragment>}
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-            <DialogTitle>Add a Tag</DialogTitle>
-            <DialogContent>
+          <DialogTitle>Add a Tag</DialogTitle>
+          <DialogContent>
             <DialogContentText className="ct-epub-tag-dialog">
-                Enter a new tag below.      
+              Enter a new tag below.      
             </DialogContentText>
             <TextField
               autoFocus
@@ -157,11 +158,11 @@ function TagGroup({
               variant="standard"
               onChange={(e) => {setNewTag(e.target.value)}}
             />
-            </DialogContent>
-            <DialogActions>
+          </DialogContent>
+          <DialogActions>
             <Button onClick={handleCloseDialog}>Cancel</Button>
             <Button onClick={handleAddNewTag}>Add Tag</Button>
-            </DialogActions>
+          </DialogActions>
         </Dialog>
       </CTFragment>
     );

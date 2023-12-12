@@ -9,6 +9,7 @@ import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
 
 function MediaItem({
+  playlistId,
   media,
   selecting,
   filtering,
@@ -24,7 +25,7 @@ function MediaItem({
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(mediaName);
-
+  
   const stopPropagation = (event) => {
     if (event && event.stopPropagation) {
       event.stopPropagation();
@@ -70,7 +71,7 @@ function MediaItem({
   const renameBtnClick = editing ? handleRename : handleEdit;
 
   const checkBoxClasses = CTCheckbox.useStyles();
-
+  
   return (
     <Accordion className="media-item" expanded={expanded} onChange={handleExpansionChange}>
       <AccordionSummary
@@ -120,10 +121,12 @@ function MediaItem({
         </CTText>
 
         <MediaItemActions
+          playlistId={playlistId}
           media={media}
           mediaId={id}
           isUnavailable={isUnavailable}
           dispatch={dispatch}
+          
         />
       </AccordionDetails>
     </Accordion>

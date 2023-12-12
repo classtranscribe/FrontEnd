@@ -1,7 +1,7 @@
-import { MENU_HIDE, CO_CHANGE_VIDEO, SMTAB_GENERAL, MODAL_HIDE, MODAL_BEFORE_HIDE } from '../Utils/constants.util';
+import { MENU_HIDE,MODAL_HIDE } from '../Utils/constants.util';
 
 export default {
-    *menu_open({ payload: { type, option = 'a', tab } }, { call, put, select, take }) {
+    *menu_open({ payload: { type, option = 'a' } }, { put, select}) {
         yield put({ type: 'search_close' });
         const { watch } = yield select();
         if (option === 'b' && watch.menu === type) {
@@ -11,7 +11,8 @@ export default {
         yield put({ type: 'setMenu', payload: type })
         // Set tab, NOT IMPLEMENTED
     },
-    *menu_close({ payload: { timeout = 200 } = {} }, { call, put, select, take }) {
+    // eslint-disable-next-line no-unused-vars
+    *menu_close(_unused , { put, select}) {
         const { watch } = yield select();
         if (watch.menu === MENU_HIDE || !watch.menu) {
             return;
@@ -21,7 +22,7 @@ export default {
         //     put.resolve({ type: 'setMenu', payload: MENU_HIDE })
         // }, timeout);
     },
-    *modal_open({ payload: { type, option = 'a' } }, { call, put, select, take }) {
+    *modal_open({ payload: { type, option = 'a' } }, { put, select}) {
         yield put({ type: 'search_close' });
         const { watch } = yield select();
         if (option === 'b' && watch.modal === type) {
@@ -29,7 +30,9 @@ export default {
         }
         yield put({ type: 'setModal', payload: type })
     },
-    *modal_close({ payload: { timeout = 100 } = {} }, { call, put, select, take }) {
+        // eslint-disable-next-line no-unused-vars
+
+    *modal_close( _unused, { put, select}) {
         const { watch } = yield select();
         if (watch.modal === MODAL_HIDE || !watch.modal) {
             return;

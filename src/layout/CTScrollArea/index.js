@@ -6,7 +6,9 @@ import { elem } from 'utils/use-elem';
 import './index.scss';
 
 function addScrollEventListener(scrollEl, offsetTop, setIsTop) {
-  scrollEl.addEventListener('scroll', function () {
+  scrollEl.addEventListener('scroll', ()=> {
+    if(!this) return; // this can happen in yarn start dev mode.
+    
     if (this.scrollTop <= offsetTop && this.isNotTop) {
       setIsTop(true);
       this.isNotTop = false;

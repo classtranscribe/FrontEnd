@@ -26,7 +26,7 @@ const SearchModel = {
         },
     },
     effects: {
-        *searchValue({ payload }, { call, put, select, take }) {
+        *searchValue({ payload }, { put, select }) {
             const { home } = yield select();
             yield put({type: 'setSearchValue', payload })
             if (!payload) {
@@ -50,7 +50,7 @@ const SearchModel = {
     },
     subscriptions: {
         setup({ dispatch }) {
-            document.addEventListener('readystatechange', e => {
+            document.addEventListener('readystatechange', () => {
                 if (document.readyState === "complete") {
                     let { q } = uurl.useSearch();
                     if (q) {

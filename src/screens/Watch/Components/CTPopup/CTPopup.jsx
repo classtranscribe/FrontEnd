@@ -1,38 +1,40 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable no-console */
+/* eslint-disable complexity */
 // import { parseSec } from 'screens/Watch/Utils';
 import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.scss';
-import { ButtonGroup } from 'semantic-ui-react';
+// import { ButtonGroup } from 'semantic-ui-react';
 import { cthttp } from 'utils/cthttp/request';
+import { env } from 'utils/env';
 import { connect } from 'dva';
 import Draggable from 'react-draggable';
 import './CTPopup.scss'
 import GlossaryPanel from './GlossaryPanel';
 
+// marked for deletion - seems to be unused
+// const ASLVideoPlayer = (word, videoURL, source) => {
+//   return (
+//     <TabPanel>
+//       <strong>{`${word} (Source: ${source})`}</strong><br /><br />
+//       {videoURL==='' ? (<span>video not found</span>) 
+//       : 
+//       (<video 
+//         className="video-js vjs-default-skin video-player" 
+//         controls
+//         preload="auto"
+//         data-setup="{}"
+//       >
+//         <source src={videoURL} type='video/mp4' />
+//        </video>)}
+//     </TabPanel>)
+// }
 
-
-const ASLVideoPlayer = (word, videoURL, source) => {
-  return (
-    <TabPanel>
-      <strong>{`${word} (Source: ${source})`}</strong><br /><br />
-      {videoURL==='' ? (<span>video not found</span>) 
-      : 
-      (<video 
-        className="video-js vjs-default-skin video-player" 
-        controls
-        preload="auto"
-        data-setup="{}"
-      >
-        <source src={videoURL} type='video/mp4' />
-      </video>)}
-    </TabPanel>)
-}
-
-const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
-  const [opvalue, setOpvalue] = useState(0.75); // variable for transparency
-  const OPSTEP = 0.125; // the amount of changed opvalue for each operation
-  // const hostName = window.location.hostname;
-  const hostName = "ct-dev.ncsa.illinois.edu"; // for local test
+const CTPopup = ({ time = 0 }) => {
+  // const [opvalue, setOpvalue] = useState(0.95); // variable for transparency
+  // const OPSTEP = 0.125 / 2; // the amount of changed opvalue for each operation
+  const origin = env.baseURL || window.location.origin; // e.g. https://localhost https://ct-dev....
   // below are variables for videos and explanations for chosen glossary
   const [term, setTerm] = useState({
     word: '',
@@ -44,7 +46,7 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
   const [exampleURL, setExampleURL] = useState('');
 
 
-  // const show = useRef();
+  // eslint-disable-next-line no-unused-vars
   const [show, setShow] = useState([{
     word: 'toy',
     begin: 0,
@@ -52,14 +54,6 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
   }])
 
   const [glossaries, setGlossaries] = useState([]);
-  // const [videoId, setVideoId] = useState('');
-  // const [mediaId, setMediaId] = useState('');
-
-  // const [disp, setDisplay] = React.useState('visible');
-  // const [btnstatus, setBtn] = React.useState('hide');
-  // const [url, setUrl] = React.useState('http://localhost:3000/Density.mp4');
-  // const [playing, setPlay] = React.useState(false);
-  // const [playerstatus, setPlayerStatus] = React.useState('play');
 
   // stamp might be 00:00:00 or 00:00
   const parseTimestamp = (stamp) => {
@@ -78,34 +72,39 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
     async function fetchData() {
       const queryParameter = new URLSearchParams(window.location.search);
       const mid = queryParameter.get('id');
-      // setMediaId(mid);
-      // console.log(`mediaId: ${mid}`);
       const ret = await cthttp.get(`Media/${mid}`);
       const vid = ret.data.video.id;
-      // console.log(`videoId: ${vid}`); //f1ebd193-4590-4776-a910-226fe22f17c6
-      // setVideoId(vid);
       const res2 = await cthttp.get(`Task/GetGlossaryTimestamp?videoId=${vid}`);
       const times = res2.data.glossaryTimestamp;
-      const res = await cthttp.get(`Task/GetGlossary?videoId=${vid}`);
-      // console.log(res);
+      const res = await cthttp.get(`Task/GetGlossary?videoId=${vid}`); // English And potentially ASL Glossary entries
+      
       const gdata = [];
+      const keys = {};
+      let tiebreaker = 0;
       res.data.Glossary.forEach(element => {
         const curdata = {
           word: element[0],
           explain: element[1],
           source: element[3],
           url: element[5],
-          detail: element[6]
+          detail: element[6],
         };
         const curword = element[0];
+        let basekey = curword;
         const curstamp = times[curword];
         if (curstamp !== undefined) {
           curdata.begin = parseTimestamp(curstamp[0].substring(0, 8));
           curdata.end = parseTimestamp(curstamp[1].substring(0, 8));
-        } else {
-          console.warn("words not found in time stamp");
+          basekey = `${curdata.begin}-${curdata.end}-${basekey}`;
+        } 
+        let key = basekey;
+
+        while (keys[key] !== undefined) {
+          tiebreaker += 1;
+          key = `${tiebreaker}-${basekey}`;
         }
-        // console.log(curdata);
+        keys[key] = true;
+        curdata.key = key;
         gdata.push(curdata);
       });
 
@@ -130,134 +129,147 @@ const CTPopup = ({ time = 0, duration = 0, liveMode = false }) => {
         if (ret.status === 200) {
           // request success
           ret.data.forEach(element => {
-            const URL = `https://${hostName}/data/aslvideos/aslcore/original/${element.uniqueASLIdentifier.replace(' ', '_')}.mp4`
+            const URL = `${origin}/data/aslvideos/${element.source.toLowerCase()}/original/${element.uniqueASLIdentifier}.mp4`
+            element.URL = URL;
+            
+            
             if (element.kind === 1) {
-              setSignURL(URL);
+              setSignURL(element);
             } else if (element.kind === 2) {
-              setDefinitionURL(URL);
+              setDefinitionURL(element);
             } else if (element.kind === 3) {
-              setExampleURL(URL);
+              setExampleURL(element);
             }
           })
+        }
+        else {
+          // eslint-disable-next-line no-console
+          console.log(`No data for ${term.word}. result status: ${ret.status}`)
         }
       }
     }
     fetchData(term.word);
   }, [term]);
 
-  const divStyle = {
+  const glossaryOuterStyle = {
     // color: 'blue',
     // visibility: disp,
-    opacity: opvalue,
+    opacity: 0.98,
   };
 
-  const btngpStyle = {
-    // color: 'blue',
-    // visibility: disp,
-    float: 'right',
-  };
+  // const btngpStyle = {
+  //   // color: 'blue',
+  //   // visibility: disp,
+  //   float: 'right',
+  // };
 
   // used for transparency
-  const addOpValue = () => {
-    if (opvalue >= 1.0 - OPSTEP) {
-      setOpvalue(1.0);
-    }
-    else {
-      setOpvalue(opvalue + OPSTEP);
-    }
-  }
+  // const addOpValue = () => {
+  //   if (opvalue >= 1.0 - OPSTEP) {
+  //     setOpvalue(1.0);
+  //   }
+  //   else {
+  //     setOpvalue(opvalue + OPSTEP);
+  //   }
+  // }
 
-  // used for transparency
-  const subOpValue = () => {
-    if (opvalue <= OPSTEP * 2) {
-      setOpvalue(OPSTEP);
-    }
-    else {
-      setOpvalue(opvalue - OPSTEP);
-    }
-  }
+  // // used for transparency
+  // const subOpValue = () => {
+  //   if (opvalue <= OPSTEP * 2) {
+  //     setOpvalue(OPSTEP);
+  //   }
+  //   else {
+  //     setOpvalue(opvalue - OPSTEP);
+  //   }
+  // }
 
-  // used for transparency
-  const toPercent = (value) => {
-    let str = Number(value * 100);
-    str += "%";
-    return str;
-  }
+  // // used for transparency
+  // const toPercent = (value) => {
+  //   let str = Number(value * 100);
+  //   str += "%";
+  //   return str;
+  // }
+  // const aslIcon = <i className="material-icons">asl</i>;
+
+  const cite = (t) => (<><a target="_blank" rel="noopener noreferrer" href={t.websiteURL}>More information</a></>)
+
   return (
     <Draggable cancel='.search-bar'>
-      <div style={divStyle} className="video1 video2">
-        <div className='buttons'>
+      <div style={glossaryOuterStyle} className="video1 video2">
+        {/* <div className='buttons'>
           <ButtonGroup style={btngpStyle}>
             <button className='button'> {toPercent(opvalue)} </button>
             <button className='button' onClick={subOpValue}>-</button>
             <button className='button' onClick={addOpValue}>+</button>
           </ButtonGroup>
-        </div>
+        </div> */}
 
         <Tabs className='detail-div'>
-          <TabList>
-            <Tab>ASL Video</Tab>
-            <Tab>English</Tab>
-          </TabList>
-
-          <TabPanel>
-            <Tabs>
-              <TabList>
-                {signURL !== '' && (<Tab>Sign</Tab>)}
-                {definitionURL !== '' && (<Tab>Definition</Tab>)}
-                {exampleURL !== '' && (<Tab>Example</Tab>)}
-              </TabList>
-              {signURL !== '' && (
-                <TabPanel>
-                  <strong>{term.word}</strong><br /><br />
-                  {signURL === '' ? (<span>sign video for this term is not found</span>)
+          <Tabs>
+            <TabList>
+              <Tab>{term.word || 'English'}</Tab>
+              {((signURL+definitionURL+exampleURL) !=='') && (<> ASL</>)}
+              {signURL !== '' && (<Tab>Sign</Tab>)}
+              {definitionURL !== '' && (<Tab>Definition</Tab>)}
+              {exampleURL !== '' && (<Tab>Example</Tab>)}
+            </TabList>
+            <TabPanel className='divPanel'>
+              <strong>{term.word}</strong>
+              <span className='nowrap'>{term.explain}</span>
+              {(term.url?.length>0) && <a href={term.url} target='_blank' rel="noreferrer">Read more</a>}
+            </TabPanel>
+            {signURL !== '' && (
+            <TabPanel>
+              {signURL === '' ? (<span>sign video for this term is not found</span>)
                     :
-                    (<video
+                    (<>
+                      <video
+                        className="video-js vjs-default-skin video-player"
+                        controls
+                        preload="auto"
+                        data-setup="{}"
+                        autoPlay
+                        muted
+                      ><source src={signURL.URL} type='video/mp4' />
+                      </video>
+                      {cite(signURL)}
+                     </>)}
+            </TabPanel>)}
+            {definitionURL !== '' && (
+            <TabPanel>
+                 
+              {definitionURL === '' ? (<span>definition video for this term is not found</span>)
+                    :
+                    (<><video
                       className="video-js vjs-default-skin video-player"
                       controls
                       preload="auto"
                       data-setup="{}"
+                      autoPlay
+                      muted
                     >
-                      <source src={signURL} type='video/mp4' />
-                    </video>)}
-                </TabPanel>)}
-              {definitionURL !== '' && (
-                <TabPanel>
-                  <strong>{term.word}</strong><br /><br />
-                  {definitionURL === '' ? (<span>definition video for this term is not found</span>)
+                      <source src={definitionURL.URL} type='video/mp4' />
+                       </video>{cite(definitionURL)}
+                     </>)}
+            </TabPanel>)}
+            {exampleURL !== '' && (
+            <TabPanel>
+                 
+              {exampleURL === '' ? (<span>example video for this term is not found</span>)
                     :
-                    (<video
+                    (<><video
                       className="video-js vjs-default-skin video-player"
                       controls
                       preload="auto"
                       data-setup="{}"
-                    >
-                      <source src={definitionURL} type='video/mp4' />
-                    </video>)}
-                </TabPanel>)}
-              {exampleURL !== '' && (
-                <TabPanel>
-                  <strong>{term.word}</strong><br /><br />
-                  {exampleURL === '' ? (<span>example video for this term is not found</span>)
-                    :
-                    (<video
-                      className="video-js vjs-default-skin video-player"
-                      controls
-                      preload="auto"
-                      data-setup="{}"
-                    >
-                      <source src={exampleURL} type='video/mp4' />
-                    </video>)}
-                </TabPanel>)}
-            </Tabs>
-          </TabPanel>
-          <TabPanel className='divPanel'>
-            <strong>{term.word}</strong><br />
-            <span className='nowrap'>{term.explain}</span><br />
-            <span>{term.url}</span>
-          </TabPanel>
-
-
+                      autoPlay
+                      muted
+                    ><source src={exampleURL.URL} type='video/mp4' />
+                       </video>{cite(exampleURL)}
+                     </>)}
+            </TabPanel>)}
+          </Tabs>
+        
         </Tabs>
 
         <GlossaryPanel

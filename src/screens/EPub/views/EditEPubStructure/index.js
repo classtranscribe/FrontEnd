@@ -55,6 +55,6 @@ function EditEPubStructure({ epub: epubData, dispatch }) {
   );
 }
 
-export default connect(({ epub: { epub }, loading }) => ({
+export default connect(({ epub: { epub } }) => ({
   epub
 }))(EditEPubStructure);

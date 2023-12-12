@@ -3,7 +3,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { CTForm } from 'layout';
 import { api, user, prompt } from 'utils';
-import UniversitySelection from './UniversitySelection';
+// import UniversitySelection from './UniversitySelection';
 import BasicInfo from './BasicInfo';
 import CourseSelection from './CourseSelection';
 
@@ -20,7 +20,7 @@ function CourseForm(props) {
     defaultSelCourses = [],
     saveButtonText = 'create',
     onSave,
-    allowUniSelection = false,
+    // allowUniSelection = false,
   } = props;
 
   const defaultUniId = user.getUserInfo().universityId;
@@ -34,9 +34,11 @@ function CourseForm(props) {
   const [accessType, setAccess] = useState(defaultAccessType);
   const [coursesText, setCoursesText] = useState('');
 
-  const [universities, setUniversities] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [_universities, setUniversities] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [uniId, setUniId] = useState(defaultUniId);
-  const handleUniChange = ({ target: { value } }) => setUniId(value);
+  // const handleUniChange = ({ target: { value } }) => setUniId(value);
 
   // course selection
   const [selCourses, setSelCourses] = useState(defaultSelCourses);
@@ -98,11 +100,11 @@ function CourseForm(props) {
     }
   };
 
-  const uniSelProps = {
-    uniId,
-    universities,
-    handleUniChange
-  };
+  // const uniSelProps = {
+  //   uniId,
+  //   universities,
+  //   handleUniChange
+  // };
 
   const basicInfoProps = {
     error,

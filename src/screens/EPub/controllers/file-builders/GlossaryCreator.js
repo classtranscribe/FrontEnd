@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /**
  * This file contains functionality to add an HTML/Text based glossary to an I-Note given text present in a chapter.
  * The glossary data is received from the backend through a mediaId.

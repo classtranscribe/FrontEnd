@@ -1,6 +1,6 @@
 import { connect } from 'dva';
 import React from 'react';
-import { connectWithRedux, parseSec } from '../../../Utils';
+import { parseSec } from '../../../Utils';
 import './index.scss';
 
 // var videoTimestamp = ''; // May 20 Jiaxi

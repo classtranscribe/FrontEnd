@@ -10,7 +10,6 @@ import StarButton from './StarButton';
 
 function ActionButtons(props) {
   const {
-    show = false,
     isInsructor = false,
     isInstMode = false,
     offering,

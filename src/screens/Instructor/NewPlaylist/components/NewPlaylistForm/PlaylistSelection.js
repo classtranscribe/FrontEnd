@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CTFragment, CTFormHeading, CTFormRow, CTSelect } from 'layout';
 import { api } from 'utils';
 import { CTPlaylistIcon } from 'components';
-import SourceTypeInstruction from './SourceTypeInstruction';
+// import SourceTypeInstruction from './SourceTypeInstruction';
 
 function PlaylistType(props) {
   let { error, enable, sourceType, setsourceType } = props;

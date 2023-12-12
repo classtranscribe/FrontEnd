@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import _ from 'lodash';
-import { util, api } from 'utils';
+import { api } from 'utils';
 import { CTFragment } from 'layout';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+// import TableBody from '@material-ui/core/TableBody';
+// import TableCell from '@material-ui/core/TableCell';
+// import TableHead from '@material-ui/core/TableHead';
+// import TableRow from '@material-ui/core/TableRow';
 
 
 
 function TransTable(media = undefined) {
-  const [language, setLanguage] = useState('en-US')
-  const [captions, setCaptions] = useState([])
+  // eslint-disable-next-line no-unused-vars
+  const [language, _setLanguage] = useState('en-US')
+  // eslint-disable-next-line no-unused-vars
+  const [_captions, setCaptions] = useState([])
 
 
   useEffect(() => {

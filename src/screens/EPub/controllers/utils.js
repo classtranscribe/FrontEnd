@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { EPubChapterData, EPubImageData, EPubSubChapterData } from 'entities/EPubs';
+import { EPubChapterData, EPubImageData/* , EPubSubChapterData */ } from 'entities/EPubs';
 
 /**
  * Get a compact text from first several items in the chapter

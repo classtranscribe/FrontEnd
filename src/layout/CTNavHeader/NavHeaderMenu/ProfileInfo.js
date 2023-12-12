@@ -4,6 +4,18 @@ import { Typography, MenuItem } from '@material-ui/core';
 import { Image } from 'semantic-ui-react';
 import { styles } from './styles';
 
+/* Warning,
+"Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
+
+Check the render method of `ForwardRef(Menu)`.
+    in ProfileInfo (at NavHeaderMenu/index.js:70)
+    in ul (created by ForwardRef(List))
+    in ForwardRef(List) (created by WithStyles(ForwardRef(List)))
+    in WithStyles(ForwardRef(List)) (created by ForwardRef(MenuList))
+    in ForwardRef(MenuList) (created by ForwardRef(Menu))
+    in div (created by ForwardRef(Paper))..."
+    */
+
 function ProfileInfo(props) {
   let {
     uniName = '',

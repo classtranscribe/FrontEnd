@@ -26,12 +26,12 @@ export function LanguagePickerButtonWithRedux({ menu = MENU_HIDE, currTrans = {}
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
-        <i className="material-icons">subtitles</i>
+        <i className="material-icons">language</i>
       </span>
     </WatchCtrlButton>
   );
 }
 
-export const LanguagePickerButton = connect(({ watch: { menu, currTrans }, loading }) => ({
+export const LanguagePickerButton = connect(({ watch: { menu, currTrans } }) => ({
   menu, currTrans
 }))(LanguagePickerButtonWithRedux);

@@ -3,8 +3,10 @@ import { prompt } from 'utils';
 /**
  * Functions for controlling prompts
  */
+const standardPosition = [70,70];
 
 export const promptControl = {
+  
   closePrompt() {
     prompt.closeAll();
   },
@@ -13,24 +15,25 @@ export const promptControl = {
     prompt.addOne({
       status: 'success',
       text: 'You are editing the current caption! Hit return to save changes.',
-      offset: [70, 70],
+      offset: standardPosition,
     });
   },
 
   editCaptionTips() {
     prompt.addOne({
       text: 'Hit return to save your changes!',
-      offset: [70, 70],
+      offset: standardPosition,
     });
   },
 
   savingCaption() {},
 
-  savedCaption(bool = true) {
+  savedCaption(isClosedCaption, success = true) {
+    const captionType = isClosedCaption ? 'Closed Caption' : 'Description'
     prompt.addOne({
-      status: bool ? 'success' : 'primary',
-      text: bool ? 'Caption Saved!' : "Couldn't save the caption.",
-      offset: [70, 70],
+      status: success ? 'success' : 'error',
+      text: success ? `${captionType} updated` : `${captionType} could not be saved`,
+      offset: standardPosition,
       timeout: 3000,
     });
   },
@@ -38,7 +41,7 @@ export const promptControl = {
   hideSecondaryScreen() {
     prompt.addOne({
       text: 'Click <i class="material-icons">video_label</i> to see more screen options.',
-      offset: [70, 70],
+      offset: standardPosition,
       timeout: 5000,
     });
   },
@@ -49,7 +52,7 @@ export const promptControl = {
       text: `Couldn't load ${target}. Please&ensp;<a href="${
         pathname + search
       }">refresh</a>&ensp;to retry.`,
-      offset: [70, 70],
+      offset: standardPosition,
       status: 'error',
     });
   },

@@ -1,4 +1,4 @@
-import { api, user, prompt, InvalidDataError, ARRAY_INIT, links } from 'utils';
+import { api, user, prompt, ARRAY_INIT, links } from 'utils';
 import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import ErrorTypes from 'entities/ErrorTypes';
@@ -72,12 +72,12 @@ const InstPlaylistModel = {
         setConfirmation(state, { payload }) {
             return { ...state, confirmation: payload };
         },
-        clearData(state, { payload }) {
+        clearData() {
             return { ...initialState };
         },
     },
     effects: {
-        *loadModel({ payload: playlistId }, { call, put, select, take }) {
+        *loadModel({ payload: playlistId }, { call, put, select }) {
             yield put.resolve({ type: 'clearData' })
 
             let offeringLoaded = false;
@@ -120,7 +120,7 @@ const InstPlaylistModel = {
                 window.location = links.course(offering.id, playlist.id);
             }
         },
-        *reorderMedias({ payload: { medias, callback } }, { call, put, select, take }) {
+        *reorderMedias({ payload: { medias, callback } }, { call, put, select }) {
             const { instplaylist } = yield select();
             const oldMedias = [...instplaylist.medias];
             yield put({ type: 'setMedias', payload: medias });
@@ -135,7 +135,7 @@ const InstPlaylistModel = {
                 prompt.error('Failed to reorder videos.', { timeout: 5000 });
             }
         },
-        *renameMedia({ payload: { mediaId, name } }, { call, put, select, take }) {
+        *renameMedia({ payload: { mediaId, name } }, { call, put, select }) {
             try {
                 const { instplaylist } = yield select();
                 yield call(api.renameMedia, mediaId, name);
@@ -152,7 +152,7 @@ const InstPlaylistModel = {
                 prompt.error('Failed to rename the video.', { timeout: 5000 });
             }
         },
-        *deleteMedias({ payload: mediaIds }, { call, put, select, take }) {
+        *deleteMedias({ payload: mediaIds }, { call, put, select }) {
             try {
                 const { instplaylist } = yield select();
                 for(const mediaId of mediaIds) {
@@ -162,6 +162,56 @@ const InstPlaylistModel = {
                 prompt.addOne({ text: 'Video deleted.', timeout: 3000 });
             } catch (error) {
                 prompt.error('Failed to delete the video.', { timeout: 5000 });
+            }
+        },
+        *deleteASL({ payload: mediaId }, { call, put, select }) {
+            try {
+                const { instplaylist } = yield select();
+                let medias = [];
+                instplaylist.medias.array.forEach(m => {
+                    if(m.id === mediaId) {
+                        // see  api.parseMedia
+                        m = {...m}
+                        m.hasASL = false;
+                        m.aslVideo = undefined
+                        m.aslPath = undefined
+                        delete m.videos[0].aslPath
+                    }
+                    medias.push(m)
+                });
+                yield call(api.deleteASLVideo, mediaId);
+                yield put({ type: 'setMedias', payload: medias });
+                prompt.addOne({ text: 'ASL Video deleted.', timeout: 3000 });
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log('deleteASL', error);
+                prompt.error('Failed to delete the video.', { timeout: 5000 });
+            }
+        },
+        *setFlashingWarning({payload: {mediaId, flashWarning }}, {call,put, select }) {
+            try {
+                yield call(api.updateFlashWarningMedia, mediaId, flashWarning);
+                const { instplaylist: {medias} } = yield select();
+                const media = medias.find((m)=> m.id === mediaId);
+                media.flashWarning = flashWarning;
+                yield put({ type: 'setMedias', payload: [...medias] });
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log('setFlashingWarning', error);
+                prompt.error('Failed to change flash warning for the video.', { timeout: 5000 });
+            }
+        },
+        *setCrowdEditMode({payload: {mediaId, crowdEditMode }}, {call,put, select }) {
+            try {
+                yield call(api.updateCrowdEditModeMedia, mediaId, crowdEditMode);
+                const { instplaylist: {medias} } = yield select();
+                const media = medias.find((m)=> m.id === mediaId);
+                media.crowdEditMode = crowdEditMode;
+                yield put({ type: 'setMedias', payload: [...medias] });
+            } catch (error) {
+                // eslint-disable-next-line no-console
+                console.log('setCrowdEditMode', error);
+                prompt.error('Failed to change flash warning for the video.', { timeout: 5000 });
             }
         }
     },

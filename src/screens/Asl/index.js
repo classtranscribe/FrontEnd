@@ -15,7 +15,7 @@ const config = {
 /**
  * object for the whole Glossary page
  */
-const AslWithRedux = (props) => {
+const AslWithRedux = () => {
     const layoutProps = CTLayout.createProps({
         transition: true,
         responsive: true,
@@ -43,6 +43,6 @@ const AslWithRedux = (props) => {
     )
 }
 
-export const Asl = connect(({ aslpage, loading }) => ({
+export const Asl = connect(({ aslpage }) => ({
     aslpage
 }))(AslWithRedux);

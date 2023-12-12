@@ -33,6 +33,14 @@ export function renameMedia(mediaId, name) {
   return cthttp.put('Media/PutMediaName', null, { params: { name, mediaId } });
 }
 
+export function updateFlashWarningMedia(mediaId, flashWarning) {
+  return cthttp.put('Media/PutFlashWarning', null, { params: { flashWarning, mediaId } });
+}
+
+export function updateCrowdEditModeMedia(mediaId, crowdEditMode) {
+  return cthttp.put('Media/PutCrowdEditMode', null, { params: { crowdEditMode, mediaId } });
+}
+
 export function updateMediaMetadata(mediaId, jsonMetadata) {
   return cthttp.put(`Media/PutJsonMetaData/${mediaId}`, jsonMetadata);
 }
@@ -42,3 +50,14 @@ export function updateMediaMetadata(mediaId, jsonMetadata) {
 export function deleteMedia(mediaId) {
   return cthttp.delete(`Media/${mediaId}`);
 }
+
+export function uploadASLVideo(mediaId, video, onUploadProgress) {
+  const formData = new FormData();
+  formData.append('aSLVideo', video);
+  formData.append('mediaId', mediaId);
+  return cthttp.post('Media/ASLVideo', formData, { onUploadProgress, timeout: UPLOAD_MEDIA_TIMEOUT });
+}
+
+export function deleteASLVideo(mediaId) {
+  return cthttp.delete(`Media/ASLVideo/${mediaId}`)
+} 

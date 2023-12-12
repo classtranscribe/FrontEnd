@@ -47,6 +47,6 @@ function EditOptions({ dispatch }) {
   );
 }
 
-export default connect(({ loading }) => ({
+export default connect(() => ({
 
 }))(EditOptions);

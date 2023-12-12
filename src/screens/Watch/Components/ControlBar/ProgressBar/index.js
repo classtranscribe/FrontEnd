@@ -6,7 +6,7 @@ import './index.scss';
 
 function ProgressBar(props) {
   const { dispatch, watch } = props;
-  const { time = 0, duration = 0, bufferedTime = 0, embedded } = watch;
+  const { time = 0, duration = 0, bufferedTime = 0 } = watch;
   prog.setModel(dispatch, watch)
   const handleClick = (e) => prog.handleClick(e);
 
@@ -71,6 +71,6 @@ function ProgressBar(props) {
   );
 }
 
-export default connect(({ watch, loading }) => ({
+export default connect(({ watch }) => ({
   watch
 }))(ProgressBar);

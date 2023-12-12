@@ -46,6 +46,6 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
   );
 }
 
-export const ClosedCaptionButton = connect(({ watch : { captions, liveMode, englishTrack}, playerpref: { openCC }, loading }) => ({
+export const ClosedCaptionButton = connect(({ watch : { captions, liveMode, englishTrack}, playerpref: { openCC } }) => ({
   openCC, captions, liveMode, englishTrack
 }))(ClosedCaptionButtonWithRedux)

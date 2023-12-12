@@ -13,7 +13,7 @@ const Video = React.memo((props) => {
     const { id = 1, videoRef, path, dispatch, isSwitched, embedded, videoStyle, playerReady} = props;
     const isPrimary = (id === 1);
     // eslint-disable-next-line no-console
-    console.log('Render - Video', path);
+    // console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         const duration = e.target.duration;

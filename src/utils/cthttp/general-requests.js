@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { cthttp } from './request';
 import { env } from '../env';
 

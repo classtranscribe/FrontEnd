@@ -1,10 +1,11 @@
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
-import Player from './Player';
-import TransTable from './TransTable';
+// import Player from './Player';
+// import TransTable from './TransTable';
 
 export function TranscriptionsWithRedux({
-  media,
+  // eslint-disable-next-line no-unused-vars
+  media
 }) {
   return (
     <CTFragment fadeIn className="msp-tab-con">

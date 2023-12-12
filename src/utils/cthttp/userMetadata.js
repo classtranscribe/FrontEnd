@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { getUserMetaData, postUserMetaData } from './entities/Account';
 
 /**

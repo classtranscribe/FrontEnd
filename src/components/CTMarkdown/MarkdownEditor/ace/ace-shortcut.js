@@ -6,7 +6,7 @@ export function getShortcut(key) {
   return isMac ? `<cmd+${key}>` : `<ctrl+${key}>`;
 }
 
-export function getAceShortcutHandler(ace, onSave, onClose) {
+export function getAceShortcutHandler(ace, onSave /* , onClose */) {
   /**
    *
    * @param {KeyboardEvent} event

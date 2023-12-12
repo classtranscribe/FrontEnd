@@ -1,10 +1,5 @@
 import {
-    api,
-    user,
     elem,
-    prompt,
-    ARRAY_INIT,
-    STUDENT,
     INSTRUCTOR
 } from 'utils';
 

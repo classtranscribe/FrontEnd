@@ -47,6 +47,6 @@ function NavigationProvider({
     </CTFragment>
   );
 }
-export default connect(({ epub: { epub, showNav, currChIndex }, loading }) => ({
+export default connect(({ epub: { epub, showNav, currChIndex } }) => ({
   epub, showNav, currChIndex
 }))(NavigationProvider);
