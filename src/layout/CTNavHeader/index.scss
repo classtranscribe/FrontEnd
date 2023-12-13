@@ -24,6 +24,12 @@
         color: rgb(219, 219, 219);
       }
     }
+
+    /* Fix pico color accessibility until pico v2 */
+    /* https://github.com/picocss/pico/pull/261 */
+    .pbtn-icon {
+      color: var(--ct-mobile-menu);
+    }
   }
 
   &.fixed {
