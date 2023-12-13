@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { useState, useEffect, useReducer } from 'react';
 import { PlaylistTypes } from 'entities/Playlists';
-import { CTCheckbox, CTForm } from 'layout';
+import { CTCheckbox, CTForm,CTFragment } from 'layout';
 import PropTypes from 'prop-types';
 import PlaylistType from './PlaylistSelection';
 import PlaylistName from './PlaylistName';
@@ -13,12 +13,13 @@ export function NewPlaylistForm(props) {
   const [name, setName] = useState('');
   const [sourceType, setsourceType] = useState(2);
   const [url, setUrl] = useState('');
-  const [swapStreams, setSwapStreams] = useState(false);
+  
   const [restrictRoomStream, setRestrictRoomStream] = useState(true);
-  const [doAIDescriptions, setDoAIDescriptions] = useState(0);
-  const [doCaptions, setDoCaptions] = useState(1);
+  const [swapStreams, setSwapStreams] = useState( false);
+  const [doAIDescriptions, setDoAIDescriptions] = useState( 0);
+  const [doAzureCaptions, setDoAzureCaptions] = useState(1);
   const [doAISummary, setDoAISummary] = useState(0);
-  const [doTranslation, setDoTranslation] = useState("defaulttranslations");
+ 
   // errors
   const initErrors = [];
   const errorReducer = (error, action) => {
@@ -52,7 +53,7 @@ export function NewPlaylistForm(props) {
   const handleSave = async () => {
     setEnable(true);
     if (error.length === 0 && typeof onSave === 'function') {
-      const options = { restrictRoomStream, swapStreams, doAIDescriptions, doCaptions, doAISummary, doTranslation };
+      const options = { restrictRoomStream, swapStreams, doAIDescriptions, doAzureCaptions, doAISummary };
       const config = { name: (name === '' ? 'Untitled Playlist' : name),
         sourceType, url, options };
 
@@ -74,13 +75,22 @@ export function NewPlaylistForm(props) {
       <PlaylistName {...playlistNameProps} />
       <PlaylistType {...sourceTypeProps} />
       <PlaylistUrl {...playlistUrlProps} />
-      <CTCheckbox id="cb-swapStreams" label="Fix incoming stream order (projector content is secondary stream)" checked={swapStreams} onChange={()=>setSwapStreams(!swapStreams)} />  
-      <CTCheckbox id="cb-restrictRoomStream" label="For student privacy hide the secondary room-camera view" checked={restrictRoomStream} onChange={()=>setRestrictRoomStream(!restrictRoomStream)} /> 
-      <CTCheckbox id="cb-doAIDescriptions" label="AI-generated descriptions" checked={doAIDescriptions===1} onChange={()=>setDoAIDescriptions((doAIDescriptions+1)%2)} />  
-      <CTCheckbox id="cb-doAISummary" label="AI-generated summarization" checked={doAISummary===1} onChange={()=>setDoAISummary((doAISummary+1)%2)} />
-      <CTCheckbox id="cb-doCaptions" label="Send audio to Microsoft for captioning" checked={doCaptions===1} onChange={()=>setDoCaptions((doCaptions+1)%2)} />  
-      {doCaptions===1? <CTCheckbox id="cb-doTranslations" label="Translate captions into other languages" checked={doTranslation.length>0} onChange={()=>setDoTranslation(doTranslation.length===0?"defaulttranslations":"")} /> : null}
-             
+      <>
+        <CTFragment dFlexCol role="list" className="details">
+            
+          <span className='optionHeading'>Privacy</span>
+          <CTCheckbox id="cb-restrictRoomStream" label="For student privacy hide the secondary room-camera view" checked={restrictRoomStream} onChange={()=>setRestrictRoomStream(!restrictRoomStream)} /> 
+            
+          <span className='optionHeading'>Video processing</span>
+            
+          <CTCheckbox id="cb-swapStreams" label="Swap incoming stream order (use this when the main content is provided as the secondary stream)" checked={swapStreams} onChange={()=>setSwapStreams(!swapStreams)} />  
+          <CTCheckbox id="cb-doAIDescriptions" label="Describe images using AI" checked={doAIDescriptions===1} onChange={()=>setDoAIDescriptions((doAIDescriptions+1)%2)} />  
+          <CTCheckbox id="cb-doAISummary" label="Summarize video using AI" checked={doAISummary===1} onChange={()=>setDoAISummary((doAISummary+1)%2)} />
+          <CTCheckbox id="cb-doCaptions" label="Use Microsoft Azure Cloud for multi-language captions" checked={doAzureCaptions===1} onChange={()=>setDoAzureCaptions((doAzureCaptions+1)%2)} />  
+      
+        </CTFragment>
+      </>
+      
     </CTForm>
   );
 }
