@@ -72,6 +72,12 @@
 
     &.ct-nav-dark {
       background-color: rgb(44, 44, 44);
+
+      /* Fix pico color accessibility until pico v2 */
+      /* https://github.com/picocss/pico/pull/261 */
+      .pbtn-icon {
+        color: var(--ct-mobile-menu);
+      }
     }
 
     .ct-nsb-ul {
