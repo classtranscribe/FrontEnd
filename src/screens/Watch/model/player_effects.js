@@ -217,6 +217,8 @@ export default {
     },
     *onPlayerReady({ payload: { isPrimary } }, { put, select }) {
         const { playerpref, watch } = yield select();
+        
+        const flashWarning = watch?.media?.flashWarning ?? false;
         const { playbackrate = 1 } = playerpref;
         if (PlayerData.param.canPlayDone) { return; }
         (PlayerData.aslVideo) && (PlayerData.aslVideo.playbackRate = playbackrate);
@@ -229,7 +231,7 @@ export default {
                 if (start_time) {
                     yield put({ type: 'media_setCurrTime', payload: start_time })
                 }
-                if (playerpref.autoPlay) {
+                if (playerpref.autoPlay && !flashWarning) {
                     yield put({ type: 'media_play', payload: null })
                 }
             }
@@ -242,7 +244,7 @@ export default {
                 if (start_time) {
                     yield put({ type: 'media_setCurrTime', payload: start_time })
                 }
-                if (playerpref.autoPlay) {
+                if (playerpref.autoPlay && !flashWarning) {
                     yield put({ type: 'media_play', payload: null })
                 }
             }
