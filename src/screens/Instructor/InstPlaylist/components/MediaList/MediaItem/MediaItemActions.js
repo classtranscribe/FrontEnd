@@ -19,7 +19,7 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
   const btn = useButtonStyles();
   const checkboxStyles = CTCheckbox.useStyles();
   const btnClassName = cx(btn.tealLink, 'media-item-button');
-  const hasASL = media.hasAsl;
+  const hasASL = media.hasASL;
   const flashWarningIsChecked = media.flashWarning === FLASH_DETECT_YES || media.flashWarning === FLASH_SET_YES;
   const crowdEdit = media.crowdEditMode !== CROWDEDIT_FREEZE_ALL;
 
@@ -34,7 +34,7 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
   const handleASLDelete = () => {
     const confirm = {
       text: 'Are you sure you want to delete this media\'s ASL video? This action cannot be undone.',
-      onConfirm: () => dispatch({ type: 'instplaylist/deleteASL', payload: [mediaId]}),
+      onConfirm: () => dispatch({ type: 'instplaylist/deleteASL', payload: mediaId}),
     };
     dispatch({ type: 'instplaylist/setConfirmation', payload: confirm});
   }
