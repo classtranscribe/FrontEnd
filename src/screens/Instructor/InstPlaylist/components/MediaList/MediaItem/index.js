@@ -85,13 +85,16 @@ function MediaItem({
         }}
       >
         <div className="w-100 d-flex align-items-center">
+          {/* https://mui.com/material-ui/react-checkbox/#accessibility */}
           <MuiCheckbox
             classes={checkBoxClasses}
             onClick={stopPropagation}
             checked={selected}
             onChange={handleCheck}
             className="media-check-box"
-            aria-label="Select this media"
+            inputProps={{
+              'aria-label': 'Select this media',
+            }}
           />
 
           <MediaName
