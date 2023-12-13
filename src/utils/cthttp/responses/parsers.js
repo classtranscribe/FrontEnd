@@ -157,6 +157,7 @@ export function parseMedia(media) {
     sceneDetectReady: false,
     watchHistory: { timestamp: 0, ratio: 0 },
     duration: null,
+    options : {},
     flashWarning: FLASH_UNKNOWN,
     crowdEditMode: CROWDEDIT_ALLOW
   };
@@ -176,8 +177,7 @@ export function parseMedia(media) {
     watchHistory,
     duration,
     sceneDetectReady,
-    flashWarning,
-    crowdEditMode
+    options,
   } = media;
 
   if (!id || !jsonMetadata) return re;
@@ -190,8 +190,9 @@ export function parseMedia(media) {
   re.sceneDetectReady = sceneDetectReady;
   re.mediaName = _.replace(name, '.mp4', '');
   re.duration = duration;
-  re.flashWarning = flashWarning;
-  re.crowdEditMode = crowdEditMode;
+  re.options = options || {};
+  re.flashWarning = parseInt(options?.flashWarning,10) || 0;
+  re.crowdEditMode = parseInt(options?.crowdEditMode,10) || 0;
 
   /** video src */
   const baseUrl = env.baseURL;
