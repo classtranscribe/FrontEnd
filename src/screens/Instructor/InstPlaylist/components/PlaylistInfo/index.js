@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { uurl, links } from 'utils';
 import { Playlist } from 'entities/Playlists';
 import { InfoAndListLayout } from 'components';
-import { CTCheckbox } from 'layout';
+import { CTCheckbox, CTFragment } from 'layout';
 import BreadCrumb from './BreadCrumb';
 import PlaylistName from './PlaylistName';
 import Actions from './Actions';
@@ -41,12 +41,12 @@ function PlaylistInfoWithRedux(props) {
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(playlist.name);
-  const [restrictRoomStream, setRestrictRoomStream] = useState(playlist?.options?.restrictRoomStream || true);
-  const [swapStreams, setSwapStreams] = useState(playlist?.options?.swapStreams || false);
+  const [restrictRoomStream, setRestrictRoomStream] = useState(playlist?.options?.restrictRoomStream ?? true);
+  const [swapStreams, setSwapStreams] = useState(playlist?.options?.swapStreams ?? false);
   const [doAIDescriptions, setDoAIDescriptions] = useState(parseInt(playlist?.options?.doAIDescriptions,10) || 0);
-  const [doCaptions, setDoCaptions] = useState(parseInt(playlist?.options?.doCaptions,10)||1);
+  const [doAzureCaptions, setDoAzureCaptions] = useState(parseInt(playlist?.options?.doAzureCaptions,10)||1);
   const [doAISummary, setDoAISummary] = useState(parseInt(playlist?.options?.doCaptions,10)||0);
-  const [doTranslation, setDoTranslation] = useState(playlist?.options?.doTranslation || "defaulttranslations");
+
   const handleEdit = () => setEditing(true);
 
   const onInputChange = ({ target: { value } }) => {
@@ -61,9 +61,8 @@ function PlaylistInfoWithRedux(props) {
     newOptions.restrictRoomStream = restrictRoomStream;
     newOptions.swapStreams = swapStreams;
     newOptions.doAIDescriptions = doAIDescriptions;
-    newOptions.doCaptions = doCaptions;
+    newOptions.doAzureCaptions = doAzureCaptions;
     newOptions.doAISummary = doAISummary;
-    newOptions.doTranslation = doTranslation;
     
 
     if (playlist.name !== inputValue || playlist.options !== newOptions) {
@@ -108,7 +107,7 @@ function PlaylistInfoWithRedux(props) {
     playlistId: playlist.id,
     offeringId: offering.id
   };
-// todo refactor checkbox options into a component
+// todo refactor checkbox options into a component and share with NewInstPlaylist
   return (
     <InfoAndListLayout.Info id="ipl-pl-info">
       <BreadCrumb offering={offering} playlist={playlist} />
@@ -116,15 +115,21 @@ function PlaylistInfoWithRedux(props) {
       <PlaylistName {...plNameprops} />
       {editing ?
       (
-        <>
-          <CTCheckbox id="cb-swapStreams" label="Fix incoming stream order (projector content is secondary stream)" checked={swapStreams} onChange={()=>setSwapStreams(!swapStreams)} />  
+        <CTFragment dFlexCol role="list" className="details">
+            
+          <span className='optionHeading'>Privacy</span>
           <CTCheckbox id="cb-restrictRoomStream" label="For student privacy hide the secondary room-camera view" checked={restrictRoomStream} onChange={()=>setRestrictRoomStream(!restrictRoomStream)} /> 
-          <CTCheckbox id="cb-doAIDescriptions" label="AI-generated descriptions" checked={doAIDescriptions===1} onChange={()=>setDoAIDescriptions((doAIDescriptions+1)%2)} />  
-          <CTCheckbox id="cb-doAISummary" label="AI-generated summarization" checked={doAISummary===1} onChange={()=>setDoAISummary((doAISummary+1)%2)} />
-          <CTCheckbox id="cb-doCaptions" label="Send audio to Microsoft for captioning" checked={doCaptions===1} onChange={()=>setDoCaptions((doCaptions+1)%2)} />  
-          {doCaptions===1? <CTCheckbox id="cb-doTranslations" label="Translate captions into other languages" checked={doTranslation.length>0} onChange={()=>setDoTranslation(doTranslation.length===0?"defaulttranslations":"")} /> : null}
-          
-        </>)
+      
+          <span className='optionHeading'>Video processing</span>
+      
+          <CTCheckbox id="cb-swapStreams" label="Swap incoming stream order (use this when the main content is provided as the secondary stream)" checked={swapStreams} onChange={()=>setSwapStreams(!swapStreams)} />  
+          <CTCheckbox id="cb-doAIDescriptions" label="Describe images using AI" checked={doAIDescriptions===1} onChange={()=>setDoAIDescriptions((doAIDescriptions+1)%2)} />  
+          <CTCheckbox id="cb-doAISummary" label="Summarize video using AI" checked={doAISummary===1} onChange={()=>setDoAISummary((doAISummary+1)%2)} />
+          <CTCheckbox id="cb-doCaptions" label="Use Microsoft Azure Cloud for multi-language captions" checked={doAzureCaptions===1} onChange={()=>setDoAzureCaptions((doAzureCaptions+1)%2)} />  
+      
+        </CTFragment>)
+        
+        
       : null }
       <Actions {...actionProps} />
     </InfoAndListLayout.Info>
