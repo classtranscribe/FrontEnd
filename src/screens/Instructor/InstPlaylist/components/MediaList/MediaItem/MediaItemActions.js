@@ -109,7 +109,7 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
         <div className='media-item-check'><CTCheckbox 
           className={checkboxStyles}
           id={`FlashWarning-${mediaId}`}
-          label="Seizure risk (flashing warning)"
+          label="Has flashing content (seizure risk)"
           checked={flashWarningIsChecked}
           onChange={toggleFlashWarning}
         />
