@@ -2,7 +2,7 @@ body {
     font-family: 'open sans', sans-serif;
     font-size: 16px;
 }
-  
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -41,6 +41,23 @@ tbody {
     & td {
         padding: 0.5em;
         border-bottom: 1px solid #ccc;
+
+        & a {
+            color: var(--ct-green-small);
+            font-weight: 500;
+
+            &:hover {
+                color: var(--ct-green-normal);
+            }
+
+            &[target="_blank"]::after {
+                content: 'open_in_new';
+                font-family: 'Material Icons';
+                padding-left: 2px;
+                vertical-align: bottom;
+                -webkit-font-feature-settings: 'liga';
+            }
+        }
     }
 
     & tr:hover {
