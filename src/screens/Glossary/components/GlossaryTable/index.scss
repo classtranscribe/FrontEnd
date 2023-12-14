@@ -37,6 +37,26 @@ thead {
     }
 }
 
+// dropdown selection breadcrumbs
+.rs-picker-has-value {
+    & .rs-btn .rs-picker-toggle-value,
+    & .rs-picker-toggle .rs-picker-toggle-value {
+        color: var(--ct-green-small);
+        font-weight: 500;
+    }
+}
+
+// dropdown selection items
+.rs-picker-cascader-menu-item {
+    &:hover,
+    &:focus,
+    &.rs-picker-select-menu-item-focus,
+    &.rs-picker-cascader-menu-item-focus {
+        color: var(--ct-green-small);
+        font-weight: 500;
+    }
+}
+
 tbody {
     & td {
         padding: 0.5em;
