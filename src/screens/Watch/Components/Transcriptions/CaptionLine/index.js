@@ -11,13 +11,14 @@ import {
 import './index.scss';
 
 function CaptionLine({ /* isCurrent = false, isEditing = false,
-  shouldHide = false, */ caption = {}, dispatch, fontSize }) {
+  shouldHide = false, */ caption = {}, allowEdit, dispatch, fontSize }) {
   let { text, id, /* startTime, */ begin, kind = "web" } = caption;
   const ref = useRef();
 
   const blurFromInput = () => {
     if (ref && ref.current && typeof ref.current.blur === 'function') {
       if (document.activeElement.id === ref.current.id) {
+        ref.current.innerText = text;
         ref.current.blur();
       }
     }
@@ -38,15 +39,16 @@ function CaptionLine({ /* isCurrent = false, isEditing = false,
   };
 
   const handleBlur = () => {
+    ref.current.innerText = text;
     transControl.handleBlur();
   };
 
   const handleSave = () => {
-    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } })
+    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerText } })
   };
 
   const handleCancel = () => {
-    ref.current.innerHTML = text;
+    ref.current.innerText = text;
     dispatch({ type: 'watch/setCurrEditing', payload: null })
   };
 
@@ -94,20 +96,26 @@ function CaptionLine({ /* isCurrent = false, isEditing = false,
           <span tabIndex="-1">{totalTime}</span>
         </button>
 
-        {/* Caption Line */}
+        {/* Caption Line 
+        dangerouslySetInnerHTML={{ __html: text }}
+        */}
         <div
           ref={ref}
-          contentEditable={!isMobile}
+          suppressContentEditableWarning
+          contentEditable={allowEdit && !isMobile}
+          role="textbox"
+          tabIndex={0}
           id={`caption-line-textarea-${id}`}
           className={`caption-line-text-${fontSize}`}
-          dangerouslySetInnerHTML={{ __html: text }}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onInput={handleChange}
           onKeyDown={handleKeyDown}
           spellCheck={false}
-        />
+        >{text}
+        </div>
       </div>
+      
 
       {/* Action Buttons */}
       <div className="caption-line-btns">

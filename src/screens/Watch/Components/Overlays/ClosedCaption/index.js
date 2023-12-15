@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React from 'react';
 import { connect } from 'dva'
 import './index.scss';
@@ -14,6 +15,22 @@ import {
 } from '../../../Utils';
 
 let prevText = '';
+// if caption is long and only one line, break it into two lines
+const rebalanceCaption = (text) => {
+  let result = text;
+  if(text && text.indexOf('\n') === -1 && text.length > 30){
+    const words = text.split(' ');
+    result = '';
+    while(result.length < text.length / 2 ){
+      result += `${result.length > 0?' ':''}${words.shift() }`;
+    }
+    result += '\n';
+    while(words.length > 0){
+      result += `${words.shift() }${words.length===0?'':' '}`;
+    }
+  }
+  return result;
+}
 
 function ClosedCaptionWithRedux({
   openCC = false,
@@ -42,8 +59,8 @@ function ClosedCaptionWithRedux({
   const shouldDisplayCC = isPrimary && openCC && Boolean(currCaption && currCaption.id);
 
   if (shouldDisplayCC && currCaption.kind === WEBVTT_SUBTITLES) {
-    prevText = currCaption.text;
-  }
+    prevText = rebalanceCaption(currCaption.text);
+  } 
 
   return shouldDisplayCC && prevText ? (
     <div id="watch-cc-container" className={embedded ? "" : "watch-cc-container"} style={ccContainerStyle}>
