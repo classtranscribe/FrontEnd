@@ -225,13 +225,13 @@ const WatchModel = {
         // eslint-disable-next-line no-unused-vars
         setTranscript(state, _unused) {
             // Todo check that the payload is immutable because we use the subobjects in our immutable model
-            console.log("setTranscript")          
+            // console.log("setTranscript")          
             let all = [... state.captions,...state.descriptions]
 
             let transcript = all;
             // Using String sort so numbers (1.123 21.0) must be right aligned with same number of decimal places 
             // Put Closed Captions after Descriptions
-            transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${item.tran.transcriptionType === 0?'Z':item.tran.transcriptionType}`);
+            transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${item.transcription.transcriptionType === 0?'Z':item.transcription.transcriptionType}`);
             transcript= _.map(transcript, (item, index) => ({ ...item, index }));
             
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
@@ -243,7 +243,7 @@ const WatchModel = {
          * Function called for setting captions array
          */
         setCaptions(state, { payload }) {
-            console.log(`setCaptions ${payload.length}`)
+            // console.log(`setCaptions ${payload.length}`)
             let parsedCap = _.map(payload, (c) => ({ ...c, kind: WEBVTT_SUBTITLES }));
             if (parsedCap.length === 0) parsedCap = ARRAY_EMPTY;
             return { ...state, captions: parsedCap };
@@ -256,10 +256,6 @@ const WatchModel = {
         * 
         */
         setDescriptions(state, { payload }) {
-            console.log(`setDescriptions ${payload.length}`)
-            if(payload.length>0) {
-                console.log(`First description: ${payload[0]}`)
-            }
             const parsedDes = _.map(payload, (d) => ({ ...d, kind: WEBVTT_DESCRIPTIONS }));
             return { ...state, descriptions: parsedDes };
         },
@@ -403,7 +399,7 @@ const WatchModel = {
 
             const { transcriptions } = media;
             // console.log('-----');
-            console.log(`*setupMedia ${transcriptions.length} transcriptions`);
+            // console.log(`*setupMedia ${transcriptions.length} transcriptions`);
 
             // setTranscriptions
             yield put({ type: 'setTranscriptions', payload: transcriptions })

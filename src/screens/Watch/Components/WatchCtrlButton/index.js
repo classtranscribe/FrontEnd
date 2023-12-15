@@ -16,7 +16,7 @@ export default function WatchCtrlButton({
   label = '',
   ariaTags = {},
   popupStyle = {},
-  popupPosition = '0, 15px',
+  popupPosition = '10px, 15px',
   mouseEnterDelay = 0,
   id = '',
 }) {
