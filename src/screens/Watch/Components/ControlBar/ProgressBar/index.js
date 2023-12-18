@@ -33,7 +33,10 @@ function ProgressBar(props) {
 
   return (
     <div className="watch-progress-bar-container" data-mobile={isMobile}>
+      {/* Arrow key support for seeking and navigation is supported elsewhere */
+      /* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
+        role="presentation"
         className="watch-progress-bar"
         onClick={handleClick}
         onMouseDown={handleMouseDown}

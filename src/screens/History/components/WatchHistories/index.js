@@ -4,12 +4,15 @@ import { MediaCard } from 'components';
 import { connect } from 'dva';
 import { ARRAY_INIT } from 'utils/constants';
 
+const filterValid = data => data.filter(item => Boolean(item.id) && ! item.isUnavailable);
+const addReactKey = data => data.map( (row,index)=> {row.reactRowKey = `${row.id}-${index}`; return row;});
+
 function WatchHistoriesWithRedux(props) {
   const { historypage } = props;
   const { watchHistories = ARRAY_INIT } = historypage;
 
   const loading = watchHistories === ARRAY_INIT;
-  const data = loading ? [] : watchHistories;
+  const data = loading ? [] : addReactKey(filterValid(watchHistories));
   const dWHisResult = (result) => {
     let whElement = null;
     if (result.length === 0) {
@@ -20,13 +23,13 @@ function WatchHistoriesWithRedux(props) {
       );
     } else {
       whElement = 
-        result.map((media, index) => (
+        result.map((media) => (
           <MediaCard
             row
             nameSize="big"
             posterSize="medium"
             {...MediaCard.parse(media)}
-            key={media.id + index}
+            key={media.reactRowKey}
           />
         ));
     }

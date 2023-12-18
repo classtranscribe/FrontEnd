@@ -5,7 +5,6 @@ import _ from 'lodash';
 import './index.css';
 import { CTHeading, CTFragment, CTText } from 'layout';
 import { search } from 'utils/search';
-import { v1 as uuidv1 } from 'uuid';
 import { vtime } from './vtime';
 // import CTFilter from '../../../../../layout/CTFilter';
 
@@ -24,7 +23,6 @@ function TempVideoTimeTable({ offeringId }) {
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const searchId = uuidv1();
   const searchPlaceholder = 'Search for videos';
   const parseUserData = () => {
     let user_array = [];
