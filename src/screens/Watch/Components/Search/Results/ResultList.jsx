@@ -44,7 +44,8 @@ function ResultList({
     value,
   } = search;
 
-  const results =
+  const addReactKey = (items) => items.map((item, index) => {item.reactRowKey=`search-result-#${index}`; return item;} ); 
+  let results = 
     option === SEARCH_TRANS_IN_VIDEO
       ? inVideoTransResults
       : option === SEARCH_TRANS_IN_COURSE
@@ -52,6 +53,8 @@ function ResultList({
       : option === SEARCH_IN_SHORTCUTS
       ? shortcutResults
       : playlistResults;
+  if (results === ARRAY_INIT) results = [];
+  else results = addReactKey(results);
 
   const popupContent = (item) => {
     if (isMobile) return undefined;
@@ -87,7 +90,7 @@ function ResultList({
             openOnTriggerFocus
             closeOnTriggerBlur
             disabled={option === SEARCH_IN_SHORTCUTS}
-            key={`search-result-#${index}`}
+            key={item.reactRowKey}
             content={popupContent(item)}
             trigger={
               option === SEARCH_IN_PLAYLISTS ? ( // Video results are special
@@ -107,24 +110,24 @@ function ResultList({
   const [inVideoTransResultsEarlier, inVideoTransResultsLater] =
     option === SEARCH_TRANS_IN_VIDEO
       ? inVideoTransResults.map((result) => (
-          <div role="list" className="w-100 d-flex flex-column">
-            {result.map((item, index) => (
-              <Popup
-                inverted
-                wide
-                basic
-                hideOnScroll
-                position="top left"
-                openOnTriggerClick={false}
-                openOnTriggerFocus
-                closeOnTriggerBlur
-                disabled={option === SEARCH_IN_SHORTCUTS}
-                key={`search-result-#${index}`}
-                content={popupContent(item)}
-                trigger={<CaptionListItem item={item} option={option} />}
-              />
+        <div role="list" className="w-100 d-flex flex-column">
+          {result.map((item) => (
+            <Popup
+              inverted
+              wide
+              basic
+              hideOnScroll
+              position="top left"
+              openOnTriggerClick={false}
+              openOnTriggerFocus
+              closeOnTriggerBlur
+              disabled={option === SEARCH_IN_SHORTCUTS}
+              key={item.reactRowKey}
+              content={popupContent(item)}
+              trigger={<CaptionListItem item={item} option={option} />}
+            />
             ))}
-          </div>
+        </div>
         ))
       : [null, null];
 

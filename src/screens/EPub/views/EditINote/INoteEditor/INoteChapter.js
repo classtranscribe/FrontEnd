@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';

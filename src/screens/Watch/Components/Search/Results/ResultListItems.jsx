@@ -29,7 +29,7 @@ const CaptionListItemWithRedux = ({ item, option, dispatch }) => {
   };
 
   return (
-    <button role="listitem" className="plain-btn search-result-listitem" onClick={handleClick}>
+    <button className="plain-btn search-result-listitem" onKeyUp={handleClick} onClick={handleClick}>
       <div className="search-result-time">{prettierTimeStr(begin)}</div>
       <p className="search-result-text" kind={item.kind}>
         {item.kind === WEBVTT_DESCRIPTIONS && (
@@ -39,6 +39,8 @@ const CaptionListItemWithRedux = ({ item, option, dispatch }) => {
           </span>
         )}
 
+        { /* text is already escaped */
+          /*  eslint-disable-next-line react/no-danger */}
         <span className="search-result-content" dangerouslySetInnerHTML={{ __html: text }} />
 
         {option === SEARCH_TRANS_IN_COURSE && (

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
 import { epub } from '../../../controllers';
