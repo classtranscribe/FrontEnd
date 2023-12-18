@@ -19,18 +19,21 @@ import Progress from './Progress';
 
 function ControlBar(props) {
   const {
-    dispatch,
+    // dispatch,
     isTwoScreen,
     userReady = true,
     duration,
     time,
   } = props;
 
-  // ctp act-btn
+  // Not to clear to why the ctp center-area div needed this as an onclick handler
+  // const handleClick = () => {
+  //  dispatch({ type: 'watch/onPlayPauseClick' })
+  // }
 
   return userReady ? (
     <div className="ctp control-bar ct-a-fade-in">
-      <div className="ctp center-area" onClick={() => dispatch({ type: 'watch/onPlayPauseClick' })}>
+      <div className="ctp center-area">
         <div className="ctp cc-con">
           <ClosedCaption isPrimary />
         </div>

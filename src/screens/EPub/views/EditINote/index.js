@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-closing-tag-location */
 import React, { useState } from 'react';
 import _ from 'lodash'
 
@@ -59,7 +60,7 @@ function EditINote ({epub: epubData, dispatch}) {
             </CTFragment>
             <QuickActionsEditNote />
           </CTFragment>
-          </>}
+        </>}
       </CTFragment>
     </EPubNavigationProvider>
   )

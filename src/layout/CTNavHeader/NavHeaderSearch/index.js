@@ -9,7 +9,9 @@ import setup from '../../../screens/Watch/model/setup';
 
 export function NavHeaderSearch() {
   const ref = useRef();
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const searchId = searchText ? 'ct-nh-search-input-with-text' : 'ct-nh-search-input';
+  const searchPlaceholder = 'Search in course';
 
   // mapping transId to {mediaId, mediaName, playlistId, playlistName}
   const [transObject, setTransObject] = useState({});
@@ -86,13 +88,15 @@ export function NavHeaderSearch() {
   return (
     <div className="ct-nh-search" ref={ref} onClick={() => { setOpen(true) }}>
       <IconButton id="ct-nh-search-button" size="small"><SearchIcon /></IconButton>
+      {/* https://www.w3.org/WAI/tutorials/forms/labels/#associating-labels-explicitly */}
+      <label htmlFor={searchId} className="sr-only">{searchPlaceholder}</label>
       <input
-        id={searchText ? "ct-nh-search-input-with-text" : "ct-nh-search-input"}
+        id={searchId}
         label="Search"
         // variant="filled"
         value={searchText}
         onChange={handleSearchChange}
-        placeholder="Search in course..."
+        placeholder={`${searchPlaceholder}...`}
         autoComplete="off"
       />
       <div id="ct-nh-search-result-wrap">

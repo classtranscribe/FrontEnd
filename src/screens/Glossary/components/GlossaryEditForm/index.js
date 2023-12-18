@@ -22,16 +22,16 @@ const GlossaryEditForm = (props) => {
     const submitEdit = () => {
         const editdata = {
             "id": data.id,
-            "term": term,
-            "link": link,
-            "description": description,
-            "source": source,
-            "licenseTag": licenseTag,
+            "term": term.trim(),
+            "link": link.trim(),
+            "description": description.trim(),
+            "source": source.trim(),
+            "licenseTag": licenseTag.trim(),
             "shared": shared,
             "editable": data.editable,
-            "domain": domain,
+            "domain": domain.trim(),
             "likes": data.likes,
-            "explanation": (explanation !== null && explanation.length > 0) ? explanation : null,
+            "explanation": (explanation !== null && explanation.length > 0) ? explanation.trim() : null,
             "courseId": data.courseId,
             "offeringId": data.offeringId,
         }
@@ -67,7 +67,7 @@ const GlossaryEditForm = (props) => {
         container={false}
       >
         <CTForm
-          heading='EDIT GLOSSARY'
+          heading='Edit Glossary Item'
           onSave={() => submitEdit()}
           onSaveButtonText='submit'
           onCancel={() => reset()}
@@ -78,7 +78,7 @@ const GlossaryEditForm = (props) => {
             <CTInput
               id='term-textbox'
               className='edit-textbox'
-              label='TERM'
+              label='Domain Term'
               onChange={(e) => setTerm(e.target.value)}
               textarea
               fullWidth
@@ -89,7 +89,7 @@ const GlossaryEditForm = (props) => {
             <CTInput
               id='link-textbox'
               className='edit-textbox'
-              label='LINK'
+              label='Link'
               onChange={(e) => setLink(e.target.value)}
               textarea
               fullWidth
@@ -100,7 +100,7 @@ const GlossaryEditForm = (props) => {
             <CTInput
               id='description-textbox'
               className='edit-textbox'
-              label='DESCRIPTION'
+              label='Description'
               onChange={(e) => setDescription(e.target.value)}
               textarea
               fullWidth
@@ -111,7 +111,7 @@ const GlossaryEditForm = (props) => {
             <CTInput
               id='source-textbox'
               className='edit-textbox'
-              label='SOURCE'
+              label='Source'
               onChange={(e) => setSource(e.target.value)}
               textarea
               fullWidth
@@ -122,7 +122,7 @@ const GlossaryEditForm = (props) => {
             <CTInput
               id='licenseTag-textbox'
               className='edit-textbox'
-              label='LICENSETAG'
+              label='License Tag'
               onChange={(e) => setLicenseTag(e.target.value)}
               textarea
               fullWidth
@@ -132,7 +132,7 @@ const GlossaryEditForm = (props) => {
             <CTInput
               id='domain-textbox'
               className='edit-textbox'
-              label='DOMAIN'
+              label='Domain'
               onChange={(e) => setDomain(e.target.value)}
               textarea
               fullWidth
@@ -142,7 +142,7 @@ const GlossaryEditForm = (props) => {
             <CTInput
               id='explanation-textbox'
               className='edit-textbox'
-              label='EXPLANATION'
+              label='Explanation'
               onChange={(e) => setExplanation(e.target.value)}
               textarea
               fullWidth
@@ -152,7 +152,7 @@ const GlossaryEditForm = (props) => {
             <CTCheckbox
               id='shared-textbox'
               className='edit-textbox'
-              label='SHARED'
+              label='Shared with other courses'
               onChange={() => setShared(!shared)}
               textarea
               fullWidth

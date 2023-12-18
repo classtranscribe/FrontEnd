@@ -12,6 +12,7 @@ const GlossaryAddForm = (props) => {
 
     const [term, setTerm] = useState('');
     const [link, setLink] = useState('');
+    const [warningMessage,setWarningMessage] = useState('');
     const [description, setDescription] = useState('');
     const [source, setSource] = useState('');
     const [licenseTag, setLicenseTag] = useState('');
@@ -22,21 +23,26 @@ const GlossaryAddForm = (props) => {
 
     const submitAdd = () => {
         const editdata = {
-            "term": term,
-            "link": link,
-            "description": description,
-            "source": source,
-            "licenseTag": licenseTag,
-            "shared": shared,
-            "editable": editable,
-            "domain": domain,
+            term:term.trim(),
+            link:link.trim(), 
+            description:description.trim(),
+            source:source.trim(),
+            licenseTag:licenseTag.trim(),
+            shared,editable,
+            domain:domain.trim(),courseId,
+            offeringId,
             "likes": 0,
-            "explanation": (explanation !== null && explanation.length > 0) ? explanation : null,
-            "courseId": courseId,
-            "offeringId": offeringId,
+            "explanation": (explanation !== null && explanation.length > 0) ? explanation.trim() : null,
         }
         // console.log(editdata);
-        sendAdd(editdata);
+        const termValid = editdata.term.length > 0;
+        const descriptionValid = editdata.description.length > 0;
+        setWarningMessage();
+        if( termValid && descriptionValid) {
+          sendAdd(editdata);
+          setEdit(false);
+        } 
+          setWarningMessage( "Please complete the required fields (Term and Description)");
     }
 
     const clear = () => {
@@ -49,6 +55,7 @@ const GlossaryAddForm = (props) => {
         setEditable(true);
         setDomain('');
         setExplanation('');
+        setWarningMessage('');
     }
 
     return (
@@ -62,9 +69,9 @@ const GlossaryAddForm = (props) => {
         container={false}
       >
         <CTForm
-          heading='ADD GLOSSARY'
+          heading='Add Glossary Item'
           onSave={() => submitAdd()}
-          onSaveButtonText='submit'
+          onSaveButtonText='Add'
           onCancel={() => clear()}
           onCancelButtonText='clear'
         >
@@ -72,7 +79,7 @@ const GlossaryAddForm = (props) => {
             <CTInput
               id='term-textbox'
               className='edit-textbox'
-              label='TERM'
+              label='Domain Term (required)'
               onChange={(e) => setTerm(e.target.value)}
               textarea
               fullWidth
@@ -82,7 +89,7 @@ const GlossaryAddForm = (props) => {
             <CTInput
               id='link-textbox'
               className='edit-textbox'
-              label='LINK'
+              label='Source Link'
               onChange={(e) => setLink(e.target.value)}
               textarea
               fullWidth
@@ -93,7 +100,7 @@ const GlossaryAddForm = (props) => {
             <CTInput
               id='description-textbox'
               className='edit-textbox'
-              label='DESCRIPTION'
+              label='Description (required)'
               onChange={(e) => setDescription(e.target.value)}
               textarea
               fullWidth
@@ -104,7 +111,7 @@ const GlossaryAddForm = (props) => {
             <CTInput
               id='source-textbox'
               className='edit-textbox'
-              label='SOURCE'
+              label='Source'
               onChange={(e) => setSource(e.target.value)}
               textarea
               fullWidth
@@ -115,7 +122,7 @@ const GlossaryAddForm = (props) => {
             <CTInput
               id='licenseTag-textbox'
               className='edit-textbox'
-              label='LICENSETAG'
+              label='License Tag'
               onChange={(e) => setLicenseTag(e.target.value)}
               textarea
               fullWidth
@@ -125,7 +132,7 @@ const GlossaryAddForm = (props) => {
             <CTInput
               id='domain-textbox'
               className='edit-textbox'
-              label='DOMAIN'
+              label='Domain'
               onChange={(e) => setDomain(e.target.value)}
               textarea
               fullWidth
@@ -135,7 +142,7 @@ const GlossaryAddForm = (props) => {
             <CTInput
               id='explanation-textbox'
               className='edit-textbox'
-              label='EXPLANATION'
+              label='Explanation'
               onChange={(e) => setExplanation(e.target.value)}
               textarea
               fullWidth
@@ -145,7 +152,7 @@ const GlossaryAddForm = (props) => {
             <CTCheckbox
               id='shared-textbox'
               className='edit-textbox'
-              label='SHARED'
+              label='Shared with other courses'
               onChange={() => setShared(!shared)}
               fullWidth
               margin='normal'
@@ -154,14 +161,17 @@ const GlossaryAddForm = (props) => {
             <CTCheckbox
               id='editable-textbox'
               className='edit-textbox'
-              label='EDITABLE'
+              label='Editable by other instructors'
               onChange={() => setEditable(!editable)}
               fullWidth
               margin='normal'
               checked={editable}
-            />                         
+            />  
+                               
           </div>
+          {warningMessage && <div className='warning'>{warningMessage}</div>}    
         </CTForm>
+       
       </CTModal>
     )
 }

@@ -40,7 +40,7 @@ export default function DownloadLogs() {
   return (
     <div className="ap-more-section download-logs">
       <h2>Download Logs</h2>
-      <label>Select Date Range</label>
+      <h3>Select Date Range</h3>
       <div>
         <DateRangePicker
           noBorder

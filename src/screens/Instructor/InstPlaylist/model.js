@@ -168,7 +168,7 @@ const InstPlaylistModel = {
             try {
                 const { instplaylist } = yield select();
                 let medias = [];
-                instplaylist.medias.array.forEach(m => {
+                instplaylist.medias.forEach(m => {
                     if(m.id === mediaId) {
                         // see  api.parseMedia
                         m = {...m}

@@ -102,8 +102,8 @@ const ChapterContent = ({
           placeholder={tags.length < 5 ? "Enter tags" : ""} // tagging specific parts of the book ie. solutions
         />  
         <CTFragment alignItCenter>
-          {tags.map((data, idx) => (
-            <Tags data={data} handleDelete={handleDelete} key={idx} />
+          {tags.map((data) => (
+            <Tags data={data} handleDelete={handleDelete} key={data} />
             ))}
         </CTFragment>
             

@@ -139,6 +139,7 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
 
     return (
       <div className="example-item">
+        {/* ignore WAVE "Missing form label" since rsuite.Cascader input is aria-hidden */}
         <Cascader
           onSelect={(e) => handleOnSelect(e)}
           placeholder="Select your course"

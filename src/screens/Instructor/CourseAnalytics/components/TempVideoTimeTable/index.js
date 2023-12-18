@@ -23,6 +23,7 @@ function TempVideoTimeTable({ offeringId }) {
   const [column, setColumn] = useState(null);
   const [direction, setDirection] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const searchPlaceholder = 'Search for videos';
   const parseUserData = () => {
     let user_array = [];
     for (let i = 0; i < allLogs.length; i += 1) {
@@ -209,13 +210,15 @@ function TempVideoTimeTable({ offeringId }) {
           autoComplete="off"
           autoFocus
         /> */}
+
+        {/* TODO: https://github.com/Semantic-Org/Semantic-UI-React/issues/4349 */}
         <Dropdown
           fluid
           multiple
           onChange={handleChange}
           onSearchChange={handleSearchChange}
           options={videoList}
-          placeholder='Search for Videos'
+          placeholder={`${searchPlaceholder}...`}
           search
           searchQuery={searchQuery}
           selection

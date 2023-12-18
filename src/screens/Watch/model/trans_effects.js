@@ -78,26 +78,25 @@ export default {
             
             // Inplace add a reference to the transcription object for all captions
             allTranscriptionData.forEach((captionList, listIndex) =>{
-                const tran = trans[listIndex];
+                const t = trans[listIndex];
                 captionList.data?.forEach( (c) => {
-                    c.tran = tran;
-                    // c.kind = tran.transcriptionType;
+                    c.transcription = t;
                   });
             });
 
             alldata = allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
         }
 
-        let closedcaptions = alldata.filter((c)=>c.tran.transcriptionType === 0);
-        let descriptions = alldata.filter((c)=>c.tran.transcriptionType !==0);
+        let closedcaptions = alldata.filter((c)=>c.transcription.transcriptionType === 0);
+        let descriptions = alldata.filter((c)=>c.transcription.transcriptionType !==0);
 
         yield put({ type: 'setCaptions', payload: closedcaptions });
         
-        const descirptionsData = descriptions.map(caption => ({
+        const descriptionData = descriptions.map(caption => ({
             ...caption,
             end: caption.begin, // Set endTime to match beginTime. Why?
           }));
-        yield put.resolve({ type: 'setDescriptions', payload: descirptionsData });
+        yield put.resolve({ type: 'setDescriptions', payload: descriptionData });
         yield put({ type: 'setTranscript' });
     },
     *setTranscriptions({ payload: trans }, { put}) {
@@ -131,7 +130,7 @@ export default {
         // console.log(watch)
         // console.log(`pauseWhileAD:${playerpref.pauseWhileAD}`);
         const nextDescription = findCurrentDescription(watch.descriptions, currentTime);
-        if (nextDescription) {
+        if (playerpref.openAD && nextDescription) {
             const nextDescriptionBeginTime = timeStrToSec(nextDescription.begin);
             if (Math.abs(currentTime - nextDescriptionBeginTime) <= 1) {
                 if (playerpref.pauseWhileAD) {
@@ -195,7 +194,8 @@ export default {
         /**
          * @todo check PROFANITY_LIST
          */
-        if (!text || (watch.currEditing && watch.currEditing.text === text)) {
+        // currEditing could be missing if captions are frozen
+        if (!text || ! watch?.currEditing || (watch.currEditing && watch.currEditing.text === text)) {
             promptControl.closePrompt();
             return;
             // return this.edit(null); NOT IMPLEMENTED
@@ -208,7 +208,7 @@ export default {
         uEvent.edittrans(watch.currTime, watch.currEditing.text, text);
         // update new text
         // this.currEditing_.text = text; ?
-        const isClosedCaption = caption.trans.transcriptionType === 0;
+        const isClosedCaption = caption.transcription.transcriptionType === 0;
 
         yield put({ type: 'setCurrEditing', payload: null });
         try {

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React, { useCallback } from 'react';
 
 import { isMobile } from 'react-device-detect';
@@ -130,6 +131,6 @@ const Video = React.memo((props) => {
         {path && <source src={path} type="video/mp4" />}
         Your browser does not support video tag.
       </video>
-    </div>)
+            </div>)
 }, (prevProps, nextProps) => prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched && prevProps.videoStyle === nextProps.videoStyle);
 export default Video;
