@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import { isMobile } from 'react-device-detect';
+import React from 'react';
 import { connect } from 'dva';
+import { /* CROWDEDIT_ALLOW, */CROWDEDIT_FREEZE_ALL } from 'utils/constants.js';
 import {
   // transControl,
   NORMAL_MODE,
@@ -27,14 +27,18 @@ function TranscriptionsWithRedux(props) {
     mode = NORMAL_MODE,
     transView = LINE_VIEW,
     currEditing = null,
+    crowdEditMode,
     search = SEARCH_INIT,
     dispatch,
-    updating,
-    currCaptionIndex,
-    currentTime,
+    // updating,
+    // currCaptionIndex,
+    // currentTime,
     liveMode,
     fontSize
   } = props;
+
+  const allowEdit = crowdEditMode !== CROWDEDIT_FREEZE_ALL;
+  
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
     dispatch({ type: 'watch/setMouseOnCaption', payload: bool });
@@ -51,17 +55,7 @@ function TranscriptionsWithRedux(props) {
   };
 
   const displayTrans = search.status === SEARCH_HIDE || true;
-  useEffect(() => {
-    if (currCaption != null && liveMode) {
-      if (true) {
-        let z = document.getElementById(`caption-line-${currCaption.startTime}`)
-        // console.log(z)
-        if (z != null) {
-          z.scrollIntoView({block: "center"})
-        }
-      }
-    }
-  }, [currCaption, currCaptionIndex, currentTime])
+
 
   return displayTrans ? (
     <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
@@ -78,15 +72,16 @@ function TranscriptionsWithRedux(props) {
           </div>
         ) : transView === LINE_VIEW ? (
           <div className="trans-list" style={{zIndex: 10}}>
-            {transcript.map((caption, index) => {
+            {transcript.map((caption) => {
               return <CaptionLine
                 key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
                 caption={caption}
                 fontSize={fontSize}
                 currCaption={currCaption}
+                allowEdit={allowEdit}
                 isCurrent={liveMode ? isCurrent(caption.text + String(caption.startTime)) : isCurrent(caption.id)}
                 dispatch={dispatch}
-                isEditing={Boolean(currEditing) && currEditing.id === caption.id}
+                isEditing={Boolean(currEditing) && allowEdit && currEditing.id === caption.id}
               />
             })}
           </div>
@@ -94,7 +89,7 @@ function TranscriptionsWithRedux(props) {
           <div className="trans-article">
             {transcript.map((caption, index) => (
               <TranscriptText
-                key={index}
+                key={caption.id}
                 caption={caption}
                 isCurrent={isCurrent(index)}
                 dispatch={dispatch}
@@ -109,7 +104,8 @@ function TranscriptionsWithRedux(props) {
 }
 
 export const Transcriptions = connect(({ playerpref: { transView },
-  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime, liveMode, fontSize}, loading }) => ({
-    transView,
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, 
+    currCaptionIndex, currentTime, liveMode, fontSize, media:{crowdEditMode}} }) => ({
+    transView,crowdEditMode,
     transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime, liveMode, fontSize
   }))(TranscriptionsWithRedux);

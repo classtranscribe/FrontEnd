@@ -13,11 +13,14 @@ const NoSectionHolder = () => (
   </CTFragment>
 );
 
+const addReactKey = (sections) => sections.map((section, index) => {section.reactKey=`Section-${section.id}-${index}`;return section;});
+
 function SectionList({
   sections,
   hasDepartmentSections
 }) {
   const hasSections = sections.length > 0;
+  const sectionsWithKey = hasSections? addReactKey(sections) : [];
   const slHasDepartmentSections = hasSections && hasDepartmentSections;
 
   const noSectionHolderEl = makeEl(NoSectionHolder);
@@ -34,8 +37,8 @@ function SectionList({
       {!slHasDepartmentSections && noSectionHolderEl}
 
       <CTFragment role="list" dFlexCol padding="10">
-        {sections.map((section, index) => (
-          <SectionItem key={section.id + index} section={section} />
+        {sectionsWithKey.map((section) => (
+          <SectionItem key={section.reactKey} section={section} />
         ))}
       </CTFragment>
     </CTFragment>

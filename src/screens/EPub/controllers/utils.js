@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { EPubChapterData, EPubImageData, EPubSubChapterData } from 'entities/EPubs';
+import { EPubChapterData, EPubImageData/* , EPubSubChapterData */ } from 'entities/EPubs';
 
 /**
  * Get a compact text from first several items in the chapter
@@ -35,7 +35,8 @@ export function extractAudioDescription(chapters, useFirstImage = true) {
         description: contents[index].description,
         title: chapter.title,
         start: chapter.start,
-        end: chapter.end
+        end: chapter.end,
+        timemerge: '00:00:00'
       });
     }
 

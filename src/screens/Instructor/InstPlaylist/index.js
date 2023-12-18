@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route } from 'dva/router';
 import { connect } from 'dva';
 import { CTLayout, CTErrorWrapper, altEl } from 'layout';
@@ -11,13 +11,9 @@ import {
   UploadFiles
 } from './components';
 
-export class InstPlaylistWithRedux extends Component {
-  componentDidMount() {
-    // setup.setupInstPlaylistPage(playlistId, this.props.location.state);
-  }
-
-  render() {
-    const { instplaylist, dispatch } = this.props;
+// export class InstPlaylistWithRedux extends Component {
+export const InstPlaylistWithRedux = (props) => {
+    const { instplaylist, dispatch } = props;
     const { offering, confirmation, playlist } = instplaylist;
     const layoutProps = CTLayout.createProps((sidebar) => ({
       transition: true,
@@ -47,7 +43,7 @@ export class InstPlaylistWithRedux extends Component {
     return (
       <CTLayout {...layoutProps}>
         <InfoAndListLayout loading={!playlist.id} error={hasError} errorElement={errorElement}>
-          <PlaylistInfo {...this.props} />
+          <PlaylistInfo {...props} />
           <MediaList />
           {confirmation && <Confirmation confirmation={confirmation} onClose={() => dispatch({type: 'instplaylist/setConfirmation', payload: null})} />}
 
@@ -56,8 +52,8 @@ export class InstPlaylistWithRedux extends Component {
       </CTLayout>
     )
   }
-}
 
-export const InstPlaylist = connect(({ instplaylist, loading }) => ({
+
+export const InstPlaylist = connect(({ instplaylist }) => ({
   instplaylist
 }))(InstPlaylistWithRedux);

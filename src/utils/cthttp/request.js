@@ -1,16 +1,25 @@
-import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { env } from 'utils/env';
 import { links, uurl } from 'utils';
 import { accountStorage } from 'utils/user/storage';
 
 const DEFAULT_LOG_TIMEOUT = 120000;
+// Should we add a version of the  following as the default config?
+// (At least during development when running the frontend on a different server)
+// const defaultconfig = {
+//   headers: {
+//     "Access-Control-Allow-Origin": "*", // or something more limited?
+//     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+//   }
+// };
+
 class CTHTTPRequest {
   /**
    * Create an axios instance with ClassTranscribe authorization
    * @param {Boolean} withAuth true if send request with authorization
    * @returns {AxiosInstance} the axios instance with ClassTranscribe authorization
    */
-  request(withAuth = true) {
+  request(withAuth = true,timeout = DEFAULT_LOG_TIMEOUT) {
     let authToken = accountStorage.authToken;
     let loginAsAuthToken = accountStorage.loginAsUserInfo.authToken;
     if (!uurl.isEqual(links.admin()) && loginAsAuthToken) {
@@ -19,7 +28,7 @@ class CTHTTPRequest {
 
     return axios.create({
       baseURL: env.baseURL || window.location.origin,
-      timeout: DEFAULT_LOG_TIMEOUT,
+      timeout,
       headers: {
         Authorization:
           authToken && withAuth

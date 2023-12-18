@@ -64,6 +64,7 @@ export async function _copyTextToClipboard(text) {
   }
 }
 
+/* unused
 export function _readFileAsBinary(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -78,3 +79,4 @@ export function _readFileAsBinary(file) {
     reader.readAsBinaryString(file);
   });
 }
+*/

@@ -66,8 +66,8 @@ export class DefaultSidebarItems {
   get asl() {
     return this.create({
       value: 'ct-nsb-asl',
-      text: 'ASL',
-      icon: 'sign_language',
+      text: 'ASL Glossary',
+      icon: 'book',// 'sign_language',
       href: links.asl(),
       active: uurl.isEqual(links.asl()),
       items: []

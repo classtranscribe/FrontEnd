@@ -76,7 +76,7 @@ const HomeModel = {
         setSelTerms(state, { payload }) {
             return buildSections({ ...state, selTerms: payload })
         },
-        pageLoadError(state, { payload }) {
+        pageLoadError(state) {
             if (state.error === HomeConstants.CTHomepageLoadError) return state;
             console.error(state.error)
             state.error = HomeConstants.CTHomepageLoadError
@@ -91,13 +91,13 @@ const HomeModel = {
         }
     },
     effects: {
-        *selectDepartments({ payload: selDepartments }, { call, put, select }) {
+        *selectDepartments({ payload: selDepartments }, { put }) {
             yield put.resolve({ type: 'setSelDepartments', payload: selDepartments });
         },
-        *selectTerms({ payload: selTerms }, { call, put, select }) {
+        *selectTerms({ payload: selTerms }, { put }) {
             yield put.resolve({ type: 'setSelTerms', payload: selTerms });
         },
-        *getUniversities(__, { call, put, select }) {
+        *getUniversities(__, { call, put }) {
             try {
                 const { data } = yield call(api.getUniversities);
                 // filter out the default university
@@ -115,7 +115,7 @@ const HomeModel = {
                 return ErrorTypes.NotFound404;
             }
         },
-        *getOfferings(__, { call, put, select }) {
+        *getOfferings(__, { call, put }) {
             try {
                 const { data } = yield call(api.getOfferingsByStudent);
                 if (Array.isArray(data)) {
@@ -131,7 +131,7 @@ const HomeModel = {
                 return ErrorTypes.NotFound404;
             }
         },
-        *getWatchHistory(__, { call, put, select }) {
+        *getWatchHistory(__, { call, put }) {
             if (!user.isLoggedIn) return [];
             try {
                 const { data } = yield call(api.getUserWatchHistories);
@@ -143,7 +143,7 @@ const HomeModel = {
                 return [];
             }
         },
-        *getTerms({ payload: universityId }, { call, put, select }) {
+        *getTerms({ payload: universityId }, { call, put }) {
             try {
                 const { data } = yield call(api.getTermsByUniId, universityId);
                 if (Array.isArray(data)) {
@@ -156,7 +156,8 @@ const HomeModel = {
                 return [];
             }
         },
-        *getStarredOfferings({ payload }, { call, put, select }) {
+        // eslint-disable-next-line no-unused-vars
+        *getStarredOfferings({ payload }, { call, put }) {
             if (!user.isLoggedIn) return [];
             try {
                 const { data } = yield call(api.getUserMetaData);
@@ -195,7 +196,7 @@ const HomeModel = {
                 return [];
             }
         },
-        *selectUniversity({ payload: universityId }, { call, put, select }) {
+        *selectUniversity({ payload: universityId }, { put, select }) {
             const { home: homeState } = yield select();
             if (universityId) {
                 const university = _.find(homeState.universities, { id: universityId });
@@ -210,7 +211,7 @@ const HomeModel = {
             }
             yield put.resolve({ type: 'getDepartmentsData' });
         },
-        *initialize(__, { call, put, select, take }) {
+        *initialize(__, { put }) {
             yield put.resolve({ type: 'getUniversities' });
             yield put.resolve({ type: 'getOfferings' });
             yield put.resolve({ type: 'getWatchHistory' });
@@ -226,7 +227,7 @@ const HomeModel = {
     subscriptions: {
         setup({ dispatch }) {
             // api.contentLoaded(); <- THIS WILL BE COMPLETED BY THE LOADING EFFECTS
-            document.addEventListener('readystatechange', e => {
+            document.addEventListener('readystatechange', () => {
                 if (document.readyState === "complete") {
                     dispatch({ type: 'initialize' });
                 }

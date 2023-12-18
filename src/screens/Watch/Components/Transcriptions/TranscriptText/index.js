@@ -10,7 +10,7 @@ import {
   WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
 
-export default function TranscriptText({ caption = {}, isCurrent = false, dispatch }) {
+export default function TranscriptText({ caption = {}, /* isCurrent = false, */ dispatch }) {
   const { text = '', id, begin, kind } = caption;
 
   const handleSeek = () => {

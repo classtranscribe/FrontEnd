@@ -1,8 +1,10 @@
-import React, { useState, useMemo, useEffect, useCallback, useRef} from 'react';
-import './index.scss';
-import "rsuite/dist/rsuite.css";
-import { cthttp } from 'utils/cthttp/request';
+import React, { useState, useMemo, useEffect, useCallback} from 'react';
 
+import './index.scss';
+import 'rsuite/dist/rsuite.css';
+import { v1 as uuidv1 } from 'uuid';
+import { cthttp } from 'utils/cthttp/request';
+import {env} from 'utils/env';
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 // reference: https://codesandbox.io/embed/table-sorting-example-ur2z9?fontsize=14&hidenavigation=1&theme=dark
 // reference: https://segmentfault.com/a/1190000038615186#item-3
@@ -50,8 +52,11 @@ const AslTable = props => {
     const { items, requestSort, sortConfig } = useSortableData(props.words);
     const [pageNumber, setPageNumber] = useState(1); // the page number starts at 1
     const [jumpNumber, setJumpNumber] = useState(1);
+    const jumpId = uuidv1();
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
+    const searchPlaceholder = 'Search for ASL glossaries';
+    const searchId = uuidv1();
     const [onePage, setOnePage] = useState([]);
     const [showVideo, setShowVideo] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
@@ -104,7 +109,7 @@ const AslTable = props => {
         // pagenumber is valid
         setPageNumber(jumpNumber);
       } else {
-        alert("please enter a valid page number!");
+        // alert("please enter a valid page number!");
       }
     }
 
@@ -122,15 +127,14 @@ const AslTable = props => {
       setSelectedTerm(term);
       const source = term.source;
       const uniqueASLIdentifier = term.uniqueASLIdentifier;
-      const hostName = window.location.hostname;
-      if (hostName !== '') {
-        if (source === 'ASLCORE') {
-          setVideoUrl(`https://${hostName}/data/aslvideos/aslcore/original/${uniqueASLIdentifier}.mp4`);
-        } else {
-          setVideoUrl(`https://${hostName}/data/aslvideos/deaftec/original/${uniqueASLIdentifier}.mp4`);
+      const origin = env.baseURL || window.location.hostname;
+      if (origin !== '') {
+        const src = source.toLowerCase();
+        if (src) {
+          setVideoUrl(`${origin}/data/aslvideos/${src}/original/${uniqueASLIdentifier}.mp4`);
+          setShowVideo(true);
         }
       }
-      setShowVideo(true);
     }
 
     const handlePrevPage = () => {
@@ -207,11 +211,11 @@ const AslTable = props => {
     })
 
     // release mouse
-    const onMouseUp = useCallback((e) => {
+    const onMouseUp = useCallback(() => {
       setIsDown(false);
     }, [])
 
-    const onMouseLeave = useCallback((e) => {
+    const onMouseLeave = useCallback(() => {
       setIsDown(false);
     }, [])
 
@@ -245,16 +249,21 @@ const AslTable = props => {
           </div>
         </div>)}
         <div className='tableBar'>
-          <input 
+          {/* https://www.w3.org/WAI/tutorials/forms/labels/#associating-labels-explicitly */}
+          <label htmlFor={searchId} className="sr-only">{searchPlaceholder}</label>
+          <input
+            id={searchId}
             className='searchBox'
             type='text'
-            placeholder='search for ASL Glossaries' 
+            placeholder={`${searchPlaceholder}...`}
             onChange={(e) => setSearch(e.target.value)}
           />
           <span className='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / ONE_PAGE_NUM)}`)}</span>
           <button onClick={handlePrevPage} disabled={(pageNumber <= 1)}>Prev</button>
           <button onClick={handleNextPage} disabled={(pageNumber*ONE_PAGE_NUM >= length)}>Next</button>
-          <input className='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
+          {/* https://www.w3.org/WAI/tutorials/forms/labels/#associating-labels-explicitly */}
+          <label htmlFor={jumpId} className="sr-only">Jump to page</label>
+          <input id={jumpId} className='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
           <button onClick={handleJump}>Go</button>
         </div>
         
@@ -305,7 +314,7 @@ const AslTable = props => {
             </tr>
           </thead>
           <tbody>
-            {onePage.map((term, i) => {
+            {onePage.map((term) => {
               return (
                 <tr key={term.id}>
                   <td>{term.term}</td>

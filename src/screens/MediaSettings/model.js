@@ -1,6 +1,6 @@
 import pathToRegexp from 'path-to-regexp';
 import { isMobile } from 'react-device-detect';
-import { api, links, user } from 'utils';
+import { api, links } from 'utils';
 
 async function getMedia(mediaId) {
     try {
@@ -37,7 +37,7 @@ const MediaSettingModel = {
         },
     },
     effects: {
-        *loadMediaSettings({ payload: mediaId }, { call, put, select, take }) {
+        *loadMediaSettings({ payload: mediaId }, { call, put }) {
             links.title('Media Settings');
 
             const media = yield call(getMedia, mediaId);

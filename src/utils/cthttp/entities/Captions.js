@@ -1,6 +1,6 @@
 import { cthttp } from '../request';
 
-const qs = require('qs')
+// const qs = require('qs')
 
 // ------------------------------------------------------------
 // Captions

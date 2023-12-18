@@ -1,6 +1,6 @@
 import timestr from 'utils/use-time';
 import downloadFile from 'js-file-download';
-import { api, uurl, prompt, _copyTextToClipboard, _readFileAsBinary } from 'utils';
+import { api, uurl, prompt, _copyTextToClipboard /* , _readFileAsBinary */} from 'utils';
 
 /**
  * Function used to get the size for the player

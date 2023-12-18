@@ -4,6 +4,7 @@ import { Cascader } from 'rsuite';
 import axios from 'axios';
 import FolderFillIcon from "@rsuite/icons/FolderFill";
 import PageIcon from "@rsuite/icons/Page";
+import { env } from 'utils/env';
 
 // the config header will avoid cors blocked by the chrome
 const config = {
@@ -19,12 +20,14 @@ const config = {
  * @param setSelectOffering, used for seting offeringId for getting glossaries
  */
 export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
+    // eslint-disable-next-line no-unused-vars
     const [isLoading, setIsLoading] = useState(true);
     const [terms, setTerms] = useState({});
     const [initialData, setInitialData] = useState([]);
 
+    // see cthttp request
     const apiInstance = axios.create({
-        baseURL: 'https://ct-dev.ncsa.illinois.edu',
+        baseURL: env.baseURL || window.location.origin,
         timeout: 1000,
     });
 
@@ -136,6 +139,7 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
 
     return (
       <div className="example-item">
+        {/* ignore WAVE "Missing form label" since rsuite.Cascader input is aria-hidden */}
         <Cascader
           onSelect={(e) => handleOnSelect(e)}
           placeholder="Select your course"

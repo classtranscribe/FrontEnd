@@ -3,10 +3,16 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { Link } from 'dva/router';
 import { ButtonBase, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton} from '@material-ui/core';
+import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { amber } from '@material-ui/core/colors';
+
 import { CTFragment, CTText, CTCheckbox, CTPopoverLabel, CTInput } from 'layout';
 import { Button } from 'pico-ui';
 import { prompt } from 'utils';
 
+const starTheme = createTheme({ palette: { primary: amber } });
+
+// eslint-disable-next-line complexity
 function EPubCTListItem(props) {
   const {
     id,
@@ -24,9 +30,11 @@ function EPubCTListItem(props) {
     children,
     onDelete,
     onRename,
+    onPin,
     enableButtons,
     isSelected,
     handleSelect,
+    isPinned,
     ...baseProps
   } = props;
 
@@ -36,6 +44,8 @@ function EPubCTListItem(props) {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(title);
+  const [isStar, setIsStar] = useState(isPinned);
+  const enablePinButton = false;
 
   const stopPropagation = (event) => {
     if (event && event.stopPropagation) {
@@ -49,10 +59,10 @@ function EPubCTListItem(props) {
     }
   };
 
-  const handleDeleteEPub = (event) => {
-     setOpen(true);
-     event.preventDefault();
-  };
+  // const handleDeleteEPub = (event) => {
+  //    setOpen(true);
+  //    event.preventDefault();
+  // };
   const handleYes = () => {
     onDelete(id);
     setOpen(false);
@@ -85,6 +95,12 @@ function EPubCTListItem(props) {
     setInputValue(event.target.value);
   };
 
+  const handleStar = (event) => {
+    onPin(id);
+    setIsStar((prev) => !prev);
+    preventDefault(event);
+  };
+
   const renameBtnIcon = editing ? 'check' : 'edit';
   const renameBtnLabel = editing ? 'Save' : 'Rename';
   const renameBtnClick = editing ? handleRename : handleEdit;
@@ -111,6 +127,26 @@ function EPubCTListItem(props) {
     </CTPopoverLabel>
   ): null);
 
+  const starBtnIcon = 'star';
+  const starBtnLabel = 'Endorse';
+
+  const starButton = (enableButtons ? (
+    <CTPopoverLabel label={starBtnLabel}>
+      <MuiThemeProvider theme={starTheme}>
+        <IconButton
+          size="small"
+          className="ml-4"
+          color={isStar ? 'primary' : ''}
+          onClick={handleStar}
+          aria-label={starBtnLabel}
+          onMouseDown={(e) => stopPropagation(e)}
+        >
+          <i className="material-icons star-icon">{starBtnIcon}</i>
+        </IconButton>
+      </MuiThemeProvider>
+    </CTPopoverLabel>
+  ): null);
+
   const checkBox = (enableButtons ? (
     <Checkbox
       classes={checkBoxClasses}
@@ -121,7 +157,7 @@ function EPubCTListItem(props) {
     />
   ) : null);
 
-  const deleteButton = (enableButtons ? (
+  /* unused const deleteButton = (enableButtons ? (
     <Button
       id={id} 
       lowercase
@@ -130,7 +166,7 @@ function EPubCTListItem(props) {
       classNames="mr-2"
       onClick={handleDeleteEPub}
     />
-  ) : null);
+  ) : null); */
 
   const dialogue = (enableButtons ? (
     <Dialog
@@ -193,9 +229,11 @@ function EPubCTListItem(props) {
               {/* {title || children} */}
             </CTText>}
           {description && <CTText size={despSize} {...despProps}>{description}</CTText>}
+          {enablePinButton && isStar && <CTText textCenter bold className='ct-listitem-approved'>This book has been approved by an instructor.</CTText>}
         </CTFragment>
       </CTFragment>
       {renameButton}
+      {enablePinButton && starButton}
       {/* {deleteButton} */}
       {dialogue}
     </ButtonBase>
@@ -250,7 +288,9 @@ EPubCTListItem.propTypes = {
 
   handleSelect: PropTypes.func,
 
-  onRename: PropTypes.func
+  onRename: PropTypes.func,
+
+  onPin: PropTypes.func
 };
 
 export default EPubCTListItem;

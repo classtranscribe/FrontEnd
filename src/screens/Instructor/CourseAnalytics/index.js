@@ -3,7 +3,6 @@ import { CTLayout, CTFragment } from 'layout';
 import { connect } from 'dva';
 import TempVideoTimeTable from './components/TempVideoTimeTable';
 
-const setup = {};
 export class CourseAnalyticsWithRedux extends Component {
   componentDidMount() {
     // setup.setupCourseSettingsPage(this.offeringId);
@@ -46,6 +45,6 @@ export class CourseAnalyticsWithRedux extends Component {
   }
 }
 
-export const CourseAnalytics = connect(({ course, loading }) => ({
+export const CourseAnalytics = connect(({ course }) => ({
   course
 }))(CourseAnalyticsWithRedux);

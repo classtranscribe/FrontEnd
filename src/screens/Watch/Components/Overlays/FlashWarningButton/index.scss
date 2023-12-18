@@ -1,0 +1,36 @@
+.ack-overlay {
+  position: absolute;
+  background-color: rgba(90, 90, 90, 0.7);
+  
+  display:block;
+  min-width: 100%;
+  min-height: 100%;
+}
+.ack-button-container {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+
+  color: rgba(240, 240, 240, 0.95);
+  background-color: rgba(90, 90, 90, 0.95);
+  padding: 3em 3em 5em 5em;
+}
+.ack-button {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  font-size: 3em;
+}
+.ack-text {
+  color: rgba(220, 220, 255, 0.953);
+  font-size: 4em;
+}
+.ack-button-content {
+  color: rgba(20, 20, 20, 0.953);
+  i {
+    font-size: 5em;
+    size: 5em;
+  }
+  width: 10px;
+  padding: 15px 15px 15px 15px;
+}

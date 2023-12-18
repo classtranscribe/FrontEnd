@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import $ from 'jquery';
 // import { isDeveloping } from '../../../utils';
 
@@ -69,6 +70,9 @@ export const keydownControl = {
      */
     if (shiftKey) {
       switch (keyCode) {
+        // `+` (Shift + ESC) - increase closed caption size
+        case KeyCode.KEY_ESCAPE:
+            return this.dispatch({ type: 'playerpref/setPreference', payload: { stopAD: true } })
         // `+` (Shift + +) - increase closed caption size
         case KeyCode.KEY_EQUALS:
           return this.dispatch({ type: 'playerpref/changeCCSizeByValue', payload: 0.25 });

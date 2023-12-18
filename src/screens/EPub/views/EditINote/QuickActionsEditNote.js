@@ -30,10 +30,10 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
       <CTHeading uppercase as="h4" icon="offline_bolt">Quick Split</CTHeading>
 
       
-        {
+      {
           showResetBtn
           &&
-         <CTFragment margin="7" width="auto">
+          <CTFragment margin="7" width="auto">
             <ButtonGroup fullWidth>
               <Button
                 className={btnClasses}
@@ -45,7 +45,7 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
           </CTFragment>
         }
 
-        {
+      {
           showSplitAllBtn
           &&
           <CTFragment margin="7" width="auto">
@@ -88,6 +88,6 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
   );
 }
 
-export default connect(({ epub: { currChIndex, epub: { chapters }, items }, loading }) => ({
+export default connect(({ epub: { currChIndex, epub: { chapters }, items } }) => ({
   currChIndex, chapters, items
 }))(QuickActionsEditNote);

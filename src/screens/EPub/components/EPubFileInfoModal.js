@@ -183,7 +183,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
           />
         </CTFormRow>
         <CTFormRow>
-          {conditions.map((data, index) => {
+          {conditions.map((data) => {
             return (
               <CTCheckbox
                 id={data}

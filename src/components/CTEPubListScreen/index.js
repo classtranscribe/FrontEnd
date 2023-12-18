@@ -47,7 +47,8 @@ function CTEPubListScreen(props) {
     });
     await setupEPubsData();
   };
-
+  // eslint-disable-next-line no-console
+  // console.log(props)
   // Delete an I•Note by epubId
   const handleDeleteEPub = async (epubId) => {
     try {
@@ -62,24 +63,54 @@ function CTEPubListScreen(props) {
 
   let epubsSelected = selectedEpubs.length;
 
+  // const deleteSelected = async () => {
+  //   let success = true
+  //   let count = selectedEpubs.length;
+  //   while (selectedEpubs.length > 0) {
+  //     try {
+  //       await EPubListCtrl.deleteEPub(selectedEpubs[selectedEpubs.length - 1]);
+  //     }
+  //     catch(e) {
+  //       success = false
+  //       prompt.addOne({ text: 'Cannot delete the I•Note...' , timeout: 4000 })
+  //     }
+  //     selectedEpubs.pop();
+  //   }
+  //   epubsSelected = 0;
+  //   if (success) {
+  //     prompt.addOne({text: `Deleting ${count} I•Note${count !== 1 ? 's' : ''}...`, timeout: 4000});
+  //   }
+  //   await setupEPubsData();
+  // }
+
   const deleteSelected = async () => {
-    let success = true
-    let count = selectedEpubs.length;
-    while (selectedEpubs.length > 0) {
+    if(selectedEpubs.length === 0) return;
+    const todo = selectedEpubs.length;
+    let completed = 0;
+    let failed = [];
+  
+    if(todo > 1) {
+      // May take a while so show a message
+      prompt.addOne({
+      text: `Deleting ${todo} I•Notes ...`,
+      timeout: 4000,
+    });
+    }
+    const deletePromises = selectedEpubs.map(async (selectedEpub) => {
       try {
-        await EPubListCtrl.deleteEPub(selectedEpubs[selectedEpubs.length - 1]);
+        await EPubListCtrl.deleteEPub(selectedEpub);
+        completed += 1;
+      } catch (e) {
+        failed.push(selectedEpub);
       }
-      catch(e) {
-        success = false
-        prompt.addOne({ text: 'Cannot delete the I•Note...' , timeout: 4000 })
-      }
-      selectedEpubs.pop();
-    }
-    epubsSelected = 0;
-    if (success) {
-      prompt.addOne({text: `Deleting ${count} I•Note${count !== 1 ? 's' : ''}...`, timeout: 4000});
-    }
-    await setupEPubsData();
+    });
+  
+    await Promise.all(deletePromises);
+    
+    const plural = selectedEpubs.length !== 1 ? 's' : '';
+    prompt.addOne({ text: `Deleted ${completed} of ${selectedEpubs.length} selected I•Note${plural}`, timeout: 4000 });
+  
+    setSelectedEpubs(failed);
   }
 
   const handleSelect = (epubId, checked) => {
@@ -115,6 +146,16 @@ function CTEPubListScreen(props) {
     await setupEPubsData();
   };
 
+  // Pin an Epub
+  const handlePinEpub = async(epubId) => {
+    try {
+      await EPubListCtrl.pinEpub(epubId);
+    } catch(e) {
+      prompt.addOne({text: 'Cannot pin the I•Note...', timeout: 4000});
+    }
+    await setupEPubsData();
+  }
+
   const posterElement = makeEl(EPubPoster);
   const listElement = altEl(EPubList, !loading, {
     ePubs, languages, rawEPubData,
@@ -122,6 +163,7 @@ function CTEPubListScreen(props) {
     onCreate: () => setOpenNewEPubModal(true),
     onDelete: () => handleDeleteEPub,
     onRename: () => handleRenameEPub,
+    onPin: () => handlePinEpub,
     handleSelect: () => handleSelect,
     isSelected: () => isSelected,
     isSelectedAll,

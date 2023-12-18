@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import { connect } from 'dva'
 import {
@@ -86,6 +86,6 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW, dispatch,
   );
 }
 
-export default connect(({ playerpref: { transView, autoScroll, pauseWhileEditing }, loading }) => ({
+export default connect(({ playerpref: { transView, autoScroll, pauseWhileEditing } }) => ({
   transView, autoScroll, pauseWhileEditing
 }))(TranscriptionSetting)

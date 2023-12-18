@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withReduxProvider } from 'redux/redux-provider';
 import { CTLayout, CTFragment } from 'layout';
-import CTPlayer from 'components/CTPlayer';
 import {
   setup,
   exampleStore,

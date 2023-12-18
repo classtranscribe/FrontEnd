@@ -9,7 +9,7 @@ export default {
       },
     },
     subscriptions: {
-      setup({ dispatch, history }) {
+      setup() {
         
       }
     }

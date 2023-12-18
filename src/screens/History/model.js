@@ -1,6 +1,5 @@
 import { ARRAY_INIT } from 'utils/constants';
-import _ from 'lodash';
-import { api, user, prompt, InvalidDataError } from 'utils';
+import { api, user, prompt } from 'utils';
 
 const HistoryModel = {
     namespace: 'historypage',
@@ -13,7 +12,8 @@ const HistoryModel = {
         }
     },
     effects: {
-        *setupWatchHistories({ payload }, { call, put, select, take }) {
+        // eslint-disable-next-line no-unused-vars
+        *setupWatchHistories({ payload }, { call, put }) {
             if (!user.isLoggedIn) return;
             try {
                 let { data } = yield call(api.getUserWatchHistories)
@@ -25,7 +25,7 @@ const HistoryModel = {
     },
     subscriptions: {
         setup({ dispatch }) {
-            document.addEventListener('readystatechange', e => {
+            document.addEventListener('readystatechange', () => {
                 if (document.readyState === "complete") {
                     dispatch({ type: 'setupWatchHistories' });
                 }

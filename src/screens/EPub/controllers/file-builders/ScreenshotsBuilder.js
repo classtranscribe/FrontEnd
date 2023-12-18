@@ -1,6 +1,6 @@
-import _ from 'lodash';
+/* eslint-disable complexity */
 import AdmZip from 'adm-zip';
-import { EPubData } from 'entities/EPubs';
+// import { EPubData } from 'entities/EPubs';
 import EPubParser from './EPubParser';
 import {INDEX_LATEX} from './file-templates/latex'
 

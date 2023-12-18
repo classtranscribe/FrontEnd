@@ -9,6 +9,7 @@ import MediaName from './MediaName';
 import MediaItemActions from './MediaItemActions';
 
 function MediaItem({
+  playlistId,
   media,
   selecting,
   filtering,
@@ -24,7 +25,7 @@ function MediaItem({
 
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(mediaName);
-
+  
   const stopPropagation = (event) => {
     if (event && event.stopPropagation) {
       event.stopPropagation();
@@ -70,7 +71,7 @@ function MediaItem({
   const renameBtnClick = editing ? handleRename : handleEdit;
 
   const checkBoxClasses = CTCheckbox.useStyles();
-
+  
   return (
     <Accordion className="media-item" expanded={expanded} onChange={handleExpansionChange}>
       <AccordionSummary
@@ -84,13 +85,16 @@ function MediaItem({
         }}
       >
         <div className="w-100 d-flex align-items-center">
+          {/* https://mui.com/material-ui/react-checkbox/#accessibility */}
           <MuiCheckbox
             classes={checkBoxClasses}
             onClick={stopPropagation}
             checked={selected}
             onChange={handleCheck}
             className="media-check-box"
-            aria-label="Select this media"
+            inputProps={{
+              'aria-label': 'Select this media',
+            }}
           />
 
           <MediaName
@@ -120,10 +124,12 @@ function MediaItem({
         </CTText>
 
         <MediaItemActions
+          playlistId={playlistId}
           media={media}
           mediaId={id}
           isUnavailable={isUnavailable}
           dispatch={dispatch}
+          
         />
       </AccordionDetails>
     </Accordion>

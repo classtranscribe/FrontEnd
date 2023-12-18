@@ -7,12 +7,13 @@ import { links } from 'utils';
 import { Image } from 'semantic-ui-react';
 
 
-function MenuTrigger(props) {
+const MenuTrigger = (props) => {
   let {
     picture,
     isLoggedIn,
     email = '',
-    handleClick
+    handleClick,
+    onKeyUp
   } = props;
 
   const btn = useButtonStyles();
@@ -40,6 +41,7 @@ function MenuTrigger(props) {
       aria-controls="profile-menu"
       className="profile-img"
       onClick={handleClick}
+      onKeyUp={onKeyUp}
     />
   ) : (
     <div 
@@ -51,11 +53,12 @@ function MenuTrigger(props) {
       aria-controls="profile-menu"
       className="profile-img-alt"
       onClick={handleClick}
+      onKeyUp={onKeyUp}
     >
       <div>{email.slice(0, 1)}</div>
     </div>
   );
-}
+};
 
 MenuTrigger.propTypes = {
   /** User profile image */

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTLayout, CTFragment, CTFilter, CTErrorWrapper } from 'layout';
 import _ from 'lodash';
@@ -101,6 +101,6 @@ const MyCoursesWithRedux = (props) => {
     </CTLayout>
   );
 };
-export const MyCourses = connect(({ instcourse, loading }) => ({
+export const MyCourses = connect(({ instcourse }) => ({
   instcourse
 }))(MyCoursesWithRedux);

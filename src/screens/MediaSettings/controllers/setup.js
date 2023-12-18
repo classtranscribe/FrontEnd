@@ -1,4 +1,4 @@
-import { api, links, user } from 'utils';
+import { api } from 'utils';
 
 class SetupMSP {
   constructor() {

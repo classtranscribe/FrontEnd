@@ -7,6 +7,7 @@ import {
   MENU_SCREEN_MODE,
   MENU_DOWNLOAD,
   MENU_LANGUAGE,
+  MENU_TRANSCRIPTION,
   MENU_SHORTCUTS,
   MENU_GLOSSARY, // May 20 Jiaxi
   // MENU_BEFORE_HIDE,
@@ -17,6 +18,7 @@ import PlaybackrateMenu from './PlaybackrateMenu';
 import ScreenModeMenu from './ScreenModeMenu';
 import SettingMenu from './SettingMenu';
 import LanguageMenu from './LanguageMenu';
+import TranscriptionMenu from './TranscriptionMenu';
 import DownloadMenu from './DownloadMenu';
 import ShortcutsTable from './ShortcutsTable';
 import CTPopup from '../CTPopup/CTPopup'; // May 20 Jiaxi
@@ -50,8 +52,12 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
         setSelectedMenu(<SettingMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
       break;
-      case MENU_LANGUAGE:
+      case MENU_LANGUAGE: // Marked for removal; replaced by MENU_TRANSCRIPTION
         setSelectedMenu(<LanguageMenu onClose={closeMenu} />);
+        setShouldFullscreen(true);
+      break;
+      case MENU_TRANSCRIPTION:
+        setSelectedMenu(<TranscriptionMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
       break;
       case MENU_DOWNLOAD:
@@ -87,6 +93,6 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
   return selectedMenu;
 }
 
-export const Menus = connect(({ watch: { menu, transcriptions }, loading }) => ({
+export const Menus = connect(({ watch: { menu, transcriptions } }) => ({
   menu, transcriptions
 }))(MenusWithRedux);

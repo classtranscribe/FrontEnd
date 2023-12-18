@@ -15,7 +15,37 @@
   background: transparent;
   overflow: hidden;
 }
+/* [mode=asl-corner-mode]  */
+.ct-player-asl0 {
+  display: none !important;
+}
 
+.ct-player-asl1 {
+  left: calc(1vw + 10px);
+  max-width: 25vw;
+  height: auto;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.726);
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: center; */
+}
+
+.ct-player-asl2 {
+  left: calc(75vw);
+  max-width: 25vw;
+  /* width: 15vw;
+  width: 5px; */
+  height: auto;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.726);
+  display: flex;
+  flex-direction: column;
+
+}
 
 .ct-player-primary[mode=bulk-edit-mode] {
   width: 35em;

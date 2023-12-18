@@ -1,6 +1,6 @@
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt, uurl, links } from 'utils';
+import { api, prompt, links } from 'utils';
 import { EPubData } from 'entities/EPubs/structs';
 import Constants from 'screens/EPub/controllers/constants/EPubConstants';
 import { LanguageConstants } from '../../CTPlayer';
@@ -41,10 +41,11 @@ class EPubListController {
       prompt.error('Failed to create the I-Note.');
       return null;
     }
+    const url = links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew);
 
-    uurl.openNewTab(
-      links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew)
-    );
+    window.location.href = url;
+    // Don't open in new tab; the user may not have enabled that.
+    // nope: uurl.openNewTab(url)
 
     return newEPubData;
   }
@@ -161,7 +162,28 @@ class EPubListController {
       console.error(`Failed to rename a epub for ${epubId}`)
     }
   }
+
+  // Controller to pin an INote
+  async pinEpub(epubId) {
+    let resp;
+    try {
+      resp = await api.getEPubById(epubId);
+      let pinned = resp.data.publishStatus !== 0 ? 0 : 1;
+      resp.data.publishStatus = pinned;
+    } catch {
+      console.error(`Unable to fetch data for ${epubId}`);
+    }
+
+    try {
+      await api.updateEPubSimple(epubId, resp.data);
+    } catch {
+      console.error(`Failed to pin a epub for ${epubId}`)
+    }
+  }
 }
+
+
+
 
 export default EPubListController;
 export const EPubListCtrl = new EPubListController();

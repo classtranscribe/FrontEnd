@@ -7,7 +7,7 @@ import './index.scss';
 
 import ImagesTab from './ImagesTab';
 import UploadTab from './UploadTab';
-import VideoTab from './VideoTab';
+// unused, delete? import VideoTab from './VideoTab';
 import ImagePickerModalActions from './ImagePickerModalActions';
 
 /**
@@ -21,8 +21,8 @@ function ImagePickerModal(props) {
     tabs = [],
     defaultImage,
     sourceType, 
-    sourceId,
-    playerData
+    sourceId
+    // playerData
   } = props;
 
   const [imgUrl, setImgUrl] = useState(defaultImage);

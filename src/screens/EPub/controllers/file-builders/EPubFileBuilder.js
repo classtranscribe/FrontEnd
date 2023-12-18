@@ -1,7 +1,8 @@
+/* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
-import { EPubData } from 'entities/EPubs';
+// import { EPubData } from 'entities/EPubs';
 import { links } from 'utils';
 import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
@@ -142,7 +143,7 @@ class EPubFileBuilder {
   }
 
   getTocXHTML() {
-    const { title, language, chapters, sourceId } = this.data;
+    const { title, language, chapters/* , sourceId */} = this.data;
     let navContents = '';
     let selectedChapters = [];
     for (let i = 0; i < chapters.length; i += 1) {

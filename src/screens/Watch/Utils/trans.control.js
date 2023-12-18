@@ -1,16 +1,9 @@
 import _ from 'lodash';
-import { isMobile } from 'react-device-detect';
-import { api } from 'utils';
+// import { api } from 'utils';
 
 import { promptControl } from './prompt.control';
-import { uEvent } from './UserEventController';
+// import { uEvent } from './UserEventController';
 import {
-  CC_COLOR_WHITE,
-  CC_COLOR_BLACK,
-  CC_OPACITY_75,
-  CC_POSITION_BOTTOM,
-  CC_FONT_SANS_SERIF,
-  CC_SIZE_100,
   WEBVTT_SUBTITLES,
   WEBVTT_DESCRIPTIONS,
 } from './constants.util';
@@ -35,7 +28,7 @@ export const transControl = {
   /**
    * Function called for setting current transcription (aka language)
    */
-  async currTrans(tran) {
+  async currTrans() {
     // done
   },
 
@@ -125,7 +118,7 @@ export const transControl = {
    * Function called when mouse over the transcription area
    * To prevent scrolling
    */
-  handleMourseOver(bool) {
+  handleMourseOver() {
     // isMourseOverTrans
   },
   /**
@@ -194,6 +187,7 @@ export const transControl = {
         index,
         id: '',
         begin: '00:00:00.00',
+        timemerge: '00:00:00.00',
         end: '00:00:00.00',
         text: '',
         upVote: 0,

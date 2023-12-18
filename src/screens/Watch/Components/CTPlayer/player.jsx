@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent */
 import React, { useCallback } from 'react';
 
 import { isMobile } from 'react-device-detect';
@@ -13,7 +14,7 @@ const Video = React.memo((props) => {
     const { id = 1, videoRef, path, dispatch, isSwitched, embedded, videoStyle, playerReady} = props;
     const isPrimary = (id === 1);
     // eslint-disable-next-line no-console
-    console.log('Render - Video', path);
+    // console.log('Render - Video', path);
     const onDurationChange = useCallback((e) => {
         if (!isPrimary) return;
         const duration = e.target.duration;
@@ -130,6 +131,6 @@ const Video = React.memo((props) => {
         {path && <source src={path} type="video/mp4" />}
         Your browser does not support video tag.
       </video>
-    </div>)
+            </div>)
 }, (prevProps, nextProps) => prevProps.path === nextProps.path && prevProps.isSwitched === nextProps.isSwitched && prevProps.videoStyle === nextProps.videoStyle);
 export default Video;

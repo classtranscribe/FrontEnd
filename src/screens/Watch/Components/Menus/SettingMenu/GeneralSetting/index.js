@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Select, Form } from 'semantic-ui-react';
+import React, { useEffect } from 'react';
 import { connect } from 'dva';
 import MenuRadio from '../MenuRadio';
 
 
-function GeneralSetting({ show = false, autoPlay = true, brightness=1, dispatch }) {
+function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
   const handleAutoPlay = () => {
     dispatch({ type: 'playerpref/setPreference', payload: { autoPlay: !autoPlay } })
   };
@@ -29,6 +28,6 @@ function GeneralSetting({ show = false, autoPlay = true, brightness=1, dispatch 
     
   );
 }
-export default connect(({ playerpref: { autoPlay}, loading }) => ({
+export default connect(({ playerpref: { autoPlay} }) => ({
   autoPlay
 }))(GeneralSetting);

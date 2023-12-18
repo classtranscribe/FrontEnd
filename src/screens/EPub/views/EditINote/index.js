@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/jsx-closing-tag-location */
+import React, { useState } from 'react';
 import _ from 'lodash'
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTFragment, CTHeading} from 'layout';
 import { connect } from 'dva'
 import Button from '@material-ui/core/Button';
+import SplitIcon from '@material-ui/icons/UnfoldMore'
+import CollapseIcon from '@material-ui/icons/UnfoldLess'
 import { EPubNavigationProvider } from '../../components';
 import { epub as epubController} from '../../controllers';
 import INoteEditor from './INoteEditor';
@@ -17,7 +20,8 @@ function EditINote ({epub: epubData, dispatch}) {
   const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
   const onScroll = (e) => dispatchScroll(e.target)
 
-  const [iNoteItem, setINoteItem] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [_iNoteItem, setINoteItem] = useState(null);
   const [hidden, setHidden] = useState(true);
 
   const menustyle_short = {
@@ -42,7 +46,7 @@ function EditINote ({epub: epubData, dispatch}) {
             <CTFragment style={menustyle_short} sticky scrollY dFlexCol padding={[5, 10]}>
               <CTFragment margin="10" padding={[5, 10]} width="auto">
                 <ButtonGroup fullWidth>
-                  <Button onClick={()=>setHidden(!hidden)}>Split</Button>
+                  <Button startIcon={<SplitIcon />} onClick={()=>setHidden(!hidden)}>Split</Button>
                 </ButtonGroup>
               </CTFragment>
             </CTFragment>
@@ -51,16 +55,16 @@ function EditINote ({epub: epubData, dispatch}) {
           <CTFragment style={menustyle_extended} sticky scrollY dFlexCol padding={[5, 10]}>
             <CTFragment margin="10" padding={[5, 10]} width="auto">
               <ButtonGroup fullWidth>
-                <Button onClick={()=>setHidden(!hidden)}>Collapse</Button>
+                <Button startIcon={<CollapseIcon />} onClick={()=>setHidden(!hidden)}>Collapse</Button>
               </ButtonGroup>
             </CTFragment>
             <QuickActionsEditNote />
           </CTFragment>
-          </>}
+        </>}
       </CTFragment>
     </EPubNavigationProvider>
   )
 }
-export default connect(({epub: {epub}, loading }) => ({
+export default connect(({epub: {epub} }) => ({
     epub
   }))(EditINote);

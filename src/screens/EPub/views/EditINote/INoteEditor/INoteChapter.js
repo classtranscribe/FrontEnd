@@ -1,4 +1,5 @@
-import { CTFragment, CTText, altEl, useButtonStyles} from 'layout'
+/* eslint-disable react/no-array-index-key */
+import { CTFragment, CTText, altEl} from 'layout'
 import React, {useState} from 'react' 
 import { Button } from 'pico-ui';
 import { connect } from 'dva'
@@ -11,17 +12,17 @@ import {epub as epubTools} from '../../../controllers';
 function INoteChapter ({
   chapter, 
   chIdx,
-  canSplitSubChapter = true,
-  canSubdivide = true,
+  // canSplitSubChapter = true,
+  // canSubdivide = true,
   images,
   epub,
-  isSubChapter,
-  subChIdx,
-  condition,
+  // _isSubChapter,
+  // _subChIdx,
+  // _condition,
   dispatch 
 }) {
   const { start, end, title } = chapter;
-  const btnStyles = useButtonStyles();
+  // const btnStyles = useButtonStyles();
   const startTimeStr = timestr.toPrettierTimeString(start);
   const endTimeStr = timestr.toPrettierTimeString(end);
   const [insertType, setInsertType] = useState(null);
@@ -150,22 +151,27 @@ function INoteChapter ({
   })};
 
   // New Subchapter Button 
-  const splitSChBtnElement = (itemIdx) => {
-    return altEl(Button, canSplitSubChapter, {
-      ...btnProps,
-      text: 'New Sub-Chapter',
-      icon: 'subdirectory_arrow_right',
-      // onClick: splitSubChapter
-  })};
+  // There is another splitSChBtnElement function in EpubListItem.js !?
+  // This one does not seem to be used anywhere
+  // const splitSChBtnElement = () => {
+  //   return altEl(Button, canSplitSubChapter, {
+  //     ...btnProps,
+  //     text: 'New Sub-Chapter',
+  //     icon: 'subdirectory_arrow_right',
+  //     // onClick: splitSubChapter
+  // })};
 
   // Subdivide Button 
-  const subdivideBtnElement = (itemIdx) => {
-    return altEl(Button, canSubdivide, {
-      ...btnProps,
-      text: 'subdivide',
-      icon: 'subdirectory_arrow_right',
-      // onClick: subdivideChapter
-  })};
+  // There is another implementation in EPubListItem!?
+  // This one does not seem to be used anywhere
+  // eslint-disable-next-line no-unused-vars
+  // const subdivideBtnElement = () => {
+  //   return altEl(Button, canSubdivide, {
+  //     ...btnProps,
+  //     text: 'subdivide',
+  //     icon: 'subdirectory_arrow_right',
+  //     // onClick: subdivideChapter
+  // })};
 
   // DISPATCH FUNCTIONS 
   // Save Chapter Title Handler 
@@ -241,44 +247,44 @@ function INoteChapter ({
         
         ) : (// If the chapter has elements, then iterate through all of them
           chapter.contents.map((content, itemIdx) => (
-          <CTFragment key={itemIdx}>
-            <CTFragment className="item-actions">
-              {mergeChapterBtnElement(itemIdx)}
-              {splitBtnElement(itemIdx)}
-              {addImgElement(itemIdx)}
-              {addTextElement(itemIdx)}
-              {watchVideoElement(itemIdx)}
-            </CTFragment>
+            <CTFragment key={itemIdx}>
+              <CTFragment className="item-actions">
+                {mergeChapterBtnElement(itemIdx)}
+                {splitBtnElement(itemIdx)}
+                {addImgElement(itemIdx)}
+                {addTextElement(itemIdx)}
+                {watchVideoElement(itemIdx)}
+              </CTFragment>
 
-            {typeof content === "object" ? ( // image
-              <CTFragment className='img-con'>   
-                <ChapterImage 
-                  id={`ch-content-${chapter.id}-${itemIdx}`}
-                  image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                  enableChapterScreenshots
-                  onChooseImage={onImageChange(itemIdx)}
-                  onRemoveImage={onRemove(itemIdx)}
-                />
-                <Dialog
-                  open={dialogOpen}
-                  onClose={handleNo}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title">
-                    Delete Image Block
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      Do you want to delete the Image Block?
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleNo} autoFocus>NO</Button>
-                    <Button onClick={handleYes}>YES</Button>
-                  </DialogActions>
-                </Dialog> 
-              </CTFragment> 
+              {typeof content === "object" ? ( // image
+                <CTFragment className='img-con'>   
+                  <ChapterImage 
+                    id={`ch-content-${chapter.id}-${itemIdx}`}
+                    image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                    enableChapterScreenshots
+                    onChooseImage={onImageChange(itemIdx)}
+                    onRemoveImage={onRemove(itemIdx)}
+                  />
+                  <Dialog
+                    open={dialogOpen}
+                    onClose={handleNo}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      Delete Image Block
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Do you want to delete the Image Block?
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleNo} autoFocus>NO</Button>
+                      <Button onClick={handleYes}>YES</Button>
+                    </DialogActions>
+                  </Dialog> 
+                </CTFragment> 
             ) : ( // text 
               <CTFragment className='item-text'>   
                 <ChapterText  
@@ -288,15 +294,15 @@ function INoteChapter ({
                 />
               </CTFragment>  
           )}  
-          {itemIdx === chapter.contents.length - 1 && ( 
-            <CTFragment className="item-actions">
-              {mergeChapterBtnElement(chapter.contents.length)}
-              {splitBtnElement(chapter.contents.length)}
-              {addImgElement(chapter.contents.length)}
-              {addTextElement(chapter.contents.length)}
-              {watchVideoElement(chapter.contents.length)}
-            </CTFragment>)}
-          </CTFragment>
+              {itemIdx === chapter.contents.length - 1 && ( 
+              <CTFragment className="item-actions">
+                {mergeChapterBtnElement(chapter.contents.length)}
+                {splitBtnElement(chapter.contents.length)}
+                {addImgElement(chapter.contents.length)}
+                {addTextElement(chapter.contents.length)}
+                {watchVideoElement(chapter.contents.length)}
+              </CTFragment>)}
+            </CTFragment>
         )))}
       </CTFragment>
 
@@ -312,6 +318,6 @@ function INoteChapter ({
   )
 }
 
-export default connect(({ epub: { epub, images }, loading }) => ({
+export default connect(({ epub: { epub, images } }) => ({
  images, epub
 }))(INoteChapter);

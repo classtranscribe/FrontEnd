@@ -6,18 +6,19 @@ import {
   transControl,
   timeStrToSec,
   prettierTimeStr,
-  WEBVTT_DESCRIPTIONS,
+  // WEBVTT_DESCRIPTIONS,
 } from '../../../Utils';
 import './index.scss';
 
-function CaptionLine({ isCurrent = false, isEditing = false,
-  shouldHide = false, caption = {}, dispatch, fontSize }) {
-  let { text, id, startTime, begin, kind = "web" } = caption;
+function CaptionLine({ /* isCurrent = false, isEditing = false,
+  shouldHide = false, */ caption = {}, allowEdit, dispatch, fontSize }) {
+  let { text, id, /* startTime, */ begin, kind = "web" } = caption;
   const ref = useRef();
 
   const blurFromInput = () => {
     if (ref && ref.current && typeof ref.current.blur === 'function') {
       if (document.activeElement.id === ref.current.id) {
+        ref.current.innerText = text;
         ref.current.blur();
       }
     }
@@ -28,7 +29,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
     dispatch({ type: 'watch/media_setCurrTime', payload: time })
   };
 
-  const handleChange = ({ target }) => {
+  const handleChange = () => {
     // console.log(target.innerText)
   };
 
@@ -38,29 +39,30 @@ function CaptionLine({ isCurrent = false, isEditing = false,
   };
 
   const handleBlur = () => {
+    ref.current.innerText = text;
     transControl.handleBlur();
   };
 
-  const handleSave = (cap) => {
-    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerHTML } })
+  const handleSave = () => {
+    dispatch({ type: 'watch/saveCaption', payload: { caption, text: ref.current.innerText } })
   };
 
   const handleCancel = () => {
-    ref.current.innerHTML = text;
+    ref.current.innerText = text;
     dispatch({ type: 'watch/setCurrEditing', payload: null })
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === KeyCode.KEY_RETURN) {
+    if (e.keyCode === KeyCode.KEY_RETURN && ! e.shiftKey) {
       e.preventDefault();
       handleSave();
       blurFromInput();
     }
   };
 
-  const timeStr = prettierTimeStr(String(startTime));
+  const timeStr = prettierTimeStr(String(begin));
   const hasUnsavedChanges = ref && ref.current && ref.current.innerText !== text;
-  let roundedTime = Math.round(startTime);
+  let roundedTime = Math.round(begin);
   let beginTime= Math.floor(roundedTime / 60)
   let secondsTime = roundedTime % 60
   let secondsTimeString = String(secondsTime);
@@ -76,7 +78,7 @@ function CaptionLine({ isCurrent = false, isEditing = false,
 
   return (
     <div
-      id={begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
+      id={`caption-line-${id}`} // {begin === undefined ? `caption-line-${startTime}` :`caption-line-${id}`}
       className="watch-caption-line"
       // current={isCurrent.toString()}
       // editing={isEditing.toString()}
@@ -94,33 +96,31 @@ function CaptionLine({ isCurrent = false, isEditing = false,
           <span tabIndex="-1">{totalTime}</span>
         </button>
 
-        {/* Caption Line */}
-        {kind === WEBVTT_DESCRIPTIONS ? (
-          <div className="description-line-text">
-            {text}
-            <br />
-            <span className="description-line-text-title">(Description)</span>
-          </div>
-        ) : (
-          <div
-            ref={ref}
-            contentEditable={!isMobile}
-            id={`caption-line-textarea-${id}`}
-            className={`caption-line-text-${fontSize}`}
-            dangerouslySetInnerHTML={{ __html: text }}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onInput={handleChange}
-            onKeyDown={handleKeyDown}
-            spellCheck={false}
-          />
-        )}
+        {/* Caption Line 
+        dangerouslySetInnerHTML={{ __html: text }}
+        */}
+        <div
+          ref={ref}
+          suppressContentEditableWarning
+          contentEditable={allowEdit && !isMobile}
+          role="textbox"
+          tabIndex={0}
+          id={`caption-line-textarea-${id}`}
+          className={`caption-line-text-${fontSize}`}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onInput={handleChange}
+          onKeyDown={handleKeyDown}
+          spellCheck={false}
+        >{text}
+        </div>
       </div>
+      
 
       {/* Action Buttons */}
       <div className="caption-line-btns">
         {hasUnsavedChanges && (
-          <div className="mt-2 mr-3 caption-line-prompt">Hit return to save changes</div>
+          <div className="mt-2 mr-3 caption-line-prompt">Return (save changes). Shift-Return (newline)</div>
         )}
 
         {/* Save Button */}

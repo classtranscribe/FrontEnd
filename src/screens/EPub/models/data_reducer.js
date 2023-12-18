@@ -292,6 +292,14 @@ export default {
         chapter.contents = _.slice(chapter.contents, 0, itemIdx);
         // insert the new chapter
         const newChapters = insertChapter(chapters, chapterIdx + 1, { contents }, false);
+        if(newChapters[chapterIdx].timemerge>'00:00:00') {
+            newChapters[chapterIdx+1].end = newChapters[chapterIdx].end;
+            newChapters[chapterIdx].end = newChapters[chapterIdx].timemerge;
+            newChapters[chapterIdx+1].start = newChapters[chapterIdx].timemerge;
+            newChapters[chapterIdx].timemerge = '00:00:00';
+        }
+        
+
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     mergeChapter(state, { payload: { chapterIdx } }) {
@@ -303,7 +311,10 @@ export default {
         // TODO account for sub chapters
         prevChp.contents = _.concat(prevChp?.contents, currChp?.contents);
        // prevChp.contents
-       state.epub.chapters[chapterIdx-1].end = state.epub.chapters[chapterIdx].end;
+       if(state.epub.chapters[chapterIdx].end>'00:00:00') {
+        state.epub.chapters[chapterIdx-1].timemerge = state.epub.chapters[chapterIdx].start;
+        state.epub.chapters[chapterIdx-1].end = state.epub.chapters[chapterIdx].end;
+       }
         let newChapters = removeChapter(chapters, chapterIdx);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
@@ -336,12 +347,18 @@ export default {
             min_word_count = default_word_count;
         }
         // find total word count in i-note and make sure user input is not larger than total wc 
-        const total_word_count = state.items.reduce((wordCount, a) => wordCount + a.text.split(' ').length, 0);
+        const total_word_count = state.items.reduce((wordCount, a) => {
+            if (a === undefined || a === null) {
+                return wordCount;
+            }
+                return wordCount + a.text.split(' ').length;
+        }, 0);
         if (min_word_count > total_word_count) {
             min_word_count = default_word_count;
         }
         // loop through chapters and enforce minimum wc 
-        (state.items).forEach(function(elem) {
+        (state.items).forEach((elem)=> {
+            if (elem !== undefined && elem !== null) {
             if (new_items.length!==0) { 
                 const oldelem = new_items.pop();
                 let words = (oldelem.text).split(' ').length;
@@ -359,16 +376,36 @@ export default {
             } else {
                 new_items.push(elem);
             }
-           });
+    }});
         // makes sure the first element also has a min of min_word_count words
-        const last_elem = new_items.pop();
+       const last_elem = new_items.pop();
         let words = (last_elem.text).split(' ').length;
-        if(words < min_word_count) {
-            if(new_items.length !== 0 && words !== 0) {
+        if(words !==0) {
+            if(words > min_word_count) {
                 new_items.push(last_elem);
-            } 
+            }
+            else {
+                const oldelem = new_items.pop();
+                oldelem.text += " ";
+                oldelem.text += last_elem.text;
+                oldelem.end = last_elem.end;
+                new_items.push(oldelem);
+            }
         }
         state.items = new_items;
+        let splitChapters = _.map(new_items, (data) => {
+            if (data === undefined || data === null) {
+              return null; 
+            }
+          
+            return new EPubChapterData({
+              items: [data],
+              title: data.title,
+            }).toObject();
+          });
+          splitChapters = _.compact(splitChapters);
+          
+        /*
         let splitChapters = _.map(
             new_items,
             (data, idx) =>
@@ -376,7 +413,7 @@ export default {
                     items: [data],
                     title: data.title,
                 }).toObject(),
-        );
+        ); */
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(splitChapters) } };
     },
     resetToDefaultChapters(state) {
@@ -459,7 +496,8 @@ export default {
         // this.__feed();
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
-    removeChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx } }) {
+    // eslint-disable-next-line no-unused-vars
+    removeChapterContent(state, { payload: { _type = 'text', contentIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
             const chapter = chapters[state.currChIndex];
@@ -473,7 +511,7 @@ export default {
         // this.__feed('Removed.');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
-    removeChapterContentAtChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx } }) {
+    removeChapterContentAtChapterIdx(state, { payload: { contentIdx, chapterIdx, subChapterIdx } }) {
         const chapters = state.epub.chapters;
         if (subChapterIdx === undefined) {
             const chapter = chapters[chapterIdx];

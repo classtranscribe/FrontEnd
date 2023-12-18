@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import './index.scss';
-import "rsuite/dist/rsuite.css";
+import 'rsuite/dist/rsuite.css';
+// import { v1 as uuidv1 } from 'uuid';
 import { cthttp } from 'utils/cthttp/request';
 import { prompt } from 'utils';
 import GlossaryEditForm from '../GlossaryEditForm';
@@ -58,32 +59,44 @@ const GlossaryTable = props => {
     const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
     const { items, requestSort, sortConfig } = useSortableData(words);
     const [pageNumber, setPageNumber] = useState(1); // the page number is at first 1
-    const [jumpNumber, setJumpNumber] = useState(1);
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
+    const searchId = 'search-control';
+    const searchPlaceholder = 'Search';
     const [onePage, setOnePage] = useState([]);
     const [isExplanation, setIsExplanation] = useState(new Array(ONE_PAGE_NUM).fill(false));
     const [edit, setEdit] = useState(false); // show the edit form if true
     const [editI, setEditI] = useState(0);
     const [add, setAdd] = useState(false); // show the add form if true
 
-    useEffect(() => {
+    let maxPageNumber = Math.ceil(length / ONE_PAGE_NUM);
+
+    const updateVisibleItems = () => {
+      const filtered = items.filter(item => item.term.toLowerCase().includes(search.toLowerCase()));
+      setLength(filtered.length);
+      // sanity check for page number
+      if( pageNumber >1 && pageNumber > Math.ceil(length / ONE_PAGE_NUM)) {
+        setPageNumber(1);
+      }
+
       const index = (pageNumber-1) * ONE_PAGE_NUM;
-      setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + ONE_PAGE_NUM));
+      setOnePage(filtered.slice(index, index + ONE_PAGE_NUM));
+    }
+    
+    useEffect(() => {
+      updateVisibleItems();
     }, [pageNumber]); // we set page after pagenumber changed
 
     useEffect(() => {
-      const filtered = items.filter(item => item.term.toLowerCase().includes(search.toLowerCase()));
-      setLength(filtered.length);
       setPageNumber(1);
-      setOnePage(filtered.slice(0, 50));
+      updateVisibleItems();
     }, [search])
 
     useEffect(() => {
       setLength(items.length);
       setSearch('');
       setPageNumber(1);
-      setOnePage(items.slice(0, 50));
+      updateVisibleItems();
       setIsExplanation(new Array(ONE_PAGE_NUM).fill(false));
     }, [items])
 
@@ -94,31 +107,15 @@ const GlossaryTable = props => {
         return sortConfig.key === name ? sortConfig.direction : undefined;
     };
     
-    const handleJump = () => {
-      if (jumpNumber >= 1 && (jumpNumber-1)*ONE_PAGE_NUM < length) {
-        // pagenumber is valid
-        setPageNumber(jumpNumber);
-      } else {
-        alert("please enter a valid page number!");
-      }
-    }
 
     const handlePrevPage = () => {
-      let newPage = Math.ceil(pageNumber-1);
-      if (newPage < 1) {
-        setPageNumber(1);
-      } else {
-        setPageNumber(newPage);
-      }
+      const newPage = Math.ceil(pageNumber-1);
+      setPageNumber(newPage < 1 ? 1 : newPage);
     }
 
     const handleNextPage = () => {
-      let newPage = Math.ceil(pageNumber+1);
-      if ((newPage-1)*ONE_PAGE_NUM >= length) {
-        setPageNumber(Math.ceil(length / ONE_PAGE_NUM));
-      } else {
-        setPageNumber(newPage);
-      }
+      const newPage = Math.ceil(pageNumber+1);
+      setPageNumber(newPage > maxPageNumber ? maxPageNumber : newPage);
     }
 
     // handleSetData, handleDeleteData and handleAddData are used to update items
@@ -173,7 +170,7 @@ const GlossaryTable = props => {
     const sendEditRequest = async(data) => {
       const res = await cthttp.put(`Glossary/${data.id}`, data);
       if (res.status === 200) {
-        prompt.addOne({ text: 'Successfully edit the term!' , timeout: 4000 });
+        prompt.addOne({ text: 'Item updated' , timeout: 4000 });
         const index = items.findIndex((ele) => ele.id === data.id);
         handleSetData(index, data);
       } else {
@@ -184,7 +181,7 @@ const GlossaryTable = props => {
     const sendDeleteRequest = async(id) => {
       const res = await cthttp.delete(`Glossary/${id}`);
       if (res.status === 200) {
-        prompt.addOne({ text: 'Successfully delete the term!' , timeout: 4000 });
+        prompt.addOne({ text: 'Item deleted' , timeout: 4000 });
         const index = items.findIndex((ele) => ele.id === id);
         handleDeleteData(index);
       } else {
@@ -195,28 +192,35 @@ const GlossaryTable = props => {
     const sendAddRequest = async(data) => {
       const res = await cthttp.post(`Glossary`, data);
       if (res.status === 201) {
-        prompt.addOne({ text: 'Successfully add the term!' , timeout: 4000 });
+        prompt.addOne({ text: 'Item added' , timeout: 4000 });
         handleAddData(res.data);
       } else {
         prompt.addOne({ text: `Add term failed error code:${res.status}` , timeout: 4000 });
       }
     }
 
+    
+
     return (
       <div>
         <div className='tableBar'>
-          <input 
-            className='searchBox'
-            type='text'
-            placeholder='Search for Glossaries' 
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <span className='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / ONE_PAGE_NUM)}`)}</span>
-          <button onClick={handlePrevPage} disabled={(pageNumber <= 1)}>Prev</button>
-          <button onClick={handleNextPage} disabled={(pageNumber*ONE_PAGE_NUM >= length)}>Next</button>
-          <input className='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
-          <button onClick={handleJump}>Go</button>
-          <button onClick={() => setAdd(true)} disabled={offeringId==='' || courseId===''}>AddGlossary</button>
+          {offeringId?(
+            <><label htmlFor={searchId} className="sr-only">{searchPlaceholder}</label>
+              <input
+                id={searchId}
+                className='searchBox'
+                type='text'
+                placeholder={`${searchPlaceholder}...`}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <button onClick={() => setAdd(true)} disabled={offeringId+courseId===''}>New</button>
+            </>):null}         
+          {maxPageNumber<2? null:(
+            <><span className='pageLabel'>Page {pageNumber} of {maxPageNumber}</span>
+              <button onClick={handlePrevPage} disabled={(pageNumber <= 1)}>Prev</button>
+              <button onClick={handleNextPage} disabled={(pageNumber*ONE_PAGE_NUM >= length)}>Next</button>
+            </>)}
+          
         </div>
         
         <table>
@@ -233,7 +237,7 @@ const GlossaryTable = props => {
               </th>
               <th>LINK</th>
               <th>DEFINITION</th>
-              <th>SOURSE</th>
+              <th>SOURCE</th>
               {/* <th>
                 <button
                   type="button"

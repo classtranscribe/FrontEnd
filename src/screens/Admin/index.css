@@ -94,8 +94,11 @@
   display: flex;
   flex-direction: column;
 }
-.ap-more-section label {
+.ap-more-section h3 {
+  font-size: inherit;
   font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
 }
 
 .ap-more .download-logs button {

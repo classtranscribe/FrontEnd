@@ -5,7 +5,7 @@ import { CTLayout } from 'layout';
 import { MDXDocsContainer } from 'docs/layouts';
 import docsSelector from './docs-selector';
 
-export function ComponentAPI(props) {
+export function ComponentAPI() {
   const { type } = useParams();
   const Docs = docsSelector(type || 'ct-form');
   

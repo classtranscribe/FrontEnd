@@ -90,20 +90,19 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
         </div>
 
         <div className="w-100 wml-share-radio">
-          <label className="ct-radio">
-            <input
-              id="wml-share-radio"
-              type="checkbox"
-              checked={begin >= 0}
-              onChange={onRadioChange}
-            />
-            <span className="radio-slider round" /> radio
-          </label>
-
+          
           <label className="wml-share-radio-label" htmlFor="wml-share-radio">
-            Share video with current time
+            <span className="ct-radio">
+              <input
+                id="wml-share-radio"
+                type="checkbox"
+                checked={begin >= 0}
+                onChange={onRadioChange}
+              />
+              <span className="radio-slider round" /> radio
+            </span>&nbsp;Share video with current time
           </label>
-
+          
           <div className="wml-share-time" data-show={Boolean(begin >= 0).toString()}>
             <input
               readOnly
@@ -134,6 +133,6 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
   );
 }
 
-export default connect(({ watch : { time }, loading }) => ({
+export default connect(({ watch : { time } }) => ({
   currTime: time
 }))(ShareModal);
