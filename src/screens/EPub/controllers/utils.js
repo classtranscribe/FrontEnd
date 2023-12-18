@@ -35,7 +35,8 @@ export function extractAudioDescription(chapters, useFirstImage = true) {
         description: contents[index].description,
         title: chapter.title,
         start: chapter.start,
-        end: chapter.end
+        end: chapter.end,
+        timemerge: '00:00:00'
       });
     }
 
