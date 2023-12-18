@@ -6,6 +6,16 @@
 .editform {
     // position: relative;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     padding: 10px;
+}
+.warning {
+    color: red;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    margin-left: 30px;
+    margin-top: 0px;
+    margin-bottom: 10px;
 }

@@ -23,6 +23,7 @@
 .editform {
     // position: relative;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
+    flex-direction: row;
     padding: 10px;
 }
