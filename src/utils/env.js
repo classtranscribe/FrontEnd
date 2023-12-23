@@ -50,9 +50,9 @@ class ReactEnv {
     return reactEnv.CILOGON_DEFAULT_IDP || 'urn:mace:incommon:uiuc.edu';
   }
 
-  get frontendCommitEndpoint() {
-    return reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT;
-  }
+  // get frontendCommitEndpoint() {
+  //   return reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT;
+  // }
 
   get productionServer() {
     return reactEnv.REACT_APP_API_BASE_URL || window.location.origin;
