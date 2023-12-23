@@ -6,7 +6,7 @@ import { EPubListCtrl } from '../controllers';
 export function NoLangWrapper() {
   return (
     <CTText textCenter>
-      <div>No transcriptions founded.</div>
+      <div>No transcriptions found.</div>
     </CTText>
   );
 }

@@ -1,5 +1,5 @@
 import { cthttp } from './request';
-import { env } from '../env';
+// import { env } from '../env';
 
 // get latest git commit of FrontEnd repo
 // function getLatestGitCommitData() {
