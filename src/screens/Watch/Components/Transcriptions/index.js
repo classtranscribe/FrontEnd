@@ -68,7 +68,7 @@ function TranscriptionsWithRedux(props) {
           <PlaceHolder />
         ) : transcript === ARRAY_EMPTY ? (
           <div className="w-100 d-flex justify-content-center text-muted text-uppercase">
-            No Transcriptions
+            No Transcriptions selected
           </div>
         ) : transView === LINE_VIEW ? (
           <div className="trans-list" style={{zIndex: 10}}>
