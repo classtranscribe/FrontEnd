@@ -7,6 +7,7 @@ const _missingRequiredEnv = (envName) => {
   throw Error(`Missing required environment variable ${envName}`);
 };
 
+// Only when TestSignIn is false
 const requiredEnvs = [
   'AUTH0_DOMAIN',
   'AUTH0_CLIENT_ID',
@@ -18,10 +19,12 @@ const requiredEnvs = [
  */
 class ReactEnv {
   constructor() {
-    for (let i = 0; i < requiredEnvs.length; i += 1) {
-      const envName = requiredEnvs[i];
-      if (!reactEnv[envName]) {
-        _missingRequiredEnv(envName);
+    if(! this.dev ) {
+      for (let i = 0; i < requiredEnvs.length; i += 1) {
+        const envName = requiredEnvs[i];
+        if (!reactEnv[envName]) {
+          _missingRequiredEnv(envName);
+        }
       }
     }
   }
@@ -36,6 +39,13 @@ class ReactEnv {
 
   get auth0ClientID() {
     return reactEnv.AUTH0_CLIENT_ID;
+  }
+
+  get auth0Valid() {
+    return (reactEnv.AUTH0_DOMAIN || '').length >1 && (reactEnv.AUTH0_CLIENT_ID || '').length >1; 
+  }
+  get ciLogonValid() {
+    return (reactEnv.CILOGON_CLIENT_ID || '').length >1; 
   }
 
   get ciLogonClientID() {

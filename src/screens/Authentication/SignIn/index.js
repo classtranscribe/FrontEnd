@@ -33,20 +33,24 @@ function SignIn(props) {
     }
   };
 
-  const signInOptions = [
-    {
+  const signInOptions = []
+  if(env.ciLogonValid ) {signInOptions.push( {
       title: 'University Credential Sign In',
       description: 'Sign in with your university authentication system.',
       id: user.method.CILOGON,
       icon: 'school',
-    },
+    });
+  }
+
+  if(env.auth0Valid) {
+    signInOptions.push(
     {
       title: 'Email Sign In',
       description: 'Sign in or sign up with your emails address.',
       id: user.method.AUTH0,
       icon: 'email',
-    },
-  ];
+    });
+  }
 
   if (env.dev) {
     signInOptions.push({
