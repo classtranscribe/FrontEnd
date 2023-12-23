@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import "rsuite/dist/rsuite.css";
 import { Cascader } from 'rsuite';
-import axios from 'axios';
+// import axios from 'axios';
+import { cthttp } from 'utils/cthttp/request';
 import FolderFillIcon from "@rsuite/icons/FolderFill";
 import PageIcon from "@rsuite/icons/Page";
-import { env } from 'utils/env';
+// import { env } from 'utils/env';
 
-// the config header will avoid cors blocked by the chrome
-const config = {
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-  }
-};
 
 /**
  * glossary bar objects
@@ -26,20 +20,17 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
     const [initialData, setInitialData] = useState([]);
 
     // see cthttp request
-    const apiInstance = axios.create({
-        baseURL: env.baseURL || window.location.origin,
-        timeout: 1000,
-    });
+    
 
     
     // this is run at the start of the website
     // will get the list of universities and get all the term name for corresponding term ID
     useEffect(() => {
         let newTerms = {};
-        apiInstance.get("/api/Universities", config).then(response => {
+        cthttp.get("Universities").then(response => {
             let universityData = response.data.map((object => {
                 // get terms for that university
-                apiInstance.get(`/api/Terms/ByUniversity/${object.id}`, config).then(response2 => {
+                cthttp.get(`Terms/ByUniversity/${object.id}`).then(response2 => {
                     response2.data.map((term) => {
                         newTerms[term.id] = term.name
                         return undefined;
@@ -69,7 +60,7 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
     const getNodes = async (type, id) => {
         try {
             if (type === 0) {
-                let res = await apiInstance.get(`/api/Departments/ByUniversity/${id}`, config);
+                let res = await cthttp.get(`Departments/ByUniversity/${id}`);
                 let resData = res.data;
                 
                 return resData.map((object) => {
@@ -83,7 +74,7 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
             }
             
             if (type === 1) {
-                let res = await apiInstance.get(`/api/Courses/ByDepartment/${id}`, config);
+                let res = await cthttp.get(`Courses/ByDepartment/${id}`);
                 let resData = res.data;
                 
                 return resData.map((object) => {
@@ -97,7 +88,7 @@ export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
             }
             
             if (type === 2) {
-                let res = await apiInstance.get(`/api/CourseOfferings/ByCourse/${id}`, config);
+                let res = await cthttp.get(`CourseOfferings/ByCourse/${id}`);
                 let resData = res.data.offerings;
 
                 if (res.status === 204) {
