@@ -1,22 +1,26 @@
 /* eslint-disable no-console */
-import React from 'react';
+import { React , useRef} from 'react';
 import { connectWithRedux } from '../../../Utils';
 
 function TranscriptionMenu({ media, currentTranscriptionMulti= {}, onClose = null, dispatch }) {
   const { transcriptions = [] } = media;
-  const { halfKeysSelected = [] } = currentTranscriptionMulti;
+  const { transKeysSelected = [] } = currentTranscriptionMulti;
+  const timeout = useRef(null);
   // create new sorted version with half-good keys. ideally these would be unique
   // and would be useful across different videos with different transcription labels 
   const transcriptionOptions = [...transcriptions]
-  // now halfkeys are defined, can decide if the item is active (i.e. selected)
-  transcriptionOptions.forEach(t => (t.active = halfKeysSelected.includes(t.halfKey)))
+  // now transKey are defined, can decide if the item is active (i.e. selected)
+  transcriptionOptions.forEach(t => (t.active = transKeysSelected.includes(t.transKey)))
 
   // eslint-disable-next-line no-console
   // console.log(transcriptionOptions)
   
-  const toggleChooseTranscription= (halfKey,active) => () => {
-    dispatch({ type: 'watch/setCurrentTranscriptionMulti', payload: {halfKey, active} });
-    setTimeout(() => onClose(), 200);
+  const toggleChooseTranscription= (transKey, active) => () => {
+    dispatch({ type: 'watch/setCurrentTranscriptionMulti', payload: {transKey, active} });
+    if (timeout.current) clearTimeout(timeout.current);
+    // Add a 3 second delay before it automatically closes; 
+    // makes it easy to select/deselect additional transcriptions
+    timeout.current = setTimeout(() => onClose(), 3000);
   };
 
   return (
@@ -41,7 +45,7 @@ function TranscriptionMenu({ media, currentTranscriptionMulti= {}, onClose = nul
             className="plain-btn watch-icon-listitem"
             aria-label={t.publicLabel}
             // active={Boolean(t.active).toString()}
-            onClick={toggleChooseTranscription(t.halfKey, ! t.active)}
+            onClick={toggleChooseTranscription(t.transKey, ! t.active)}
             role="menuitem"
           >
             <span tabIndex="-1">

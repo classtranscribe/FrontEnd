@@ -203,13 +203,13 @@ const WatchModel = {
         //    return { ...state, currTrans: payload };
         // },
         setCurrentTranscriptionMulti(state, { payload }) {
-            const { halfKey, active } = payload;
-            let { currentTranscriptionMulti = {halfKeysSelected:[] } } = state;
-            let newKeys = currentTranscriptionMulti.halfKeysSelected.filter(i => (i !== halfKey))
+            const { transKey, active } = payload;
+            let { currentTranscriptionMulti = {transKeysSelected:[] } } = state;
+            let newKeys = currentTranscriptionMulti.transKeysSelected.filter(i => (i !== transKey))
             if( active ) {
-                newKeys.push(halfKey)
+                newKeys.push(transKey)
             }
-            return { ...state, currentTranscriptionMulti: {halfKeysSelected: newKeys} };
+            return { ...state, currentTranscriptionMulti: {transKeysSelected: newKeys} };
         },
         setUpdating(state, { payload }) {
             // 
@@ -245,7 +245,7 @@ const WatchModel = {
         setCaptions(state, { payload }) {
             // console.log(`setCaptions ${payload.length}`)
             let parsedCap = _.map(payload, (c) => ({ ...c, kind: WEBVTT_SUBTITLES }));
-            if (parsedCap.length === 0) parsedCap = ARRAY_EMPTY;
+            // if (parsedCap.length === 0) parsedCap = ARRAY_EMPTY;
             return { ...state, captions: parsedCap };
         },
         setCurrCaption(state, { payload }) {
