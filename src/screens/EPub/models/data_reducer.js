@@ -292,6 +292,14 @@ export default {
         chapter.contents = _.slice(chapter.contents, 0, itemIdx);
         // insert the new chapter
         const newChapters = insertChapter(chapters, chapterIdx + 1, { contents }, false);
+        if(newChapters[chapterIdx].timemerge>'00:00:00') {
+            newChapters[chapterIdx+1].end = newChapters[chapterIdx].end;
+            newChapters[chapterIdx].end = newChapters[chapterIdx].timemerge;
+            newChapters[chapterIdx+1].start = newChapters[chapterIdx].timemerge;
+            newChapters[chapterIdx].timemerge = '00:00:00';
+        }
+        
+
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
     mergeChapter(state, { payload: { chapterIdx } }) {
@@ -303,7 +311,10 @@ export default {
         // TODO account for sub chapters
         prevChp.contents = _.concat(prevChp?.contents, currChp?.contents);
        // prevChp.contents
-       state.epub.chapters[chapterIdx-1].end = state.epub.chapters[chapterIdx].end;
+       if(state.epub.chapters[chapterIdx].end>'00:00:00') {
+        state.epub.chapters[chapterIdx-1].timemerge = state.epub.chapters[chapterIdx].start;
+        state.epub.chapters[chapterIdx-1].end = state.epub.chapters[chapterIdx].end;
+       }
         let newChapters = removeChapter(chapters, chapterIdx);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
