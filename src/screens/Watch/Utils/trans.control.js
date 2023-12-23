@@ -187,6 +187,7 @@ export const transControl = {
         index,
         id: '',
         begin: '00:00:00.00',
+        timemerge: '00:00:00.00',
         end: '00:00:00.00',
         text: '',
         upVote: 0,
