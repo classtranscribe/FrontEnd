@@ -184,7 +184,7 @@ const InstPlaylistModel = {
                 prompt.addOne({ text: 'ASL Video deleted.', timeout: 3000 });
             } catch (error) {
                 // eslint-disable-next-line no-console
-                console.log('deleteASL', error);
+                // console.log('deleteASL', error);
                 prompt.error('Failed to delete the video.', { timeout: 5000 });
             }
         },
@@ -197,7 +197,7 @@ const InstPlaylistModel = {
                 yield put({ type: 'setMedias', payload: [...medias] });
             } catch (error) {
                 // eslint-disable-next-line no-console
-                console.log('setFlashingWarning', error);
+                // console.log('setFlashingWarning', error);
                 prompt.error('Failed to change flash warning for the video.', { timeout: 5000 });
             }
         },
@@ -210,7 +210,7 @@ const InstPlaylistModel = {
                 yield put({ type: 'setMedias', payload: [...medias] });
             } catch (error) {
                 // eslint-disable-next-line no-console
-                console.log('setCrowdEditMode', error);
+                // console.log('setCrowdEditMode', error);
                 prompt.error('Failed to change flash warning for the video.', { timeout: 5000 });
             }
         }

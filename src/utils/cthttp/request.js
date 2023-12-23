@@ -23,8 +23,6 @@ class CTHTTPRequest {
     if (!uurl.isEqual(links.admin()) && loginAsAuthToken) {
       authToken = loginAsAuthToken;
     }
-    // eslint-disable-next-line no-console
-    console.log("env.baseURL:",env.baseURL);
     const baseURL = env.baseURL || window.location.origin;
     const beSecure = ! baseURL.startsWith("https://localhost");
     // For Chrome Testing: open the API in the browser (e.g. https://localhost:8443/api/Universities ) and accept as unsafe
