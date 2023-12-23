@@ -30,11 +30,11 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 ENV BRANCH="${BRANCH}" \
     BUILDNUMBER="${BUILDNUMBER}" \
     GITSHA1="${GITSHA1}" \
-    REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtranscribe/Frontend/commits/main" \
     AUTH0_CLIENT_ID="" \
     AUTH0_DOMAIN="" \
     CILOGON_CLIENT_ID="" \
     APPLICATION_INSIGHTS_KEY="" \
     TEST_SIGN_IN=""
-
+# REACT_APP_FRONTEND_COMMIT_ENDPOINT="https://api.github.com/repos/classtranscribe/Frontend/commits/main" \
+    
 CMD envsubst < /config.template > /build/config.js && nginx -g 'daemon off;'
