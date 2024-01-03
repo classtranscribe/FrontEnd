@@ -5,7 +5,12 @@ import dva from 'dva'
 import App from './App'
 
 const app = dva({ history: createHistory() });
+
+// Todo: Remove this hack
+// window.temp_app is used twice in screens/EPub/controllers/EPubDownloadController.js
+// to access the store (to build and download epub/pdf)
 window.temp_app = app
+
 app.model(require('./model/global').default);
 app.model(require('./screens/Home/model').default);
 app.model(require('./screens/Search/model').default);
