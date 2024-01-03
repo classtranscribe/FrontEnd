@@ -31,13 +31,13 @@ import {
   Asl,
   Watch,
   // ComponentAPI,
-  Example
+  // Example
 } from './screens';
 
 import './App.css';
 // import 'braft-editor/dist/index.scss';
 // Can this be deleted? import { altEl } from './layout';
-import { user, env } from './utils';
+import { user } from './utils';
 
 class App extends React.Component {
   componentDidMount() {
@@ -146,9 +146,9 @@ class App extends React.Component {
         
 
         {
-          env.dev
-          &&
-          <Route exact path="/example" component={Example} />
+          // env.dev
+          // &&
+          // <Route exact path="/example" component={Example} />
         }
 
         <Route component={NotFound404} />
