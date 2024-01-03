@@ -34,7 +34,7 @@ function UploadTable({
   return (
     <CTFragment>
       <TableContainer className="ipl-upl-tb-con" data-scroll>
-        <Table stickyHeader size="small" aria-label="videos table">
+        <Table stickyHeader size="small" aria-label="videos table" aria-rowcount={videos.length}>
           <TableHead>
             <TableRow>
               <TableCell>
@@ -55,7 +55,7 @@ function UploadTable({
 
           <TableBody>
             {videos.map(({ video1, video2 }, index) => (
-              <TableRow className="tb-row" key={video1}>
+              <TableRow className="tb-row" key={video1} aria-rowindex={index+1}>
                 <UploadTableVideoCell videFile={video1} can2Video={can2Video} />
 
                 {can2Video && <UploadTableVideoCell videFile={video2} />}
