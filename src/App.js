@@ -2,11 +2,12 @@
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import dynamic from "dva/dynamic";
+import { env,user } from 'utils';
 // import AppInsightsProvider from './azure-app-insights';
 import {
   // General
   NotFound404,
-  // Maintenance,
+  Maintenance,
   SignIn,
   AuthCallback,
   // Admin
@@ -37,7 +38,6 @@ import {
 import './App.css';
 // import 'braft-editor/dist/index.scss';
 // Can this be deleted? import { altEl } from './layout';
-import { user } from './utils';
 
 class App extends React.Component {
   componentDidMount() {
@@ -80,7 +80,7 @@ class App extends React.Component {
       models: () => [require('./screens/MediaSettings/model')],
       component: () => MediaSettings
     })
-    // return <Maintenance />
+    if( env.classTranscribeDownMessage ) return <Maintenance />
     return (
       // <AppInsightsProvider>
       <Switch>
