@@ -29,6 +29,18 @@ class ReactEnv {
     }
   }
 
+  get classTranscribeDownMessage() {
+    // If set then the app cannot start and the message is shown instead.
+    // e.g. 'ClassTranscribe is down for maintenance. Please reload after 9am.';
+    return reactEnv.CLASSTRANSCRIBE_DOWN_MESSAGE;
+  }
+
+  get maintenanceWarningBanner() {
+    // If set a warning banner message is shown on the top of the home screen
+    // e.g. 'ClassTranscribe will be unavailable Monday 6am - 9am.';
+    return reactEnv.MAINTENANCE_WARNING_BANNER;
+  }
+
   get dev() {
     return reactEnv.TEST_SIGN_IN === 'true';
   }

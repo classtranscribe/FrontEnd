@@ -34,10 +34,15 @@ export function CTModal({
       }
     }
   }, [show]);
-
+  
   const modalStyle = large ? ' large' : middle ? ' middle' : '';
   return show ? (
     <div className="ct-modal ct-d-c-center">
+      { /* ct-mdl-wrapper is a full width and height background div to capture click  outside of the modal
+  as an alternative interaction to support closing the Modal dialog.
+  It also blurs the background.
+  It does not appearnecessary to support other interactions (e.g. key down) */
+      /*  eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */ }
       <div className="ct-mdl-wrapper" onClick={closeOnBlur ? handleClose : null} />
       <div id="ct-mdl-box" className={`ct-mdl-con${modalStyle}`}>
         {/* Header */}

@@ -117,7 +117,7 @@ const PlayerModel = {
                     scrollTransToView(watch.currCaption.id, false, watch.media?.isTwoScreen); 
                 } else {
                     // eslint-disable-next-line no-console
-                    console.log("Skipping - No watch.caption to update")
+                    // console.log("Skipping - No watch.caption to update")
                 }
             }, 1);
             if (sendUserAction) {

@@ -102,19 +102,17 @@ function CTCookieAgreement() {
         
       
         <CTText size="medium" muted padding={[0, 20, 20, 25]}>
-          By continuing you agree to our &nbsp;
-          {policytypes.map((policies,pindex) => (
+          By continuing you agree to university policies, including, <ul>{policytypes.map((policies,pindex) => (
           policies.links.map((link,index) => (
-            <>{pindex+1}{policies.links.length > 1 ? String.fromCharCode(97+index): ''}.<ButtonBase 
+            <><li><ButtonBase 
               className="policy-btn" 
               onClick={() => handlePolicyClicking(policies.name, link)}
-            > 
-              {policies.name} {index === 0 ?'' : `Supplement-${index}`}
-            </ButtonBase>
-            </>)
+            >{policies.name}{index === 0 ? '' : ` Supplement-${index}`}</ButtonBase>
+              {(pindex + 2 === policytypes.length && index + 1 === policies.links.length ?
+              " and, " : "")}
+            </li></>)
           ))
-        )}    
-          .
+        )}</ul>  
         </CTText>
 
         <DialogActions className="cookie-acp-btns">

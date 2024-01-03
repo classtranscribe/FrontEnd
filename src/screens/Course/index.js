@@ -32,7 +32,7 @@ const CourseWithRedux = (props) => {
       // !isInstructor ? {
       //   subtitle: 'Course Admin'
       // } :
-      { search: true }
+      { search: false }
   }));
 
   const errorProps = {

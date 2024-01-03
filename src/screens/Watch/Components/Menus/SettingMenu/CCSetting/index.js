@@ -19,7 +19,7 @@ function CCSetting({ show = false, openCC = false, captions = [], dispatch }) {
   const disabled = captions.length <= 0;
 
   return (
-    <form className="watch-menu-tab" id="cc-settings">
+    <form className="watch-menu-tab" id="cc-settings" aria-label='Closed Caption Settings'>
       <h2 className="watch-menu-tab-title">Closed Caption</h2>
       {disabled && <p>Sorry, the closed caption of this video is currently unavailable.</p>}
       <div className="w-100">

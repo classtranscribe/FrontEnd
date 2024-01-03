@@ -1,8 +1,10 @@
-import React, { useState, useMemo, useEffect, useCallback} from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* drawing-wrap div interactivity supports dragging the video dialog around
+   and keyboard movement. */
+import React, { useState, useMemo, useEffect, useCallback, useRef} from 'react';
 
 import './index.scss';
 import 'rsuite/dist/rsuite.css';
-import { v1 as uuidv1 } from 'uuid';
 import { cthttp } from 'utils/cthttp/request';
 import {env} from 'utils/env';
 // reference: https://www.smashingmagazine.com/2020/03/sortable-tables-react/
@@ -48,25 +50,26 @@ const useSortableData = (items, config = null) => {
 
 
 const AslTable = props => {
-    const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
+    const N_ITEMS_PER_PAGE = 50 // one page will have at most 50 glossaries
     const { items, requestSort, sortConfig } = useSortableData(props.words);
     const [pageNumber, setPageNumber] = useState(1); // the page number starts at 1
     const [jumpNumber, setJumpNumber] = useState(1);
-    const jumpId = uuidv1();
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
     const [search, setSearch] = useState(''); // search text is at first empty
     const searchPlaceholder = 'Search for ASL glossaries';
-    const searchId = uuidv1();
     const [onePage, setOnePage] = useState([]);
     const [showVideo, setShowVideo] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
     const [selectedTerm, setSelectedTerm] = useState(null);
+    const videoRef = useRef(null);
     const [style, setStyle] = useState({
         left: 100,
         top: 100,
-        width: 400,
-        height: 200
-    })
+        width: 600,
+        height: 400
+    });
+    
+
     const [oriPos, setOriPos] = useState({
         // player position
         top: 0,
@@ -79,22 +82,22 @@ const AslTable = props => {
     const [direction, setDirection] = useState('');
     
     useEffect(() => {
-      const index = (pageNumber-1) * ONE_PAGE_NUM;
-      setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + ONE_PAGE_NUM));
+      const index = (pageNumber-1) * N_ITEMS_PER_PAGE;
+      setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + N_ITEMS_PER_PAGE));
     }, [pageNumber]); // we set page after pagenumber changed
 
     useEffect(() => {
       const filtered = items.filter(item => item.term.toLowerCase().includes(search.toLowerCase()));
       setLength(filtered.length);
       setPageNumber(1);
-      setOnePage(filtered.slice(0, 50));
+      setOnePage(filtered.slice(0, N_ITEMS_PER_PAGE));
     }, [search])
 
     useEffect(() => {
       setLength(items.length);
       setSearch('');
       setPageNumber(1);
-      setOnePage(items.slice(0, 50));
+      setOnePage(items.slice(0, N_ITEMS_PER_PAGE));
     }, [items])
 
     const getClassNamesFor = name => {
@@ -105,7 +108,7 @@ const AslTable = props => {
     };
     
     const handleJump = () => {
-      if (jumpNumber >= 1 && jumpNumber*ONE_PAGE_NUM < length) {
+      if (jumpNumber >= 1 && jumpNumber*N_ITEMS_PER_PAGE < length) {
         // pagenumber is valid
         setPageNumber(jumpNumber);
       } else {
@@ -133,6 +136,14 @@ const AslTable = props => {
         if (src) {
           setVideoUrl(`${origin}/data/aslvideos/${src}/original/${uniqueASLIdentifier}.mp4`);
           setShowVideo(true);
+          // if changing to a new video, we need to nudge the video element to load the new source
+          if (videoRef.current) {
+            videoRef.current.load();
+            videoRef.current.play();
+            // It is unusual to forcibly set the focus, but
+            // as the video represents a dialog, we want to focus on it when it opens
+            videoRef.current.focus();
+          }
         }
       }
     }
@@ -148,8 +159,8 @@ const AslTable = props => {
 
     const handleNextPage = () => {
       let newPage = Math.ceil(pageNumber+1);
-      if ((newPage-1)*ONE_PAGE_NUM >= length) {
-        setPageNumber(Math.ceil(length / ONE_PAGE_NUM));
+      if ((newPage-1)*N_ITEMS_PER_PAGE >= length) {
+        setPageNumber(Math.ceil(length / N_ITEMS_PER_PAGE));
       } else {
         setPageNumber(newPage);
       }
@@ -176,6 +187,8 @@ const AslTable = props => {
       const newstyle = {...oriPos};
       const offsetX = e.clientX - oriPos.cX;
       const offsetY = e.clientY - oriPos.cY;
+
+      // Todo: bound use tbodyRef
       switch (direction) {
           case 'move' :
             newstyle.top = oriPos.top + offsetY;
@@ -201,7 +214,27 @@ const AslTable = props => {
         const cX = e.clientX;
         setOriPos({...style, cX, cY});
     })
-    
+    const moveDirections = { "ArrowDown": [0,1], "ArrowUp": [0,-1], "ArrowLeft": [-1,0], "ArrowRight": [1,0] };
+    const onKeyDown = useCallback((e) => {
+      // eslint-disable-next-line no-alert
+      
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setShowVideo(false);
+        return;
+      } 
+      const delta = moveDirections[e.key];
+      if(!delta) return;
+      const jump = 40;
+      // eslint-disable-next-line no-console
+      const newStyle = {...style, 
+        left: style.left + delta[0] * jump,
+        top: style.top + delta[1] * jump
+      };
+      setStyle(newStyle);
+      e.preventDefault();
+    }, [style]);
+
     // call transform to execute move or resize
     const onMouseMove = useCallback((e) => {
         if (isDown) {
@@ -218,6 +251,10 @@ const AslTable = props => {
     const onMouseLeave = useCallback(() => {
       setIsDown(false);
     }, [])
+/* drawing-wrap is a wrapping div that supports dragging the video dialog around using the mouse, and
+   moving it using cursor keys. Escape key or the "X" button can close it.
+   Todo: investigate React Draggable; maybe there's a better way to support this.
+    */
 
     return (
       <div>
@@ -228,15 +265,20 @@ const AslTable = props => {
           onMouseUp={onMouseUp} 
           onMouseMove={onMouseMove}
           onMouseLeave={onMouseLeave}
+          onKeyDown={onKeyDown}
+          aria-modal
+          aria-roledescription='dialog'
         > 
           <div className="drawing-item" style={style}>
             <button 
               id='close-button'
+              aria-label="Close Video Popup"
               onClick={() => setShowVideo(false)}
-            >X
+            ><span aria-hidden="true">X</span>
             </button>
             <span>{`${selectedTerm.term} (Source:${selectedTerm.source})`}</span>
             <video 
+              ref={videoRef}
               className="video-js vjs-default-skin video-player"
               id="ASL-Glossary-video-player" 
               controls
@@ -245,29 +287,36 @@ const AslTable = props => {
             >
               <source src={videoUrl} type='video/mp4' />
             </video>
-            <div onMouseDown={onMouseDown.bind(this, 'resize')} className='control-point point-se' />
+            {/* div onMouseDown={onMouseDown.bind(this, 'resize')} className='control-point point-se'  */}
           </div>
         </div>)}
         <div className='tableBar'>
           {/* https://www.w3.org/WAI/tutorials/forms/labels/#associating-labels-explicitly */}
-          <label htmlFor={searchId} className="sr-only">{searchPlaceholder}</label>
+          <label htmlFor='asl-search-box-edit' className="sr-only">{searchPlaceholder}</label>
           <input
-            id={searchId}
+            id='asl-search-box-edit'
             className='searchBox'
             type='text'
             placeholder={`${searchPlaceholder}...`}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <span className='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / ONE_PAGE_NUM)}`)}</span>
+          <span className='pageNumber'>Page: {(`${pageNumber}/${Math.ceil(length / N_ITEMS_PER_PAGE)}`)}</span>
           <button onClick={handlePrevPage} disabled={(pageNumber <= 1)}>Prev</button>
-          <button onClick={handleNextPage} disabled={(pageNumber*ONE_PAGE_NUM >= length)}>Next</button>
+          <button onClick={handleNextPage} disabled={(pageNumber*N_ITEMS_PER_PAGE >= length)}>Next</button>
           {/* https://www.w3.org/WAI/tutorials/forms/labels/#associating-labels-explicitly */}
-          <label htmlFor={jumpId} className="sr-only">Jump to page</label>
-          <input id={jumpId} className='pageBox' type='text' onChange={(e) => setJumpNumber(e.target.value)} />
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+          <label htmlFor='asl-pagebox-edit' className="sr-only">Jump to page</label>
+          <input
+            id='asl-pagebox-edit'
+            className='pageBox'
+            type='text'
+            onChange={(e) => setJumpNumber(e.target.value)}
+          />
           <button onClick={handleJump}>Go</button>
+          
         </div>
         
-        <table>
+        <table aria-rowcount={length}>
           <thead>
             <tr>
               <th>
@@ -314,9 +363,9 @@ const AslTable = props => {
             </tr>
           </thead>
           <tbody>
-            {onePage.map((term) => {
+            {onePage.map((term,index) => {
               return (
-                <tr key={term.id}>
+                <tr key={term.id} aria-rowindex={1 + index + (pageNumber-1) * N_ITEMS_PER_PAGE}>
                   <td>{term.term}</td>
                   <td>
                     {numberToCate(term.kind)}

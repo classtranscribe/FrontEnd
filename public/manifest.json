@@ -1,10 +1,10 @@
 {
-  "short_name": "BOT Meeting",
-  "name": "BOT Meeting Live Stream",
-  "description": "ClassTranscribe provides searchable transcribed video lectures.",
+  "short_name": "ClassTranscribe",
+  "name": "ClassTranscribe",
+  "description": "ClassTranscribe provides accessible searchable transcribed video lectures.",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

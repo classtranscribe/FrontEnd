@@ -16,10 +16,17 @@ function ShortcutsTable({ onClose = null }) {
         {shortcuts.map((catagory) => (
           <div className="shortcuts-table-col" key={catagory.name}>
             <h3 className="shortcuts-table-h3">{catagory.name}</h3>
-            <table className="shortcuts-table" role="presentation">
+            <table
+              className="shortcuts-table" 
+              aria-rowcount={catagory.rows.length}
+            >
               <tbody>
-                {catagory.rows.map((row) => (
-                  <tr className="shortcuts-tr" key={row.action}>
+                {catagory.rows.map((row,rowIndex) => (
+                  <tr
+                    className="shortcuts-tr" 
+                    aria-rowindex={1+rowIndex}
+                    key={row.action}
+                  >
                     <td className="shortcuts-des">{row.action}</td>
                     <td className="shortcuts-key">
                       {row.keys.map((key, index) => (

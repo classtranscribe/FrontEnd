@@ -35,7 +35,7 @@ export function CTBrand(props) {
 
   return (
     <Link {...linkProps}>
-      <img src={imgSrc} alt="ClassTranscribe" />
+      <img src={imgSrc} alt="ClassTranscribe logo" />
     </Link>
   );
 }

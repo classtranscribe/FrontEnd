@@ -61,7 +61,7 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
   }, [show]);
 
   return (
-    <form className="watch-menu-tab" id="display-settings">
+    <form className="watch-menu-tab" id="display-settings" aria-label="Display Settings">
       <h2 className="watch-menu-tab-title">Display
       </h2>
 

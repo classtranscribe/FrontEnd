@@ -85,7 +85,7 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
   if (shouldFullscreen) {
     return (
       <div className="watch-menus" data-menu-type={menu}>
-        <div className="watch-menu-blur" aria-hidden="true" />
+        <div className="watch-menu-blur" />
         {selectedMenu}
       </div>
     ); 

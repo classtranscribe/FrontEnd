@@ -29,7 +29,7 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
   };
 
   const iconName =
-    muted || volume < 0.04 ? 'volume_off' : volume >= 0.5 ? 'volume_up' : 'volume_down';
+    muted || volume < 0.04 ? 'volume_off' : volume >= 0.6 ? 'volume_up' : 'volume_down';
 
   return (
     <div className="watch-volume-ctrl">
@@ -72,7 +72,7 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
           <input
             id="volume-slider"
             className="volume-slider"
-            aria-label={`Volume Slider - Current Volume: ${Math.floor(volume * 100)}`}
+            aria-label={`Volume at ${Math.floor(volume * 100)} %`}
             type="range"
             min={0}
             max={1}

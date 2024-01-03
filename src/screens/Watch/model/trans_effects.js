@@ -14,6 +14,7 @@ import { scrollTransToView, findTransByLanguages } from '../Utils'
  * * Find subtitle based on current time
 */
 const findCurrent = (array = [], prev = {}, now = 0, deterFunc) => {
+    if (!array || array.length === 0) return null;
     let next = prev;
     const isCurrent = (item) => {
         if (!item) return false; // Check the item type
@@ -124,6 +125,14 @@ export default {
     *updateTranscript({ payload: currentTime }, { put, select }) {
         const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
+        // TODO: Fix: if watch.transcript is ARRAY_EMPTY (?) or length 0 then findCurrent will 
+        // return with the current transcript. Should put({ type: 'setCurrCaption', payload: null
+        
+        // TODO: is index reset in frontend? the findCurrent assumes index are increasing integers
+        // Ans: Yes in model.js/setTranscript, after filtering wanted transcriptions -
+        // "transcript= _.map(transcript, (item, index) => ({ ...item, index }));
+    
+
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
         if (next && next.id) {
             // console.log(next);
@@ -138,6 +147,8 @@ export default {
                 const { media = {} } = watch;
                 scrollTransToView(next.id, smoothScroll, media.isTwoScreen);
             }
+        } else {
+            yield put({ type: 'setCurrCaption', payload: null });
         }
         // console.log(watch)
         // console.log(`pauseWhileAD:${playerpref.pauseWhileAD}`);

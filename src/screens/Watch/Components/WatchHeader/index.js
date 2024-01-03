@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+
 import { connectWithRedux, SEARCH_INIT, SEARCH_HIDE } from '../../Utils';
 import './index.scss';
 import './Buttons/index.scss';
@@ -20,16 +21,16 @@ function WatchHeaderRightElemWithRedux(props) {
   } = props;
 
   const showButtons = search.status === SEARCH_HIDE && !plain;
-
+  
   return showButtons ? (
-    <>
+    <div role="region" aria-label="Video Menu Items Actions">
       <Search />
       <ShortcutsTableTrigger />
       <ShareTrigger />
       <DownloadMenuTrigger />
       <GuideTrigger dispatch={dispatch} />
       <PlaylistMenuTrigger />
-    </>
+    </div>
   ) : null;
 };
 

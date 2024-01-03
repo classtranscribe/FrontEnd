@@ -1,6 +1,6 @@
-import React from 'react';
+import { React, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import CTFragment from '../CTFragment';
+// import CTFragment from '../CTFragment';
 import './index.css';
 
 function CTLoader(props) {
@@ -15,13 +15,13 @@ function CTLoader(props) {
   };
 
   return (
-    <CTFragment {...fragmentProps}>
-      <div className="flow">
+    <Fragment {...fragmentProps} aria-busy>
+      <div className="flow" aria-label="Loading">
         <div className="flow-dot" />
         <div className="flow-dot" />
         <div className="flow-dot" />
       </div>
-    </CTFragment>
+    </Fragment>
   );
 }
 

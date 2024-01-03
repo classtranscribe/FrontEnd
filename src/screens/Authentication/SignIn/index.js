@@ -35,7 +35,7 @@ function SignIn(props) {
 
   const signInOptions = []
   if(env.ciLogonValid ) {signInOptions.push( {
-      title: 'University Credential Sign In',
+      title: 'University Credential Sign In (Default)',
       description: 'Sign in with your university authentication system.',
       id: user.method.CILOGON,
       icon: 'school',
@@ -45,8 +45,8 @@ function SignIn(props) {
   if(env.auth0Valid) {
     signInOptions.push(
     {
-      title: 'Email Sign In',
-      description: 'Sign in or sign up with your emails address.',
+      title: 'Gmail Sign In',
+      description: "Sign in with your university Gmail address.",
       id: user.method.AUTH0,
       icon: 'email',
     });
@@ -74,7 +74,7 @@ function SignIn(props) {
         </CTFragment>
 
         <CTText muted margin={[0, 0, 10, 25]} size="medium" as="h3">
-          Choose a sign-in or sign-up method
+          Choose a sign in method
         </CTText>
 
         <CTList items={listitems} />

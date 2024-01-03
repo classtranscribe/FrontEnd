@@ -85,6 +85,8 @@ function MarkdownEditor(props) {
 
   return (
     <div className={cx('ct-md-editor-con', attached)}>
+      {/* The <div> element has a child element that allows keyboard interaction */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className="ct-md-editor" onKeyDown={handleKeyDown}>
         <MDToolBar {...toolBarProps} />
 
