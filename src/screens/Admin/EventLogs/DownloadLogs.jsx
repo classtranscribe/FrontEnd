@@ -29,16 +29,21 @@ export default function DownloadLogs() {
     setDownloading(true);
     const from = momentToISOString(startDate);
     const to = momentToISOString(endDate);
-    const { data } = await api.adminGetLogs(from, to);
-    let filename = `logs (${from.slice(0, 10)} to ${to.slice(0, 10)}).csv`;
-    fileDownload(data, filename);
-    setDownloading(false);
-    setEndDate(null);
-    setStartDate(new Moment());
+    try {
+      const { data } = await api.adminGetLogs(from, to);
+      let filename = `logs (${from.slice(0, 10)} to ${to.slice(0, 10)}).csv`;
+      fileDownload(data, filename);
+      setEndDate(null);
+      setStartDate(new Moment());
+    } catch (err) {
+      // eslint-disable-next-line no-alert
+      alert(err);
+    }
+      setDownloading(false);
   };
 
   return (
-    <div className="ap-more-section download-logs">
+    <div className="ap-event-logs-section download-logs">
       <h2>Download Logs</h2>
       <h3>Select Date Range</h3>
       <div>

@@ -34,11 +34,11 @@ export const getAdminNavItem = () => {
         text: 'Instructors',
         href: links.admin('instructors')
       },
-      {
-        value: 'ap-nsb-more',
-        text: 'More',
-        href: links.admin('more')
-      },
+     /* {
+        value: 'ap-nsb-event-logs',
+        text: 'Event Logs',
+        href: links.admin('event-logs')
+      }, */
       {
         value: 'ap-nsb-login-as-user',
         text: 'Login As User',
