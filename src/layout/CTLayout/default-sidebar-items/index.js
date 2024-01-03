@@ -180,7 +180,7 @@ export class DefaultSidebarItems {
 
     if (env.dev) {
       items.push('breakline');
-      items.push(this.componentAPIs);
+      // items.push(this.componentAPIs);
     }
     
     if (env.dev || isAdmin) {
