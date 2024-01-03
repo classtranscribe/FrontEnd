@@ -71,7 +71,7 @@ async function fetchConfig(url) {
 function saveToPublicDir(data, url) {
   try {
     fs.writeFileSync("./public/config.js", data)
-    logger.log('info', chalk.green(`Backend : ${chalk.bold(url)}`))
+    logger.log('info', chalk.white(`Config file downloaded and written for new backend server <${chalk.bold(url)}>`))
   }
   catch(err) {
     logger.log('error', chalk.red.bold(err))
@@ -103,14 +103,14 @@ function saveToPublicDir(data, url) {
  */
 async function setBackend(url) {
   if (!url.startsWith("http")) {
-    logger.log('error', chalk.red(`The full server address should be specified \ne.g., ${chalk.bold("https://localhost:8443/")}`))
+    logger.log('error', chalk.red(`The full server address and protocol must be specified \ne.g., ${chalk.bold("https://localhost:8443/")}`))
     return;
   }
   
   let data = await fetchConfig(url)
   
   if (!data) {
-    logger.log('error', chalk.red(`Could not connect to server ${url} `))
+    logger.log('error', chalk.red(`Could not connect to server <${url}> to download config file`))
     
     return
   }
@@ -124,7 +124,7 @@ async function setBackend(url) {
  */
 function processArgs() {
   program.arguments("[url]")
-    .option('-p --production', `${backendList.production} (Currently not working)` )
+    .option('-p --production', `${backendList.production}` )
     .option('-d --dev', backendList.dev)
     .option('-l --localhost', `Local docker instance`);
 
@@ -133,14 +133,19 @@ function processArgs() {
   let url = backendList[backend[0]] ?? program.args[0];
   
   if (! url) {
-    logger.log('error', chalk.red(`Invalid args \nType : ${chalk.bold("yarn backend -h")}`))
+    logger.log('error', chalk.red('Invalid args'))
+    program.help();
     return
   }
   
-  logger.log('info',`"Connecting to <${url}> ...`);
-  // let url = (backend[0] === "localhost") ? program.opts().localhost ?? localhostdefault :
+  logger.log('info',chalk.gray(`Connecting to <${url}> ...`));
   
   setBackend(url);
+  if(! url.includes("://localhost") && ! url.includes("://ct-dev")) {
+    logger.log('info', chalk.greenBright("Some production features are unavailable, including:"));
+    logger.log('info', chalk.greenBright("* CILogin (Illinois) authentication is unavailable. However auth0 (email) authentication is available"));
+    logger.log('info', chalk.greenBright("* Video playback is unavailable"));
+  }
 }
 
 /**
