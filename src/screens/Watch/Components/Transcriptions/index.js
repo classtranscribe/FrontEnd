@@ -58,10 +58,16 @@ function TranscriptionsWithRedux(props) {
 
 
   return displayTrans ? (
-    <div id="watch-trans-container" className="watch-trans-container" mode={mode}>
+    <div
+      id="watch-trans-container"
+      className="watch-trans-container"
+      mode={mode}
+      role='region'
+      aria-label='Transcriptions'
+    >
       <div
         className="trans-box"
-        onMouseEnter={handleMourseOver(true)}
+        onMouseEnter={handleMourseOver(true) /* Mouse tracking is only used to prevent scrolling when mouse is over the transcriptions */}
         onMouseLeave={handleMourseOver(false)}
       >
         {transcript.length === 0 ? (
@@ -71,9 +77,10 @@ function TranscriptionsWithRedux(props) {
             No Transcriptions selected
           </div>
         ) : transView === LINE_VIEW ? (
-          <div className="trans-list" style={{zIndex: 10}}>
+          <div className="trans-list" style={{zIndex: 10}} aria-label='Captions and Descriptions' role='table'>
             {transcript.map((caption) => {
               return <CaptionLine
+                role='row'
                 key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
                 caption={caption}
                 fontSize={fontSize}

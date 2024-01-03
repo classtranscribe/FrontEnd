@@ -17,7 +17,7 @@ function PlaylistsMenu({ onClose = null, media = {}, playlist = {} }) {
   }, [playlist]);
 
   return (
-    <div id="watch-playlists-menu" className="watch-playlists-menu">
+    <div id="watch-playlists-menu" className="watch-playlists-menu" aria-label='Watch Playlist Menu'>
       {/* Close Btn */}
       <button
         className="plain-btn watch-menu-close-btn watch-playlists-menu-close-btn"

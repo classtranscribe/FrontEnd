@@ -110,22 +110,25 @@ function ResultList({
   const [inVideoTransResultsEarlier, inVideoTransResultsLater] =
     option === SEARCH_TRANS_IN_VIDEO
       ? inVideoTransResults.map((result) => (
-        <div role="list" className="w-100 d-flex flex-column">
-          {result.map((item) => (
-            <Popup
-              inverted
-              wide
-              basic
-              hideOnScroll
-              position="top left"
-              openOnTriggerClick={false}
-              openOnTriggerFocus
-              closeOnTriggerBlur
-              disabled={option === SEARCH_IN_SHORTCUTS}
-              key={item.reactRowKey}
-              content={popupContent(item)}
-              trigger={<CaptionListItem item={item} option={option} />}
-            />
+        <div
+          role="list"
+          className="w-100 d-flex flex-column" 
+        >{result.map((item) => (
+          <Popup
+            role="listitem"
+            inverted
+            wide
+            basic
+            hideOnScroll
+            position="top left"
+            openOnTriggerClick={false}
+            openOnTriggerFocus
+            closeOnTriggerBlur
+            disabled={option === SEARCH_IN_SHORTCUTS}
+            key={item.reactRowKey}
+            content={popupContent(item)}
+            trigger={<CaptionListItem item={item} option={option} />}
+          />
             ))}
         </div>
         ))
@@ -178,12 +181,14 @@ function ResultList({
             show={option === SEARCH_IN_SHORTCUTS}
             menu={MENU_SHORTCUTS}
             name="shortcuts"
+            aria-label="Search shortcut keys"
           />
 
           <OpenMenuButton
             show={option === SEARCH_IN_PLAYLISTS}
             menu={MENU_PLAYLISTS}
             name="playlists"
+            aria-label="Search playlists"
           />
 
           {/* The Result list */}

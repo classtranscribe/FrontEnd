@@ -125,6 +125,7 @@ function TransCtrlButtonsWithRedux({
         btn ? (
           <button
             className="plain-btn trans-ctrl-btn"
+            aria-controls='watch-trans-container'
             onClick={btn.click}
             id={btn.id}
             key={btn.id}

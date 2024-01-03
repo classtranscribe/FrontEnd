@@ -24,17 +24,20 @@ function InputBar({ search = SEARCH_INIT, dispatch }) {
     dispatch({type: 'watch/search_getResults', payload: inputRef.current.value});
   };
 
+  const handleClose = () => {
+    dispatch({type: 'watch/search_close'});
+  };
+
   const handleOnKeyDown = (e) => {
     if (e.keyCode === KeyCode.KEY_RETURN) {
       e.preventDefault();
       handleSearch();
     }
+    if (e.keyCode === KeyCode.KEY_ESCAPE) {
+      e.preventDefault();
+      handleClose();
+    }
   };
-
-  const handleClose = () => {
-    dispatch({type: 'watch/search_close'});
-  };
-
   const defaultInput = search.value || '';
 
   return (

@@ -36,7 +36,7 @@ function TranscriptionSetting({ show = false, transView = LINE_VIEW, dispatch,
   }, [show]);
 
   return (
-    <form className="watch-menu-tab" id="trans-settings">
+    <form className="watch-menu-tab" id="trans-settings" aria-label="Transcription Settings">
       <h2 className="watch-menu-tab-title">Transcriptions</h2>
       <div className="w-100">
         <MenuRadio

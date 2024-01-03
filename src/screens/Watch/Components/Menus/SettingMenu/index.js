@@ -44,7 +44,7 @@ function SettingMenu({ onClose = null }) {
   };
 
   return (
-    <div id="watch-setting-menu" aria-label="Setting Menu" className="watch-setting-menu">
+    <div id="watch-setting-menu" aria-label="Settings Menu" className="watch-setting-menu">
       <button
         className="plain-btn watch-menu-close-btn watch-screenmode-menu-close-btn"
         onClick={onClose}

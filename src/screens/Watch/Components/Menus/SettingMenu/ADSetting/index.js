@@ -33,7 +33,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
   const disabled = descriptions.length <= 0;
 
   return (
-    <form className="watch-menu-tab" id="ad-settings">
+    <form className="watch-menu-tab" id="ad-settings" aria-label='Audio Description Settings'>
       <h2 className="watch-menu-tab-title">Audio Description</h2>
       {disabled && <p>Sorry, audio description of this video is currently unavailable.</p>}
       <div className="w-100">
