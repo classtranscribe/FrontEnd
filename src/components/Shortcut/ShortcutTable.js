@@ -35,10 +35,18 @@ function ShortcutTable(props) {
               &&
               <h3 className="shortcuts-table-h3">{catagory.category}</h3>
             }
-            <table className="shortcuts-table" role="presentation">
+            <table
+              className="shortcuts-table"
+              aria-label='Shortcuts table'
+              aria-rowcount={catagory.actions.length}
+            >
               <tbody>
-                {catagory.actions.map((action) => (
-                  <tr className="shortcuts-tr" key={action.name}>
+                {catagory.actions.map((action,i) => (
+                  <tr
+                    className="shortcuts-tr"
+                    key={action.name}
+                    aria-rowindex={i+1}
+                  >
                     <td className="shortcuts-des">{action.name}</td>
                     <td className="shortcuts-key">
                       {action.keys.map((key, index) => (
