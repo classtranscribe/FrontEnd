@@ -14,7 +14,7 @@ import {
   WEBVTT_SUBTITLES,
 } from '../../../Utils';
 
-let prevText = '';
+let theText = '';
 // if caption is long and only one line, break it into two lines
 const rebalanceCaption = (text) => {
   let result = text;
@@ -59,13 +59,13 @@ function ClosedCaptionWithRedux({
   const shouldDisplayCC = isPrimary && openCC && Boolean(currCaption && currCaption.id);
 
   if (shouldDisplayCC && currCaption.kind === WEBVTT_SUBTITLES) {
-    prevText = rebalanceCaption(currCaption.text);
+    theText = rebalanceCaption(currCaption.text);
   } 
 
-  return shouldDisplayCC && prevText ? (
+  return shouldDisplayCC && theText ? (
     <div id="watch-cc-container" className={embedded ? "" : "watch-cc-container"} style={ccContainerStyle}>
       <div className="watch-cc-text" style={ccStyle}>
-        {prevText}
+        {theText}
       </div>
     </div>
   ) : null;
