@@ -80,6 +80,7 @@ function CTFragment(props) {
     padding: paddingStr,
     margin: marginStr,
     borderRadius: borderRadiusStr,
+    ariaBusy: loading,
     ...styles
   };
 
