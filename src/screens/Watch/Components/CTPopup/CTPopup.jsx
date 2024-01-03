@@ -190,8 +190,8 @@ const CTPopup = ({ time = 0 }) => {
   //   return str;
   // }
   // const aslIcon = <i className="material-icons">asl</i>;
-
-  const cite = (t) => (<><a target="_blank" rel="noopener noreferrer" href={t.websiteURL}>More information</a></>)
+  const concise = (url) => { return new URL(url).host; }
+  const cite = (t) => <>Source: <a target="_blank" rel="noopener noreferrer" href={t.websiteURL}>{concise(t.websiteURL)}</a> (opens in new window)</>
 
   return (
     <Draggable cancel='.search-bar'>
