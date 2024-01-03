@@ -19,8 +19,8 @@ function GuideTrigger({dispatch}) {
         'aria-label': `Guide`,
       }}
     >
-      <span className="watch-btn-content watch-header-btn-content" tabIndex="-1">
-        <i className="material-icons">help_outline</i>
+      <span className="watch-btn-content watch-header-btn-content">
+        <i className="material-icons" aria-hidden="true">help_outline</i>
       </span>
     </WatchCtrlButton>
   );
