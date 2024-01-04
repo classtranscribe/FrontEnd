@@ -82,26 +82,26 @@
   margin: 0 !important;
 }
 
-/* More */
+/* event logs */
 
-.ap-more h2 {
+.ap-event-logs h2 {
   color: #28817d;
 }
-.ap-more-section {
+.ap-event-logs-section {
   background: #f0f0f0;
   padding: 1em;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
 }
-.ap-more-section h3 {
+.ap-event-logs-section h3 {
   font-size: inherit;
   font-weight: bold;
   margin-bottom: 0.5rem;
   margin-top: 0;
 }
 
-.ap-more .download-logs button {
+.ap-event-logs .download-logs button {
   margin-left: 3em !important;
 }
 
@@ -176,5 +176,5 @@
   }
 
   .general-modal .positive {
-    background: #449999 !important;
+    background: #506040 !important;
   }

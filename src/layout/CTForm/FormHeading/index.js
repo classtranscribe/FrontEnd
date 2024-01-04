@@ -11,9 +11,9 @@ function FormHeading(props) {
     children,
     ...otherProps
   } = props;
-
+  const {as = "h3" } = otherProps
   return (
-    <CTHeading uppercase highlight padding={padding} as="h4" {...otherProps}>
+    <CTHeading uppercase highlight padding={padding} as={as} {...otherProps}>
       {children}
     </CTHeading>
   );

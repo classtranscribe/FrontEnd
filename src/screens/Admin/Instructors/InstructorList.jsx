@@ -32,11 +32,15 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
   return (
     <>
       <div className="filter">
-        <input
-          id="inst-filter"
-          placeholder="Search for instructors"
-          onKeyDown={({ keyCode }) => onSearch(keyCode)}
-        />
+        <label htmlFor="inst-filter">Search:
+          <input
+            id="inst-filter"
+            placeholder="Name or email"
+            onKeyDown={({ keyCode }) => {
+              return onSearch(keyCode);
+            }}
+          />
+        </label>
         <Button basic icon="search" aria-label="search" onClick={() => onSearch(KeyCode.KEY_RETURN)} />
         <Button basic content="Reset" onClick={onReset} />
       </div>

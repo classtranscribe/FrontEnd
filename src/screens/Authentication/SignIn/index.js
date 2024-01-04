@@ -64,7 +64,7 @@ function SignIn(props) {
   const listitems = signInOptions.map((opt) => ({ ...opt, onClick: handleSignIn(opt.id) }));
 
   return (
-    <CTFragment fadeIn role="main" center className="h-100" id="ct-signin-main">
+    <CTFragment fadeIn role="dialog" center className="h-100" id="ct-signin-main">
       <CTFragment className="ct-signin-card shadow">
         <CTFragment padding={[0, 20, 30, 20]} alignItEnd>
           <CTBrand size="large" />

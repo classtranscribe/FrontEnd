@@ -5,7 +5,7 @@ import UniPane from './Universities';
 import DepartPane from './Departments';
 import CoursePane from './Courses';
 import InstructorPane from './Instructors';
-import More from './More';
+import EventLogs from './EventLogs';
 import LoginAsUser from './LoginAsUser';
 
 export const tabs = [
@@ -40,10 +40,10 @@ export const tabs = [
     component: InstructorPane
   },
   {
-    value: 'ap-tab-more',
-    text: 'More',
-    href: links.admin('more'),
-    component: More
+    value: 'ap-tab-event-logs',
+    text: 'Event Logs',
+    href: links.admin('event-logs'),
+    component: EventLogs
   },
   {
     value: 'ap-tab-login-as-user',

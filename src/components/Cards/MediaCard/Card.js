@@ -38,7 +38,7 @@ function MediaCard(props) {
     to: {pathname: href, search: '', hash: ''},
     className: cardClasses,
     role: 'listitem',
-    title: name
+    /* title: name */ /* A11Y: title should not be the same as the content */
   };
 
   const mediaNameElement = makeEl(CTText, {

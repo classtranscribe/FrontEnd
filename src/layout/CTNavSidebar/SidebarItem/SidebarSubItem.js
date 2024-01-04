@@ -20,6 +20,10 @@ export function SidebarSubItem(props) {
     <button className="ct-nsb-li-sub-content" onClick={onClick}>
       <span>{children}</span>
     </button>
+  ) : href.includes("http")? (
+    <a className="ct-nsb-li-sub-content" href={href} target='_blank' rel="noreferrer">
+      <i aria-hidden="true" className="material-icons">link</i> {children}
+    </a>
   ) : (
     <Link className="ct-nsb-li-sub-content" to={href}>
       <span>{children}</span>

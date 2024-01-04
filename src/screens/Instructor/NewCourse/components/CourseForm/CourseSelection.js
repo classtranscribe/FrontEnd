@@ -133,7 +133,7 @@ function CourseSelection(props) {
           For example, you can select <b>CS357</b> and <b>MATH357</b> respectively to
           generate the course number <b>CS357/MATH357</b>.
         </div>
-        <h5 className="mt-2 mb-1">INSTRUCTION</h5>
+        <h4 className="mt-2 mb-1">INSTRUCTION</h4>
         <ol>
           <li>Please select a department of your university.</li>
           <li>Then select a course under the selected department.</li>
