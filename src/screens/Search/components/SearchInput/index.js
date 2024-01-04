@@ -21,12 +21,14 @@ function SearchInput(props) {
           onChange={handleSearchInputChange}
           autoComplete="off"
           autoFocus
+          role="searchbox"
         />
 
         <Button
           round
           icon="search"
           color="transparent"
+          aria-label="search"
         />
       </CTFragment>
     </CTFragment>

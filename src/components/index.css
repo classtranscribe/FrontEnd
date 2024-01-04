@@ -106,3 +106,27 @@ ul.plain-ul {
   text-align: start;
 }
 
+.MuiFormHelperText-root {
+  color: #20b2aa;
+  font-size: 11px !important;
+}
+
+/* A11Y - MUI likes to create small text. For example see the New Course form */
+/* HOWEVER, WAVE accessibility checker also finds several false positives - see a11y.txt for discussion */
+.MuiTypography-body1 {
+  font-size: 12px !important;
+}
+
+.MuiTypography-body2 {
+  font-size: 12px !important;
+}
+
+.MuiFormLabel-root {
+  font-size: 12px !important;
+}
+
+.MuiInputLabel-shrink {
+  transform: scale(1) translate(13px, -10px) !important;
+  background-color: #fff;
+  color: #000 !important;
+}

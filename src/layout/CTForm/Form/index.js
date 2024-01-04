@@ -34,6 +34,7 @@ function Form(props) {
     heading,
     details,
     children,
+    as = 'h2',
   } = props;
 
   const btn = useButtonStyles();
@@ -48,7 +49,8 @@ function Form(props) {
   if (!collapsible) {
     AccordionProps.expanded = true;
   }
-
+  /* Changing to h3 to h2 fixes New Course form. If this is not appropriate for other forms
+  we will need to pass in the base heading level as a prop, and also edit CTForm/FormHeading/index.js */
   return (
     <Accordion square {...AccordionProps}>
       <AccordionSummary
@@ -59,7 +61,7 @@ function Form(props) {
         className={collapsible ? 'collapsible' : null}
       >
         <CTFragment dFlexCol>
-          <CTHeading as="h3">
+          <CTHeading {...as}>
             {heading}
           </CTHeading>
           {Boolean(details) && <div className="text-muted">{details}</div>}

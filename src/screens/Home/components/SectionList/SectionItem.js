@@ -24,10 +24,10 @@ function sectionItemsElements(section) {
 }
 
 function SectionItem({ section }) {
-  const { title, subTitle, icon, link } = section;
+  const { title, subTitle, icon, link, as = 'h3' } = section;
 
   const titleElement = makeEl(CTHeading, {
-    as: link ? Link : 'h3',
+    as: link ? Link : as,
     icon,
     to: link,
     highlightIcon: true,

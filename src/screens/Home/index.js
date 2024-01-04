@@ -19,9 +19,11 @@ const HomeWithRedux = (props) => {
   const maintenance = env.maintenanceWarningBanner;
   return (
     <CTLayout {...layoutProps}>
+      <h1 className='sr-only'>Course Browser</h1>
       <MaintenanceMesg message={maintenance} />
       <CTLoadable loading={loading} loadingElement={loaderElement}>
-        {filterElement}
+        <h2 className='sr-only' role="search">Filter results</h2>{filterElement}
+        <h2 className='sr-only'>Courses</h2>
         {sectionElement}
       </CTLoadable>
     </CTLayout>

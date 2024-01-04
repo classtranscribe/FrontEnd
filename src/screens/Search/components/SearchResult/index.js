@@ -10,11 +10,11 @@ function SearchResultWithRedux(props) {
 
   let resultListElement = null;
   if (!courseResult) {
-    resultListElement = null;
+    resultListElement = <div className='sr-only' aria-busy>Results will appear here</div>;
   } else if (courseResult.length === 0) {
-    resultListElement = <div className="no-results"><span>No Results</span></div>;
+    resultListElement = <div className="no-results" aria-live="polite"><span>No Results</span></div>;
   } else if (courseResult.length > 0) {
-    resultListElement = <CourseCardList row courses={courseResult} />
+    resultListElement = <div aria-live="polite" aria-label={`${courseResult.length} results`}><CourseCardList row courses={courseResult} /></div>
   }
 
   return (
