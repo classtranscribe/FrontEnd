@@ -5,10 +5,9 @@
 import React from 'react';
 import { Route } from 'dva/router';
 // UI
-import { Tab, Divider, Message, Form, Select, Label } from 'semantic-ui-react';
+import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import TermEditing from './TermEditing';
 import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
-
 
 
 export default function TermPane(props) {
