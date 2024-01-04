@@ -12,27 +12,26 @@ import InstructorEditing from './InstructorEditing';
 import InstructorList from './InstructorList';
 import { CreateNewButton, GeneralAlert, AdminHeading } from '../Components';
 
-export default function InstructorPane({ state: { universities }, getSelectOptions }) {
+export default function InstructorPane(props) {
+  const { state: { universities}, getSelectOptions } = props;
   const [instructors, setInstructors] = useState([]); // 'unset'
   const [loading, setLoading] = useState(true);
   const [uniOptions, setUniOptions] = useState([]);
-  const [currUni, setCurrUni] = useState({ id: 0 });
+  const [currUni, setCurrUni] = useState({ name: 'none', id: 0 });
 
-  const onUniSelect = ({ value }) => {
+  const onUniSelect = async ({ value }) => {
     setLoading(true);
     setCurrUni(() => _.find(universities, { id: value }));
-    api.getRolesByUniId(value).then(({ data }) => {
-      setInstructors(() => data);
-      // console.log('instructors', data)
-      localStorage.setItem('instCurrUni', value);
-      setLoading(false);
-    });
+    const roles = (await api.getRolesByUniId(value)).data
+    setInstructors(() => roles);
+    localStorage.setItem('adminCurrUni', value);
+    setLoading(false);
   };
 
   useEffect(() => {
     if (universities.length) {
       setUniOptions(() => getSelectOptions(universities));
-      const uniId = localStorage.getItem('instCurrUni');
+      const uniId = localStorage.getItem('adminCurrUni');
       if (uniId) onUniSelect({ value: uniId });
     }
   }, [universities, getSelectOptions]);
@@ -56,15 +55,17 @@ export default function InstructorPane({ state: { universities }, getSelectOptio
       <Route path="/admin/instructors/:type?=:id" component={InstructorEditing} />
 
       <Message color="black">
-        <Message.Header>Select from Universities</Message.Header>
         <p>
-          Current University: <strong>{currUni.name}</strong>
+          University: <strong>{currUni.name}</strong>
         </p>
         <Form>
           <Form.Field
             control={Select}
+            label="University"
+            placeholder="University..."
+            id='admin-instructor-select-uni'
             options={uniOptions}
-            defaultValue={localStorage.getItem('instCurrUni')}
+            defaultValue={localStorage.getItem('adminCurrUni')}
             onChange={(event, data) => onUniSelect(data)}
           />
         </Form>

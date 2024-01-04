@@ -68,7 +68,7 @@ const WatchWithRedux = (props) => {
   });
   return (
     <CTLayout {...layoutProps}>
-      <div className="watch-bg" id="watch-page" role="main">
+      <div className="watch-bg" id="watch-page">
         {
           error ? (
             <ErrorWrapper error={error} />

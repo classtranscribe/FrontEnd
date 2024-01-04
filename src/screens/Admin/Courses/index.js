@@ -1,3 +1,5 @@
+/* Todo: set eslint config to parse label check correctly */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /**
  * Pane for Courses of Admin Page
  */
@@ -10,13 +12,13 @@ import CourseEditing from './CourseEditing';
 import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
 
 export default function CoursePane(props) {
-  const { universities, courseCurrUni, courseCurrDeparts, courseCurrDepart, courses } = props.state;
+  const { universities, currentUni, currentDept, departments, courses } = props.state;
 
-  const currUni = courseCurrUni || { name: 'none', id: 0 };
-  const currDepart = courseCurrDepart || { name: 'none', id: 0 };
+  const displayUni = currentUni || { name: 'none', id: 0 };
+  const displayDepart = currentDept || { name: 'none', id: 0 };
 
   const uniOptions = props.getSelectOptions(universities);
-  const departOptions = props.getSelectOptions(courseCurrDeparts);
+  const departOptions = props.getSelectOptions(departments);
 
   return (
     <Tab.Pane attached={false} className="ap-list">
@@ -24,46 +26,46 @@ export default function CoursePane(props) {
       <Route path="/admin/course-template/:type?=:id" component={CourseEditing} />
 
       <Message color="black">
-        <Message.Header>Select from Universities</Message.Header>
-        <p>
-          Current University: <strong>{currUni.name}</strong>
-        </p>
+        {/* <p>
+          <strong>{displayUni.name}</strong>
+        </p> */}
         <Form>
           <Form.Field
             control={Select}
             options={uniOptions}
-            defaultValue={localStorage.getItem('courseCurrUni')}
-            onChange={(event, data) => props.setCurrent('courseCurrUni', data)}
+            id='admin-course-uni-select'
+            label='University'
+            placeholder='University...'
+            onChange={(e,data)=>props.updateUniversity(data.value)}
           />
         </Form>
-        {currUni.id !== 0 && (
+        {displayUni.id !== 0 && (
           <>
-            <Message.Header>
-              <br />
-              Select from Departments
-            </Message.Header>
-            <p>
-              Current Department: <strong>{currDepart.name}</strong>
-            </p>
+           
+            {/* <p>
+              <strong>{displayDepart.name}</strong>
+            </p> */}
             <Form>
               <Form.Field
                 search
+                id='admin-course-depart-select'
+                label='Department'
+                placeholder='Department...'
                 control={Select}
                 options={departOptions}
-                defaultValue={localStorage.getItem('courseCurrDepart')}
-                onChange={(event, data) => props.setCurrent('courseCurrDepart', data)}
+                onChange={(e, data) => props.updateDepartment(data.value)}
               />
             </Form>
           </>
         )}
       </Message>
-      {currUni.id === 0 ? (
+      {displayUni.id === 0 ? (
         <GeneralAlert type="selectUni" open fixed />
-      ) : currDepart.id === 0 ? (
+      ) : displayDepart.id === 0 ? (
         <GeneralAlert type="selectDepart" open fixed />
       ) : (
         <>
-          <CreateNewButton name="Create New Course" path="course-template" id={currDepart.id} />
+          <CreateNewButton name="Create New Course" path="course-template" id={displayDepart.id} />
 
           <Divider horizontal>All Courses</Divider>
           {(courses || [])
@@ -71,7 +73,7 @@ export default function CoursePane(props) {
             .reverse()
             .map((course) => (
               <AdminListItem
-                header={`${currDepart.acronym}${course.courseNumber}`}
+                header={`${displayDepart.acronym}${course.courseNumber}`}
                 path="course-template"
                 id={course.id}
                 key={course.id}

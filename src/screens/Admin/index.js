@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Admin Page
  * - where admins can create and make changes on
@@ -21,65 +22,71 @@ export class Admin extends React.Component {
     links.title('Admin');
     this.state = {
       loading: true,
+      currentUni: null,
+      currentDept: null,
 
       universities: [],
+      
+      instructors: [], // for currentUni
+      terms: [], // for current Uni
+      departments: [], // for currentUni
 
-      terms: [],
-      termCurrUni: null,
+      courses: [], // for currentDept
+      // courseCurrDeparts: [],
+      // courseCurrDepart: null,
 
-      departments: [],
-      departCurrUni: null,
-
-      courses: [],
-      courseCurrUni: null,
-      courseCurrDeparts: [],
-      courseCurrDepart: null,
-
-      instructors: [],
+      
     };
     this.getSelectOptions = _getSelectOptions;
-    this.getAll = this.getAll.bind(this);
+    this.getAll = this.populateState.bind(this);
   }
 
-  /**
-   * Function for GET values after every page refreshing
-   */
-  getAll() {
-    // TODO: connect to universities model
-    api.getUniversities().then(({ data }) => {
-      this.setState({ universities: data });
-      /**
-       * Hide the loading page
-       */
-      api.contentLoaded();
-    });
-    // loading data based on existing current values
-    const { courseCurrDepart, courseCurrUni, termCurrUni } = this.state;
-    if (termCurrUni) this.getTermsByUniId(termCurrUni.id);
-    if (courseCurrUni) this.getDepartsByUniId(courseCurrUni.id, 'courseCurrDeparts');
-    if (courseCurrDepart) this.getCoursesByDepartId(courseCurrDepart.id);
+  async populateState() {
+    const universities = (await api.getUniversities()).data;
+    
+    let previousUniId =localStorage.getItem('adminCurrUni') || user.getUserInfo().universityId;
+    
+    const currentUni = previousUniId ? _.find(universities, { id: previousUniId }) : '' 
+    this.setState({ universities, currentUni });
+
+    if (currentUni) {
+      this.populateTermsForUniversityIf(currentUni.id);
+      this.populateDepartmentsForUniversityId(currentUni.id);
+    }
+    api.contentLoaded();
   }
 
   /**
    * Specific get-by-id functions
    */
-  getTermsByUniId = (uniId) => {
-    api
-      .getTermsByUniId(uniId)
-      .then((response_) => {
-        this.setState({ terms: response_.data });
-      })
-      .catch((error) => console.error(error));
+  async populateTermsForUniversityIf(uniId) {
+    let terms = null;
+    try {
+      terms = uniId? (await api.getTermsByUniId(uniId)).data : null
+    } catch (err) {
+      console.log(err);
+    }
+    this.setState({ terms });
   };
-  getDepartsByUniId = (uniId, name) => {
-    api.getDepartsByUniId(uniId).then((response_) => {
-      this.setState({ [name]: response_.data });
-    });
+  async populateDepartmentsForUniversityId(uniId) {
+    let departments = null;
+    try {
+      departments = uniId ? (await api.getDepartsByUniId(uniId)).data : null;
+    } catch (err) {
+      console.log(err);
+    }
+
+    this.setState({ departments });
   };
-  getCoursesByDepartId = (departId) => {
-    api.getCoursesByDepartId(departId).then((response_) => {
-      this.setState({ courses: response_.data });
-    });
+
+async populateCoursesForDepartmentId(departId) {
+    let courses = [];
+    try {
+      courses = departId ? (await api.getCoursesByDepartId(departId)).data : [];
+    } catch (err) {
+      console.log(err);
+    }
+    this.setState({ courses });
   };
 
   /**
@@ -95,7 +102,7 @@ export class Admin extends React.Component {
     /**
      * 2. first load of values
      */
-    this.getAll();
+    this.populateState();
   }
 
   /**
@@ -103,29 +110,20 @@ export class Admin extends React.Component {
    * @param name the state name to set
    * @param value the value to assign
    */
-  setCurrent = (name, { value }) => {
+  updateUniversity = (id) => {
     // set **CurrUni store in localStorage, then get terms/departs cased on this uni id
-    if (name.includes('Uni')) {
-      this.setState((prevState) => ({ [name]: _.find(prevState.universities, { id: value }) }));
-      if (name.includes('term')) {
-        // termCurrUni
-        this.getTermsByUniId(value);
-      } else if (name.includes('depart')) {
-        // departCurrUni
-        this.getDepartsByUniId(value, 'departments');
-      } else if (name.includes('course')) {
-        // courseCurrUni
-        // reset the 'courseCurrDepart' after change the 'courseCurrUni'
-        this.setState({ courseCurrDepart: null, courses: [] });
-        this.getDepartsByUniId(value, 'courseCurrDeparts');
-      }
-    } else if (name.includes('Depart')) {
-      // set courseCurrDepart, then get its courses
-      this.setState((prevState) => ({
-        [name]: _.find(prevState.courseCurrDeparts, { id: value }),
-      }));
-      this.getCoursesByDepartId(value);
-    }
+      this.setState((prev)=> {return {
+        currentUni : prev.universities.find(uni => uni.id === id),
+        currentDept : null}} );
+      localStorage.setItem('adminCurrUni', id);
+      this.populateTermsForUniversityIf(id);
+      this.populateDepartmentsForUniversityId(id, 'departments');
+  }
+  updateDepartment = (id) => {
+      this.setState((prev) => {return {
+        currentDept: prev.departments.find(d => d.id === id)
+      }});
+      this.populateCoursesForDepartmentId(id);
   };
 
   onSignOut = () => {
