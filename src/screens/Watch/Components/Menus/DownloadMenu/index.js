@@ -16,8 +16,8 @@ function DownloadMenu({ onClose = null, trans }) {
     setDownloading(downloading.concat(id));
     let tran = _.find(trans, t=>t.id === id);
     let filename = `${tran.transcriptionType?'Caption':'Description'}-${id}`;
-    console.log(tran);
-    console.log(filename);
+    // console.log(tran);
+    // console.log(filename);
     
     downloadControl.webVTT(
       tran.path,

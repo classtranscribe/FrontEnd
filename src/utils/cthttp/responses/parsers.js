@@ -228,7 +228,7 @@ export function parseMedia(media) {
       re.transcriptions.push({
         id: trans.id,
         // Put English and Descriptions at top
-        halfKey : `${trans.language.replace('en-us','@')}/${10-trans.transcriptionType}/${trans.sourceLabel}/${count}`,
+        transKey : `${trans.language.replace('en-us','@')}/${10-trans.transcriptionType}/${trans.sourceLabel}/${count}`,
         transcriptionType: trans.transcriptionType,
         label: trans.label,
         sourceLabel: trans.sourceLabel ,
@@ -237,8 +237,8 @@ export function parseMedia(media) {
         src: `${baseUrl}${trans.path || trans.file.path}`,
       });
   }
-  // todo add more to the halfkey if these are not unique
-  re.transcriptions = sortBy( re.transcriptions , (i) => i.halfKey );
+  // todo add more to the transKey if these are not unique
+  re.transcriptions = sortBy( re.transcriptions , (i) => i.transKey );
   });
 
   /** Watch history */

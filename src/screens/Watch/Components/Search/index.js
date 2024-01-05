@@ -7,7 +7,7 @@ import Results from './Results';
 
 function SearchWithRedux({ search = SEARCH_INIT, dispatch }) {
   return search.status !== SEARCH_HIDE ? (
-    <div id="watch-search-container" className="watch-search">
+    <div id="watch-search-container" className="watch-search" role="search" aria-label='Search captions, descriptions, videos, keyboard shortcuts'>
       <InputBar search={search} dispatch={dispatch} />
       <Results search={search} />
     </div>

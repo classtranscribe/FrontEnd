@@ -28,7 +28,6 @@ function PlaylistView({ playlists, playlist, currPlaylist, setCurrPlaylist }) {
             id={playlistItem.id}
             key={playlistItem.id}
             className="watch-playlist-item plain-btn"
-            role="listitem"
             onClick={handlePlaylistClick(playlistItem.id)}
             // current={Boolean(playlist.id === playlistItem.id).toString()}
             // active={Boolean(currPlaylist.id === playlistItem.id).toString()}

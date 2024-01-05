@@ -5,10 +5,6 @@ import { api } from 'utils';
 import _ from 'lodash';
 // import { isMobile } from 'react-device-detect';
 import { /* CROWDEDIT_ALLOW, */CROWDEDIT_FREEZE_ALL } from 'utils/constants.js';
-import {
-    ENGLISH, ARRAY_EMPTY // , WEBVTT_SUBTITLES, WEBVTT_DESCRIPTIONS,
-    // PROFANITY_LIST,
-} from '../Utils/constants.util';
 import { promptControl } from '../Utils/prompt.control';
 import { timeStrToSec } from '../Utils/helpers';
 
@@ -18,6 +14,7 @@ import { scrollTransToView, findTransByLanguages } from '../Utils'
  * * Find subtitle based on current time
 */
 const findCurrent = (array = [], prev = {}, now = 0, deterFunc) => {
+    if (!array || array.length === 0) return null;
     let next = prev;
     const isCurrent = (item) => {
         if (!item) return false; // Check the item type
@@ -68,7 +65,7 @@ export default {
         // Get and set corresponding captions
         if( !Array.isArray(trans) ) { trans = [trans]; }
 
-        let alldata = ARRAY_EMPTY;
+        let alldata;
         if(trans.length >0) {
             // let {data = []} = yield api.getCaptionsByTranscriptionId(trans[0].id);
             // alldata = [...alldata, ...data];
@@ -86,6 +83,7 @@ export default {
 
             alldata = allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
         }
+        if( alldata === undefined ) { alldata = []; }
 
         let closedcaptions = alldata.filter((c)=>c.transcription.transcriptionType === 0);
         let descriptions = alldata.filter((c)=>c.transcription.transcriptionType !==0);
@@ -99,19 +97,42 @@ export default {
         yield put.resolve({ type: 'setDescriptions', payload: descriptionData });
         yield put({ type: 'setTranscript' });
     },
-    *setTranscriptions({ payload: trans }, { put}) {
-        const selectedTrans = findTransByLanguages(trans, [ENGLISH]);
-       
-        for (const t of selectedTrans) {
+    *setTranscriptions({ payload: trans }, { put, select}) {
+        const { playerpref } = yield select();
+        let keys = playerpref.transKeys ;
+        if( keys === undefined ) {
+            // No preference, so look for 1 caption and 1 description... 
+            const seen = new Set();
+            keys = [];
+            for (const t of trans) {
+                if(! seen.has(t.transcriptionType)) {
+                    keys.push(t.transKey);
+                    seen.add(t.transcriptionType);
+                }
+            }
+            // if(keys.length === 0 && trans.length > 0) {
+            yield put({
+                type: 'playerpref/setPreference', payload: { transKeys: keys }
+            });
+        }
+        for (const t of keys) {
             yield put({
                 type: 'setCurrentTranscriptionMulti',
-                payload: { halfKey: t.halfKey, active: true },
+                payload: { transKey: t, active: true },
             });
         }
     },
     *updateTranscript({ payload: currentTime }, { put, select }) {
         const { watch, playerpref } = yield select();
         const prevCaption_ = watch.caption;
+        // TODO: Fix: if watch.transcript is ARRAY_EMPTY (?) or length 0 then findCurrent will 
+        // return with the current transcript. Should put({ type: 'setCurrCaption', payload: null
+        
+        // TODO: is index reset in frontend? the findCurrent assumes index are increasing integers
+        // Ans: Yes in model.js/setTranscript, after filtering wanted transcriptions -
+        // "transcript= _.map(transcript, (item, index) => ({ ...item, index }));
+    
+
         const next = findCurrent(watch.transcript, prevCaption_, currentTime);
         if (next && next.id) {
             // console.log(next);
@@ -126,6 +147,8 @@ export default {
                 const { media = {} } = watch;
                 scrollTransToView(next.id, smoothScroll, media.isTwoScreen);
             }
+        } else {
+            yield put({ type: 'setCurrCaption', payload: null });
         }
         // console.log(watch)
         // console.log(`pauseWhileAD:${playerpref.pauseWhileAD}`);
@@ -156,13 +179,16 @@ export default {
     *setCurrentTranscriptionMulti( _ignore, { put, select }) {
         const { watch } = yield select();
        
-        const selected = watch.currentTranscriptionMulti.halfKeysSelected
+        const selected = watch.currentTranscriptionMulti.transKeysSelected
         
-        const currTrans = watch.transcriptions.filter((t) => selected.includes(t.halfKey));
+        const currTrans = watch.transcriptions.filter((t) => selected.includes(t.transKey));
         
-        if (currTrans.length > 0) {
-            yield put({ type: 'setCurrTrans', payload: currTrans });
-        }
+        // if (currTrans.length > 0) {
+        yield put({ type: 'setCurrTrans', payload: currTrans });
+        // }
+        const currKeys = currTrans.map((t) => t.transKey);
+        // remember preference for next time
+        yield put({ type: 'playerpref/setPreference', payload: { transKeys: currKeys } });
         // TODO - fix uEvent
         // uEvent.langchange(watch.time, language);
         // uEvent.registerLanguage(language);

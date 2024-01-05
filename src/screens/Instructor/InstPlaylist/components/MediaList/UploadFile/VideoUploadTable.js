@@ -26,8 +26,8 @@ function VideoUploadTable({
 
   return (
     <CTFragment>
-      <TableContainer className="ipl-upl-tb-con" data-scroll>
-        <Table stickyHeader size="small" aria-label="videos table">
+      <TableContainer className="ipl-upl-tb-con" aria-rowcount={videos.length} data-scroll>
+        <Table stickyHeader size="small" aria-label="videos table" aria-rowcount={videos.length}>
           <TableHead>
             <TableRow>
               <TableCell>
@@ -43,7 +43,7 @@ function VideoUploadTable({
 
           <TableBody>
             {videos.map((video1, index) => (
-              <TableRow className="tb-row" key={video1}>
+              <TableRow className="tb-row" key={video1} aria-rowindex={1+index}>
                 <VideoUploadTableVideoCell videFile={video1} />
                 <VideoUploadTableStatusCell
                   failed={failedVideos.includes(index)}

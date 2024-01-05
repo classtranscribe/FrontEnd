@@ -7,6 +7,7 @@ const _missingRequiredEnv = (envName) => {
   throw Error(`Missing required environment variable ${envName}`);
 };
 
+// Only when TestSignIn is false
 const requiredEnvs = [
   'AUTH0_DOMAIN',
   'AUTH0_CLIENT_ID',
@@ -18,12 +19,26 @@ const requiredEnvs = [
  */
 class ReactEnv {
   constructor() {
-    for (let i = 0; i < requiredEnvs.length; i += 1) {
-      const envName = requiredEnvs[i];
-      if (!reactEnv[envName]) {
-        _missingRequiredEnv(envName);
+    if(! this.dev ) {
+      for (let i = 0; i < requiredEnvs.length; i += 1) {
+        const envName = requiredEnvs[i];
+        if (!reactEnv[envName]) {
+          _missingRequiredEnv(envName);
+        }
       }
     }
+  }
+
+  get classTranscribeDownMessage() {
+    // If set then the app cannot start and the message is shown instead.
+    // e.g. 'ClassTranscribe is down for maintenance. Please reload after 9am.';
+    return reactEnv.CLASSTRANSCRIBE_DOWN_MESSAGE;
+  }
+
+  get maintenanceWarningBanner() {
+    // If set a warning banner message is shown on the top of the home screen
+    // e.g. 'ClassTranscribe will be unavailable Monday 6am - 9am.';
+    return reactEnv.MAINTENANCE_WARNING_BANNER;
   }
 
   get dev() {
@@ -38,6 +53,13 @@ class ReactEnv {
     return reactEnv.AUTH0_CLIENT_ID;
   }
 
+  get auth0Valid() {
+    return (reactEnv.AUTH0_DOMAIN || '').length >1 && (reactEnv.AUTH0_CLIENT_ID || '').length >1; 
+  }
+  get ciLogonValid() {
+    return (reactEnv.CILOGON_CLIENT_ID || '').length >1; 
+  }
+
   get ciLogonClientID() {
     return reactEnv.CILOGON_CLIENT_ID;
   }
@@ -50,9 +72,9 @@ class ReactEnv {
     return reactEnv.CILOGON_DEFAULT_IDP || 'urn:mace:incommon:uiuc.edu';
   }
 
-  get frontendCommitEndpoint() {
-    return reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT;
-  }
+  // get frontendCommitEndpoint() {
+  //   return reactEnv.REACT_APP_FRONTEND_COMMIT_ENDPOINT;
+  // }
 
   get productionServer() {
     return reactEnv.REACT_APP_API_BASE_URL || window.location.origin;

@@ -1,0 +1,9 @@
+WAVE checker warns of duplicate links. 
+There is a Home sidebar link and logo link to the home page.
+This is just a warning and standard design practice. Further reading-
+https://stackoverflow.com/questions/73029201/resolving-a-redundant-link-accessibility-alert-with-a-logo-and-home-nav-link-t
+
+
+Admin panes.
+We believe the  "Missing form label" and "Orphaned form label" are false positives with WAVE
+because the Combobox dropdown is implemented in Javascript.

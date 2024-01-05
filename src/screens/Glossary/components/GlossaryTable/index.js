@@ -56,7 +56,7 @@ const GlossaryTable = props => {
       courseId
     } = props;
 
-    const ONE_PAGE_NUM = 50 // one page will have at most 50 glossaries
+    const N_ITEMS_PER_PAGE = 50 // one page will have at most 50 glossaries
     const { items, requestSort, sortConfig } = useSortableData(words);
     const [pageNumber, setPageNumber] = useState(1); // the page number is at first 1
     const [length, setLength] = useState(0); // the length of filtered items is set to 0
@@ -64,23 +64,23 @@ const GlossaryTable = props => {
     const searchId = 'search-control';
     const searchPlaceholder = 'Search';
     const [onePage, setOnePage] = useState([]);
-    const [isExplanation, setIsExplanation] = useState(new Array(ONE_PAGE_NUM).fill(false));
+    const [isExplanation, setIsExplanation] = useState(new Array(N_ITEMS_PER_PAGE).fill(false));
     const [edit, setEdit] = useState(false); // show the edit form if true
     const [editI, setEditI] = useState(0);
     const [add, setAdd] = useState(false); // show the add form if true
 
-    let maxPageNumber = Math.ceil(length / ONE_PAGE_NUM);
+    let maxPageNumber = Math.ceil(length / N_ITEMS_PER_PAGE);
 
     const updateVisibleItems = () => {
       const filtered = items.filter(item => item.term.toLowerCase().includes(search.toLowerCase()));
       setLength(filtered.length);
       // sanity check for page number
-      if( pageNumber >1 && pageNumber > Math.ceil(length / ONE_PAGE_NUM)) {
+      if( pageNumber >1 && pageNumber > Math.ceil(length / N_ITEMS_PER_PAGE)) {
         setPageNumber(1);
       }
 
-      const index = (pageNumber-1) * ONE_PAGE_NUM;
-      setOnePage(filtered.slice(index, index + ONE_PAGE_NUM));
+      const index = (pageNumber-1) * N_ITEMS_PER_PAGE;
+      setOnePage(filtered.slice(index, index + N_ITEMS_PER_PAGE));
     }
     
     useEffect(() => {
@@ -97,7 +97,7 @@ const GlossaryTable = props => {
       setSearch('');
       setPageNumber(1);
       updateVisibleItems();
-      setIsExplanation(new Array(ONE_PAGE_NUM).fill(false));
+      setIsExplanation(new Array(N_ITEMS_PER_PAGE).fill(false));
     }, [items])
 
     const getClassNamesFor = name => {
@@ -123,8 +123,8 @@ const GlossaryTable = props => {
       if (i >= 0 && i < items.length) {
         items[i] = data;
         // we reset onepage to refresh the data
-        const index = (pageNumber-1) * ONE_PAGE_NUM;
-        setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + ONE_PAGE_NUM));
+        const index = (pageNumber-1) * N_ITEMS_PER_PAGE;
+        setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + N_ITEMS_PER_PAGE));
       }
     }
 
@@ -132,16 +132,16 @@ const GlossaryTable = props => {
       if (i >= 0 && i < items.length) {
         items.splice(i, 1);
         // we reset onepage to refresh the data
-        const index = (pageNumber-1) * ONE_PAGE_NUM;
-        setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + ONE_PAGE_NUM));
+        const index = (pageNumber-1) * N_ITEMS_PER_PAGE;
+        setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + N_ITEMS_PER_PAGE));
       }
     }
 
     const handleAddData = (data) => {
       items.unshift(data);
       // we reset onepage to refresh the data
-      const index = (pageNumber-1) * ONE_PAGE_NUM;
-      setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + ONE_PAGE_NUM));
+      const index = (pageNumber-1) * N_ITEMS_PER_PAGE;
+      setOnePage(items.filter(item => item.term.toLowerCase().includes(search.toLowerCase())).slice(index, index + N_ITEMS_PER_PAGE));
     }
 
     const handleLike = async(termId) => {
@@ -218,12 +218,12 @@ const GlossaryTable = props => {
           {maxPageNumber<2? null:(
             <><span className='pageLabel'>Page {pageNumber} of {maxPageNumber}</span>
               <button onClick={handlePrevPage} disabled={(pageNumber <= 1)}>Prev</button>
-              <button onClick={handleNextPage} disabled={(pageNumber*ONE_PAGE_NUM >= length)}>Next</button>
+              <button onClick={handleNextPage} disabled={(pageNumber*N_ITEMS_PER_PAGE >= length)}>Next</button>
             </>)}
           
         </div>
         
-        <table>
+        <table aria-rowcount={length}>
           <thead>
             <tr>
               <th>
@@ -254,7 +254,7 @@ const GlossaryTable = props => {
           <tbody>
             {onePage.map((term, i) => {
               return (
-                <tr key={term.id}>
+                <tr key={term.id} aria-rowindex={1+ i + (pageNumber-1) * N_ITEMS_PER_PAGE}>
                   <td>{term.term}</td>
                   <td>
                     <a target="_blank" rel="noopener noreferrer" href={term.link}>{term.link}</a>

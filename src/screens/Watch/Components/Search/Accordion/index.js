@@ -1,8 +1,9 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
- import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
- import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 // Todo: use newer names (but check watch search results still work)
 // import AccordionSummary from '@material-ui/core/AccordionSummary';
 // import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -73,7 +74,7 @@ const ExpansionPanelDetails = withStyles(() => ({
 // }))(AccordionDetails);
 }))(MuiExpansionPanelDetails);
 
-export default function Accordion({ resultsEachItems, title }) {
+export default function Accordion({ resultsEachItems, title, id=uuid() }) {
   const classes = useStyles();
 
   return (
@@ -81,12 +82,12 @@ export default function Accordion({ resultsEachItems, title }) {
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon classes={{ root: classes.ExpandMoreIcon }} />}
         aria-controls="panel1d-content"
-        id="panel1d-header"
+        id={`panel1d-header-${id}`}
         classes={{ root: classes.ExpansionSummay }}
       >
         <Typography classes={{ root: classes.Typography }}>{title}</Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      <ExpansionPanelDetails id={`panel1d-header-${id}`}>
         <Typography>{resultsEachItems}</Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>

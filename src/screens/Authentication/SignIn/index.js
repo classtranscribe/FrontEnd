@@ -33,20 +33,24 @@ function SignIn(props) {
     }
   };
 
-  const signInOptions = [
-    {
-      title: 'University Credential Sign In',
+  const signInOptions = []
+  if(env.ciLogonValid ) {signInOptions.push( {
+      title: 'University Credential Sign In (Default)',
       description: 'Sign in with your university authentication system.',
       id: user.method.CILOGON,
       icon: 'school',
-    },
+    });
+  }
+
+  if(env.auth0Valid) {
+    signInOptions.push(
     {
-      title: 'Email Sign In',
-      description: 'Sign in or sign up with your emails address.',
+      title: 'Gmail Sign In',
+      description: "Sign in with your university Gmail address.",
       id: user.method.AUTH0,
       icon: 'email',
-    },
-  ];
+    });
+  }
 
   if (env.dev) {
     signInOptions.push({
@@ -60,7 +64,7 @@ function SignIn(props) {
   const listitems = signInOptions.map((opt) => ({ ...opt, onClick: handleSignIn(opt.id) }));
 
   return (
-    <CTFragment fadeIn role="main" center className="h-100" id="ct-signin-main">
+    <CTFragment fadeIn role="dialog" center className="h-100" id="ct-signin-main">
       <CTFragment className="ct-signin-card shadow">
         <CTFragment padding={[0, 20, 30, 20]} alignItEnd>
           <CTBrand size="large" />
@@ -70,7 +74,7 @@ function SignIn(props) {
         </CTFragment>
 
         <CTText muted margin={[0, 0, 10, 25]} size="medium" as="h3">
-          Choose a sign-in or sign-up method
+          Choose a sign in method
         </CTText>
 
         <CTList items={listitems} />

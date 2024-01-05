@@ -59,7 +59,6 @@ export function AdminListItem({ header, items, path, id, inactive, loading }) {
             secondary
             compact
             to={`/admin/${path}/id=${id}`}
-            title="Edit"
             aria-label="Edit"
           >
             <Icon name="edit" />

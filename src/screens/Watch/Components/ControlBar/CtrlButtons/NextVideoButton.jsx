@@ -46,9 +46,7 @@ export function NextVideoWithRedux(props) {
         id="next-video-btn"
         disabled={!canPlayNext}
         popupStyle={{ padding: '0' }}
-        ariaTags={{
-          'aria-label': 'Next Video',
-        }}
+
       >
         <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
           <i className="material-icons">skip_next</i>
@@ -62,10 +60,8 @@ export function NextVideoWithRedux(props) {
       label={canPlayPrev ? watchPrev : 'End of the course'}
       id="prev-video-btn"
       disabled={!canPlayPrev}
+      position='bottom'
       popupStyle={{ padding: '0' }}
-      ariaTags={{
-        'aria-label': 'Previous Video',
-      }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
         <i className="material-icons">skip_previous</i>

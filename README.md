@@ -2,7 +2,7 @@
 
 The React.js Frontend for ClassTranscribe
 
-ClassTranscribe provides searchable transcribed video lectures. Copyright 2019-2023 University of Illinois, USA
+ClassTranscribe provides searchable transcribed video lectures. Copyright 2019-2024 University of Illinois, USA
 
 ## Setup Front-End
 

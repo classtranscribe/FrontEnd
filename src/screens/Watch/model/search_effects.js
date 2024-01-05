@@ -10,23 +10,7 @@ import {
 import { shortcuts } from '../Utils/data';
 import { isEarlier, isLater } from '../Utils/helpers';
 import { uEvent } from '../Utils/UserEventController';
-/*
- // Function used to update `search` state
-  updateSearch(search) {
-    const newSearch = { ...this.search_, ...search };
-    this.search_ = newSearch;
-    this.setSearch(newSearch);
-  }
-  
-  // in progress. need to return a list of transID
-  async getInCourseResult(value) {
-    const { offeringId } = setup.playlist();
-    if (!offeringId) return [];
-    const data = await setup.getPlaylists(offeringId)
-    const ok = await setup.getPlaylist(data[1].id)
-    return ok;
-  }
-*/
+
 function getShortcutResults(value) {
   let shortcuts_ = shortcuts.map((catag) => catag.rows);
   shortcuts_ = _.flatten(shortcuts_);
@@ -47,11 +31,15 @@ const getPlaylistResults = async (value, playlist) => {
   }
 }
 // Function used to add <span> tag around the searched value in a text
-function highlightSearchedWords(results = [], value = '', key = 'text') {
+// - the string is also validated to be html-escaped (with the lone exceptions of "<span>" and "</span>" with no attributes
+// in ResultListItems.js, immediately before use of dangerouslySetInnerHTML)
+function htmlEncodeAndHighlightSearchedWords(results = [], value = '', key = 'text') {
+  value = _.escape(value); // Also escape the search terms,so we can match quotes etc
   const tests = CTSearch.getRegExpTests(value, key);
-
+  // eslint-disable-next-line no-alert
+  // alert(value);
   return results.map((res) => {
-    let text = _.get(res, key).toLowerCase();
+    let text = _.escape( _.get(res, key));
     tests.forEach((test) => {
       if (test.testFunc(res)) {
         text = _.replace(text, test.reg, `<span>${test.word}</span>`);
@@ -62,15 +50,16 @@ function highlightSearchedWords(results = [], value = '', key = 'text') {
   });
 }
 // Function used to get search results from captions in current video
+// Note results are html-encoded.
 function getInVideoTransSearchResults(value, watch) {
   if (value === undefined) return watch.search;
-  const captions = watch.transcript;;
+  const captions = watch.transcript;
   if (!value || captions === ARRAY_EMPTY) {
     return [];
   }
 
   let inVideoTransResults = CTSearch.getResults(captions, value, 'text', { flags: 'i' });
-  inVideoTransResults = highlightSearchedWords(inVideoTransResults, value);
+  inVideoTransResults = htmlEncodeAndHighlightSearchedWords(inVideoTransResults, value);
 
   // separate captions by current time
   const currentTime = watch.time;

@@ -14,7 +14,7 @@ function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
   }, [show]);
 
   return (
-    <form className="watch-menu-tab" id="general-settings">
+    <form className="watch-menu-tab" id="general-settings" aria-label='General Settings'>
       <h2 className="watch-menu-tab-title">General</h2>
       <div className="w-100">
         <MenuRadio

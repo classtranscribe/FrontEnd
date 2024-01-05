@@ -3,8 +3,8 @@ import DownloadLogs from './DownloadLogs';
 
 export default function More() {
   return (
-    <div className="ap-more">
-      <h1>More</h1>
+    <div className="ap-event-logs">
+      <h1>Download Event Logs</h1>
       <hr />
       <DownloadLogs />
     </div>

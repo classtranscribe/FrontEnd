@@ -74,47 +74,7 @@ export class DefaultSidebarItems {
     });
   }
 
-  get pgadmin () {
-    return this.create({
-      value: 'ct-nsb-extLinks-pgadmin',
-      text: 'pgadmin',
-      icon: 'link',
-      href: links.pgadmin(),
-      active: uurl.isEqual(links.pgadmin()),
-      items: []
-    });
-  }
-  
-  get swag () {
-    return this.create({
-      value: 'ct-nsb-extLinks-swag',
-      text: 'swag',
-      icon: 'link',
-      href: links.swag(),
-      active: uurl.isEqual(links.swag()),
-      items: []
-    });
-  }
-  get rabbitmq () {
-    return this.create({
-      value: 'ct-nsb-extLinks-rabbitmq',
-      text: 'rabbitmq',
-      icon: 'link',
-      href: links.rabbitmq(),
-      active: uurl.isEqual(links.rabbitmq()),
-      items: []
-    });
-  }
-  get traefik () {
-    return this.create({
-      value: 'ct-nsb-extLinks-traefik',
-      text: 'traefik',
-      icon: 'link',
-      href: links.traefik(),
-      active: uurl.isEqual(links.traefik()),
-      items: []
-    });
-  }
+ 
 
   get admin() {
     return getAdminNavItem();
@@ -174,20 +134,9 @@ export class DefaultSidebarItems {
       items.push(this.asl);
     }
 
-    if (isAdmin) {
+    if (isAdmin || env.isDev) {
       items.push(this.admin);
-    }
-
-    if (env.dev) {
-      items.push('breakline');
-      items.push(this.componentAPIs);
-    }
-    
-    if (env.dev || isAdmin) {
-      items.push(this.pgadmin);
-      items.push(this.rabbitmq);
-      items.push(this.swag);
-      items.push(this.traefik);
+      // items.push(this.externalTools);
     }
 
     return items;

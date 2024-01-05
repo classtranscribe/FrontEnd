@@ -53,6 +53,6 @@ export const generateWatchUserGuide = () => {
   return new CTUserGuide(
     guides,
     isWatchPageOnBoarded,
-    { mode: 'dark' }, // switch mode into dark
+    { mode: 'dark', isKeyboard: true }, // switch mode into dark
   );
 };

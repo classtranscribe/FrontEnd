@@ -34,7 +34,12 @@ export function ControlBarWithRedux(props) {
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile;
 
   return (
-    <div id="watch-ctrl-bar" className="watch-ctrl-bar-container">
+    <div
+      id="watch-ctrl-bar"
+      className="watch-ctrl-bar-container"
+      role="region"
+      aria-label='Video Controls'
+    >
       <ProgressBar />
       <div className="watch-ctrl-bar-left-elems">
         {isMobile ? <RewindButton /> : <NextVideoButton nextBtn={false} />}

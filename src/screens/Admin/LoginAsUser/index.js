@@ -5,13 +5,18 @@ import { user } from 'utils';
 
 function LoginAsUser() {
   const [emailId, setEmailId] = useState('');
-  //  const [password, setPassword] = useState('')
 
   const handleEmailInput = ({ target: { value }}) => setEmailId(value);
-  //  const handlePWInput = text => setPassword(text)
 
   const onSignIn = () => {
-    user.loginAsAccountSignIn(emailId);
+    if(! emailId.length) return;
+    if(emailId.includes('@')) {
+      user.loginAsAccountSignIn(emailId);
+    } else {
+      const adminUser= user.getUserInfo().emailId;
+      const domain = adminUser.includes('@')? adminUser.slice(adminUser.indexOf('@') ) : "@???";
+      setEmailId(`${emailId.trim()}${domain}`);
+    }
   };
 
   const btn = useButtonStyles();
@@ -40,9 +45,9 @@ function LoginAsUser() {
             <CTInput
               required
               autoFocus
-              id="course-number"
+              id="login-as-email-input"
               label="Email"
-              placeholder="Email Id"
+              placeholder="Email or username"
               value={emailId}
               onReturn={onSignIn}
               onChange={handleEmailInput}

@@ -10,9 +10,10 @@ import DepartmentEditing from './DepartmentEditing';
 import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
 
 export default function DepartPane(props) {
-  const { departments, universities, departCurrUni } = props.state;
+  const { departments, universities, currentUni } = props.state;
+  
   const uniOptions = props.getSelectOptions(universities);
-  const currUni = departCurrUni || { name: 'none', id: 0 };
+  const displayUni = currentUni || { name: 'none', id: 0 };
 
   return (
     <Tab.Pane attached={false} className="ap-list">
@@ -20,25 +21,26 @@ export default function DepartPane(props) {
       <Route path="/admin/departments/:type?=:id" component={DepartmentEditing} />
 
       <Message color="black">
-        <Message.Header>Select from Universities</Message.Header>
-        <p>
-          Current University: <strong>{currUni.name}</strong>
-        </p>
+        {/* <p>
+          <strong>{displayUni.name}</strong>
+        </p> */}
         <Form>
           <Form.Field
             control={Select}
             options={uniOptions}
-            defaultValue={localStorage.getItem('departCurrUni')}
-            onChange={(event, data) => props.setCurrent('departCurrUni', data)}
+            label='Select University'
+            id='admin-depart-select-uni'
+            placeholder='University...'
+            onChange={(e,data)=>props.updateUniversity(data.value)}
           />
         </Form>
       </Message>
 
-      {currUni.id === 0 ? (
+      {displayUni.id === 0 ? (
         <GeneralAlert type="selectUni" open fixed />
       ) : (
         <>
-          <CreateNewButton name="Create New Department" path="departments" id={currUni.id} />
+          <CreateNewButton name="Create New Department" path="departments" id={displayUni.id} />
           <Divider horizontal>All Departments</Divider>
           {(departments || [])
             .slice()
@@ -49,7 +51,7 @@ export default function DepartPane(props) {
                 path="departments"
                 id={depart.id}
                 key={depart.id}
-                items={[`Acronym: ${depart.acronym}`, currUni.name]}
+                items={[`Acronym: ${depart.acronym}`, displayUni.name]}
               />
             ))}
         </>

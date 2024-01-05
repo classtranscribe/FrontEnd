@@ -40,7 +40,7 @@ function UpNextWithRedux({ media, ctpPriEvent = CTP_LOADING, playlist }) {
             Next Video
           </h3>
           <button className="plain-btn wml-close-btn" aria-label="Close" onClick={onClose}>
-            <span tabIndex="-1">
+            <span aria-hidden="true">
               <i className="material-icons">close</i>
             </span>
           </button>
