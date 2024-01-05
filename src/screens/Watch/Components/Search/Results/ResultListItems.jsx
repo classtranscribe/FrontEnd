@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { MediaCard } from 'components';
 import { links } from 'utils/links';
 import { connect } from 'dva';
@@ -11,8 +12,25 @@ import {
 } from '../../../Utils';
 import { ShortcutKey } from '../../Menus/ShortcutsTable';
 
+const validateOnlySimpleSpanTags = (untrustedHTML) => {
+  // Only "<span>" and "</span>" (with no attributes) are permitted.
+  // See also htmlEncodeAndHighlightSearchedWords() in search_effects.js
+  // The text is presented directly as html content (see use of dangerouslySetInnerHTML below)
+  // This validation check ensures arbitrary search results cant accidentially inject
+  // arbitrary html into the page.
+  // We're not using regex - prefer simplicity for security-related code..
+  const ignoreSpan = untrustedHTML.replace("<span>","").replace("</span>","");
+  const isInvalid = ignoreSpan.includes("<") || ignoreSpan.includes(">");
+  
+  if(isInvalid) {
+    // eslint-disable-next-line no-console
+    console.log(`validateOnlySimpleSpanTags failed:${untrustedHTML}`);
+  }
+  return isInvalid ? _.escape(untrustedHTML) : untrustedHTML;
+}
 /**
- * The result listitem for Captions
+ * The result listitem for Captions.
+
  */
 const CaptionListItemWithRedux = ({ item, option, dispatch }) => {
   let mediaId = item.media ? item.media.id : item.mediaId;
@@ -41,7 +59,7 @@ const CaptionListItemWithRedux = ({ item, option, dispatch }) => {
 
         { /* text is already escaped */
           /*  eslint-disable-next-line react/no-danger */}
-        <span className="search-result-content" dangerouslySetInnerHTML={{ __html: text }} />
+        <span className="search-result-content" dangerouslySetInnerHTML={{ __html: validateOnlySimpleSpanTags(text) }} />
 
         {option === SEARCH_TRANS_IN_COURSE && (
           <span className="search-result-media-name">
