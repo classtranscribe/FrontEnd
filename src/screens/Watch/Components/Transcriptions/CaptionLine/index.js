@@ -96,9 +96,6 @@ function CaptionLine({ /* isCurrent = false, isEditing = false,
           <span tabIndex="-1">{totalTime}</span>
         </button>
 
-        {/* Caption Line 
-        dangerouslySetInnerHTML={{ __html: text }}
-        */}
         <div
           ref={ref}
           suppressContentEditableWarning
