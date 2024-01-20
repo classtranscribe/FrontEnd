@@ -51,14 +51,14 @@ function DownloadMenu({ onClose = null, trans }) {
         TRANSCRIPTIONS 
       </h3>
       <div className="watch-icon-list file-type">
-        <span>Download as {format}</span><button
+        <span className='watch-icon-name'>Download as a .{format} file</span>
+        <button
           key="download-menu-format"
           className="plain-btn watch-icon-listitem"
-          aria-label={`Switch to ${otherFormat} format`}
           onClick={handleSwitchFormat(otherFormat)}
           role="menuitem"
-        >Change Format
-                                         </button>
+        >Switch to {otherFormat} format
+        </button>
       </div>
      
       <div className="watch-icon-list" />
