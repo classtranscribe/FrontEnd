@@ -8,6 +8,9 @@ import './index.scss';
 function DownloadMenu({ onClose = null, trans }) {
   const [downloading, setDownloading] = useState([]);
   const [disabledList, setDisabledList] = useState([]);
+  const [format, setFormat] = useState('vtt');
+  const otherFormat = format === 'vtt' ? 'txt' : 'vtt';
+  const handleSwitchFormat = (f) => () => setFormat(f);
 
   // const langList = langOptions.map((language) =>
   //  findTransByLanguages( trans, [language]) || { language });
@@ -15,12 +18,13 @@ function DownloadMenu({ onClose = null, trans }) {
   const handleDownload = (id) => async () => {
     setDownloading(downloading.concat(id));
     let tran = _.find(trans, t=>t.id === id);
-    let filename = `${tran.transcriptionType?'Caption':'Description'}-${id}`;
+    let filename = `${tran.transcriptionType?'Description':'Caption'}-${id}`;
     // console.log(tran);
     // console.log(filename);
+    // eslint-disable-next-line no-alert
     
     downloadControl.webVTT(
-      tran.path,
+      tran.src, format,
       filename,
       () => setTimeout(() => setDownloading(''), 400),
       () => {
@@ -44,8 +48,20 @@ function DownloadMenu({ onClose = null, trans }) {
       </button>
       <h3 className="watch-download-menu-title">
         <i className="material-icons watch-icon-icon">speaker_notes</i>
-        TRANSCRIPTIONS <span className="file-type">WebVTT</span>
+        TRANSCRIPTIONS 
       </h3>
+      <div className="watch-icon-list file-type">
+        <span>Download as {format}</span><button
+          key="download-menu-format"
+          className="plain-btn watch-icon-listitem"
+          aria-label={`Switch to ${otherFormat} format`}
+          onClick={handleSwitchFormat(otherFormat)}
+          role="menuitem"
+        >Change Format
+                                         </button>
+      </div>
+     
+      <div className="watch-icon-list" />
       <div className="watch-icon-list">
         {trans.map((t) => (
           <button
