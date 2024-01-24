@@ -7,3 +7,6 @@ https://stackoverflow.com/questions/73029201/resolving-a-redundant-link-accessib
 Admin panes.
 We believe the  "Missing form label" and "Orphaned form label" are false positives with WAVE
 because the Combobox dropdown is implemented in Javascript.
+
+Home page
+Wave A11Y checker does not like the interactive combo drop box and generates Orphaned from label, Missing Form label and Broken Aria Reference.

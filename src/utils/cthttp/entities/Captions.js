@@ -8,6 +8,12 @@ import { cthttp } from '../request';
 
 // GET
 
+export function getTranscriptionFile(transcriptionId,format) {
+  // {vtt,srt,txt}
+  return cthttp.get(`Captions/TranscriptionFile/${transcriptionId}/${format}`);
+}
+
+
 export function getCaptionsByTranscriptionId(transcriptionId) {
   return cthttp.get(`Captions/ByTranscription/${transcriptionId}`);
 }
