@@ -19,7 +19,7 @@ const validateOnlySimpleSpanTags = (untrustedHTML) => {
   // This validation check ensures arbitrary search results cant accidentially inject
   // arbitrary html into the page.
   // We're not using regex - prefer simplicity for security-related code..
-  const ignoreSpan = untrustedHTML.replace("<span>","").replace("</span>","");
+  const ignoreSpan = untrustedHTML.replaceAll("<span>","").replaceAll("</span>","");
   const isInvalid = ignoreSpan.includes("<") || ignoreSpan.includes(">");
   
   if(isInvalid) {

@@ -41,9 +41,9 @@ function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch 
 
   const setEpubErrorText = () => {
     if (!media.transReady && !media.sceneDetectReady)
-      return 'epub creation waiting for transcription and scene analysis to complete.';
-    if (!media.transReady) return 'epub creation waiting for transcription to complete.';
-    if (!media.sceneDetectReady) return 'epub creation waiting for scene analysis to complete.';
+      return 'I-Notes waiting for transcription and scene analysis.';
+    if (!media.transReady) return 'I-Notes waiting for transcription.';
+    if (!media.sceneDetectReady) return 'I-Notes waiting for scene analysis.';
   };
 
   const toggleFlashWarning = () => {

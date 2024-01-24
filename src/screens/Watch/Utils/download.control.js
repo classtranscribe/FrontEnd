@@ -2,8 +2,6 @@ import { api } from 'utils';
 
 const fileDownload = require('js-file-download');
 
-
-
 export const downloadControl = {
   async webVTT(transcriptionId = '', format, filename = '', onSuccess, onError) {
     try {
