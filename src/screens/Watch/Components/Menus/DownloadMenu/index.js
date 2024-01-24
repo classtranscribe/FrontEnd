@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
-import { downloadControl} from '../../../Utils';
+import { downloadControl } from '../../../Utils';
 import './index.scss';
 
 function DownloadMenu({ onClose = null, trans }) {
@@ -15,12 +15,10 @@ function DownloadMenu({ onClose = null, trans }) {
   const handleDownload = (id) => async () => {
     setDownloading(downloading.concat(id));
     let tran = _.find(trans, t=>t.id === id);
-    let filename = `${tran.transcriptionType?'Caption':'Description'}-${id}`;
-    // console.log(tran);
-    // console.log(filename);
+    let filename = `${tran.transcriptionType?'Description':'Caption'}-${id}`;
     
     downloadControl.webVTT(
-      tran.path,
+      id, format,
       filename,
       () => setTimeout(() => setDownloading(''), 400),
       () => {
