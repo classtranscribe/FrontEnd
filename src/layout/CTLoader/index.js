@@ -6,22 +6,25 @@ import './index.css';
 function CTLoader(props) {
   let { darkMode = false, height = 400 } = props;
 
-  const loaderStyles = { height: `${height }px` };
+  const loaderStyles = { height: `${height }px`,
+  'd-flex': true, 'justify-content-center':true, 'align-items-center':true};
+  // above styles are set set in CTFragment for a center aligned item
+
   const fragmentProps = {
-    center: true,
+    // center: true,
     className: 'ct-loader',
     styles: loaderStyles,
     'data-dark': darkMode,
   };
 
   return (
-    <Fragment {...fragmentProps} aria-busy>
+    <div {...fragmentProps} aria-busy>
       <div className="flow" aria-label="Loading">
         <div className="flow-dot" />
         <div className="flow-dot" />
         <div className="flow-dot" />
       </div>
-    </Fragment>
+    </div>
   );
 }
 
