@@ -172,17 +172,6 @@ class HTMLFileBuilder {
       // let transcriptStart = curText.indexOf('<p>'); // use DOM
       let transcriptAllPara = Array.prototype.slice.call(currText_dom.getElementsByTagName("p"),0); // gets all paragraph tags
       let combinedImagePara = allImages.concat(transcriptAllPara);
-      /*
-      combinedImagePara.sort(
-        (a, b) => {
-          if(a.compareDocumentPosition(b) === Node.DOCUMENT_POSITION_PRECEDING) {
-            return -1;
-          }
-          return 1;
-        }
-      ); */
-      // an issue - illegal invocation
-      // combinedImagePara.sort(currText_dom.compareDocumentPosition); // sort by position, and then parse through
       for(let k = 0; k < combinedImagePara.length; k+=1) {
         let currElement = combinedImagePara[k];
         if(currElement.tagName.toLowerCase() === "img") {
@@ -219,57 +208,6 @@ class HTMLFileBuilder {
         }
       }
       
-      /*
-      while (imgStart !== -1 || transcriptStart !== -1) { // essentially goes through every single paragraph and image and adds to pdf
-        if (imgStart !== -1 && (imgStart < transcriptStart || transcriptStart === -1)) { // starts with an image, only image
-          // get entire image link - trying to get what's before alt - can use DOM
-          let imgEnd = curText.indexOf('alt='); // use DOM
-          let imgData = curText.substring(imgStart + 5, imgEnd - 2);
-          // It's okay to have an await in a loop when the result of one iteration
-          // affects the next iteration
-          // eslint-disable-next-line no-await-in-loop
-          dimensions = await this.getImageDimensions(imgData);
-          ratio = dimensions.w / dimensions.h;
-          imgWidth = Math.round(ratio * 100);
-          imgLeft = margin + (w - imgWidth) / 2;
-          if (h - y <= 100) {
-            y = 10;
-            pdf.addPage();
-          }
-          // add image link from above
-          pdf.addImage(imgData, 'JPEG', imgLeft, y + 10, imgWidth, 100);
-          // pdf.text("Transcript", 0, 130, 'left');
-          y += 120;
-          if (y >= h - (h % 10)) {
-            y = 10;
-            pdf.addPage();
-          }
-          curText = curText.substring(imgEnd); // not needed when you loop through
-        } else if (transcriptStart !== -1 && (transcriptStart < imgStart || imgStart === -1)) { // only transcript or starts w transcript
-          // currText_dom.getElementsByTagName('p');
-          let transcriptEnd = curText.indexOf('</p>');
-          // let y = 140;
-          let transcript = curText
-            .substring(transcriptStart + 3, transcriptEnd)
-            .replaceAll('<br />', '\n');
-          let splitted = pdf.splitTextToSize(transcript, parseInt(w, 10));
-          // avoid no-loop-func eslint warning
-          for (let j = 0; j < splitted.length; j += 1) {
-            if (y >= h - (h % 10)) {
-              y = 10;
-              pdf.addPage();
-            }
-            pdf.text(splitted[j], margin, y);
-            y += 10;
-          }
-          curText = curText.substring(transcriptEnd + 2);
-        }
-        imgStart = curText.indexOf('src=');
-        transcriptStart = curText.indexOf('<p>');
-      }
-      */
-      // add glossary terms for chapter
-
       let glossaryText = "";
       
       if (epub.enableGlossary) {
