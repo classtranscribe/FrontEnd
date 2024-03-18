@@ -220,7 +220,7 @@ export function parseMedia(media) {
   /** Transcriptions */
   const uniqLabels = {}
   _.forEach(transcriptions, (trans) => {
-    if (trans.file || trans.path) {
+    // if (trans.file || trans.path) {
       const publicLabel = langMap[trans.language] + (trans.transcriptionType >0 ? ' descriptions' : '');
       const count = uniqLabels[publicLabel] ?? 1;
       uniqLabels[publicLabel] = count + 1;
@@ -234,9 +234,9 @@ export function parseMedia(media) {
         sourceLabel: trans.sourceLabel ,
         language: trans.language,
         publicLabel :  publicLabel + (count > 1 ? `-${count}` : ''),
-        src: `${baseUrl}${trans.path || trans.file.path}`,
+        // src: `${baseUrl}${trans.path || trans.file.path}`,
       });
-  }
+//  }
   // todo add more to the transKey if these are not unique
   re.transcriptions = sortBy( re.transcriptions , (i) => i.transKey );
   });
