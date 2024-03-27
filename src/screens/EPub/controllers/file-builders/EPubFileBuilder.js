@@ -171,12 +171,20 @@ class EPubFileBuilder {
     _.forEach(selectedChapters, (ch, index) => {
       // visual toc logic
       let image = '';
+      let parser = new DOMParser();
       if (this.data.enableVisualToc) {
         // get image from chapter text
-        let divStart = ch.text.indexOf('<div');
-        let altTextIndex = ch.text.indexOf('alt=');
-        image = ch.text.substring(divStart, altTextIndex);
+        let currText_dom = parser.parseFromString(ch.txt, "text/html"); 
+        // let divStart = ch.text.indexOf('<div');
+        // let altTextIndex = ch.text.indexOf('alt=');
+        // image = ch.text.substring(divStart, altTextIndex);
         // set image size and alt text
+        
+        let first_div = Array.prototype.slice.call(currText_dom.getElementsByTagName("div"),0)[0];
+        let div_html = first_div.innerHTML;
+        let altTextIndex = div_html.indexOf('alt='); // not sure how to convert into DOM
+        image = "<div";
+        image += div_html.substring(0, altTextIndex);
         if (image) {
           image += 'alt="';
           image += ch.title;
