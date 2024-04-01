@@ -58,12 +58,13 @@ class ScreenshotsBuilder {
       // let transcriptEnd = chapter.text.indexOf("</p>");
       let all_text = parser.parseFromString(chapter.text, "text/html");
       let all_paragraphs = Array.prototype.slice.call(all_text.getElementsByTagName("p"),0);
-      let transcript = '';
-      if (all_paragraphs.length !== 0) { 
-        transcript = all_paragraphs[0].innerHTML; //get the inner html of the transcript
+      
+      for(let ind = 0; ind < all_paragraphs.length; ind+=1) { 
+        let transcript = all_paragraphs[0].innerHTML; // get the inner html of each paragraph transcript
         transcript = transcript.replaceAll("%", "\\%");
         chapterContent = chapterContent.concat(transcript, '\n');
       }
+
       for (let j = 0; j < chapter.subChapters.length; j += 1) {
         let subChapter = chapter.subChapters[j];
         let subContent = `\\subsection{${subChapter.title}}`;
