@@ -53,14 +53,18 @@ class ScreenshotsBuilder {
       let imgName = `images/image-${i + 1}.jpeg`
       let imageInfo = `\\includegraphics[scale=0.2]{${imgName}}\\newline\n`;
       chapterContent = chapterContent.concat(imageInfo);
-      let transcriptStart = chapter.text.indexOf("<p>");
-      let transcriptEnd = chapter.text.indexOf("</p>");
-      let transcript = '';
-      if (transcriptStart !== -1) {
-        transcript = chapter.text.substring(transcriptStart+3, transcriptEnd);
+      let parser = new DOMParser();
+      // let transcriptStart = chapter.text.indexOf("<p>");
+      // let transcriptEnd = chapter.text.indexOf("</p>");
+      let all_text = parser.parseFromString(chapter.text, "text/html");
+      let all_paragraphs = Array.prototype.slice.call(all_text.getElementsByTagName("p"),0);
+      
+      for(let ind = 0; ind < all_paragraphs.length; ind+=1) { 
+        let transcript = all_paragraphs[0].innerHTML; // get the inner html of each paragraph transcript
         transcript = transcript.replaceAll("%", "\\%");
         chapterContent = chapterContent.concat(transcript, '\n');
       }
+
       for (let j = 0; j < chapter.subChapters.length; j += 1) {
         let subChapter = chapter.subChapters[j];
         let subContent = `\\subsection{${subChapter.title}}`;
