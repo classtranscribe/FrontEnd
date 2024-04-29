@@ -172,6 +172,14 @@ class HTMLFileBuilder {
       // let transcriptStart = curText.indexOf('<p>'); // use DOM
       let transcriptAllPara = Array.prototype.slice.call(currText_dom.getElementsByTagName("p"),0); // gets all paragraph tags
       let combinedImagePara = allImages.concat(transcriptAllPara);
+      
+      // Span tags contain LaTeX, which cannot currently be rendered properly in PDFs. Thus, we remove them
+      let span_tags = Array.prototype.slice.call(currText_dom.getElementsByTagName("span"));
+      for (let span_idx = 0; span_idx < span_tags.length; span_idx+=1) {
+        let curr_span_tag = span_tags[span_idx];
+        curr_span_tag.replaceWith("");
+      }
+
       for(let k = 0; k < combinedImagePara.length; k+=1) {
         let currElement = combinedImagePara[k];
         if(currElement.tagName.toLowerCase() === "img") {
