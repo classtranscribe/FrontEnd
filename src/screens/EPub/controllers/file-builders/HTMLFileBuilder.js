@@ -136,11 +136,14 @@ class HTMLFileBuilder {
     });
   }
 
-  async generatePDF(epub, pdf, subchapterImages, selectedChapters) {
+  async generatePDF(epub, pdf, subchapterImages, selectedChapters) { // need to fix
+    const parser = new DOMParser();
     const { title, author, cover } = epub;
     const margin = 10;
+    // width and height of the pdf page
     let w = pdf.internal.pageSize.getWidth() - 2 * margin;
     let h = pdf.internal.pageSize.getHeight() - 2 * margin;
+    // metadata added to top of html? can use dom likely
     let metadata = `<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title><rdf:Alt><rdf:li xml:lang="x-default">${title}</rdf:li></rdf:Alt></dc:title> </rdf:Description>`;
     // metadata = metadata + '<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier>' + title +'</dc:identifier> </rdf:Description>';
     pdf.addMetadata(metadata, 'http://ns.adobe.com/pdf/1.3/');
@@ -154,23 +157,34 @@ class HTMLFileBuilder {
     pdf.text(title, w / 2, 130, 'center');
     pdf.text(author, w / 2, 140, 'center');
     pdf.addPage();
-    for (let i = 0; i < selectedChapters.length; i += 1) {
+    for (let i = 0; i < selectedChapters.length; i += 1) { // for all of the selected chapters
       let y = 10;
       let chapter = selectedChapters[i];
       let curText = chapter.text;
+      let currText_dom = parser.parseFromString(curText, "text/html"); // get html text
       pdf.text(`${i + 1} ${chapter.title}`, margin, 10, 'left');
       let pageCurrent = pdf.internal.getCurrentPageInfo().pageNumber;
-      pdf.outline.add(null, chapter.title, { pageNumber: pageCurrent });
-      let imgStart = curText.indexOf('src=');
-      let transcriptStart = curText.indexOf('<p>');
-      while (imgStart !== -1 || transcriptStart !== -1) {
-        if (imgStart !== -1 && (imgStart < transcriptStart || transcriptStart === -1)) {
-          let imgEnd = curText.indexOf('alt=');
-          let imgData = curText.substring(imgStart + 5, imgEnd - 2);
-          // It's okay to have an await in a loop when the result of one iteration
-          // affects the next iteration
-          // eslint-disable-next-line no-await-in-loop
-          dimensions = await this.getImageDimensions(imgData);
+      pdf.outline.add(null, chapter.title, { pageNumber: pageCurrent }); // overlaps with rest of text
+      // get the first image
+      // let imgStart = curText.indexOf('src='); // use DOM
+      let allImages = Array.prototype.slice.call(currText_dom.getElementsByTagName("img"),0); // gets all image tags
+  
+      // let transcriptStart = curText.indexOf('<p>'); // use DOM
+      let transcriptAllPara = Array.prototype.slice.call(currText_dom.getElementsByTagName("p"),0); // gets all paragraph tags
+      let combinedImagePara = allImages.concat(transcriptAllPara);
+      
+      // Span tags contain LaTeX, which cannot currently be rendered properly in PDFs. Thus, we remove them
+      let span_tags = Array.prototype.slice.call(currText_dom.getElementsByTagName("span"));
+      for (let span_idx = 0; span_idx < span_tags.length; span_idx+=1) {
+        let curr_span_tag = span_tags[span_idx];
+        curr_span_tag.replaceWith("");
+      }
+
+      for(let k = 0; k < combinedImagePara.length; k+=1) {
+        let currElement = combinedImagePara[k];
+        if(currElement.tagName.toLowerCase() === "img") {
+          let sourceLink = currElement.src;
+          dimensions = await this.getImageDimensions(sourceLink);
           ratio = dimensions.w / dimensions.h;
           imgWidth = Math.round(ratio * 100);
           imgLeft = margin + (w - imgWidth) / 2;
@@ -178,21 +192,18 @@ class HTMLFileBuilder {
             y = 10;
             pdf.addPage();
           }
-          pdf.addImage(imgData, 'JPEG', imgLeft, y + 10, imgWidth, 100);
-          // pdf.text("Transcript", 0, 130, 'left');
+          pdf.addImage(sourceLink, 'JPEG', imgLeft, y + 10, imgWidth, 100);
           y += 120;
           if (y >= h - (h % 10)) {
             y = 10;
             pdf.addPage();
           }
-          curText = curText.substring(imgEnd);
-        } else if (transcriptStart !== -1 && (transcriptStart < imgStart || imgStart === -1)) {
-          let transcriptEnd = curText.indexOf('</p>');
-          // let y = 140;
-          let transcript = curText
-            .substring(transcriptStart + 3, transcriptEnd)
-            .replaceAll('<br />', '\n');
-          let splitted = pdf.splitTextToSize(transcript, parseInt(w, 10));
+        }
+        else {
+          let paraText = currElement.innerHTML.replaceAll('<br>', '\n');
+          paraText = paraText.replaceAll('<br />', '');
+          paraText = paraText.replaceAll('&nbsp;', '');
+          let splitted = pdf.splitTextToSize(paraText, parseInt(w, 10));
           // avoid no-loop-func eslint warning
           for (let j = 0; j < splitted.length; j += 1) {
             if (y >= h - (h % 10)) {
@@ -202,14 +213,9 @@ class HTMLFileBuilder {
             pdf.text(splitted[j], margin, y);
             y += 10;
           }
-          curText = curText.substring(transcriptEnd + 2);
         }
-        imgStart = curText.indexOf('src=');
-        transcriptStart = curText.indexOf('<p>');
       }
-
-      // add glossary terms for chapter
-
+      
       let glossaryText = "";
       
       if (epub.enableGlossary) {

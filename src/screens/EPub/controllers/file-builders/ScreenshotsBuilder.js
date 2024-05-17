@@ -53,14 +53,37 @@ class ScreenshotsBuilder {
       let imgName = `images/image-${i + 1}.jpeg`
       let imageInfo = `\\includegraphics[scale=0.2]{${imgName}}\\newline\n`;
       chapterContent = chapterContent.concat(imageInfo);
-      let transcriptStart = chapter.text.indexOf("<p>");
-      let transcriptEnd = chapter.text.indexOf("</p>");
-      let transcript = '';
-      if (transcriptStart !== -1) {
-        transcript = chapter.text.substring(transcriptStart+3, transcriptEnd);
+      let parser = new DOMParser();
+      // let transcriptStart = chapter.text.indexOf("<p>");
+      // let transcriptEnd = chapter.text.indexOf("</p>");
+      let all_text = parser.parseFromString(chapter.text, "text/html");
+      
+      // Replace MathML with P tags containing the LaTeX
+      let latex = Array.prototype.slice.call(all_text.getElementsByTagName("span"));
+      for (let latex_idx = 0; latex_idx < latex.length; latex_idx+=1) {
+        let curr_tag = latex[latex_idx];
+        if (curr_tag.getAttribute("title")) {
+          let annotation = `$$${curr_tag.getAttribute("title")}$$`;
+          let new_p_tag = document.createElement('p');
+          new_p_tag.innerHTML = annotation;
+          curr_tag.replaceWith(new_p_tag);
+        } else if (curr_tag.parentElement.tagName === "P") {
+            let annotation = curr_tag.getElementsByTagName("annotation");
+            if (annotation) {
+              annotation = `$${annotation[0].innerHTML}$`;
+              curr_tag.replaceWith(annotation);
+            }
+          } 
+      }
+      
+      let all_paragraphs = Array.prototype.slice.call(all_text.getElementsByTagName("p"),0);
+      
+      for(let ind = 0; ind < all_paragraphs.length; ind+=1) { 
+        let transcript = all_paragraphs[ind].innerHTML; // get the inner html of each paragraph transcript
         transcript = transcript.replaceAll("%", "\\%");
         chapterContent = chapterContent.concat(transcript, '\n');
       }
+
       for (let j = 0; j < chapter.subChapters.length; j += 1) {
         let subChapter = chapter.subChapters[j];
         let subContent = `\\subsection{${subChapter.title}}`;
