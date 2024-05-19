@@ -24,7 +24,8 @@ function NewEPubModal({
   const title = useInput(defaultTitle);
   const language = useInput(LanguageConstants.English);
 
-  const langOptions = languages.map(
+  const uniqueLanguages = [...new Set(languages)]
+  const langOptions = uniqueLanguages.map(
     lang => ({ value: lang, text: LanguageConstants.decode(lang) })
   );
 
