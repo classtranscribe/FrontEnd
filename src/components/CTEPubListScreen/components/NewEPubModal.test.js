@@ -8,8 +8,10 @@ describe('New EPubModal', () => {
     test('it renders with no languages', () => {
         render(<NewEPubModal open={true} onClose={noop} onCreate={noop} defaultTitle={""}/>);
 
-        // expect(screen.getByText("CREATE NEW I-Note")).toBeVisible();
-        screen.getByText("CREATE NEW I-Note");
+        expect(screen.getByText("CREATE NEW I-Note")).toBeVisible();
+        expect(screen.getByText("I-Note Title")).toBeVisible();
+        expect(screen.queryByText("I-Note Language")).toBeVisible(); 
+        // because we have no languages
     });
 
     test('it renders given list of languages and uniquely', () => {
