@@ -1,8 +1,7 @@
 # ----------------------------------------------------------------------
 # COMPILE REACT APP
 # ----------------------------------------------------------------------
-FROM node:16 AS frontend
-
+FROM --platform=$BUILDPLATFORM node:16 AS frontend
 WORKDIR /frontend
 
 COPY package.json yarn.lock  getDefaultConfig.js changeBackend.js /frontend/
