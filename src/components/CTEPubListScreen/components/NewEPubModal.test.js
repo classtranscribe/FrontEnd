@@ -41,7 +41,10 @@ describe('New EPubModal', () => {
 
         expect(mockSelect).toHaveBeenCalledWith(
             expect.objectContaining({
-                options: languages
+                options:  [
+                    {"text": "English", "value": LanguageConstants.English}, 
+                    {"text": "French", "value": LanguageConstants.French}, 
+                    {"text": "Spanish", "value": LanguageConstants.Spanish}]
             })
         );
     });
