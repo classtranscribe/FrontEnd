@@ -9,11 +9,10 @@ jest.mock("../../../layout/CTForm/Select/index.js", () => (props) => {
 }) 
 
 describe('New EPubModal', () => {
-    const noop = () => ({});
     const baseProps = {
         open: true,
-        onClose: noop,
-        onCreate: noop,
+        onClose: jest.fn(),
+        onCreate: jest.fn(),
         defaultTitle: ""
     }
     test('it renders with no languages', () => {
