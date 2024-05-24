@@ -1,6 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { LanguageConstants } from 'components/CTPlayer';
 import NewEPubModal from './NewEPubModal';
+
+const mockSelect = jest.fn();
+jest.mock("../../../layout/CTForm/Select/index.js", () => (props) => {
+    mockSelect(props);
+    return <div />;
+}) 
 
 describe('New EPubModal', () => {
     const noop = () => ({});
@@ -15,8 +21,12 @@ describe('New EPubModal', () => {
 
         expect(screen.getByText("CREATE NEW I-Note")).toBeVisible();
         expect(screen.getByText("I-Note Title")).toBeVisible();
-        expect(screen.queryByText("I-Note Language")).toBeVisible(); 
-        // because we have no languages
+        
+        expect(mockSelect).toHaveBeenCalledWith(
+            expect.objectContaining({
+                options: []
+            })
+        );
     });
 
     test('it renders given list of languages and uniquely', () => {
@@ -28,5 +38,11 @@ describe('New EPubModal', () => {
             LanguageConstants.French
         ]
         render(<NewEPubModal languages={languages} {...baseProps} />);
+
+        expect(mockSelect).toHaveBeenCalledWith(
+            expect.objectContaining({
+                options: languages
+            })
+        );
     });
 });
