@@ -2,7 +2,8 @@
   "parser": "babel-eslint",
   "extends": ["airbnb", "prettier"],
   "env": {
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "rules": {
     "prefer-const": "off",
@@ -74,6 +75,7 @@
     "react/no-unused-prop-types": "off",
     "react/no-unused-state": "off",
     "react/no-did-update-set-state": ["warn"],
+    "react/react-in-jsx-scope": "off", // This is only required in older versions of React
     "react/sort-comp": "off",
     "react/require-default-props": "off",
     "react/no-array-index-key": "warn",
