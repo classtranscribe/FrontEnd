@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { LanguageConstants } from 'components/CTPlayer';
 import NewEPubModal from './NewEPubModal';
 
@@ -14,7 +14,8 @@ describe('New EPubModal', () => {
         onClose: jest.fn(),
         onCreate: jest.fn(),
         defaultTitle: ""
-    }
+    };
+
     test('it renders with no languages', () => {
         render(<NewEPubModal {...baseProps} />);
 
