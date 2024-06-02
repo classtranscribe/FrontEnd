@@ -35,7 +35,6 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
     }
 
     return `${instructor.firstName || ''} ${instructor.lastName || ''}`.trim();;
-    
   }
 
   return (
