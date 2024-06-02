@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
-import InstructorList from './InstructorList';
 import * as KeyCode from 'keycode-js';
+import InstructorList from './InstructorList';
 
 describe('Instructor List', () => {
     const universityName = 'University of Test'
@@ -15,7 +15,7 @@ describe('Instructor List', () => {
     const numberOfInstructors = () => screen.queryAllByText(`University: ${universityName}`).length
 
     test('it renders', () => {
-        render(<InstructorList {...baseProps} instructors={[]}/>);
+        render(<InstructorList {...baseProps} instructors={[]} />);
 
         expect(numberOfInstructors()).toBe(0);
     });
