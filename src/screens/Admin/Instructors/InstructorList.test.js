@@ -35,7 +35,6 @@ describe('Instructor List', () => {
         expect(screen.getByText("Harsh Deep")).toBeVisible();
         expect(screen.getByText("Alan")).toBeVisible();
         expect(screen.getByText("Unknown Turing")).toBeVisible(); 
-        // do we want to still show unknown if we have a last name? - todo: make an issue
 
         expect(screen.getByText("Email: harsh@example.com")).toBeVisible();
         expect(screen.getByText("Email: alan@example.com")).toBeVisible();
