@@ -47,6 +47,9 @@ jobs:
         run: |
           yarn lint:quiet
 
+      - name: Run tests
+        run: yarn test
+
       - name: Compile application
         env:
           CI: false
