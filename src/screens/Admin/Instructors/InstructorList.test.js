@@ -11,13 +11,13 @@ describe('Instructor List', () => {
         onInactive: jest.fn()
     };
 
-    const formatUniversityName = (universityName) => `University: ${universityName}`
-    // maybe a getNumberOfInstructors function instead
+    // All instructors have the same univeristy display in common
+    const numberOfInstructors = () => screen.queryAllByText(`University: ${universityName}`).length
 
     test('it renders', () => {
         render(<InstructorList {...baseProps} instructors={[]}/>);
 
-        expect(screen.queryByText(formatUniversityName(universityName))).toBeNull();
+        expect(numberOfInstructors()).toBe(0);
     });
 
     // Note: only setting up fields we use for display, add more as needed
@@ -30,7 +30,7 @@ describe('Instructor List', () => {
     test('it shows all instructors', () => {
         render(<InstructorList {...baseProps} instructors={instructors} />);
 
-        expect(screen.getAllByText(formatUniversityName(universityName))).toHaveLength(3);
+        expect(numberOfInstructors()).toBe(3);
 
         expect(screen.getByText("Harsh Deep")).toBeVisible();
         expect(screen.getByText("Alan")).toBeVisible();
@@ -53,7 +53,7 @@ describe('Instructor List', () => {
         await userEvent.type(searchField, "Harsh");      
         await userEvent.click(searchButton);
 
-        expect(screen.getAllByText(formatUniversityName(universityName))).toHaveLength(1);
+        expect(numberOfInstructors()).toBe(1);
         expect(screen.getByText("Harsh Deep")).toBeVisible();
         
         // Last Name
@@ -61,7 +61,7 @@ describe('Instructor List', () => {
         await userEvent.type(searchField, "Turing");      
         await userEvent.click(searchButton);
 
-        expect(screen.getAllByText(formatUniversityName(universityName))).toHaveLength(1);
+        expect(numberOfInstructors()).toBe(1);
         expect(screen.getByText("Unknown Turing")).toBeVisible();
 
         // Email
@@ -69,12 +69,12 @@ describe('Instructor List', () => {
         await userEvent.type(searchField, "alan@example");      
         await userEvent.click(searchButton);
 
-        expect(screen.getAllByText(formatUniversityName(universityName))).toHaveLength(1);
+        expect(numberOfInstructors()).toBe(1);
         expect(screen.getByText("Alan")).toBeVisible();
 
         // Reset
         await userEvent.click(resetButton);
         expect(searchField.value).toBe("");
-        expect(screen.getAllByText(formatUniversityName(universityName))).toHaveLength(3);
+        expect(numberOfInstructors()).toBe(3);
     });
 });
