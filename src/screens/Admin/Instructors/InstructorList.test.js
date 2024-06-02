@@ -34,7 +34,7 @@ describe('Instructor List', () => {
 
         expect(screen.getByText("Harsh Deep")).toBeVisible();
         expect(screen.getByText("Alan")).toBeVisible();
-        expect(screen.getByText("Unknown Turing")).toBeVisible(); 
+        expect(screen.getByText("Turing")).toBeVisible(); 
 
         expect(screen.getByText("Email: harsh@example.com")).toBeVisible();
         expect(screen.getByText("Email: alan@example.com")).toBeVisible();
@@ -61,7 +61,7 @@ describe('Instructor List', () => {
         await userEvent.click(searchButton);
 
         expect(numberOfInstructors()).toBe(1);
-        expect(screen.getByText("Unknown Turing")).toBeVisible();
+        expect(screen.getByText("Turing")).toBeVisible();
 
         // Email
         await userEvent.clear(searchField);
