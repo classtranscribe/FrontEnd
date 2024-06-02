@@ -30,11 +30,12 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
   };
 
   const formatInstructorName = (instructor) => {
-    if(instructor.firstName || instructor.lastName) {
-      return `${instructor.firstName || ''} ${instructor.lastName || ''}`.trim();
-    } else {
-      return "Unknown";
+    if (!(instructor.firstName || instructor.lastName)) {
+      return "Unknown"; 
     }
+
+    return `${instructor.firstName || ''} ${instructor.lastName || ''}`.trim();;
+    
   }
 
   return (
