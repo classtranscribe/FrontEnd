@@ -29,6 +29,14 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
     setSearchText('');
   };
 
+  const formatInstructorName = (instructor) => {
+    if(instructor.firstName || instructor.lastName) {
+      return `${instructor.firstName || ''} ${instructor.lastName || ''}`.trim();
+    } else {
+      return "Unknown";
+    }
+  }
+
   return (
     <>
       <div className="filter">
@@ -48,7 +56,7 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
       </div>
       {result.map((inst) => (
         <AdminListItem
-          header={`${inst.firstName || 'Unknown'} ${inst.lastName || ''}`}
+          header={formatInstructorName(inst)}
           path="instructor"
           inactive={() => onInactive(inst.email)}
           loading={loading}
