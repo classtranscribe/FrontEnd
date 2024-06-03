@@ -7,10 +7,9 @@
     "url": "git+ssh://github.com/classtranscribe/FrontEnd.git"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js",
     "predeploy": "npm run build",
     "lint": "cross-env NODE_ENV=production eslint .",
     "lint:quiet": "yarn lint --quiet",
@@ -37,24 +36,48 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.24.5",
+    "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.24.5",
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.54",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@svgr/webpack": "^5.5.0",
     "adm-zip": "^0.4.16",
     "auth0-js": "^9.21.0",
     "autosize": "^4.0.2",
     "axios": "^1.6.2",
+    "babel-jest": "^27.4.2",
+    "babel-loader": "^8.2.3",
+    "babel-plugin-named-asset-import": "^0.3.8",
+    "babel-preset-react-app": "^10.0.1",
+    "bfj": "^7.0.2",
     "bootstrap": "4.6.2",
     "braft-editor": "^2.3.9",
+    "browserslist": "^4.18.1",
+    "camelcase": "^6.2.1",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "commander": "^7.1.0",
+    "css-loader": "^6.5.1",
+    "css-minimizer-webpack-plugin": "^3.2.0",
     "dentist": "^1.0.3",
+    "dotenv": "^10.0.0",
+    "dotenv-expand": "^5.1.0",
     "dva": "^2.4.1",
+    "eslint": "^8.3.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-webpack-plugin": "^3.1.1",
+    "file-loader": "^6.2.0",
+    "fs-extra": "^10.0.0",
     "harmony-reflect": "^1.6.1",
     "highlight.js": "^10.0.1",
     "history": "^5.0.0",
     "hls.js": "^1.0.2",
+    "html-webpack-plugin": "^5.5.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.4.3",
+    "jest-resolve": "^27.4.2",
+    "jest-watch-typeahead": "^1.0.0",
     "jquery": "^3.5.1",
     "js-file-download": "^0.4.9",
     "jspdf": "^2.4.0",
@@ -63,19 +86,28 @@
     "kind-of": "^6.0.3",
     "lodash": "^4.17.21",
     "mdx.macro": "^0.2.9",
+    "mini-css-extract-plugin": "^2.4.5",
     "mk-guide": "^1.10.5",
     "moment": "^2.29.4",
     "papaparse": "^5.2.0",
     "pico-ui": "^0.0.13",
     "popper.js": "^1.16.1",
+    "postcss": "^8.4.4",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^6.2.1",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^7.0.1",
     "prismjs": "^1.27.0",
+    "prompts": "^2.4.2",
     "prop-types": "^15.7.2",
     "raw.macro": "^0.4.2",
     "react": "^16.12.0",
     "react-ace": "^8.1.0",
+    "react-app-polyfill": "^3.0.0",
     "react-beautiful-dnd": "^13.0.0",
     "react-bootstrap": "^2.7.4",
     "react-dates": "^20.3.0",
+    "react-dev-utils": "^12.0.1",
     "react-device-detect": "^1.11.14",
     "react-dom": "^16.12.0",
     "react-draggable": "^3.3.2",
@@ -85,8 +117,8 @@
     "react-meta-tags": "^0.7.4",
     "react-overflow-wrapper": "^0.4.3",
     "react-redux": "^8.1.1",
+    "react-refresh": "^0.11.0",
     "react-router-dom": "^6.14.1",
-    "react-scripts": "5.0.1",
     "react-semantic-ui-range": "^0.7.1",
     "react-speech-kit": "^3.0.1",
     "react-tabs": "^4.2.1",
@@ -94,12 +126,24 @@
     "react-with-direction": "^1.3.1",
     "reduce": "^1.0.2",
     "redux-logger": "^3.0.6",
+    "resolve": "^1.20.0",
+    "resolve-url-loader": "^4.0.0",
     "rsuite": "5.24.1",
+    "sass-loader": "^12.3.0",
     "semantic-ui-react": "^2.1.5",
+    "semver": "^7.3.5",
     "showdown": "^1.9.1",
     "showdown-katex": "^0.8.0",
+    "source-map-loader": "^3.0.0",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3.0.2",
+    "terser-webpack-plugin": "^5.2.5",
     "uuid": "^9.0.0",
-    "winston": "^3.3.3"
+    "webpack": "^5.64.4",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-manifest-plugin": "^4.0.2",
+    "winston": "^3.3.3",
+    "workbox-webpack-plugin": "^6.4.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -125,8 +169,62 @@
     "react-error-overlay": "6.0.9"
   },
   "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "modulePaths": [
+      "/Users/harsh183/Experiments/FrontEnd/src"
+    ],
     "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
       "^axios$": "axios/dist/node/axios.cjs"
-    }
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "resetMocks": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
   }
 }
