@@ -7,7 +7,7 @@ import './stylesheets/general.class.css';
 import './stylesheets/sidebar.css';
 import './stylesheets/csstrans.playlist-video.css';
 import './stylesheets/sk-loader.css';
-import './stylesheets/semantic-ui-css/semantic-ui.min.css';
+import 'semantic-ui-css/semantic.min.css'
 import './index.css';
 
 export { SignInPrompt } from './SignInPrompt';

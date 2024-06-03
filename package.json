@@ -134,6 +134,7 @@
     "resolve-url-loader": "^4.0.0",
     "rsuite": "5.24.1",
     "sass-loader": "^12.3.0",
+    "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
     "semver": "^7.3.5",
     "showdown": "^1.9.1",
