@@ -209,7 +209,7 @@
       "^.+\\.module\\.(css|sass|scss)$"
     ],
     "modulePaths": [
-      "/Users/harsh183/Experiments/FrontEnd/src"
+      "src"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
