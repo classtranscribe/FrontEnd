@@ -1,10 +1,10 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
-const paths = require('./paths');
 const chalk = require('react-dev-utils/chalk');
 const resolve = require('resolve');
+const paths = require('./paths');
 
 /**
  * Get additional module paths based on the baseUrl of a compilerOptions object.
@@ -124,7 +124,7 @@ function getModules() {
   const additionalModulePaths = getAdditionalModulePaths(options);
 
   return {
-    additionalModulePaths: additionalModulePaths,
+    additionalModulePaths,
     webpackAliases: getWebpackAliases(options),
     jestAliases: getJestAliases(options),
     hasTsConfig,

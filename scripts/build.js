@@ -1,4 +1,4 @@
-'use strict';
+
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'production';
@@ -20,8 +20,6 @@ const chalk = require('react-dev-utils/chalk');
 const fs = require('fs-extra');
 const bfj = require('bfj');
 const webpack = require('webpack');
-const configFactory = require('../config/webpack.config');
-const paths = require('../config/paths');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
@@ -53,6 +51,9 @@ const config = configFactory('production');
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
+const paths = require('../config/paths');
+const configFactory = require('../config/webpack.config');
+
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
     // First, read the current file sizes in build directory.
@@ -74,14 +75,14 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log(chalk.yellow('Compiled with warnings.\n'));
         console.log(warnings.join('\n\n'));
         console.log(
-          '\nSearch for the ' +
-            chalk.underline(chalk.yellow('keywords')) +
-            ' to learn more about each warning.'
+          `\nSearch for the ${ 
+            chalk.underline(chalk.yellow('keywords')) 
+            } to learn more about each warning.`
         );
         console.log(
-          'To ignore, add ' +
-            chalk.cyan('// eslint-disable-next-line') +
-            ' to the line before.\n'
+          `To ignore, add ${ 
+            chalk.cyan('// eslint-disable-next-line') 
+            } to the line before.\n`
         );
       } else {
         console.log(chalk.green('Compiled successfully.\n'));
@@ -150,8 +151,8 @@ function build(previousFileSizes) {
         // Add additional information for postcss errors
         if (Object.prototype.hasOwnProperty.call(err, 'postcssNode')) {
           errMessage +=
-            '\nCompileError: Begins at CSS selector ' +
-            err['postcssNode'].selector;
+            `\nCompileError: Begins at CSS selector ${ 
+            err.postcssNode.selector}`;
         }
 
         messages = formatWebpackMessages({
@@ -194,7 +195,7 @@ function build(previousFileSizes) {
 
       if (writeStatsJson) {
         return bfj
-          .write(paths.appBuild + '/bundle-stats.json', stats.toJson())
+          .write(`${paths.appBuild }/bundle-stats.json`, stats.toJson())
           .then(() => resolve(resolveArgs))
           .catch(error => reject(new Error(error)));
       }

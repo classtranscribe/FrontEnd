@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -79,6 +79,7 @@ const hasJsxRuntime = (() => {
 
 // https://stackoverflow.com/a/78005686
 const crypto = require("crypto");
+
 const crypto_orig_createHash = crypto.createHash;
 crypto.createHash = algorithm => crypto_orig_createHash(algorithm == "md4" ? "sha256" : algorithm);
 
@@ -564,13 +565,11 @@ module.exports = function (webpackEnv) {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
-        Object.assign(
-          {},
-          {
-            inject: true,
+        {
+          
+          inject: true,
             template: paths.appHtml,
-          },
-          isEnvProduction
+          ...(isEnvProduction
             ? {
                 minify: {
                   removeComments: true,
@@ -585,8 +584,8 @@ module.exports = function (webpackEnv) {
                   minifyURLs: true,
                 },
               }
-            : undefined
-        )
+            : undefined)
+        }
       ),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
