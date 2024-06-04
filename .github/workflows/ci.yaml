@@ -47,9 +47,8 @@ jobs:
         run: |
           yarn lint:quiet
 
-      # https://stackoverflow.com/a/54314658
       - name: Run tests
-        run: NODE_PATH=. yarn test
+        run: yarn test
 
       - name: Compile application
         env:
