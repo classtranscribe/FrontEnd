@@ -1,3 +1,6 @@
+/* eslint-disable import/order */
+/* eslint-disable object-shorthand */
+
 'use strict';
 
 const fs = require('fs');

@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/order */
+/* eslint-disable import/newline-after-import */
+
 'use strict';
 
 // Do this as the first thing so that any code reading it knows the right env.

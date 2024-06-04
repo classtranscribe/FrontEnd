@@ -1,6 +1,9 @@
 /* eslint-disable radix */
 /* eslint-disable eqeqeq */
 /* eslint-disable import/order */
+/* eslint-disable import/newline-after-import */
+/* eslint-disable prefer-object-spread */
+
 'use strict';
 
 const fs = require('fs');
@@ -29,9 +32,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-
 const postcssNormalize = require('postcss-normalize');
-
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
