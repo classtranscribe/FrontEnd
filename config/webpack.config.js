@@ -1,4 +1,6 @@
-
+/* eslint-disable radix */
+/* eslint-disable eqeqeq */
+/* eslint-disable import/order */
 
 const fs = require('fs');
 const path = require('path');
