@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
-import { search } from 'utils';
+import { search } from '../../../utils/search/index.js'
 import * as KeyCode from 'keycode-js';
 import { AdminListItem } from '../Components';
 
