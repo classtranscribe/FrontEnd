@@ -80,6 +80,7 @@
     "react/require-default-props": "off",
     "react/no-array-index-key": "warn",
     "react/jsx-indent": "warn", // why is vscode incorrectly autoindenting?
-    "react/jsx-closing-tag-location": "warn" // why is vscode incorrectly autoindenting?
+    "react/jsx-closing-tag-location": "warn", // why is vscode incorrectly autoindenting?
+    "strict": "off"
   }
 }

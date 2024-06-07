@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { LanguageConstants } from 'components/CTPlayer';
+import { LanguageConstants } from '../../CTPlayer/index.js'
 import NewEPubModal from './NewEPubModal';
 
 const mockSelect = jest.fn();
