@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import $ from 'jquery';
 import { Button } from 'semantic-ui-react';
-import { search } from 'utils';
 import * as KeyCode from 'keycode-js';
+
+import { search } from 'utils/search/index.js'
 import { AdminListItem } from '../Components';
 
 export default function InstructorList({ instructors, loading, currUni, onInactive }) {
   const [result, setResult] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     setResult(instructors);
@@ -15,7 +16,7 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
   const onSearch = (keyCode) => {
     if (keyCode === KeyCode.KEY_RETURN) {
       setResult(
-        search.getResults(instructors, $('#inst-filter')[0].value, [
+        search.getResults(instructors, searchText, [
           'firstName',
           'lastName',
           'email',
@@ -26,8 +27,16 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
 
   const onReset = () => {
     setResult(instructors);
-    $('#inst-filter')[0].value = '';
+    setSearchText('');
   };
+
+  const formatInstructorName = (instructor) => {
+    if (!(instructor.firstName || instructor.lastName)) {
+      return "Unknown"; 
+    }
+
+    return `${instructor.firstName || ''} ${instructor.lastName || ''}`.trim();;
+  }
 
   return (
     <>
@@ -36,6 +45,8 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
           <input
             id="inst-filter"
             placeholder="Name or email"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={({ keyCode }) => {
               return onSearch(keyCode);
             }}
@@ -46,7 +57,7 @@ export default function InstructorList({ instructors, loading, currUni, onInacti
       </div>
       {result.map((inst) => (
         <AdminListItem
-          header={`${inst.firstName || 'Unknown'} ${inst.lastName || ''}`}
+          header={formatInstructorName(inst)}
           path="instructor"
           inactive={() => onInactive(inst.email)}
           loading={loading}

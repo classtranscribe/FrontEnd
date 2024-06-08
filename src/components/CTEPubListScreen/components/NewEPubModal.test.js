@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { LanguageConstants } from 'components/CTPlayer';
+import { render, screen } from '@testing-library/react';
+import { LanguageConstants } from '../../CTPlayer/index.js'
 import NewEPubModal from './NewEPubModal';
 
 const mockSelect = jest.fn();
@@ -14,7 +14,8 @@ describe('New EPubModal', () => {
         onClose: jest.fn(),
         onCreate: jest.fn(),
         defaultTitle: ""
-    }
+    };
+
     test('it renders with no languages', () => {
         render(<NewEPubModal {...baseProps} />);
 

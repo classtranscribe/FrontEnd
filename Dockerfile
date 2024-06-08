@@ -5,10 +5,13 @@ FROM node:18 AS frontend
 
 WORKDIR /frontend
 
-COPY package.json yarn.lock  getDefaultConfig.js changeBackend.js /frontend/
+COPY scripts scripts/
+COPY config config/
+
+COPY package.json yarn.lock jsconfig.json getDefaultConfig.js changeBackend.js /frontend/
 RUN yarn && yarn install
 
-COPY jsconfig.json .
+# COPY jsconfig.json .
 COPY public/ public/
 COPY src/ src/
 
