@@ -677,6 +677,10 @@ module.exports = function (webpackEnv) {
       // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
       // You can remove this if you don't use Moment.js:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+      // https://github.com/cthackers/adm-zip/issues/242 - original-fs is a dependency required for electron 
+      // that is unfixed in the original repo
+      new webpack.IgnorePlugin(/original-fs/, /adm-zip/),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the webpack build.
       isEnvProduction &&
