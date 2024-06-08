@@ -1,8 +1,7 @@
 # ----------------------------------------------------------------------
 # COMPILE REACT APP
 # ----------------------------------------------------------------------
-FROM node:18 AS frontend
-
+FROM --platform=$BUILDPLATFORM node:18 AS frontend
 WORKDIR /frontend
 
 COPY scripts scripts/
