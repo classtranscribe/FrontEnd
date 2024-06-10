@@ -249,7 +249,7 @@ const GlossaryTable = props => {
               </th> */}
                
               <th>LIKE</th>
-              { /* Not sure why this triggers the input label accessibility role, might be a library bug since it's just a space*/}
+              { /* Not sure why this triggers the input label accessibility role, might be a library bug since it's just a space */}
               { /* eslint-disable jsx-a11y/control-has-associated-label */ }
               <th>&nbsp;</th>
               { /* eslint-enable jsx-a11y/control-has-associated-label */ }
