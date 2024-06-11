@@ -204,7 +204,7 @@
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
       "^.+\\.module\\.(css|sass|scss)$",
-      "node_modules\/(?!axios)"
+      "node_modules/(?!axios)"
     ],
     "modulePaths": [
       "src"
