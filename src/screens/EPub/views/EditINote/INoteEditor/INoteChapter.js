@@ -6,6 +6,7 @@ import { connect } from 'dva'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
 import { timestr } from 'utils';
+import { v4 as uuidv4 } from 'uuid';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
 import {epub as epubTools} from '../../../controllers';
 
@@ -246,64 +247,66 @@ function INoteChapter ({
           </CTFragment>
         
         ) : (// If the chapter has elements, then iterate through all of them
-          chapter.contents.map((content, itemIdx) => (
-            <CTFragment key={itemIdx}>
-              <CTFragment className="item-actions">
-                {mergeChapterBtnElement(itemIdx)}
-                {splitBtnElement(itemIdx)}
-                {addImgElement(itemIdx)}
-                {addTextElement(itemIdx)}
-                {watchVideoElement(itemIdx)}
-              </CTFragment>
+          chapter.contents.map((content, itemIdx) => { 
+            const uuid = uuidv4();
+            return (
+              <CTFragment key={`ch-content-${chapter.id}-${uuid}`}>
+                <CTFragment className="item-actions">
+                  {mergeChapterBtnElement(itemIdx)}
+                  {splitBtnElement(itemIdx)}
+                  {addImgElement(itemIdx)}
+                  {addTextElement(itemIdx)}
+                  {watchVideoElement(itemIdx)}
+                </CTFragment>
 
-              {typeof content === "object" ? ( // image
-                <CTFragment className='img-con'>   
-                  <ChapterImage 
+                {typeof content === "object" ? ( // image
+                  <CTFragment className='img-con'>   
+                    <ChapterImage 
+                      id={`ch-content-${chapter.id}-${itemIdx}`}
+                      image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
+                      enableChapterScreenshots
+                      onChooseImage={onImageChange(itemIdx)}
+                      onRemoveImage={onRemove(itemIdx)}
+                    />
+                    <Dialog
+                      open={dialogOpen}
+                      onClose={handleNo}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">
+                        Delete Image Block
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          Do you want to delete the Image Block?
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleNo} autoFocus>NO</Button>
+                        <Button onClick={handleYes}>YES</Button>
+                      </DialogActions>
+                    </Dialog> 
+                  </CTFragment> 
+              ) : ( // text 
+                <CTFragment className='item-text'>   
+                  <ChapterText  
                     id={`ch-content-${chapter.id}-${itemIdx}`}
-                    image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
-                    enableChapterScreenshots
-                    onChooseImage={onImageChange(itemIdx)}
-                    onRemoveImage={onRemove(itemIdx)}
+                    text={content}
+                    onSaveText={onTextChange(itemIdx)}
                   />
-                  <Dialog
-                    open={dialogOpen}
-                    onClose={handleNo}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                  >
-                    <DialogTitle id="alert-dialog-title">
-                      Delete Image Block
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        Do you want to delete the Image Block?
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleNo} autoFocus>NO</Button>
-                      <Button onClick={handleYes}>YES</Button>
-                    </DialogActions>
-                  </Dialog> 
-                </CTFragment> 
-            ) : ( // text 
-              <CTFragment className='item-text'>   
-                <ChapterText  
-                  id={`ch-content-${chapter.id}-${itemIdx}`}
-                  text={content}
-                  onSaveText={onTextChange(itemIdx)}
-                />
-              </CTFragment>  
-          )}  
-              {itemIdx === chapter.contents.length - 1 && ( 
-              <CTFragment className="item-actions">
-                {mergeChapterBtnElement(chapter.contents.length)}
-                {splitBtnElement(chapter.contents.length)}
-                {addImgElement(chapter.contents.length)}
-                {addTextElement(chapter.contents.length)}
-                {watchVideoElement(chapter.contents.length)}
-              </CTFragment>)}
-            </CTFragment>
-        )))}
+                </CTFragment>  
+              )}  
+                {itemIdx === chapter.contents.length - 1 && ( 
+                <CTFragment className="item-actions">
+                  {mergeChapterBtnElement(chapter.contents.length)}
+                  {splitBtnElement(chapter.contents.length)}
+                  {addImgElement(chapter.contents.length)}
+                  {addTextElement(chapter.contents.length)}
+                  {watchVideoElement(chapter.contents.length)}
+                </CTFragment>)}
+              </CTFragment>
+            )}))}
       </CTFragment>
 
       {insertType !== null && (
