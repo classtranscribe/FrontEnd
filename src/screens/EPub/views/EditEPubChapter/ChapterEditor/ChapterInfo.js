@@ -1,5 +1,6 @@
 import React from 'react';
 import { CTFragment } from 'layout';
+import { v4 as uuidv4 } from 'uuid';
 import { epub } from '../../../controllers';
 import { ChapterTitle } from '../../../components';
 import ChapterContent from './ChapterContent';
@@ -59,20 +60,22 @@ function ChapterInfo({ chapter, currChIndex, dispatch }) {
         onSave={onSaveTitle}
       />
 
-      {contents.map((content, index) => (
-        <ChapterContent
-          id={`ch-content-${id}-${index}`}
-          key={`ch-content-${id}-${index}`}
-          index={index}
-          condition={condition}
-          dispatch={dispatch}
-          content={content}
-          onInsert={onInsert(index)}
-          onRemove={onRemove(index)}
-          onTextChange={onTextChange(index)}
-          onImageChange={onImageChange(index)}
-        />
-      ))}
+      {contents.map((content, index) => { 
+        const uuid = uuidv4();
+        return (
+          <ChapterContent
+            id={`ch-content-${id}-${index}`}
+            key={`ch-content-${id}-${uuid}`}
+            index={index}
+            condition={condition}
+            dispatch={dispatch}
+            content={content}
+            onInsert={onInsert(index)}
+            onRemove={onRemove(index)}
+            onTextChange={onTextChange(index)}
+            onImageChange={onImageChange(index)}
+          />
+        )})}
 
       <ChapterNewContent onInsert={onInsert(contents.length)} />
     </CTFragment>

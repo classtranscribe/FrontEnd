@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import { CTFragment } from 'layout';
+import { v4 as uuidv4 } from 'uuid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
@@ -24,7 +25,7 @@ let Tags = ({data, handleDelete}) => {
   }
 
   return (
-    <Box style={boxstyle}>
+    <Box style={boxstyle} data-testid="tag">
       <Typography style={tagstyle}>{data}</Typography>
       <Cancel
         style={tagstyle}
@@ -102,9 +103,11 @@ const ChapterContent = ({
           placeholder={tags.length < 5 ? "Enter tags" : ""} // tagging specific parts of the book ie. solutions
         />  
         <CTFragment alignItCenter>
-          {tags.map((data) => (
-            <Tags data={data} handleDelete={handleDelete} key={data} />
-            ))}
+          {tags.map((data) => {
+            const uuid = uuidv4();
+            return (
+              <Tags data={data} handleDelete={handleDelete} key={`tag-${id}-${uuid}`} />
+            )})}
         </CTFragment>
             
           

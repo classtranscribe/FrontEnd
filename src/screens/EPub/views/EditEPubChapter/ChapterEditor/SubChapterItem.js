@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { CTFragment, CTText } from 'layout';
+import { v4 as uuidv4 } from 'uuid';
 import { epub } from '../../../controllers';
 import { ChapterTitle } from '../../../components';
 import ChapterContent from './ChapterContent';
@@ -66,18 +67,20 @@ function SubChapterItem({
         onSave={onSaveTitle}
       />
 
-      {contents.map((content, index) => (
-        <ChapterContent
-          id={`sch-content-${id}-${index}`}
-          key={`sch-content-${id}-${index}`}
-          index={index}
-          content={content}
-          onInsert={onInsert(index)}
-          onRemove={onRemove(index)}
-          onTextChange={onTextChange(index)}
-          onImageChange={onImageChange(index)}
-        />
-      ))}
+      {contents.map((content, index) => { 
+        const uuid = uuidv4();
+        return (
+          <ChapterContent
+            id={`sch-content-${id}-${index}`}
+            key={`sch-content-${id}-${uuid}`}
+            index={index}
+            content={content}
+            onInsert={onInsert(index)}
+            onRemove={onRemove(index)}
+            onTextChange={onTextChange(index)}
+            onImageChange={onImageChange(index)}
+          />
+        )})}
       
       <ChapterNewContent index={subChapter.contents.length} onInsert={onInsert(contents.length)} />
     </CTFragment>
