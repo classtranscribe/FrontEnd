@@ -104,7 +104,7 @@ const ChapterContent = ({
         />  
         <CTFragment alignItCenter>
           {tags.map((data) => 
-            (<Tags data={data} handleDelete={handleDelete} key={`tag-${id}-${uuidv4()}`}/>)
+            (<Tags data={data} handleDelete={handleDelete} key={`tag-${id}-${uuidv4()}`} />)
           )}
         </CTFragment>
             
