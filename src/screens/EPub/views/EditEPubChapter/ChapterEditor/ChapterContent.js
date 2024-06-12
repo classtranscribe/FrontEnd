@@ -25,7 +25,7 @@ let Tags = ({data, handleDelete}) => {
   }
 
   return (
-    <Box style={boxstyle} data-testid="tag">
+    <Box style={boxstyle} data-testid="ChapterContent-test-tag">
       <Typography style={tagstyle}>{data}</Typography>
       <Cancel
         style={tagstyle}
@@ -103,11 +103,9 @@ const ChapterContent = ({
           placeholder={tags.length < 5 ? "Enter tags" : ""} // tagging specific parts of the book ie. solutions
         />  
         <CTFragment alignItCenter>
-          {tags.map((data) => {
-            const uuid = uuidv4();
-            return (
-              <Tags data={data} handleDelete={handleDelete} key={`tag-${id}-${uuid}`} />
-            )})}
+          {tags.map((data) => 
+            (<Tags data={data} handleDelete={handleDelete} key={`tag-${id}-${uuidv4()}`}/>)
+          )}
         </CTFragment>
             
           
