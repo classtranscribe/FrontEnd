@@ -23,7 +23,7 @@ describe('INoteChapter Component', () => {
   it('should render INoteChapter components with correct keys', () => {
     render(<INoteChapter {...baseProps} />);
 
-    const contents = getAllByTestId('content');
+    const contents = screen.getAllByTestId('content');
     contents.forEach((content) => {
       expect(content).toHaveAttribute('key', `ch-content-chapter-id-1-${test_uuid}}`);
     });

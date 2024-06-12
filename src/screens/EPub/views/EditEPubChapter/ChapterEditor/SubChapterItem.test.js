@@ -22,7 +22,7 @@ describe('SubChapterItem Component', () => {
     // Invariant Violation: Could not find "store"
     render(<SubChapterItem {...baseProps} />);
 
-    const contents = getAllByTestId('SubChapterItem-test-tag');
+    const contents = screen.getAllByTestId('SubChapterItem-test-tag');
     contents.forEach((content) => {
       expect(content).toHaveAttribute('key', `sch-content-chapter-id-1-${test_uuid}}`);
     });

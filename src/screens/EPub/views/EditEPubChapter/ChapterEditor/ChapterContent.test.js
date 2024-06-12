@@ -39,9 +39,9 @@ describe('ChapterContent Component', () => {
       });
   
     it('should render Tags components with correct keys', () => {
-      const { getAllByTestId } = render(<ChapterContent {...props} />);
+      render(<ChapterContent {...props} />);
       
-      const tags = getAllByTestId('ChapterContent-test-tag');
+      const tags = screen.getAllByTestId('ChapterContent-test-tag');
       tags.forEach((tag) => {
         expect(tag).toHaveAttribute('key', `tag-${props.key}-${test_uuid}`);
       });

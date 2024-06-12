@@ -21,7 +21,7 @@ describe('ChapterInfo Component', () => {
     // Invariant Violation: Could not find "store"
     render(<ChapterInfo {...baseProps} />);
 
-    const contents = getAllByTestId('ChapterInfo-test-tag');
+    const contents = screen.getAllByTestId('ChapterInfo-test-tag');
     contents.forEach((content) => {
       expect(content).toHaveAttribute('key', `ch-content-chapter-id-1-${test_uuid}`);
     });
