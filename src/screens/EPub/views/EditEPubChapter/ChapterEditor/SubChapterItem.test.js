@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import SubChapterItem from './SubChapterItem';
 import { v4 as uuidv4 } from 'uuid';
+import SubChapterItem from './SubChapterItem';
 
 const test_uuid = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
 
@@ -22,7 +22,7 @@ describe('SubChapterItem Component', () => {
     // Invariant Violation: Could not find "store"
     render(<SubChapterItem {...baseProps} />);
 
-    const contents = getAllByTestId('content');
+    const contents = getAllByTestId('SubChapterItem-test-tag');
     contents.forEach((content) => {
       expect(content).toHaveAttribute('key', `sch-content-chapter-id-1-${test_uuid}}`);
     });

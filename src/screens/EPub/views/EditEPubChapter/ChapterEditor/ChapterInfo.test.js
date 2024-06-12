@@ -17,11 +17,11 @@ describe('ChapterInfo Component', () => {
         dispatch: jest.fn()
     };
 
-  it('should render ChapterContent components with correct keys', () => {
+  it('should render ChapterInfo components with correct keys', () => {
     // Invariant Violation: Could not find "store"
     render(<ChapterInfo {...baseProps} />);
 
-    const contents = getAllByTestId('content');
+    const contents = getAllByTestId('ChapterInfo-test-tag');
     contents.forEach((content) => {
       expect(content).toHaveAttribute('key', `ch-content-chapter-id-1-${test_uuid}`);
     });
