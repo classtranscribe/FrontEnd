@@ -8,12 +8,12 @@ import {
   NORMAL_MODE,
 } from '../../../Utils';
 
-export function ScreenModeSettingButtonWithRedux({ isFullscreen = false, mode = NORMAL_MODE, dispatch, menu }) {
+export function ScreenModeSettingButtonWithRedux({ mode = NORMAL_MODE, dispatch, menu }) {
   const handleMenuTrigger = () => {
-    if (isFullscreen === false) {
-      dispatch({type: 'watch/setFullscreen', payload: true });
+    if (menu !== MENU_SCREEN_MODE) {
+      dispatch({type: 'watch/menu_open', payload: { type: MENU_SCREEN_MODE } });
     } else {
-      dispatch({type: 'watch/setFullscreen', payload: false });
+      dispatch({type: 'watch/menu_close'});
     }
   };
 

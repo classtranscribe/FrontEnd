@@ -5,7 +5,9 @@ import './index.scss';
 function ScreenModeMenu({ mode = NORMAL_MODE, onClose = null, media = {}, dispatch }) {
   const handleChooseMode = (mode_) => () => {
     dispatch({ type: 'watch/setWatchMode', payload: { mode: mode_ } });
-    setTimeout(() => onClose(), 200);
+    // eslint-disable-next-line
+    console.log(mode);
+    // setTimeout(() => onClose(), 200);
   };
 
   const { isTwoScreen } = media;
@@ -30,7 +32,6 @@ function ScreenModeMenu({ mode = NORMAL_MODE, onClose = null, media = {}, dispat
             mode={screenMode.type}
             className="plain-btn watch-icon-listitem"
             aria-label={screenMode.name}
-            // active={Boolean(mode === screenMode.type).toString()}
             onClick={handleChooseMode(screenMode.type)}
             role="menuitem"
           >
