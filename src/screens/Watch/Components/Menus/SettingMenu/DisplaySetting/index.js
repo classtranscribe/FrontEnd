@@ -72,7 +72,7 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
     }
   }, [show]);
 
-  
+
   return (
     <form className="watch-menu-tab" id="display-settings" aria-label="Display Settings">
       <h2 className="watch-menu-tab-title">Display
@@ -93,24 +93,24 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
 
       <div className="w-100">
         <h3 className="watch-menu-tab-subtitle">Screen Mode:</h3>
-          {screenModes.map((screenMode) => (
-              <button
-                key={screenMode.type}
-                mode={screenMode.type}
-                className="plain-btn watch-icon-listitem"
-                aria-label={screenMode.name}
-                onClick={handleChooseMode(screenMode.type)}
-                role="menuitem"
-              >
-              <span tabIndex="-1" className='screen-mode-span'>
-                <i className="material-icons watch-icon-icon">{screenMode.icon}</i>
-                <div className="watch-icon-name">{screenMode.name}</div>
-                <div className="watch-icon-listitem-checkmark">
-                  {mode === screenMode.type && <i className="material-icons">check</i>}
-                </div>
-              </span>
-            </button>
-          ))}
+        {screenModes.map((screenMode) => (
+          <button
+            key={screenMode.type}
+            mode={screenMode.type}
+            className="plain-btn watch-icon-listitem"
+            aria-label={screenMode.name}
+            onClick={handleChooseMode(screenMode.type)}
+            role="menuitem"
+          >
+            <span tabIndex="-1" className='screen-mode-span'>
+              <i className="material-icons watch-icon-icon">{screenMode.icon}</i>
+              <div className="watch-icon-name">{screenMode.name}</div>
+              <div className="watch-icon-listitem-checkmark">
+                {mode === screenMode.type && <i className="material-icons">check</i>}
+              </div>
+            </span>
+          </button>
+        ))}
         <button
           key="switch-screens"
           mode="switch-screens"
