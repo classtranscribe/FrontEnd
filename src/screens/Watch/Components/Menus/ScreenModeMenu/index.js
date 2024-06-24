@@ -5,9 +5,7 @@ import './index.scss';
 function ScreenModeMenu({ mode = NORMAL_MODE, onClose = null, media = {}, dispatch }) {
   const handleChooseMode = (mode_) => () => {
     dispatch({ type: 'watch/setWatchMode', payload: { mode: mode_ } });
-    // eslint-disable-next-line
-    console.log(mode);
-    // setTimeout(() => onClose(), 200);
+    setTimeout(() => onClose(), 200);
   };
 
   const { isTwoScreen } = media;
