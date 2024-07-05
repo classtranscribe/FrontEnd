@@ -16,10 +16,11 @@ import {
   // // cc_positionOptions,
   // cc_fontOptions,
   // cc_sizeOptions,
-  getCCSelectOptions,screen_zoomOptions
+  getCCSelectOptions,PS_MODE,screen_zoomOptions,
+  screenModes,
 } from '../../../../Utils';
 
-function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, scale, dispatch, /* magnifyX, magnifyY */}) {
+function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, scale, dispatch, mode, isSwitched /* magnifyX, magnifyY */}) {
   const handleBrightness = ({ target: { value } }) => {
     dispatch({ type: 'playerpref/setPreference', payload: { brightness:  value} })
   };
@@ -51,14 +52,26 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
     dispatch({ type: 'playerpref/setPreference', payload: { scale: 1 } })
     dispatch({ type: 'playerpref/setPreference', payload: { magnifyX: 0 } })
     dispatch({ type: 'playerpref/setPreference', payload: { magnifyY: 0 } })
+    dispatch({ type: 'watch/setWatchMode', payload: { mode: PS_MODE } });
+    if (isSwitched) {
+      dispatch({ type: 'watch/switchVideo' });
+    }
   };
-  
+  const handleSwitch = (e) => {
+    e.preventDefault();
+    dispatch({ type: 'watch/switchVideo' });
+  };
+  const handleChooseMode = (mode_) => (e) => {
+    e.preventDefault();
+    dispatch({ type: 'watch/setWatchMode', payload: { mode: mode_ } });
+  };
 
   useEffect(() => {
     if (show) {
       document.getElementById('display-settings').scrollIntoView({ block: 'center' });
     }
   }, [show]);
+
 
   return (
     <form className="watch-menu-tab" id="display-settings" aria-label="Display Settings">
@@ -77,6 +90,44 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
         />
 
       </h3>
+
+      <div className="w-100">
+        <h3 className="watch-menu-tab-subtitle">Screen Mode:</h3>
+        {screenModes.map((screenMode) => (
+          <button
+            key={screenMode.type}
+            mode={screenMode.type}
+            className="plain-btn watch-icon-listitem"
+            aria-label={screenMode.name}
+            onClick={handleChooseMode(screenMode.type)}
+            role="menuitem"
+          >
+            <span tabIndex="-1" className='screen-mode-span'>
+              <i className="material-icons watch-icon-icon">{screenMode.icon}</i>
+              <div className="watch-icon-name">{screenMode.name}</div>
+              <div className="watch-icon-listitem-checkmark">
+                {mode === screenMode.type && <i className="material-icons">check</i>}
+              </div>
+            </span>
+          </button>
+        ))}
+        <button
+          key="switch-screens"
+          mode="switch-screens"
+          className="plain-btn watch-icon-listitem"
+          aria-label="switch-screens"
+          onClick={handleSwitch}
+          role="menuitem"
+        >
+          <span tabIndex="-1" className='screen-mode-span'>
+            <i className="material-icons watch-icon-icon">compare_arrows</i>
+            <div className="watch-icon-name"> Switch Screens </div>
+            <div className="watch-icon-listitem-checkmark">
+              {isSwitched && <i className="material-icons">check</i>}
+            </div>
+          </span>
+        </button>
+      </div>
   
       <div className="w-100">
         <h3 className="watch-menu-tab-subtitle">Brightness: {Math.floor( brightness * 100)}%</h3>
@@ -181,6 +232,8 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
     
   );
 }
-export default connect(({ playerpref: { brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY } }) => ({
-  brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY
+export default connect(({ playerpref: { brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY }, watch: { mode, isSwitched } }) => ({
+  brightness, contrast, rotateColor, invert, scale, mode, isSwitched, magnifyX, magnifyY
 }))(DisplaySetting);
+
+
