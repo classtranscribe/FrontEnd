@@ -29,7 +29,7 @@ function PlaylistsMenu({ onClose = null, media = {}, playlist = {} }) {
       {!isMobile && <PlaylistView currPlaylist={currPlaylist} setCurrPlaylist={setCurrPlaylist} />}
 
       {/* Videos view */}
-      <Videos currMediaId={currMediaId} currPlaylist={currPlaylist} />
+      <Videos currMediaId={currMediaId} media={media} currPlaylist={currPlaylist} />
     </div>
   );
 }

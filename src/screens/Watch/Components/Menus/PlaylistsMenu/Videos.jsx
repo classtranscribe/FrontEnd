@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { CTLoader } from 'layout';
+import { useButtonStyles, CTLoader } from 'layout';
 import { MediaCard } from 'components';
-import { elem } from 'utils';
+import Button from '@material-ui/core/Button';
+import cx from 'classnames';
+import { links, elem } from 'utils';
 import { connectWithRedux } from '../../../Utils';
 
 function Videos({
@@ -10,8 +12,11 @@ function Videos({
   currPlaylist = {},
 }) {
   let { medias } = currPlaylist;
+  const btn = useButtonStyles();
+  const btnClassName = cx(btn.tealLink, 'media-item-button');
 
   useEffect(() => {
+    // eslint-disable-next-line
     elem.scrollIntoCenter(currMediaId, {
       focus: true,
       alternate: () => elem.scrollIntoView('watch-videos-list'),
@@ -35,13 +40,22 @@ function Videos({
           <div className="w-100 d-flex justify-content-center align-items-center m-5">NO VIDEO</div>
         ) : (
               medias.map((me) => (
-                <MediaCard
-                  row
-                  dark
-                  posterSize="small"
-                  label={currMediaId === me.id ? 'NOW PLAYING' : null}
-                  {...MediaCard.parse(me)}
-                />
+                  <div className='playlist-item'>
+                    <MediaCard
+                      row
+                      dark
+                      posterSize="small"
+                      label={currMediaId === me.id ? 'NOW PLAYING' : null}
+                      {...MediaCard.parse(me)}
+                    />
+                    <Button
+                      className={btnClassName}
+                      startIcon={<i className="material-icons">import_contacts</i>}
+                      href={links.mspEpubSettings(me.id)}
+                    >
+                      I-Note
+                    </Button>
+                  </div>
               ))
             )}
       </ul>

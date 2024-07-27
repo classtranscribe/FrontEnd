@@ -147,3 +147,8 @@
     display: none;
   }
 }
+.playlist-item {
+  display: flex;
+  white-space: nowrap !important;
+  overflow: hidden; 
+}
