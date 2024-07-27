@@ -16,7 +16,6 @@ function Videos({
   const btnClassName = cx(btn.tealLink, 'media-item-button');
 
   useEffect(() => {
-    // eslint-disable-next-line
     elem.scrollIntoCenter(currMediaId, {
       focus: true,
       alternate: () => elem.scrollIntoView('watch-videos-list'),
