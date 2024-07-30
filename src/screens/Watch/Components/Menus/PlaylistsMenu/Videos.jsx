@@ -48,6 +48,7 @@ function Videos({
                       {...MediaCard.parse(me)}
                     />
                     <Button
+                      id="inote-button"
                       className={btnClassName}
                       startIcon={<i className="material-icons">import_contacts</i>}
                       href={links.mspEpubSettings(me.id)}
