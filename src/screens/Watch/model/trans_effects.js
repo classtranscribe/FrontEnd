@@ -215,35 +215,41 @@ export default {
         }
     },
     // This is a transcript caption
-    *saveCaption({ payload: { caption, text } }, { call, put, select }) {
+    *saveCaption({ payload: { caption, text, begin } }, { call, put, select }) {
         const { watch } = yield select();
         /**
          * @todo check PROFANITY_LIST
          */
+        /**
+         * @todo check begin overlap or other timestamp checks
+         */
         // currEditing could be missing if captions are frozen
-        if (!text || ! watch?.currEditing || (watch.currEditing && watch.currEditing.text === text)) {
+        if (!text || !watch?.currEditing || (watch.currEditing && watch.currEditing.text === text && watch.currEditing.begin === begin)) {
             promptControl.closePrompt();
             return;
             // return this.edit(null); NOT IMPLEMENTED
         }
+        
         caption.text = text; // update data model 
-        promptControl.savingCaption();
-
+        caption.begin = begin;        
+        promptControl.savingCaption(); // just a ui prompt, empty atm
+    
         const { id } = watch.currEditing;
         // send user event
         uEvent.edittrans(watch.currTime, watch.currEditing.text, text);
-        // update new text
-        // this.currEditing_.text = text; ?
-        const isClosedCaption = caption.transcription.transcriptionType === 0;
-
+        
+        const isClosedCaption = caption.transcription.transcriptionType === 0; 
+        // will prob need to make this more flexible with chapter breaks
+    
         yield put({ type: 'setCurrEditing', payload: null });
         try {
-            yield call(api.updateCaptionLine, { id, text });
+            yield call(api.updateCaptionLine, { id, text, begin});
             if(isClosedCaption) {
                 yield put({ type: 'setCaptions', payload: watch.captions });
             } else {
                 yield put({ type: 'setDescriptions', payload: watch.descriptions });
-            }
+            } 
+            // another elif here for chapter breaks eventually
             promptControl.savedCaption(isClosedCaption, true);
         } catch (error) {
             promptControl.savedCaption(isClosedCaption, false);

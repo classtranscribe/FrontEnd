@@ -29,7 +29,8 @@ export function searchCaptionInOffering(offeringId, query, filterLanguage = 'en-
 // POST
 
 export function updateCaptionLine(data) {
-  return cthttp.post('Captions', { id: data.id, text: data.text });
+  return cthttp.post('Captions', { id: data.id, text: data.text, data: data.begin }); 
+  // added begin, but likely needs backend change to receive timestamp data
 }
 
 export function searchCaptions(transList, data) {
