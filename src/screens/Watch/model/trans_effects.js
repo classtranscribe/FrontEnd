@@ -215,46 +215,78 @@ export default {
         }
     },
     // This is a transcript caption
-    *saveCaption({ payload: { caption, text, begin } }, { call, put, select }) {
+    *saveCaption({ payload: { caption, text, begin, end } }, { call, put, select }) {
         const { watch } = yield select();
+    
+        console.log("Entering saveCaption with payload:", { caption, text, begin, end });
+        console.log("Current watch state:", watch);
+    
         /**
          * @todo check PROFANITY_LIST
          */
         /**
          * @todo check begin overlap or other timestamp checks
          */
+    
         // currEditing could be missing if captions are frozen
-        if (!text || !watch?.currEditing || (watch.currEditing && watch.currEditing.text === text && watch.currEditing.begin === begin)) {
+        // if (!text || !watch?.currEditing || (watch.currEditing && watch.currEditing.text === text && watch.currEditing.begin === begin)) {
+        //     console.log("Exiting saveCaption early. Conditions not met.");
+        //     promptControl.closePrompt();
+        //     return;
+        //     // return this.edit(null); NOT IMPLEMENTED
+        // }
+
+        if (!text) {
+            console.log("Exiting saveCaption early: 'text' is falsy.");
             promptControl.closePrompt();
             return;
-            // return this.edit(null); NOT IMPLEMENTED
         }
         
+        if (!watch?.currEditing) {
+            console.log("Exiting saveCaption early: 'watch.currEditing' is falsy.");
+            promptControl.closePrompt();
+            return;
+        }
+        
+        if (watch.currEditing && watch.currEditing.text === text && watch.currEditing.begin === begin) {
+            console.log("Exiting saveCaption early: No changes detected in 'currEditing'.");
+            promptControl.closePrompt();
+            return;
+        }        
+    
+        console.log("Updating caption with text:", text);
         caption.text = text; // update data model 
         caption.begin = begin;        
+        caption.end = end;
         promptControl.savingCaption(); // just a ui prompt, empty atm
     
         const { id } = watch.currEditing;
-        // send user event
-        uEvent.edittrans(watch.currTime, watch.currEditing.text, text);
+        console.log("Sending user event with ID:", id, "Current time:", watch.currTime, "Old text:", watch.currEditing.text, "New text:", text);
         
         const isClosedCaption = caption.transcription.transcriptionType === 0; 
-        // will prob need to make this more flexible with chapter breaks
+        console.log("Is closed caption:", isClosedCaption);
     
         yield put({ type: 'setCurrEditing', payload: null });
+    
         try {
-            yield call(api.updateCaptionLine, { id, text, begin});
-            if(isClosedCaption) {
+            console.log("Calling API to update caption line with data:", { id, text, begin, end });
+            yield call(api.updateCaptionLine, { id, text, begin, end });
+            
+            if (isClosedCaption) {
+                console.log("Updating closed captions in state.");
                 yield put({ type: 'setCaptions', payload: watch.captions });
             } else {
+                console.log("Updating descriptions in state.");
                 yield put({ type: 'setDescriptions', payload: watch.descriptions });
             } 
             // another elif here for chapter breaks eventually
             promptControl.savedCaption(isClosedCaption, true);
+            console.log("Caption saved successfully.");
         } catch (error) {
+            console.error("Error saving caption:", error);
             promptControl.savedCaption(isClosedCaption, false);
         }
-    },
+    },    
     *setFontSize({ payload: fontSize }, { put, select }) {
         const { watch } = yield select();
         if (fontSize == null) {

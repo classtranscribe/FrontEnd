@@ -45,15 +45,22 @@ export function isLater(time) {
 
 export function prettierTimeStr(str) {
   if (typeof str !== 'string') return '';
+  
   const strs = str.split(':');
-  let mins = parseInt(strs[0], 10) * 60 + parseInt(strs[1], 10);
-  mins = mins.toString();
-  if (mins.length === 1) mins = `0${mins}`;
+  if (strs.length !== 3) return ''; // Ensure the input is in HH:MM:SS format
+
+  let hours = parseInt(strs[0], 10);
+  let mins = parseInt(strs[1], 10);
   let sec = parseInt(strs[2], 10);
-  sec = sec.toString();
-  if (sec.length === 1) sec = `0${sec}`;
-  return `${mins}:${sec}`;
+
+  // Format minutes and seconds to two digits
+  if (hours < 10) hours = `0${hours}`;
+  if (mins < 10) mins = `0${mins}`;
+  if (sec < 10) sec = `0${sec}`;
+
+  return `${hours}:${mins}:${sec}`;
 }
+
 
 export function getCCSelectOptions(array = [], operation = (item) => item) {
   const options = [];
