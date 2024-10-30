@@ -78,11 +78,13 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   };
 
   const handleBlur = (ref, originalValue) => {
+    // if (ref.current && document.activeElement.id === ref.current.id) {
     if (ref.current) {
-      setTimeString(originalValue);
+      // setTimeString(originalValue);
+      ref.current.innerText = originalValue;
       transControl.handleBlur();
+      console.log(`Blurred ${ref.current.id}, restored value: ${originalValue}`); // Debugging line
     }
-    console.log(`Blurred ${ref.current.id}, restored value: ${originalValue}`); // Debugging line
   };
 
   const handleSave = () => {

@@ -61,42 +61,62 @@ const findCurrentDescription = (descriptions, currentTime) => {
 export default {
 
     // We have an array of transcript Ids to display, time to get the actual transcripts from the server
-    *setCurrTrans({ payload: trans }, { all, call, put}) {
-        // Get and set corresponding captions
-        if( !Array.isArray(trans) ) { trans = [trans]; }
-
+    *setCurrTrans({ payload: trans }, { all, call, put }) {
+        console.log("Starting setCurrTrans with trans payload:", trans);
+    
+        // Ensure trans is an array
+        if (!Array.isArray(trans)) { 
+            trans = [trans]; 
+        }
+        console.log("Normalized trans array:", trans); 
+    
         let alldata;
-        if(trans.length >0) {
-            // let {data = []} = yield api.getCaptionsByTranscriptionId(trans[0].id);
-            // alldata = [...alldata, ...data];
+        if (trans.length > 0) {
+            console.log("Fetching captions for each transcription ID...");
+            
+            // Fetch data for each transcription ID
             const allTranscriptionData = yield all(
                 trans.map((tran) => call(api.getCaptionsByTranscriptionId, tran.id))
             );
-            
-            // Inplace add a reference to the transcription object for all captions
-            allTranscriptionData.forEach((captionList, listIndex) =>{
+            console.log("Fetched allTranscriptionData:", allTranscriptionData);
+    
+            // Attach transcription reference to each caption
+            allTranscriptionData.forEach((captionList, listIndex) => {
                 const t = trans[listIndex];
-                captionList.data?.forEach( (c) => {
+                captionList.data?.forEach((c) => {
                     c.transcription = t;
-                  });
+                    console.log(`Assigned transcription for caption (ID: ${c.id}):`, c.transcription);
+                });
             });
-
+    
+            // Merge all caption data into alldata
             alldata = allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
+            console.log("Combined alldata:", alldata); 
         }
-        if( alldata === undefined ) { alldata = []; }
-
-        let closedcaptions = alldata.filter((c)=>c.transcription.transcriptionType === 0);
-        let descriptions = alldata.filter((c)=>c.transcription.transcriptionType !==0);
-
+    
+        if (alldata === undefined) { 
+            alldata = []; 
+        }
+    
+        // Filter captions by transcription type
+        let closedcaptions = alldata.filter((c) => c.transcription.transcriptionType === 0);
+        let descriptions = alldata.filter((c) => c.transcription.transcriptionType !== 0);
+        console.log("Filtered closedcaptions:", closedcaptions);
+        console.log("Filtered descriptions:", descriptions);    
+    
+        // Dispatch closed captions
         yield put({ type: 'setCaptions', payload: closedcaptions });
         
-        const descriptionData = descriptions.map(caption => ({
-            ...caption,
-            end: caption.begin, // Set endTime to match beginTime. Why?
-          }));
+        // Dispatch descriptions
+        const descriptionData = descriptions;
+        console.log("Dispatching descriptionData:", descriptionData);
         yield put.resolve({ type: 'setDescriptions', payload: descriptionData });
+        
+        // Dispatch final transcript set
         yield put({ type: 'setTranscript' });
+        console.log("Completed setCurrTrans");
     },
+    
     *setTranscriptions({ payload: trans }, { put, select}) {
         const { playerpref } = yield select();
         let keys = playerpref.transKeys ;
@@ -248,7 +268,7 @@ export default {
             return;
         }
         
-        if (watch.currEditing && watch.currEditing.text === text && watch.currEditing.begin === begin) {
+        if (watch.currEditing && watch.currEditing.text === text && watch.currEditing.begin === begin && watch.currEditing.end === end) {
             console.log("Exiting saveCaption early: No changes detected in 'currEditing'.");
             promptControl.closePrompt();
             return;
