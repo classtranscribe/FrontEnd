@@ -55,12 +55,10 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   
       validateTimeFormat(updatedBeginTime);
       validateTimeFormat(updatedEndTime);
-  
       dispatch({
         type: 'watch/saveCaption',
         payload: { caption, text: newText, begin: updatedBeginTime, end: updatedEndTime },
       });
-  
       setTimeString(prettierTimeStr(updatedBeginTime));
       setEndTimeString(prettierTimeStr(updatedEndTime));
       // eslint-disable-next-line no-console
@@ -69,7 +67,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Error during save:", error.message);
-      alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');
+      alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');  // eslint-disable-line no-alert
     }
   };
 
@@ -77,7 +75,6 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     if (ref.current) {
       const elementId = ref.current?.id || "";
       const currentValue = ref.current.innerText;
-  
       if (elementId.includes("time")) {
         // time
         try {
@@ -85,6 +82,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           setFullTime((prev) => {
             // eslint-disable-next-line no-console
             console.log("Updating time:", currentValue);
+            // eslint-disable-next-line no-console
+            console.log(`${prev}`);
             return currentValue;
           });
           ref.current.innerText = prettierTimeStr(currentValue);
@@ -126,7 +125,6 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       console.log("Element ID:", elementId);
       // eslint-disable-next-line no-console
       console.log("Current time value from input:", currentTime);
-  
       if (elementId.includes("time")) {
         // time
         try {
@@ -139,11 +137,10 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           } else {
             handleSave(currentTime, fullEndTime);
           }
-          
         } catch (error) {
           // eslint-disable-next-line no-console
           console.error("Invalid time format during keydown:", error.message);
-          alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');
+          alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');  // eslint-disable-line no-alert
         }
       } else if (elementId.includes("textarea")) {
         // text
