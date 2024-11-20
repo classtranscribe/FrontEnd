@@ -51,11 +51,14 @@ export function updateCaptionLine(data) {
   });
 }
 
-
 export function searchCaptions(transList, data) {
   return cthttp.post('CaptionsSearch',
     transList
     , { params: { query: data.text, page: data.page, pageSize: data.pageSize } });
+}
+
+export function addCaption(data) {
+  return cthttp.post('Captions/Add', data );
 }
 
 // ------------------------------------------------------------

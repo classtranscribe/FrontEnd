@@ -290,15 +290,22 @@ export default {
     
         try {
             console.log("Calling API to update caption line with data:", { id, text, begin, end });
-            yield call(api.updateCaptionLine, { id, text, begin, end });
-            
-            if (isClosedCaption) {
-                console.log("Updating closed captions in state.");
-                yield put({ type: 'setCaptions', payload: watch.captions });
-            } else {
-                console.log("Updating descriptions in state.");
-                yield put({ type: 'setDescriptions', payload: watch.descriptions });
-            } 
+            console.log("caption.id is", caption.id);
+            const response = yield call(api.updateCaptionLine, { id, text, begin, end });
+            const updatedCaption = response.data;
+            console.log("updated caption", updatedCaption);
+            if (caption.id !== updatedCaption.id) {
+                yield put({ type: 'replaceCaptionId', payload: { tempId: caption.id, newId: updatedCaption.id } });
+            }
+            // if (isClosedCaption) {
+            //     console.log("Updating closed captions in state.");
+            //     yield put({ type: 'setCaptions', payload: watch.captions });
+            // } else {
+            //     console.log("Updating descriptions in state.");
+            //     yield put({ type: 'setDescriptions', payload: watch.descriptions });
+            // }
+            yield put({ type: 'updateCaption', payload: updatedCaption });
+            yield put({ type: 'setTranscript' });
             // another elif here for chapter breaks eventually
             promptControl.savedCaption(isClosedCaption, true);
             console.log("Caption saved successfully.");
@@ -306,7 +313,27 @@ export default {
             console.error("Error saving caption:", error);
             promptControl.savedCaption(isClosedCaption, false);
         }
-    },    
+    },
+    *addCaption({ payload: captionData }, { call, put, select }) {
+        try {
+            const { watch } = yield select();
+            const { transcriptions } = watch;
+            const transcription = transcriptions.find(t => t.transcriptionType === captionData.captionType);
+            if (!transcription) {
+                console.error('Transcription not found for', captionData.captionType);
+                return;
+            }
+            captionData.transcriptionId = transcription.id;
+            const response = yield call(api.addCaption, captionData);
+            const addedCaption = response.data;
+            console.log("caption from backend", response.data);
+            yield put({ type: 'addCaptionToTranscript', payload: addedCaption });
+            yield put({ type: 'sortTranscript' });
+            yield put({ type: 'setTranscript' });
+        } catch (error) {
+            console.error("Error adding caption:", error);
+        }
+    },
     *setFontSize({ payload: fontSize }, { put, select }) {
         const { watch } = yield select();
         if (fontSize == null) {

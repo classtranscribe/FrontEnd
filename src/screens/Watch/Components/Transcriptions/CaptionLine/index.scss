@@ -362,3 +362,25 @@
   line-height: 2em;
   color: var(--ct-text-white-hover);
 }
+.add-caption-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.add-caption-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  font-size: 1em;
+  cursor: default;
+  padding: 10px;
+  font-family: 'Arial';
+  width: 160px;
+  text-align: center;
+  white-space: nowrap;
+}
+.add-caption-btn:hover {
+  background-color: gray;
+}

@@ -15,9 +15,10 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   const endTimeRef = useRef(); 
   const [timeString, setTimeString] = useState(prettierTimeStr(begin));
   const [endTimeString, setEndTimeString] = useState(prettierTimeStr(end)); // Initialize with correct end time
+  const [isHovered, setIsHovered] = useState(false);
 
   const validateTimeFormat = (input) => {
-    console.log(`Validating time format: ${input}`); // Debugging line
+    // console.log(`Validating time format: ${input}`); // Debugging line
     const parts = input.split(':');
     if (parts.length === 3 || parts.length === 2 || parts.length === 1) {
       return true;
@@ -52,7 +53,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     if (ref && ref.current && typeof ref.current.blur === 'function') {
       if (document.activeElement.id === ref.current.id) {
         ref.current.blur();
-        console.log(`Blurred input: ${ref.current.id}`); // Debugging line
+        // console.log(`Blurred input: ${ref.current.id}`); // Debugging line
       }
     }
   };
@@ -61,7 +62,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     try {
       validateTimeFormat(timeString);
       const timeInSeconds = convertTimeToSeconds(timeString); // Convert time to seconds
-      console.log(`Seeking to time: ${timeInSeconds}`); // Debugging line
+      // console.log(`Seeking to time: ${timeInSeconds}`); // Debugging line
       dispatch({ type: 'watch/media_setCurrTime', payload: timeInSeconds });
     } catch (error) {
       console.error('Error in handleSeek:', error);
@@ -69,12 +70,12 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   };
 
   const handleChange = (ref) => {
-    console.log(`Input changed: ${ref.current.innerText}`); // Debugging line
+    // console.log(`Input changed: ${ref.current.innerText}`); // Debugging line
   };
 
   const handleFocus = ({ target }) => {
     dispatch({ type: 'watch/setTransEditMode', payload: { caption, innerText: target.innerText } });
-    console.log(`Focused on: ${target.id}`); // Debugging line
+    // console.log(`Focused on: ${target.id}`); // Debugging line
   };
 
   const handleBlur = (ref, originalValue) => {
@@ -83,22 +84,22 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       // setTimeString(originalValue);
       ref.current.innerText = originalValue;
       transControl.handleBlur();
-      console.log(`Blurred ${ref.current.id}, restored value: ${originalValue}`); // Debugging line
+      // console.log(`Blurred ${ref.current.id}, restored value: ${originalValue}`); // Debugging line
     }
   };
 
   const handleSave = () => {
     const newText = textRef.current.innerText;
     try {
-      console.log(`begin: ${begin} end: ${end}`); // Debugging line
+      // console.log(`begin: ${begin} end: ${end}`); // Debugging line
       validateTimeFormat(timeRef.current.innerText);
       validateTimeFormat(endTimeRef.current.innerText);
-      console.log(`handleSave: before editing: ${newText} at time: ${timeString} with end time: ${endTimeString}`); // Debugging line
+      // console.log(`handleSave: before editing: ${newText} at time: ${timeString} with end time: ${endTimeString}`); // Debugging line
       dispatch({ type: 'watch/saveCaption', payload: { caption, text: newText, begin: timeRef.current.innerText, end: endTimeRef.current.innerText } });
       setTimeString(timeRef.current.innerText);
       setEndTimeString(endTimeRef.current.innerText);
       textRef.current.innerText = newText;
-      console.log(`handleSave: after editing: ${newText} at time: ${timeString} with end time: ${endTimeString}`); // Debugging line
+      // console.log(`handleSave: after editing: ${newText} at time: ${timeString} with end time: ${endTimeString}`); // Debugging line
 
     } catch (error) {
       console.error('Invalid time format');
@@ -109,7 +110,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   };
 
   const handleCancel = () => {
-    console.log("Canceling operations"); // Debugging line
+    // console.log("Canceling operations"); // Debugging line
     textRef.current.innerText = text;
     timeRef.current.innerText = timeString;
     endTimeRef.current.innerText = endTimeString; // Restore original end time
@@ -124,6 +125,36 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     }
   };
 
+  const handleAddCaption = () => {
+    const newCaption = {
+      index: -1,
+      begin: end,
+      end: end,
+      text: '',
+      transcriptionId: '',
+      captionType: 0,
+      upVote: 0,
+      downVote: 0,
+    };
+    // console.log("Adding New Caption:", newCaption);
+    dispatch({ type: 'watch/addCaption', payload: newCaption });
+  };
+
+  const handleAddAudioDescription = () => {
+    const newCaption = {
+      index: -1,
+      begin: end,
+      end: end,
+      text: '',
+      transcriptionId: '',
+      captionType: 1,
+      upVote: 0,
+      downVote: 0,
+    };
+    // console.log("Adding New Audio Description:", newCaption);
+    dispatch({ type: 'watch/addCaption', payload: newCaption });
+  };
+
   const hasUnsavedChanges = (textRef.current && textRef.current.innerText !== text) || 
                             (timeRef.current && timeRef.current.innerText !== timeString) ||
                             (endTimeRef.current && endTimeRef.current.innerText !== endTimeString);
@@ -134,6 +165,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       className="watch-caption-line"
       kind={kind}
       data-unsaved={hasUnsavedChanges}
+      onMouseEnter={ () => setIsHovered(true) }
+      onMouseLeave={ () => setIsHovered(false) }
     >
       <div className="caption-line-content">
         {/* Editable Time */}
@@ -192,6 +225,25 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           {endTimeString}
         </div>
       </div>
+
+      {isHovered && (
+        <div className="add-caption-buttons">
+          <button
+            className="add-caption-btn"
+            onClick={handleAddCaption}
+            aria-label="Add Caption"
+          >
+            Add Caption
+          </button>
+          <button
+            className="add-caption-btn"
+            onClick={handleAddAudioDescription}
+            aria-label="Add Audio Description"
+          >
+            Add Description
+          </button>
+        </div>
+      )}
 
       {/* Action Buttons */}
       <div className="caption-line-btns">

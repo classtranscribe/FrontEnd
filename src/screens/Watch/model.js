@@ -231,7 +231,7 @@ const WatchModel = {
             let transcript = all;
             // Using String sort so numbers (1.123 21.0) must be right aligned with same number of decimal places 
             // Put Closed Captions after Descriptions
-            transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${item.transcription.transcriptionType === 0?'Z':item.transcription.transcriptionType}`);
+            transcript = _.sortBy(transcript, (item) => `${timeStrToSec(item.begin).toFixed(2).padStart(10)}/${timeStrToSec(item.end).toFixed(2).padStart(10)}/${item.transcription.transcriptionType === 0?'Z':item.transcription.transcriptionType}`);
             transcript= _.map(transcript, (item, index) => ({ ...item, index }));
             
             if (transcript.length === 0) transcript = ARRAY_EMPTY;
@@ -250,6 +250,57 @@ const WatchModel = {
         },
         setCurrCaption(state, { payload }) {
             return {...state, currCaption: payload}
+        },
+        replaceCaptionId(state, { payload }) {
+            const { tempId, newId } = payload;
+            let captions = state.captions.map(item => {
+                if (item.id === tempId) {
+                    return { ...item, id: newId };
+                }
+                return item;
+            });
+            let descriptions = state.descriptions.map(item => {
+                if (item.id === tempId) {
+                    return { ...item, id: newId };
+                }
+                return item;
+            });
+            return { ...state, captions, descriptions };
+        },
+        addCaptionToTranscript(state, { payload }) {
+            const transcription = state.transcriptions.find(t => t.id === payload.transcriptionId);
+            if (!transcription) {
+                console.error('Transcription not found for caption', payload);
+                return state;
+            }
+            const newCaption = { ...payload, transcription };
+            if (payload.captionType === 0) {
+                let captions = [...state.captions, { ...newCaption, kind: WEBVTT_SUBTITLES }];
+                return { ...state, captions };
+            } else {
+                let descriptions = [...state.descriptions, { ...newCaption, kind: WEBVTT_DESCRIPTIONS }];
+                return { ...state, descriptions };
+            }
+        },
+        updateCaption(state, { payload }) {
+            const type = payload.captionType === 0 ? 'captions' : 'descriptions';
+            const kind = payload.captionType === 0 ? WEBVTT_SUBTITLES : WEBVTT_DESCRIPTIONS;
+            const transcript = [...state[type]];
+            const idx = transcript.findIndex(transcript => transcript.id === payload.id);
+            if (idx !== -1) {
+              transcript[idx] = { ...transcript[idx], ...payload, kind };
+              return { ...state, [type]: transcript };
+            } else {
+              return state;
+            }
+        },
+        sortTranscript(state) {
+            let all = [...state.captions, ...state.descriptions];
+            let transcript = all;
+            transcript = _.sortBy(transcript, (item) => timeStrToSec(item.begin), item => timeStrToSec(item.end));
+            transcript = _.map(transcript, (item, index) => ({ ...item, index }));
+            if (transcript.length === 0) transcript = ARRAY_EMPTY;
+            return { ...state, transcript };
         },
         /**
          * * Function called for get or set audio descriptions
