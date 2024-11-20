@@ -18,10 +18,12 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   const [endTimeString, setEndTimeString] = useState(prettierTimeStr(end));
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log("Full Begin Time Updated:", fullBeginTime);
   }, [fullBeginTime]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log("Full End Time Updated:", fullEndTime);
   }, [fullEndTime]);
 
@@ -44,8 +46,11 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     const newText = textRef.current.innerText;
   
     try {
+      // eslint-disable-next-line no-console
       console.log("Handle save triggered");
+      // eslint-disable-next-line no-console
       console.log("Using begin time:", updatedBeginTime);
+      // eslint-disable-next-line no-console
       console.log("Using end time:", updatedEndTime);
   
       validateTimeFormat(updatedBeginTime);
@@ -58,9 +63,11 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   
       setTimeString(prettierTimeStr(updatedBeginTime));
       setEndTimeString(prettierTimeStr(updatedEndTime));
+      // eslint-disable-next-line no-console
       console.log("Time strings updated to:", prettierTimeStr(updatedBeginTime), prettierTimeStr(updatedEndTime));
       textRef.current.innerText = newText;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error during save:", error.message);
       alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');
     }
@@ -76,16 +83,19 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
         try {
           validateTimeFormat(currentValue); 
           setFullTime((prev) => {
+            // eslint-disable-next-line no-console
             console.log("Updating time:", currentValue);
             return currentValue;
           });
           ref.current.innerText = prettierTimeStr(currentValue);
         } catch {
+          // eslint-disable-next-line no-console
           console.warn("Invalid time format. Reverting to original value:", originalValue);
           ref.current.innerText = prettierTimeStr(originalValue);
         }
       } else if (elementId.includes("textarea")) {
         // text
+        // eslint-disable-next-line no-console
         console.log("handling blur for text");
         ref.current.innerText = currentValue.trim();
       }
@@ -106,12 +116,15 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   };
 
   const handleKeyDown = (e, ref, setFullTime) => {
+    // eslint-disable-next-line no-console
     console.log("Key down event:", e.keyCode);
     if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
       e.preventDefault();
       const elementId = ref.current?.id || "";
       const currentTime = ref.current?.innerText || "";
+      // eslint-disable-next-line no-console
       console.log("Element ID:", elementId);
+      // eslint-disable-next-line no-console
       console.log("Current time value from input:", currentTime);
   
       if (elementId.includes("time")) {
@@ -119,6 +132,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
         try {
           validateTimeFormat(currentTime); 
           setFullTime(currentTime); 
+          // eslint-disable-next-line no-console
           console.log("Updated full time (pending state):", currentTime);
           if (elementId.includes("end")) {
             handleSave(fullBeginTime, currentTime);
@@ -127,11 +141,13 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           }
           
         } catch (error) {
+          // eslint-disable-next-line no-console
           console.error("Invalid time format during keydown:", error.message);
           alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');
         }
       } else if (elementId.includes("textarea")) {
         // text
+        // eslint-disable-next-line no-console
         console.log("saving text");
         handleSave();
       }

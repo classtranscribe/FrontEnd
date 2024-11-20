@@ -47,10 +47,10 @@ export function prettierTimeStr(time, showMilliseconds = false) {
   if (typeof time !== 'string') return '';
 
   const parts = time.split(':').map((part) => parseFloat(part));
-  let hours = 0,
-    mins = 0,
-    secs = 0,
-    millis = 0;
+  let hours = 0;
+  let mins = 0;
+  let secs = 0;
+  let millis = 0;
 
   if (parts.length === 3) {
     hours = parts[0];
