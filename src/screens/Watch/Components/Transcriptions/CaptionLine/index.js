@@ -2,131 +2,149 @@ import React, { useRef, useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import * as KeyCode from 'keycode-js';
 
-import {
-  transControl,
-  prettierTimeStr,
-} from '../../../Utils';
+import { transControl, prettierTimeStr } from '../../../Utils';
 import './index.scss';
 
 function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
-  let { text, id, begin, end, kind = "web" } = caption;
+  const { text, id, begin, end, kind = "web" } = caption;
   const textRef = useRef();
   const timeRef = useRef();
-  const endTimeRef = useRef(); 
+  const endTimeRef = useRef();
+
+  const [fullBeginTime, setFullBeginTime] = useState(begin);
+  const [fullEndTime, setFullEndTime] = useState(end);
+
   const [timeString, setTimeString] = useState(prettierTimeStr(begin));
-  const [endTimeString, setEndTimeString] = useState(prettierTimeStr(end)); // Initialize with correct end time
+  const [endTimeString, setEndTimeString] = useState(prettierTimeStr(end));
+
+  useEffect(() => {
+    console.log("Full Begin Time Updated:", fullBeginTime);
+  }, [fullBeginTime]);
+
+  useEffect(() => {
+    console.log("Full End Time Updated:", fullEndTime);
+  }, [fullEndTime]);
 
   const validateTimeFormat = (input) => {
-    console.log(`Validating time format: ${input}`); // Debugging line
-    const parts = input.split(':');
-    if (parts.length === 3 || parts.length === 2 || parts.length === 1) {
-      return true;
-    }
-    throw new Error('Invalid time format');
-  };
-
-
-  const convertTimeToSeconds = (time) => {
-    const parts = time.split(':').map(Number);
-    let totalSeconds = 0;
-  
-    // Assuming the format is hh:mm:ss or mm:ss
-    if (parts.length === 3) {
-      totalSeconds += parts[0] * 3600; // hours
-      totalSeconds += parts[1] * 60;    // minutes
-      totalSeconds += parts[2];         // seconds
-    } else if (parts.length === 2) {
-      totalSeconds += parts[0] * 60;    // minutes
-      totalSeconds += parts[1];         // seconds
-    } else if (parts.length === 1) {
-      totalSeconds += parts[0];         // seconds
-    } else {
+    const timeRegex = /^(\d{1,2}:)?\d{1,2}:\d{2}(\.\d+)?$/;
+    if (!timeRegex.test(input)) {
       throw new Error('Invalid time format');
     }
-  
-    return totalSeconds;
-  };
-
-
-  const blurFromInput = (ref) => {
-    if (ref && ref.current && typeof ref.current.blur === 'function') {
-      if (document.activeElement.id === ref.current.id) {
-        ref.current.blur();
-        console.log(`Blurred input: ${ref.current.id}`); // Debugging line
-      }
-    }
-  };
-
-  const handleSeek = () => {
-    try {
-      validateTimeFormat(timeString);
-      const timeInSeconds = convertTimeToSeconds(timeString); // Convert time to seconds
-      console.log(`Seeking to time: ${timeInSeconds}`); // Debugging line
-      dispatch({ type: 'watch/media_setCurrTime', payload: timeInSeconds });
-    } catch (error) {
-      console.error('Error in handleSeek:', error);
-    }
-  };
-
-  const handleChange = (ref) => {
-    console.log(`Input changed: ${ref.current.innerText}`); // Debugging line
-  };
-
-  const handleFocus = ({ target }) => {
-    dispatch({ type: 'watch/setTransEditMode', payload: { caption, innerText: target.innerText } });
-    console.log(`Focused on: ${target.id}`); // Debugging line
-  };
-
-  const handleBlur = (ref, originalValue) => {
-    // if (ref.current && document.activeElement.id === ref.current.id) {
-    if (ref.current) {
-      // setTimeString(originalValue);
-      ref.current.innerText = originalValue;
-      transControl.handleBlur();
-      console.log(`Blurred ${ref.current.id}, restored value: ${originalValue}`); // Debugging line
-    }
-  };
-
-  const handleSave = () => {
-    const newText = textRef.current.innerText;
-    try {
-      console.log(`begin: ${begin} end: ${end}`); // Debugging line
-      validateTimeFormat(timeRef.current.innerText);
-      validateTimeFormat(endTimeRef.current.innerText);
-      console.log(`handleSave: before editing: ${newText} at time: ${timeString} with end time: ${endTimeString}`); // Debugging line
-      dispatch({ type: 'watch/saveCaption', payload: { caption, text: newText, begin: timeRef.current.innerText, end: endTimeRef.current.innerText } });
-      setTimeString(timeRef.current.innerText);
-      setEndTimeString(endTimeRef.current.innerText);
-      textRef.current.innerText = newText;
-      console.log(`handleSave: after editing: ${newText} at time: ${timeString} with end time: ${endTimeString}`); // Debugging line
-
-    } catch (error) {
-      console.error('Invalid time format');
-      alert('Please enter a valid time format (HH:MM:SS or MM:SS or SS)');
-      timeRef.current.innerText = timeString;
-      endTimeRef.current.innerText = endTimeString;
-    }
+    return true;
   };
 
   const handleCancel = () => {
-    console.log("Canceling operations"); // Debugging line
     textRef.current.innerText = text;
-    timeRef.current.innerText = timeString;
-    endTimeRef.current.innerText = endTimeString; // Restore original end time
+    timeRef.current.innerText = prettierTimeStr(fullBeginTime);
+    endTimeRef.current.innerText = prettierTimeStr(fullEndTime);
     dispatch({ type: 'watch/setCurrEditing', payload: null });
   };
 
-  const handleKeyDown = (e, ref) => {
-    if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
-      e.preventDefault();
-      handleSave();
-      blurFromInput(ref);
+  const handleSave = (updatedBeginTime = fullBeginTime, updatedEndTime = fullEndTime) => {
+    const newText = textRef.current.innerText;
+  
+    try {
+      console.log("Handle save triggered");
+      console.log("Using begin time:", updatedBeginTime);
+      console.log("Using end time:", updatedEndTime);
+  
+      validateTimeFormat(updatedBeginTime);
+      validateTimeFormat(updatedEndTime);
+  
+      dispatch({
+        type: 'watch/saveCaption',
+        payload: { caption, text: newText, begin: updatedBeginTime, end: updatedEndTime },
+      });
+  
+      setTimeString(prettierTimeStr(updatedBeginTime));
+      setEndTimeString(prettierTimeStr(updatedEndTime));
+      console.log("Time strings updated to:", prettierTimeStr(updatedBeginTime), prettierTimeStr(updatedEndTime));
+      textRef.current.innerText = newText;
+    } catch (error) {
+      console.error("Error during save:", error.message);
+      alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');
     }
   };
 
-  const hasUnsavedChanges = (textRef.current && textRef.current.innerText !== text) || 
-                            (timeRef.current && timeRef.current.innerText !== timeString) ||
-                            (endTimeRef.current && endTimeRef.current.innerText !== endTimeString);
+  const handleBlur = (ref, originalValue, setFullTime) => {
+    if (ref.current) {
+      const elementId = ref.current?.id || "";
+      const currentValue = ref.current.innerText;
+  
+      if (elementId.includes("time")) {
+        // time
+        try {
+          validateTimeFormat(currentValue); 
+          setFullTime((prev) => {
+            console.log("Updating time:", currentValue);
+            return currentValue;
+          });
+          ref.current.innerText = prettierTimeStr(currentValue);
+        } catch {
+          console.warn("Invalid time format. Reverting to original value:", originalValue);
+          ref.current.innerText = prettierTimeStr(originalValue);
+        }
+      } else if (elementId.includes("textarea")) {
+        // text
+        console.log("handling blur for text");
+        ref.current.innerText = currentValue.trim();
+      }
+    }
+  
+    transControl.handleBlur(); 
+  };
+  
+
+  const handleFocus = (ref, fullTime) => {
+    if (ref.current) {
+      ref.current.innerText = prettierTimeStr(fullTime, true);
+      dispatch({
+        type: 'watch/setTransEditMode',
+        payload: { caption, innerText: ref.current.innerText },
+      });
+    }
+  };
+
+  const handleKeyDown = (e, ref, setFullTime) => {
+    console.log("Key down event:", e.keyCode);
+    if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
+      e.preventDefault();
+      const elementId = ref.current?.id || "";
+      const currentTime = ref.current?.innerText || "";
+      console.log("Element ID:", elementId);
+      console.log("Current time value from input:", currentTime);
+  
+      if (elementId.includes("time")) {
+        // time
+        try {
+          validateTimeFormat(currentTime); 
+          setFullTime(currentTime); 
+          console.log("Updated full time (pending state):", currentTime);
+          if (elementId.includes("end")) {
+            handleSave(fullBeginTime, currentTime);
+          } else {
+            handleSave(currentTime, fullEndTime);
+          }
+          
+        } catch (error) {
+          console.error("Invalid time format during keydown:", error.message);
+          alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');
+        }
+      } else if (elementId.includes("textarea")) {
+        // text
+        console.log("saving text");
+        handleSave();
+      }
+  
+      ref.current.blur();
+    }
+  };
+  
+
+  const hasUnsavedChanges =
+    (textRef.current && textRef.current.innerText !== text) ||
+    (timeRef.current && fullBeginTime !== begin) ||
+    (endTimeRef.current && fullEndTime !== end);
 
   return (
     <div
@@ -136,7 +154,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       data-unsaved={hasUnsavedChanges}
     >
       <div className="caption-line-content">
-        {/* Editable Time */}
+        {/* Editable Start Time */}
         <div
           ref={timeRef}
           suppressContentEditableWarning
@@ -145,17 +163,15 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           tabIndex={0}
           id={`caption-line-time-${id}`}
           className="caption-line-time-display"
-          onFocus={handleFocus}
-          onBlur={() => handleBlur(timeRef, timeString)}
-          onInput={() => handleChange(timeRef)}
-          onKeyDown={(e) => handleKeyDown(e, timeRef)}
-          onClick={handleSeek}
-          aria-label={`Edit time: ${timeString}`}
+          onFocus={() => handleFocus(timeRef, fullBeginTime)}
+          onBlur={() => handleBlur(timeRef, fullBeginTime, setFullBeginTime)}
+          onKeyDown={(e) => handleKeyDown(e, timeRef, setFullBeginTime)}
           spellCheck={false}
         >
           {timeString}
         </div>
 
+        {/* Editable Text */}
         <div
           ref={textRef}
           suppressContentEditableWarning
@@ -164,10 +180,9 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           tabIndex={0}
           id={`caption-line-textarea-${id}`}
           className={`caption-line-text-${fontSize}`}
-          onFocus={handleFocus}
-          onBlur={() => handleBlur(textRef, text)}
-          onInput={() => handleChange(textRef)}
-          onKeyDown={(e) => handleKeyDown(e, textRef)}
+          onFocus={() => dispatch({ type: 'watch/setTransEditMode', payload: { caption } })}
+          onBlur={() => handleBlur(textRef, text, () => {})}
+          onKeyDown={(e) => handleKeyDown(e, textRef, () => {})}
           spellCheck={false}
         >
           {text}
@@ -182,11 +197,9 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           tabIndex={0}
           id={`caption-line-end-time-${id}`}
           className="caption-line-time-display"
-          onFocus={handleFocus}
-          onBlur={() => handleBlur(endTimeRef, endTimeString)}
-          onInput={() => handleChange(endTimeRef)}
-          onKeyDown={(e) => handleKeyDown(e, endTimeRef)}
-          aria-label={`Edit end time: ${endTimeString}`}
+          onFocus={() => handleFocus(endTimeRef, fullEndTime)}
+          onBlur={() => handleBlur(endTimeRef, fullEndTime, setFullEndTime)}
+          onKeyDown={(e) => handleKeyDown(e, endTimeRef, setFullEndTime)}
           spellCheck={false}
         >
           {endTimeString}
@@ -198,22 +211,10 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
         {hasUnsavedChanges && (
           <div className="mt-2 mr-3 caption-line-prompt">Return (save changes). Shift-Return (newline)</div>
         )}
-
-        {/* Save Button */}
-        <button
-          className="plain-btn caption-line-save-btn"
-          onClick={handleSave}
-          tabIndex={-1}
-          aria-hidden
-        >
+        <button className="plain-btn caption-line-save-btn" onClick={handleSave}>
           Save
         </button>
-        <button
-          className="plain-btn caption-line-cancel-btn"
-          onClick={handleCancel}
-          tabIndex={-1}
-          aria-hidden
-        >
+        <button className="plain-btn caption-line-cancel-btn" onClick={handleCancel}>
           Cancel
         </button>
       </div>

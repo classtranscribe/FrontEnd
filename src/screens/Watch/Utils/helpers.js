@@ -43,23 +43,56 @@ export function isLater(time) {
   return ({ begin }) => time <= timeStrToSec(begin);
 }
 
-export function prettierTimeStr(str) {
-  if (typeof str !== 'string') return '';
-  
-  const strs = str.split(':');
-  if (strs.length !== 3) return ''; // Ensure the input is in HH:MM:SS format
+export function prettierTimeStr(time, showMilliseconds = false) {
+  if (typeof time !== 'string') return '';
 
-  let hours = parseInt(strs[0], 10);
-  let mins = parseInt(strs[1], 10);
-  let sec = parseInt(strs[2], 10);
+  const parts = time.split(':').map((part) => parseFloat(part));
+  let hours = 0,
+    mins = 0,
+    secs = 0,
+    millis = 0;
 
-  // Format minutes and seconds to two digits
-  if (hours < 10) hours = `0${hours}`;
-  if (mins < 10) mins = `0${mins}`;
-  if (sec < 10) sec = `0${sec}`;
+  if (parts.length === 3) {
+    hours = parts[0];
+    mins = parts[1];
+    secs = Math.floor(parts[2]);
+    millis = Math.round((parts[2] % 1) * 1000);
+  } else if (parts.length === 2) {
+    mins = parts[0];
+    secs = Math.floor(parts[1]);
+    millis = Math.round((parts[1] % 1) * 1000);
+  } else if (parts.length === 1) {
+    secs = Math.floor(parts[0]);
+    millis = Math.round((parts[0] % 1) * 1000);
+  }
 
-  return `${hours}:${mins}:${sec}`;
+  const format = (num, digits = 2) => String(num).padStart(digits, '0');
+  const formattedTime = `${format(hours)}:${format(mins)}:${format(secs)}`;
+
+  return showMilliseconds
+    ? `${formattedTime}.${format(millis, 3)}`
+    : formattedTime;
 }
+
+
+
+// export function prettierTimeStr(str) {
+//   if (typeof str !== 'string') return '';
+  
+//   const strs = str.split(':');
+//   if (strs.length !== 3) return ''; // Ensure the input is in HH:MM:SS format
+
+//   let hours = parseInt(strs[0], 10);
+//   let mins = parseInt(strs[1], 10);
+//   let sec = parseInt(strs[2], 10);
+
+//   // Format minutes and seconds to two digits
+//   if (hours < 10) hours = `0${hours}`;
+//   if (mins < 10) mins = `0${mins}`;
+//   if (sec < 10) sec = `0${sec}`;
+
+//   return `${hours}:${mins}:${sec}`;
+// }
 
 
 export function getCCSelectOptions(array = [], operation = (item) => item) {
