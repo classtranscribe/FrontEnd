@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import * as KeyCode from 'keycode-js';
 
-import { transControl, prettierTimeStr } from '../../../Utils';
+import { prettierTimeStr } from '../../../Utils';
 import './index.scss';
 
 function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
@@ -17,16 +17,6 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   const [timeString, setTimeString] = useState(prettierTimeStr(begin));
   const [endTimeString, setEndTimeString] = useState(prettierTimeStr(end));
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("Full Begin Time Updated:", fullBeginTime);
-  }, [fullBeginTime]);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("Full End Time Updated:", fullEndTime);
-  }, [fullEndTime]);
-
   const validateTimeFormat = (input) => {
     const timeRegex = /^(\d{1,2}:)?\d{1,2}:\d{2}(\.\d+)?$/;
     if (!timeRegex.test(input)) {
@@ -35,74 +25,38 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     return true;
   };
 
-  const handleCancel = () => {
-    textRef.current.innerText = text;
-    timeRef.current.innerText = prettierTimeStr(fullBeginTime);
-    endTimeRef.current.innerText = prettierTimeStr(fullEndTime);
-    dispatch({ type: 'watch/setCurrEditing', payload: null });
-  };
-
-  const handleSave = (updatedBeginTime = fullBeginTime, updatedEndTime = fullEndTime) => {
+  const handleSave = () => {
     const newText = textRef.current.innerText;
-  
+    const newBeginTime = timeRef.current.innerText;
+    const newEndTime = endTimeRef.current.innerText;
     try {
-      // eslint-disable-next-line no-console
-      console.log("Handle save triggered");
-      // eslint-disable-next-line no-console
-      console.log("Using begin time:", updatedBeginTime);
-      // eslint-disable-next-line no-console
-      console.log("Using end time:", updatedEndTime);
-  
-      validateTimeFormat(updatedBeginTime);
-      validateTimeFormat(updatedEndTime);
+      validateTimeFormat(newBeginTime);
+      validateTimeFormat(newEndTime);
       dispatch({
         type: 'watch/saveCaption',
-        payload: { caption, text: newText, begin: updatedBeginTime, end: updatedEndTime },
+        payload: { caption, text: newText, begin: newBeginTime, end: newEndTime },
       });
-      setTimeString(prettierTimeStr(updatedBeginTime));
-      setEndTimeString(prettierTimeStr(updatedEndTime));
-      // eslint-disable-next-line no-console
-      console.log("Time strings updated to:", prettierTimeStr(updatedBeginTime), prettierTimeStr(updatedEndTime));
+      setTimeString(prettierTimeStr(newBeginTime));
+      setEndTimeString(prettierTimeStr(newEndTime));
       textRef.current.innerText = newText;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("Error during save:", error.message);
-      alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');  // eslint-disable-line no-alert
+      // TODO: add reactful alert here if timestring is badly formatted
     }
   };
 
-  const handleBlur = (ref, originalValue, setFullTime) => {
+  // NOTE: ALL editable text boxes reset the value to the original if the textbox loses focus
+  // Users MUST hit enter for their changes to not be lost
+  const handleTextBlur = (ref, originalValue) => {
     if (ref.current) {
-      const elementId = ref.current?.id || "";
-      const currentValue = ref.current.innerText;
-      if (elementId.includes("time")) {
-        // time
-        try {
-          validateTimeFormat(currentValue); 
-          setFullTime((prev) => {
-            // eslint-disable-next-line no-console
-            console.log("Updating time:", currentValue);
-            // eslint-disable-next-line no-console
-            console.log(`${prev}`);
-            return currentValue;
-          });
-          ref.current.innerText = prettierTimeStr(currentValue);
-        } catch {
-          // eslint-disable-next-line no-console
-          console.warn("Invalid time format. Reverting to original value:", originalValue);
-          ref.current.innerText = prettierTimeStr(originalValue);
-        }
-      } else if (elementId.includes("textarea")) {
-        // text
-        // eslint-disable-next-line no-console
-        console.log("handling blur for text");
-        ref.current.innerText = currentValue.trim();
-      }
+      ref.current.innerText = originalValue;
     }
-  
-    transControl.handleBlur(); 
   };
-  
+
+  const handleTimeBlur = (ref, originalValue) => {
+    if (ref.current) {
+      ref.current.innerText = prettierTimeStr(originalValue);
+    }
+  };
 
   const handleFocus = (ref, fullTime) => {
     if (ref.current) {
@@ -114,57 +68,34 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     }
   };
 
-  const handleKeyDown = (e, ref, setFullTime) => {
-    // eslint-disable-next-line no-console
-    console.log("Key down event:", e.keyCode);
+  const handleTimeKeyDown = (e, ref, setFullTime) => {
     if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
       e.preventDefault();
-      const elementId = ref.current?.id || "";
       const currentTime = ref.current?.innerText || "";
-      // eslint-disable-next-line no-console
-      console.log("Element ID:", elementId);
-      // eslint-disable-next-line no-console
-      console.log("Current time value from input:", currentTime);
-      if (elementId.includes("time")) {
-        // time
-        try {
-          validateTimeFormat(currentTime); 
-          setFullTime(currentTime); 
-          // eslint-disable-next-line no-console
-          console.log("Updated full time (pending state):", currentTime);
-          if (elementId.includes("end")) {
-            handleSave(fullBeginTime, currentTime);
-          } else {
-            handleSave(currentTime, fullEndTime);
-          }
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error("Invalid time format during keydown:", error.message);
-          alert('Please enter a valid time format (HH:MM:SS, MM:SS, or HH:MM:SS.SSS)');  // eslint-disable-line no-alert
-        }
-      } else if (elementId.includes("textarea")) {
-        // text
-        // eslint-disable-next-line no-console
-        console.log("saving text");
+      try {
+        validateTimeFormat(currentTime);
+        setFullTime(currentTime);
         handleSave();
+      } catch (error) {
+        // TODO: add reactful alert here if timestring is badly formatted
       }
-  
       ref.current.blur();
     }
-  };
-  
+  }
 
-  const hasUnsavedChanges =
-    (textRef.current && textRef.current.innerText !== text) ||
-    (timeRef.current && fullBeginTime !== begin) ||
-    (endTimeRef.current && fullEndTime !== end);
+  const handleTextKeyDown = (e, ref) => {
+    if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
+      handleSave();
+      ref.current.blur();
+    }
+  }
 
   return (
     <div
       id={`caption-line-${id}`}
       className="watch-caption-line"
       kind={kind}
-      data-unsaved={hasUnsavedChanges}
+      data-unsaved
     >
       <div className="caption-line-content">
         {/* Editable Start Time */}
@@ -177,8 +108,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           id={`caption-line-time-${id}`}
           className="caption-line-time-display"
           onFocus={() => handleFocus(timeRef, fullBeginTime)}
-          onBlur={() => handleBlur(timeRef, fullBeginTime, setFullBeginTime)}
-          onKeyDown={(e) => handleKeyDown(e, timeRef, setFullBeginTime)}
+          onBlur={() => handleTimeBlur(timeRef, fullBeginTime)}
+          onKeyDown={(e) => handleTimeKeyDown(e, timeRef, setFullBeginTime)}
           spellCheck={false}
         >
           {timeString}
@@ -194,8 +125,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           id={`caption-line-textarea-${id}`}
           className={`caption-line-text-${fontSize}`}
           onFocus={() => dispatch({ type: 'watch/setTransEditMode', payload: { caption } })}
-          onBlur={() => handleBlur(textRef, text, () => {})}
-          onKeyDown={(e) => handleKeyDown(e, textRef, () => {})}
+          onBlur={() => handleTextBlur(textRef, text)}
+          onKeyDown={(e) => handleTextKeyDown(e, textRef)}
           spellCheck={false}
         >
           {text}
@@ -211,8 +142,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           id={`caption-line-end-time-${id}`}
           className="caption-line-time-display"
           onFocus={() => handleFocus(endTimeRef, fullEndTime)}
-          onBlur={() => handleBlur(endTimeRef, fullEndTime, setFullEndTime)}
-          onKeyDown={(e) => handleKeyDown(e, endTimeRef, setFullEndTime)}
+          onBlur={() => handleTimeBlur(endTimeRef, fullEndTime)}
+          onKeyDown={(e) => handleTimeKeyDown(e, endTimeRef, setFullEndTime)}
           spellCheck={false}
         >
           {endTimeString}
@@ -220,8 +151,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       </div>
 
       {/* Action Buttons */}
-      <div className="caption-line-btns">
-        {hasUnsavedChanges && (
+      {/* <div className="caption-line-btns">
+        {true && (
           <div className="mt-2 mr-3 caption-line-prompt">Return (save changes). Shift-Return (newline)</div>
         )}
         <button className="plain-btn caption-line-save-btn" onClick={handleSave}>
@@ -230,7 +161,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
         <button className="plain-btn caption-line-cancel-btn" onClick={handleCancel}>
           Cancel
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
