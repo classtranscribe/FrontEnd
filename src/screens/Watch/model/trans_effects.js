@@ -72,7 +72,7 @@ export default {
 
         let alldata;
         if (trans.length > 0) {
-            console.log("Fetching captions for each transcription ID...");
+            // console.log("Fetching captions for each transcription ID...");
 
             // Fetch data for each transcription ID
             const allTranscriptionData = yield all(
@@ -85,13 +85,13 @@ export default {
                 const t = trans[listIndex];
                 captionList.data?.forEach((c) => {
                     c.transcription = t;
-                    console.log(`Assigned transcription for caption (ID: ${c.id}):`, c.transcription);
+                    // console.log(`Assigned transcription for caption (ID: ${c.id}):`, c.transcription);
                 });
             });
 
             // Merge all caption data into alldata
             alldata = allTranscriptionData.reduce((acc, { data = [] }) => [...acc, ...data], []);
-            console.log("Combined alldata:", alldata);
+            // console.log("Combined alldata:", alldata);
         }
 
         if (alldata === undefined) {
@@ -101,20 +101,20 @@ export default {
         // Filter captions by transcription type
         let closedcaptions = alldata.filter((c) => c.transcription.transcriptionType === 0);
         let descriptions = alldata.filter((c) => c.transcription.transcriptionType !== 0);
-        console.log("Filtered closedcaptions:", closedcaptions);
-        console.log("Filtered descriptions:", descriptions);
+        // console.log("Filtered closedcaptions:", closedcaptions);
+        // console.log("Filtered descriptions:", descriptions);
 
         // Dispatch closed captions
         yield put({ type: 'setCaptions', payload: closedcaptions });
 
         // Dispatch descriptions
         const descriptionData = descriptions;
-        console.log("Dispatching descriptionData:", descriptionData);
+        // console.log("Dispatching descriptionData:", descriptionData);
         yield put.resolve({ type: 'setDescriptions', payload: descriptionData });
 
         // Dispatch final transcript set
         yield put({ type: 'setTranscript' });
-        console.log("Completed setCurrTrans");
+        // console.log("Completed setCurrTrans");
     },
 
     *setTranscriptions({ payload: trans }, { put, select }) {
@@ -180,7 +180,7 @@ export default {
                     yield put({ type: 'media_pause' });
                 }
                 // Speak out loud 
-                console.log(`SPEAK ${nextDescription.text}`);
+                // console.log(`SPEAK ${nextDescription.text}`);
                 yield put({ type: 'playerpref/setPreference', payload: { description: nextDescription.text } })
             }
         }
@@ -239,7 +239,7 @@ export default {
         const { watch } = yield select();
 
         // console.log("Entering saveCaption with payload:", { caption, text, begin, end });
-        console.log("Current watch state:", watch);
+        // console.log("Current watch state:", watch);
 
         /**
          * @todo check PROFANITY_LIST
@@ -257,39 +257,39 @@ export default {
         // }
 
         if (!text) {
-            console.log("Exiting saveCaption early: 'text' is falsy.");
+            // console.log("Exiting saveCaption early: 'text' is falsy.");
             promptControl.closePrompt();
             return;
         }
 
         if (!watch?.currEditing) {
-            console.log("Exiting saveCaption early: 'watch.currEditing' is falsy.");
+            // console.log("Exiting saveCaption early: 'watch.currEditing' is falsy.");
             promptControl.closePrompt();
             return;
         }
 
         if (watch.currEditing && watch.currEditing.text === text && watch.currEditing.begin === begin && watch.currEditing.end === end) {
-            console.log("Exiting saveCaption early: No changes detected in 'currEditing'.");
+            // console.log("Exiting saveCaption early: No changes detected in 'currEditing'.");
             promptControl.closePrompt();
             return;
         }
 
-        console.log("Updating caption with text:", text);
+        // console.log("Updating caption with text:", text);
         caption.text = text; // update data model 
         caption.begin = begin;
         caption.end = end;
         promptControl.savingCaption(); // just a ui prompt, empty atm
 
         const { id } = watch.currEditing;
-        console.log("Sending user event with ID:", id, "Current time:", watch.currTime, "Old text:", watch.currEditing.text, "New text:", text);
+        // console.log("Sending user event with ID:", id, "Current time:", watch.currTime, "Old text:", watch.currEditing.text, "New text:", text);
 
         const isClosedCaption = caption.transcription.transcriptionType === 0;
-        console.log("Is closed caption:", isClosedCaption);
+        // console.log("Is closed caption:", isClosedCaption);
 
         yield put({ type: 'setCurrEditing', payload: null });
 
         try {
-            console.log("Calling API to update caption line with data:", { id, text, begin, end });
+            // console.log("Calling API to update caption line with data:", { id, text, begin, end });
             yield call(api.updateCaptionLine, { id, text, begin, end });
 
             if (isClosedCaption) {
@@ -301,7 +301,7 @@ export default {
             }
             // another elif here for chapter breaks eventually
             promptControl.savedCaption(isClosedCaption, true);
-            console.log("Caption saved successfully.");
+            // console.log("Caption saved successfully.");
         } catch (error) {
             console.error("Error saving caption:", error);
             promptControl.savedCaption(isClosedCaption, false);
