@@ -7,15 +7,18 @@ import './index.scss';
 
 function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   const { text, id, begin, end, kind = "web" } = caption;
-  const textRef = useRef();
-  const timeRef = useRef();
+
+  const startTimeRef = useRef();
   const endTimeRef = useRef();
+  const textRef = useRef();
+
 
   const [fullBeginTime, setFullBeginTime] = useState(begin);
   const [fullEndTime, setFullEndTime] = useState(end);
+  const [savedText, setSavedText] = useState(text);
 
-  const [timeString, setTimeString] = useState(prettierTimeStr(begin));
-  const [endTimeString, setEndTimeString] = useState(prettierTimeStr(end));
+  const [displayedStartTime, setDisplayedStartTime] = useState(prettierTimeStr(begin, false));
+  const [displayedEndTime, setDisplayedEndTime] = useState(prettierTimeStr(end, false));
 
   const validateTimeFormat = (input) => {
     const timeRegex = /^(\d{1,2}:)?\d{1,2}:\d{2}(\.\d+)?$/;
@@ -25,68 +28,77 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     return true;
   };
 
+  // The control flow is that a change to time is saved in handleTimeKeyDown,
+  // which triggers handleSave, which then changes the displayedTime to the correct truncated time
   const handleSave = () => {
-    const newText = textRef.current.innerText;
-    const newBeginTime = timeRef.current.innerText;
-    const newEndTime = endTimeRef.current.innerText;
-    try {
-      validateTimeFormat(newBeginTime);
-      validateTimeFormat(newEndTime);
-      dispatch({
-        type: 'watch/saveCaption',
-        payload: { caption, text: newText, begin: newBeginTime, end: newEndTime },
-      });
-      setTimeString(prettierTimeStr(newBeginTime));
-      setEndTimeString(prettierTimeStr(newEndTime));
-      textRef.current.innerText = newText;
-    } catch (error) {
-      // TODO: add reactful alert here if timestring is badly formatted
-    }
+    dispatch({
+      type: 'watch/saveCaption',
+      payload: { caption, text: savedText, begin: fullBeginTime, end: fullEndTime },
+    });
+    setDisplayedStartTime(prettierTimeStr(fullBeginTime, false));
+    setDisplayedEndTime(prettierTimeStr(fullEndTime, false));
   };
+
+  useEffect(() => {
+    handleSave()
+  }, [savedText, fullBeginTime, fullEndTime])
 
   // NOTE: ALL editable text boxes reset the value to the original if the textbox loses focus
   // Users MUST hit enter for their changes to not be lost
-  const handleTextBlur = (ref, originalValue) => {
-    if (ref.current) {
-      ref.current.innerText = originalValue;
+  const handleTimeBlur = (setDisplayedTime, originalValue) => {
+    setDisplayedTime(prettierTimeStr(originalValue, false));
+  };
+
+  // Ideally, you could do something like setSavedText(savedText), akin to how handleTextKeyDown
+  // lazy updates savedText, but this won't trigger a DOM update, so we have to do manually
+  // update the DOM
+  const handleTextBlur = () => {
+    if (textRef.current) {
+      textRef.current.innerText = savedText
     }
   };
 
-  const handleTimeBlur = (ref, originalValue) => {
-    if (ref.current) {
-      ref.current.innerText = prettierTimeStr(originalValue);
-    }
+  const handleTimeFocus = (fullTime, setDisplayedTime) => {
+    setDisplayedTime(prettierTimeStr(fullTime, true));
+    dispatch({
+      type: 'watch/setTransEditMode',
+      payload: { caption, innerText: fullTime },
+    });
   };
 
-  const handleFocus = (ref, fullTime) => {
-    if (ref.current) {
-      ref.current.innerText = prettierTimeStr(fullTime, true);
-      dispatch({
-        type: 'watch/setTransEditMode',
-        payload: { caption, innerText: ref.current.innerText },
-      });
-    }
+  const handleTextFocus = () => {
+    dispatch({
+      type: 'watch/setTransEditMode',
+      payload: { caption },
+    });
   };
 
   const handleTimeKeyDown = (e, ref, setFullTime) => {
-    if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
-      e.preventDefault();
-      const currentTime = ref.current?.innerText || "";
-      try {
-        validateTimeFormat(currentTime);
-        setFullTime(currentTime);
-        handleSave();
-      } catch (error) {
-        // TODO: add reactful alert here if timestring is badly formatted
+    if (ref.current) {
+      if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
+        e.preventDefault();
+        const currentValue = ref.current?.innerText || "";
+        try {
+          validateTimeFormat(currentValue);
+          setFullTime(currentValue);
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log("ERROR", error)
+          // TODO: add reactful alert here if timestring is badly formatted
+        }
+        ref.current.blur();
       }
-      ref.current.blur();
     }
   }
 
   const handleTextKeyDown = (e, ref) => {
-    if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
-      handleSave();
-      ref.current.blur();
+    if (ref.current) {
+      if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
+        e.preventDefault();
+        const currentValue = textRef.current?.innerText || "";
+        setSavedText(currentValue);
+        ref.current.blur();
+      }
     }
   }
 
@@ -100,19 +112,19 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       <div className="caption-line-content">
         {/* Editable Start Time */}
         <div
-          ref={timeRef}
+          ref={startTimeRef}
           suppressContentEditableWarning
           contentEditable={allowEdit && !isMobile}
           role="textbox"
           tabIndex={0}
           id={`caption-line-time-${id}`}
           className="caption-line-time-display"
-          onFocus={() => handleFocus(timeRef, fullBeginTime)}
-          onBlur={() => handleTimeBlur(timeRef, fullBeginTime)}
-          onKeyDown={(e) => handleTimeKeyDown(e, timeRef, setFullBeginTime)}
+          onFocus={() => { handleTimeFocus(fullBeginTime, setDisplayedStartTime) }}
+          onBlur={() => { handleTimeBlur(setDisplayedStartTime, fullBeginTime) }}
+          onKeyDown={(e) => { handleTimeKeyDown(e, startTimeRef, setFullBeginTime) }}
           spellCheck={false}
         >
-          {timeString}
+          {displayedStartTime}
         </div>
 
         {/* Editable Text */}
@@ -124,12 +136,12 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           tabIndex={0}
           id={`caption-line-textarea-${id}`}
           className={`caption-line-text-${fontSize}`}
-          onFocus={() => dispatch({ type: 'watch/setTransEditMode', payload: { caption } })}
-          onBlur={() => handleTextBlur(textRef, text)}
-          onKeyDown={(e) => handleTextKeyDown(e, textRef)}
           spellCheck={false}
+          onFocus={handleTextFocus}
+          onBlur={() => { handleTextBlur(text) }}
+          onKeyDown={(e) => { handleTextKeyDown(e, textRef) }}
         >
-          {text}
+          {savedText}
         </div>
 
         {/* Editable End Time */}
@@ -141,12 +153,12 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           tabIndex={0}
           id={`caption-line-end-time-${id}`}
           className="caption-line-time-display"
-          onFocus={() => handleFocus(endTimeRef, fullEndTime)}
-          onBlur={() => handleTimeBlur(endTimeRef, fullEndTime)}
-          onKeyDown={(e) => handleTimeKeyDown(e, endTimeRef, setFullEndTime)}
+          onFocus={() => { handleTimeFocus(fullEndTime, setDisplayedEndTime) }}
+          onBlur={() => { handleTimeBlur(setDisplayedEndTime, fullEndTime) }}
+          onKeyDown={(e) => { handleTimeKeyDown(e, endTimeRef, setFullEndTime) }}
           spellCheck={false}
         >
-          {endTimeString}
+          {displayedEndTime}
         </div>
       </div>
 
