@@ -3,10 +3,10 @@ import { prompt } from 'utils';
 /**
  * Functions for controlling prompts
  */
-const standardPosition = [70,70];
+const standardPosition = [70, 70];
 
 export const promptControl = {
-  
+
   closePrompt() {
     prompt.closeAll();
   },
@@ -26,13 +26,23 @@ export const promptControl = {
     });
   },
 
-  savingCaption() {},
+  savingCaption() { },
 
   savedCaption(isClosedCaption, success = true) {
     const captionType = isClosedCaption ? 'Closed Caption' : 'Description'
     prompt.addOne({
       status: success ? 'success' : 'error',
       text: success ? `${captionType} updated` : `${captionType} could not be saved`,
+      offset: standardPosition,
+      timeout: 3000,
+    });
+  },
+
+  timestampFailed(isClosedCaption) {
+    const captionType = isClosedCaption ? 'Closed Caption' : 'Description'
+    prompt.addOne({
+      status: 'error',
+      text: `${captionType} could not be saved. Timestamps must be in HH:MM:SS.MS format`,
       offset: standardPosition,
       timeout: 3000,
     });
@@ -49,9 +59,8 @@ export const promptControl = {
   error(target = 'media data') {
     const { search, pathname } = window.location;
     prompt.addOne({
-      text: `Couldn't load ${target}. Please&ensp;<a href="${
-        pathname + search
-      }">refresh</a>&ensp;to retry.`,
+      text: `Couldn't load ${target}. Please&ensp;<a href="${pathname + search
+        }">refresh</a>&ensp;to retry.`,
       offset: standardPosition,
       status: 'error',
     });
@@ -61,10 +70,10 @@ export const promptControl = {
     prompt.addOne({
       text: `Sorry, if the video can't load, please use Chrome to open the page. 
         <a href=${`googlechrome-x-callback://x-callback-url/open/?url=${encodeURIComponent(
-          window.location.href,
-        )}&x-source=Safari&x-success=${encodeURIComponent(
-          window.location.href,
-        )}`}>Click to open in Chrome</a>`,
+        window.location.href,
+      )}&x-source=Safari&x-success=${encodeURIComponent(
+        window.location.href,
+      )}`}>Click to open in Chrome</a>`,
       position: 'top',
       status: 'error',
     });

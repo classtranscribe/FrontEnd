@@ -75,16 +75,20 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
 
   const handleTimeKeyDown = (e, ref, setFullTime) => {
     if (ref.current) {
-      if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
+      if (e.keyCode === KeyCode.KEY_ESCAPE) {
+        e.preventDefault();
+        ref.current.blur();
+      } else if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
         e.preventDefault();
         const currentValue = ref.current?.innerText || "";
         try {
           validateTimeFormat(currentValue);
           setFullTime(currentValue);
         } catch (error) {
-          // eslint-disable-next-line no-console
-          console.log("ERROR", error)
-          // TODO: add reactful alert here if timestring is badly formatted
+          dispatch({
+            type: 'watch/timestampFailed',
+            payload: { caption },
+          });
         }
         ref.current.blur();
       }
@@ -93,6 +97,10 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
 
   const handleTextKeyDown = (e, ref) => {
     if (ref.current) {
+      if (e.keyCode === KeyCode.KEY_ESCAPE) {
+        ref.current.blur();
+        return;
+      }
       if (e.keyCode === KeyCode.KEY_RETURN && !e.shiftKey) {
         e.preventDefault();
         const currentValue = textRef.current?.innerText || "";

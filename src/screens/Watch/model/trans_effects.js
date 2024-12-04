@@ -234,6 +234,10 @@ export default {
             yield put({ type: 'playerpref/setPreference', payload: { showCaptionTips: false } });
         }
     },
+    *timestampFailed({ payload: { caption } }) {
+        promptControl.timestampFailed(caption.transcription.transcriptionType === 0);
+        yield;
+    },
     // This is a transcript caption
     *saveCaption({ payload: { caption, text, begin, end } }, { call, put, select }) {
         const { watch } = yield select();
