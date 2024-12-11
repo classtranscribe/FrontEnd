@@ -16,6 +16,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   const [fullBeginTime, setFullBeginTime] = useState(begin);
   const [fullEndTime, setFullEndTime] = useState(end);
   const [savedText, setSavedText] = useState(text);
+  const [violations, setViolations] = useState([]);
+  const [isTextInvalid, setIsTextInvalid] = useState(false);
 
   const [displayedStartTime, setDisplayedStartTime] = useState(prettierTimeStr(begin, false));
   const [displayedEndTime, setDisplayedEndTime] = useState(prettierTimeStr(end, false));
@@ -28,16 +30,89 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     return true;
   };
 
+  const validateText = (input) => {
+    const MAX_LINE_LENGTH = 42; 
+    let lines = [];
+    let violations = [];
+  
+    const splitText = (text) => {
+      let currentLine = '';
+      let words = text.split(' ');
+      let currentLineLength = 0;
+  
+      console.log(`Processing text: "${text}"`);
+  
+      words.forEach((word) => {
+        if (currentLineLength + word.length + (currentLineLength > 0 ? 1 : 0) > MAX_LINE_LENGTH) {
+          lines.push(currentLine.trim());
+          currentLine = word;
+          currentLineLength = word.length;
+        } else {
+          if (currentLineLength > 0) {
+            currentLine += ' ';
+            currentLineLength += 1; 
+          }
+          currentLine += word;
+          currentLineLength += word.length;
+        }
+      });
+  
+      if (currentLine) {
+        lines.push(currentLine.trim());
+      }
+    };
+    splitText(input);
+  
+    console.log(`Lines after split: ${JSON.stringify(lines)}`);
+  
+    lines.forEach((line, index) => {
+      if (line.length > MAX_LINE_LENGTH) {
+        violations.push(`Line ${index + 1} exceeds the max character length.`);
+      }
+    });
+  
+    if (input.length <= MAX_LINE_LENGTH && lines.length > 1) {
+      violations.push("Text is incorrectly flagged as multi-line for a short subtitle.");
+    }
+
+    if (lines.length > 2) {
+      violations.push('Text exceeds two lines.');
+    }
+  
+    console.log(`Violations: ${JSON.stringify(violations)}`);
+  
+    return { lines, violations };
+  };
+  
+
   // The control flow is that a change to time is saved in handleTimeKeyDown,
   // which triggers handleSave, which then changes the displayedTime to the correct truncated time
   const handleSave = () => {
+    const { lines, violations: textViolations } = validateText(savedText);
+  
+    const beginTime = parseFloat(fullBeginTime.replace(/:/g, ''));
+    const endTime = parseFloat(fullEndTime.replace(/:/g, ''));
+    const duration = endTime - beginTime;
+  
+    const durationViolations = [];
+    if (duration < 1.5) {
+      durationViolations.push('Caption duration is too short (less than 1.5 seconds).');
+    } else if (duration > 6) {
+      durationViolations.push('Caption duration is too long (more than 6 seconds).');
+    }
+  
+    const allViolations = [...textViolations, ...durationViolations];
+  
     dispatch({
       type: 'watch/saveCaption',
-      payload: { caption, text: savedText, begin: fullBeginTime, end: fullEndTime },
+      payload: { caption, text: lines.join('\n'), begin: fullBeginTime, end: fullEndTime },
     });
     setDisplayedStartTime(prettierTimeStr(fullBeginTime, false));
     setDisplayedEndTime(prettierTimeStr(fullEndTime, false));
+    setViolations(allViolations);
+    setIsTextInvalid(allViolations.length > 0);
   };
+  
 
   useEffect(() => {
     handleSave()
@@ -54,7 +129,11 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   // update the DOM
   const handleTextBlur = () => {
     if (textRef.current) {
-      textRef.current.innerText = savedText
+      // textRef.current.innerText = savedText
+      const { lines, violations: newViolations } = validateText(savedText);
+      textRef.current.innerText = lines.join('\n');
+      setViolations(newViolations);
+      setIsTextInvalid(newViolations.length > 0);
     }
   };
 
@@ -113,7 +192,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   return (
     <div
       id={`caption-line-${id}`}
-      className="watch-caption-line"
+      className={`watch-caption-line ${isTextInvalid ? 'invalid-text' : ''}`}
       kind={kind}
       data-unsaved
     >
@@ -143,13 +222,16 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           role="textbox"
           tabIndex={0}
           id={`caption-line-textarea-${id}`}
-          className={`caption-line-text-${fontSize}`}
+          className={`caption-line-text-${fontSize} ${isTextInvalid ? 'invalid-text' : ''}`}
           spellCheck={false}
           onFocus={handleTextFocus}
           onBlur={() => { handleTextBlur(text) }}
           onKeyDown={(e) => { handleTextKeyDown(e, textRef) }}
         >
           {savedText}
+        </div>
+        <div className="violations">
+          <span className="tooltip">{violations.join(', ')}</span>
         </div>
 
         {/* Editable End Time */}
