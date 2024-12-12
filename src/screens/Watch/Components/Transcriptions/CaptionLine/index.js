@@ -1,7 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import * as KeyCode from 'keycode-js';
-
+import {
+  WEBVTT_SUBTITLES,
+  WEBVTT_DESCRIPTIONS,
+} from '../../../Utils/constants.util';
 import { prettierTimeStr } from '../../../Utils';
 import './index.scss';
 
@@ -11,7 +14,6 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   const startTimeRef = useRef();
   const endTimeRef = useRef();
   const textRef = useRef();
-
 
   const [fullBeginTime, setFullBeginTime] = useState(begin);
   const [fullEndTime, setFullEndTime] = useState(end);
@@ -33,15 +35,13 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
   const validateText = (input) => {
     const MAX_LINE_LENGTH = 42; 
     let lines = [];
-    let violations = [];
+    let violationArr = [];
   
-    const splitText = (text) => {
+    const splitText = (textInput) => {
       let currentLine = '';
-      let words = text.split(' ');
+      let words = textInput.split(' ');
       let currentLineLength = 0;
-  
-      console.log(`Processing text: "${text}"`);
-  
+    
       words.forEach((word) => {
         if (currentLineLength + word.length + (currentLineLength > 0 ? 1 : 0) > MAX_LINE_LENGTH) {
           lines.push(currentLine.trim());
@@ -62,36 +62,35 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       }
     };
     splitText(input);
-  
-    console.log(`Lines after split: ${JSON.stringify(lines)}`);
-  
+    
     lines.forEach((line, index) => {
       if (line.length > MAX_LINE_LENGTH) {
-        violations.push(`Line ${index + 1} exceeds the max character length.`);
+        violationArr.push(`Line ${index + 1} exceeds the max character length.`);
       }
     });
   
     if (input.length <= MAX_LINE_LENGTH && lines.length > 1) {
-      violations.push("Text is incorrectly flagged as multi-line for a short subtitle.");
+      violationArr.push("Text is incorrectly flagged as multi-line for a short subtitle.");
     }
 
     if (lines.length > 2) {
-      violations.push('Text exceeds two lines.');
+      violationArr.push('Text exceeds two lines.');
     }
-  
-    console.log(`Violations: ${JSON.stringify(violations)}`);
-  
-    return { lines, violations };
+    
+    return { lines, violationArr };
   };
   
 
-  // The control flow is that a change to time is saved in handleTimeKeyDown,
-  // which triggers handleSave, which then changes the displayedTime to the correct truncated time
   const handleSave = () => {
-    const { lines, violations: textViolations } = validateText(savedText);
+    const { lines, violationArr = [] } = validateText(savedText); 
+    const parseTime = (timeStr) => {
+      const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+      const [sec, ms] = seconds.toString().split('.');
+      return hours * 3600 + minutes * 60 + (Number(sec) || 0) + (ms ? parseFloat(`0.${ms}`) : 0);
+    };
   
-    const beginTime = parseFloat(fullBeginTime.replace(/:/g, ''));
-    const endTime = parseFloat(fullEndTime.replace(/:/g, ''));
+    const beginTime = parseTime(fullBeginTime);
+    const endTime = parseTime(fullEndTime);
     const duration = endTime - beginTime;
   
     const durationViolations = [];
@@ -100,8 +99,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     } else if (duration > 6) {
       durationViolations.push('Caption duration is too long (more than 6 seconds).');
     }
-  
-    const allViolations = [...textViolations, ...durationViolations];
+    
+    const allViolations = [...violationArr, ...durationViolations];
   
     dispatch({
       type: 'watch/saveCaption',
@@ -109,8 +108,10 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     });
     setDisplayedStartTime(prettierTimeStr(fullBeginTime, false));
     setDisplayedEndTime(prettierTimeStr(fullEndTime, false));
-    setViolations(allViolations);
-    setIsTextInvalid(allViolations.length > 0);
+    if(kind === WEBVTT_SUBTITLES) {
+      setViolations(allViolations);
+      setIsTextInvalid(allViolations.length > 0);
+    }  
   };
   
 
@@ -118,22 +119,14 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
     handleSave()
   }, [savedText, fullBeginTime, fullEndTime])
 
-  // NOTE: ALL editable text boxes reset the value to the original if the textbox loses focus
-  // Users MUST hit enter for their changes to not be lost
   const handleTimeBlur = (setDisplayedTime, originalValue) => {
     setDisplayedTime(prettierTimeStr(originalValue, false));
   };
 
-  // Ideally, you could do something like setSavedText(savedText), akin to how handleTextKeyDown
-  // lazy updates savedText, but this won't trigger a DOM update, so we have to do manually
-  // update the DOM
   const handleTextBlur = () => {
     if (textRef.current) {
-      // textRef.current.innerText = savedText
-      const { lines, violations: newViolations } = validateText(savedText);
+      const { lines, violationArr = [] } = validateText(savedText);
       textRef.current.innerText = lines.join('\n');
-      setViolations(newViolations);
-      setIsTextInvalid(newViolations.length > 0);
     }
   };
 
@@ -195,8 +188,15 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
       className={`watch-caption-line ${isTextInvalid ? 'invalid-text' : ''}`}
       kind={kind}
       data-unsaved
+      onFocus={() => setIsTextInvalid(violations.length > 0)}
+      onBlur={() => setIsTextInvalid(false)} 
     >
       <div className="caption-line-content">
+        {/* Triangle indicator */}
+        {(violations.length > 0 && kind === WEBVTT_SUBTITLES) && (
+          <div className="triangle-indicator" />
+        )}
+  
         {/* Editable Start Time */}
         <div
           ref={startTimeRef}
@@ -213,7 +213,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
         >
           {displayedStartTime}
         </div>
-
+  
         {/* Editable Text */}
         <div
           ref={textRef}
@@ -230,10 +230,12 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
         >
           {savedText}
         </div>
-        <div className="violations">
-          <span className="tooltip">{violations.join(', ')}</span>
+  
+        <div className={`violations ${violations.length > 0 ? 'show-tooltip' : ''}`}>
+          {violations.length > 0 && <span className="tooltip">{violations.join(', ')}</span>}
         </div>
 
+  
         {/* Editable End Time */}
         <div
           ref={endTimeRef}
@@ -251,21 +253,8 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
           {displayedEndTime}
         </div>
       </div>
-
-      {/* Action Buttons */}
-      {/* <div className="caption-line-btns">
-        {true && (
-          <div className="mt-2 mr-3 caption-line-prompt">Return (save changes). Shift-Return (newline)</div>
-        )}
-        <button className="plain-btn caption-line-save-btn" onClick={handleSave}>
-          Save
-        </button>
-        <button className="plain-btn caption-line-cancel-btn" onClick={handleCancel}>
-          Cancel
-        </button>
-      </div> */}
     </div>
-  );
+  );    
 }
 
 export default CaptionLine;

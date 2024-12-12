@@ -46,7 +46,7 @@
 }
 .caption-line-time-display {
   margin-top: 10px;
-  margin-right: .5em;
+  // margin-right: .5em;
   span {
     display: flex;
     justify-content: center;
@@ -341,6 +341,7 @@
     }
   }
 }
+
 .description-line-text {
   width: 100%;
   text-align: center;
@@ -362,15 +363,16 @@
   line-height: 2em;
   color: var(--ct-text-white-hover);
 }
-
 .invalid-text {
-  color: red !important;
+  position: relative; /* To position the triangle */
 }
 
 .tooltip {
   visibility: hidden;
   width: 200px; 
   background-color: rgba(0, 0, 0, 0.8);
+  border-color: white;
+  border-style: groove;
   color: #fff;
   text-align: center;
   border-radius: 5px;
@@ -401,5 +403,23 @@
 .caption-line-text-normal:hover .tooltip,
 .watch-caption-line.invalid-text:hover .tooltip {
   visibility: visible;
+  opacity: 1;
+}
+
+.watch-caption-line:focus-within .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.triangle-indicator {
+  // position: absolute;
+  // left: -45px;
+  // top: 50%;
+  // transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent; 
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid rgb(204, 0, 0);
   opacity: 1;
 }
