@@ -6,7 +6,6 @@ class EPubImageData {
   };
 
   constructor(imageLike) {
-    // eslint-disable-next-line no-console
     if (typeof imageLike === 'string') {
       this.src = imageLike;
     } else if (imageLike) {

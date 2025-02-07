@@ -22,16 +22,12 @@ function ImageWrapper({
     if (imageAlt !== alt.value) {
       alt.setValue(imageAlt);
     }
-    // eslint-disable-next-line no-console
-    console.log("!ImageWrapper useEffect alt", alt);
   }, [imageAlt]);
 
   const handleSaveAlt = () => {
     if (typeof onImageAltChange === 'function') {
       onImageAltChange(alt.value);
     }
-    // eslint-disable-next-line no-console
-    console.log("!ImageWrapper handeSaveAlt alt", alt);
   };
 
   const [showLink, setShowLink] = useState(false);
@@ -59,8 +55,6 @@ function ImageWrapper({
     onLinkChange(epub);
     setShowLink(false);
   }
-  // eslint-disable-next-line no-console
-  console.log("!Image wrapper alt", alt);
   return disabled ? null : (
     <CTFragment dFlexCol justConBetween className="ch-img-wrapper" padding="20">
       <CTFragment justConEnd>

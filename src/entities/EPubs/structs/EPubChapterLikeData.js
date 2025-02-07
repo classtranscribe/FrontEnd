@@ -63,7 +63,9 @@ class EPubChapterLikeData {
       condition: ['default'],
       contents: resetText
         ? _buildContentsFromItems(items)
-        : contents.map(con => typeof con === 'string' ? con : new EPubImageData(con))
+        : contents.map(con => typeof con === 'string' ? con : (new EPubImageData(con)).toObject())
+      // you have to explicitly cast EPubImageData to plain object to maintain consistency with
+      // _buildContentsFromItems, which implicitly makes the cast
     };
   }
 

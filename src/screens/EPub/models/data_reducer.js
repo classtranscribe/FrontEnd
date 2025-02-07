@@ -152,11 +152,6 @@ export default {
         chapter.items = _.slice(chapter.items, 0, itemIdx);
         rebuildChapter(chapters, chapterIdx);
 
-        console.log("!data_reducer subdivideChapter", chapters);
-        if (true) {
-            throw new Error();
-        }
-
         // this.updateAll('Subdivide the chapter');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
@@ -298,12 +293,8 @@ export default {
         let contents = _.slice(chapter.contents, itemIdx, chapter.contents.length);
         chapter.contents = _.slice(chapter.contents, 0, itemIdx);
 
-        console.log("sliceChapter old contents", chapter.contents);
-        console.log("sliceChapter new contents", contents);
-
         // insert the new chapter
         const newChapters = insertChapter(chapters, chapterIdx + 1, { contents }, false);
-        console.log("sliceChapter newChapters", newChapters);
 
         if (newChapters[chapterIdx].timemerge > '00:00:00') {
             newChapters[chapterIdx + 1].end = newChapters[chapterIdx].end;
@@ -494,7 +485,6 @@ export default {
             value = new EPubImageData(value).toObject();
         }
         const chapters = state.epub.chapters;
-        console.log("data_reducer prechange setChapterContentAtChapterIdx", value, chapters);
         if (subChapterIdx === undefined) {
             const chapter = chapters[chapterIdx];
             if (type === 'condition') {
