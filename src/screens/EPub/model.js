@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import _ from 'lodash';
 import { api, prompt, links, uurl, elem, timestr } from 'utils';
 import { delay } from 'dva/saga'
@@ -113,7 +114,7 @@ const EPubModel = {
         ...model_data_reducer
     },
     effects: {
-        *setupEPub({ payload: ePubId }, { call, put}) {
+        *setupEPub({ payload: ePubId }, { call, put }) {
             /*
             if (this.ePubId === ePubId) {
                 epubState.resetStates();
@@ -121,8 +122,6 @@ const EPubModel = {
             }
             */
             let _epub = yield call(getEPubById, ePubId);
-            // eslint-disable-next-line no-console
-            console.log(_epub)
             const { view, h } = uurl.useHash();
             if (Constants.EPubViews.includes(view)) {
                 yield put({ type: 'setView', payload: view });
@@ -187,7 +186,7 @@ const EPubModel = {
             uurl.openNewTab(links.epub(newEPubData.id, Constants.EditINote));
         },
         *deleteEPub({ payload: ePubId }, { call }) {
-            try { 
+            try {
                 yield call(api.deleteEPub, ePubId);
                 window.close();
             } catch (error) {
@@ -196,6 +195,8 @@ const EPubModel = {
             }
         },
         *updateEPubBasicInfo({ payload }, { put }) {
+            console.log("EpubModel updateEpubBasicInfo action", payload, put);
+
             yield put.resolve({ type: 'setEPub', payload })
             yield put({ type: 'updateEPub', payload: 0 })
         },
@@ -203,15 +204,19 @@ const EPubModel = {
         updateEPub: [
             // eslint-disable-next-line func-names
             function* ({ payload: timeout = 3000 }, { put }) {
+                console.log("EpubModel updateEpub action", timeout);
+
                 yield delay(timeout);
                 yield put({ type: 'updateEPub_Internal' })
             },
             { type: "takeLatest" }
         ],
         *updateEPub_Internal(action, { call, put, select }) {
+            console.log("EpubModel updateEpubInternal action", action, call, put, select);
             yield put.resolve({ type: 'setSaved', payload: (Constants.EpbSaving) });
             const { epub } = yield select();
             try {
+                console.log("EpubModel updateEpubInternal epub", epub.epub);
                 yield call(api.updateEPub, epub.epub);
                 yield put({ type: 'setSaved', payload: (Constants.EpbSaved) });
                 /*
@@ -226,6 +231,7 @@ const EPubModel = {
             }
         },
         *updateEpubData({ payload: { action, payload } }, { put }) {
+            console.log("EpubModel updateEpubData payload, action", payload, action);
             yield put.resolve({ type: action, payload })
             yield put({ type: 'updateEPub' })
         },

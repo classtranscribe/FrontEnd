@@ -1,17 +1,17 @@
 /* eslint-disable react/no-array-index-key */
-import { CTFragment, CTText, altEl} from 'layout'
-import React, {useState} from 'react' 
+import { CTFragment, CTText, altEl } from 'layout'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'pico-ui';
 import { connect } from 'dva'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
 import { timestr } from 'utils';
 import { v4 as uuidv4 } from 'uuid';
 import { ChapterImage, ChapterText, ChapterTitle, MDEditorModal } from '../../../components';
-import {epub as epubTools} from '../../../controllers';
+import { epub as epubTools } from '../../../controllers';
 
-function INoteChapter ({
-  chapter, 
+function INoteChapter({
+  chapter,
   chIdx,
   // canSplitSubChapter = true,
   // canSubdivide = true,
@@ -20,7 +20,7 @@ function INoteChapter ({
   // _isSubChapter,
   // _subChIdx,
   // _condition,
-  dispatch 
+  dispatch
 }) {
   const { start, end, title } = chapter;
   // const btnStyles = useButtonStyles();
@@ -31,11 +31,13 @@ function INoteChapter ({
   const [openModalIndex, setOpenModalIndex] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  useEffect(() => {
+  }, []);
   const handleOpenMDEditor = (itemIdx) => {
     setInsertType('md');
     setOpenModalIndex(itemIdx)
   };
-      
+
   const watchInPlayer = () => {
     dispatch({
       type: 'epub/openPlayer', payload: {
@@ -63,8 +65,8 @@ function INoteChapter ({
     }
     handleClose();
   };
-    
-   
+
+
   const handleSaveImage = (itemIdx) => (val) => {
     let imageval = new EPubImageData(val).toObject();
     if (typeof onInsert === 'function' && imageval) {
@@ -112,9 +114,10 @@ function INoteChapter ({
       ...btnProps,
       text: 'Split Chapter',
       icon: 'unfold_more',
-       onClick: () => sliceChapter(itemIdx)
-  })};
- 
+      onClick: () => sliceChapter(itemIdx)
+    })
+  };
+
 
   const mergeChapterBtnElement = (itemIdx) => {
     let canMerge = chIdx > 0 && itemIdx === 0;
@@ -123,7 +126,8 @@ function INoteChapter ({
       text: 'Merge Chapter With Above',
       icon: 'unfold_less',
       onClick: mergeChapter
-  })};
+    })
+  };
 
   // Add Image Button
   const addImgElement = (itemIdx) => {
@@ -132,7 +136,8 @@ function INoteChapter ({
       text: 'Add Image',
       icon: 'image',
       onClick: () => handleOpenImgPicker(itemIdx)
-  })};
+    })
+  };
 
   // Add Text Button 
   function addTextElement(itemIdx) {
@@ -141,7 +146,8 @@ function INoteChapter ({
       text: 'Add Text',
       icon: 'add',
       onClick: () => handleOpenMDEditor(itemIdx)
-  })};
+    })
+  };
 
   function watchVideoElement(itemIdx) {
     return altEl(Button, itemIdx === 0, {
@@ -149,7 +155,8 @@ function INoteChapter ({
       text: <span className="ml-1">Watch {startTimeStr} - {endTimeStr}</span>,
       icon: <span className="material-icons">play_circle_filled</span>,
       onClick: watchInPlayer
-  })};
+    })
+  };
 
   // New Subchapter Button 
   // There is another splitSChBtnElement function in EpubListItem.js !?
@@ -180,8 +187,8 @@ function INoteChapter ({
     dispatch({
       type: 'epub/updateEpubData', payload: {
         action: 'saveChapterTitle', payload: { chapterIdx: chIdx, value }
-    }
-  })
+      }
+    })
 
   // Chapter Image Functions
   const onImageChange = (index) => (val) => {
@@ -192,7 +199,7 @@ function INoteChapter ({
     })
   };
 
-  const onTextChange = (index) => (val) => {  
+  const onTextChange = (index) => (val) => {
     dispatch({
       type: 'epub/updateEpubData', payload: {
         action: val ? 'setChapterContentAtChapterIdx' : 'removeChapterContentAtChapterIdx', payload: { chapterIdx: chIdx, contentIdx: index, value: val }
@@ -218,7 +225,7 @@ function INoteChapter ({
 
   return (
     <CTFragment dFlexCol>
-      <CTFragment 
+      <CTFragment
         id={epubTools.id.chID(chapter.id)}
         className='ct-inote-chapter'
       >
@@ -234,9 +241,9 @@ function INoteChapter ({
             />
           </CTFragment>
         </CTFragment>
-       
 
-        {chapter.contents.length === 0 ? ( 
+
+        {chapter.contents.length === 0 ? (
           // If the chapter doesn't have any element, still add a button bar to it for appending
           <CTFragment className="item-actions">
             {mergeChapterBtnElement(0)}
@@ -245,9 +252,9 @@ function INoteChapter ({
             {addTextElement(0)}
             {/* watchVideoElement(0) */}
           </CTFragment>
-        
+
         ) : (// If the chapter has elements, then iterate through all of them
-          chapter.contents.map((content, itemIdx) => { 
+          chapter.contents.map((content, itemIdx) => {
             const uuid = uuidv4();
             return (
               <CTFragment key={`ch-content-${chapter.id}-${uuid}`}>
@@ -260,8 +267,8 @@ function INoteChapter ({
                 </CTFragment>
 
                 {typeof content === "object" ? ( // image
-                  <CTFragment className='img-con'>   
-                    <ChapterImage 
+                  <CTFragment className='img-con'>
+                    <ChapterImage
                       id={`ch-content-${chapter.id}-${itemIdx}`}
                       image={content} // TODO ITEM id and ocr and alttext maybe map between item and content 
                       enableChapterScreenshots
@@ -286,27 +293,28 @@ function INoteChapter ({
                         <Button onClick={handleNo} autoFocus>NO</Button>
                         <Button onClick={handleYes}>YES</Button>
                       </DialogActions>
-                    </Dialog> 
-                  </CTFragment> 
-              ) : ( // text 
-                <CTFragment className='item-text'>   
-                  <ChapterText  
-                    id={`ch-content-${chapter.id}-${itemIdx}`}
-                    text={content}
-                    onSaveText={onTextChange(itemIdx)}
-                  />
-                </CTFragment>  
-              )}  
-                {itemIdx === chapter.contents.length - 1 && ( 
-                <CTFragment className="item-actions">
-                  {mergeChapterBtnElement(chapter.contents.length)}
-                  {splitBtnElement(chapter.contents.length)}
-                  {addImgElement(chapter.contents.length)}
-                  {addTextElement(chapter.contents.length)}
-                  {watchVideoElement(chapter.contents.length)}
-                </CTFragment>)}
+                    </Dialog>
+                  </CTFragment>
+                ) : ( // text 
+                  <CTFragment className='item-text'>
+                    <ChapterText
+                      id={`ch-content-${chapter.id}-${itemIdx}`}
+                      text={content}
+                      onSaveText={onTextChange(itemIdx)}
+                    />
+                  </CTFragment>
+                )}
+                {itemIdx === chapter.contents.length - 1 && (
+                  <CTFragment className="item-actions">
+                    {mergeChapterBtnElement(chapter.contents.length)}
+                    {splitBtnElement(chapter.contents.length)}
+                    {addImgElement(chapter.contents.length)}
+                    {addTextElement(chapter.contents.length)}
+                    {watchVideoElement(chapter.contents.length)}
+                  </CTFragment>)}
               </CTFragment>
-            )}))}
+            )
+          }))}
       </CTFragment>
 
       {insertType !== null && (
@@ -316,11 +324,11 @@ function INoteChapter ({
           onSave={handleSave}
           title="Insert New Text"
         />
-      )}     
+      )}
     </CTFragment>
   )
 }
 
 export default connect(({ epub: { epub, images } }) => ({
- images, epub
+  images, epub
 }))(INoteChapter);

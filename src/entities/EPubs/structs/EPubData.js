@@ -9,12 +9,14 @@ import EPubSubChapterData from './EPubSubChapterData';
 import EPubImageData from './EPubImageData';
 
 function _buildEPubDataFromArray(rawEPubData) {
-  return [
+  let a = [
     new EPubChapterData({
       items: _.cloneDeep(rawEPubData),
       title: 'Default Chapter',
     }).toObject()
   ];
+
+  return a;
 }
 
 /**
@@ -38,7 +40,7 @@ export default class EPubData {
     cover: null,
     chapters: [],
     h3: true,
-    condition:{'default':true}
+    condition: { 'default': true }
   };
 
   images = [];
@@ -231,7 +233,7 @@ export default class EPubData {
 
   getChapter(chapterIndex) {
     const { epub } = window.temp_app._store.getState();
-    if(!chapterIndex) {
+    if (!chapterIndex) {
       chapterIndex = epub.currChIndex;
     }
     return epub.chapters[chapterIndex];

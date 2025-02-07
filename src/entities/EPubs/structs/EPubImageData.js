@@ -2,25 +2,24 @@ class EPubImageData {
   __data__ = {
     src: '',
     alt: 'Video screenshot',
-    description: ''
+    descriptions: ['']
   };
-  
+
   constructor(imageLike) {
-    if (imageLike instanceof EPubImageData) {
-      this.__data__ = { ...imageLike.__data__ };
-    } else if (typeof imageLike === 'string') {
+    // eslint-disable-next-line no-console
+    if (typeof imageLike === 'string') {
       this.src = imageLike;
     } else if (imageLike) {
       if (imageLike.src) {
         this.src = imageLike.src;
       }
-      
+
       if (imageLike.alt) {
         this.alt = imageLike.alt;
       }
 
-      if (imageLike.description) {
-        this.description = imageLike.description;
+      if (imageLike.descriptions) {
+        this.descriptions = [...imageLike.descriptions];
       }
     }
   }
@@ -45,12 +44,12 @@ class EPubImageData {
     this.__data__.alt = alt;
   }
 
-  get description() {
-    return this.__data__.description;
+  get descriptions() {
+    return this.__data__.descriptions;
   }
 
-  set description(description) {
-    this.__data__.description = description;
+  set descriptions(descriptions) {
+    this.__data__.descriptions = descriptions;
   }
 }
 
