@@ -11,7 +11,7 @@ import DownloadOptions from './DownloadOptions';
 function ViewAndDownload({ dispatch }) {
   const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
   const onScroll = (e) => dispatchScroll(e.target)
-  
+
   return (
     <EPubNavigationProvider defaultClosed>
       <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID} onScroll={onScroll}>
