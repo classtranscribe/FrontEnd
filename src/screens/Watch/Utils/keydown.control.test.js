@@ -162,6 +162,14 @@ describe('keydownControl', () => {
       );
     });
 
+    it('should handle comma key with shift for switching videos', () => {
+      expectDispatch(
+        KeyCode.KEY_COMMA,
+        { type: 'watch/switchVideo' },
+        withShift
+      );
+    });
+
     it('should not trigger play/pause when menu is open', () => {
       keydownControl.menu = 'some-menu';
       const event = pressKey(KeyCode.KEY_SPACE, { preventDefault: true });
