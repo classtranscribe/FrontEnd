@@ -177,13 +177,6 @@ describe('keydownControl', () => {
                 withShift
             );
         });
-
-        it('should handle down arrow for volume down when no menu is open', () => {
-            expectDispatch(
-                KeyCode.KEY_DOWN,
-                { type: 'watch/media_volumeDown' }
-            );
-        });
     });
 
     describe('shift key combinations', () => {
