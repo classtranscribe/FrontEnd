@@ -1,10 +1,9 @@
 import { connect } from 'dva';
-import React, { useRef, useImperativeHandle, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Popup } from 'semantic-ui-react';
 import './index.scss';
 import './slider.scss';
 import * as KeyCode from 'keycode-js';
-import PlayerData from '../../../player'
 
 function VolumeControl({ muted = false, volume = true, dispatch }) {
   const handleVolumeChange = ({ target: { value } }) => {
@@ -30,7 +29,6 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
   };
 
   const sliderRef = useRef();
-
   useEffect(() => {
     window.focusVolumeSlider = () => {
       sliderRef.current?.focus();
