@@ -184,8 +184,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_ESCAPE,
                 { 
-                type: 'playerpref/setPreference',
-                payload: { stopAD: true }
+                    type: 'playerpref/setPreference',
+                    payload: { stopAD: true }
                 },
                 withShift
             );
@@ -195,8 +195,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_EQUALS,
                 { 
-                type: 'playerpref/changeCCSizeByValue',
-                payload: 0.25
+                    type: 'playerpref/changeCCSizeByValue',
+                    payload: 0.25
                 },
                 withShift
             );
@@ -206,8 +206,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_DASH,
                 { 
-                type: 'playerpref/changeCCSizeByValue',
-                payload: -0.25
+                    type: 'playerpref/changeCCSizeByValue',
+                    payload: -0.25
                 },
                 withShift
             );
@@ -217,8 +217,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_UP,
                 { 
-                type: 'playerpref/changePlaybackrateByValue',
-                payload: 0.25
+                    type: 'playerpref/changePlaybackrateByValue',
+                    payload: 0.25
                 },
                 withShift
             );
@@ -228,8 +228,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_DOWN,
                 { 
-                type: 'playerpref/changePlaybackrateByValue',
-                payload: -0.25
+                    type: 'playerpref/changePlaybackrateByValue',
+                    payload: -0.25
                 },
                 withShift
             );
@@ -249,8 +249,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_W,
                 { 
-                type: 'playerpref/changeYTranslateByValue',
-                payload: 5
+                    type: 'playerpref/changeYTranslateByValue',
+                    payload: 5
                 },
                 withShift
             );
@@ -260,8 +260,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_S,
                 { 
-                type: 'playerpref/changeYTranslateByValue',
-                payload: -5
+                    type: 'playerpref/changeYTranslateByValue',
+                    payload: -5
                 },
                 withShift
             );
@@ -271,8 +271,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_A,
                 { 
-                type: 'playerpref/changeXTranslateByValue',
-                payload: 5
+                    type: 'playerpref/changeXTranslateByValue',
+                    payload: 5
                 },
                 withShift
             );
@@ -282,8 +282,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_D,
                 { 
-                type: 'playerpref/changeXTranslateByValue',
-                payload: -5
+                    type: 'playerpref/changeXTranslateByValue',
+                    payload: -5
                 },
                 withShift
             );
@@ -303,8 +303,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_C,
                 { 
-                type: 'watch/menu_open',
-                payload: { type: MENU_SETTING, option: 'b' }
+                    type: 'watch/menu_open',
+                    payload: { type: MENU_SETTING, option: 'b' }
                 },
                 withShift
             );
@@ -314,8 +314,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_X,
                 { 
-                type: 'watch/menu_open',
-                payload: { type: MENU_DOWNLOAD, option: 'b' }
+                    type: 'watch/menu_open',
+                    payload: { type: MENU_DOWNLOAD, option: 'b' }
                 },
                 withShift
             );
@@ -325,8 +325,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_L,
                 { 
-                type: 'watch/menu_open',
-                payload: { type: MENU_LANGUAGE, option: 'b' }
+                    type: 'watch/menu_open',
+                    payload: { type: MENU_LANGUAGE, option: 'b' }
                 },
                 withShift
             );
@@ -336,8 +336,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_P,
                 { 
-                type: 'watch/menu_open',
-                payload: { type: MENU_PLAYLISTS, option: 'b' }
+                    type: 'watch/menu_open',
+                    payload: { type: MENU_PLAYLISTS, option: 'b' }
                 },
                 withShift
             );
@@ -347,8 +347,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_R,
                 { 
-                type: 'watch/menu_open',
-                payload: { type: MENU_PLAYBACKRATE, option: 'b' }
+                    type: 'watch/menu_open',
+                    payload: { type: MENU_PLAYBACKRATE, option: 'b' }
                 },
                 withShift
             );
@@ -358,8 +358,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_M,
                 { 
-                type: 'watch/menu_open',
-                payload: { type: MENU_SCREEN_MODE, option: 'b' }
+                    type: 'watch/menu_open',
+                    payload: { type: MENU_SCREEN_MODE, option: 'b' }
                 },
                 withShift
             );
@@ -369,8 +369,8 @@ describe('keydownControl', () => {
             expectDispatch(
                 KeyCode.KEY_BACK_SLASH,
                 { 
-                type: 'watch/menu_open',
-                payload: { type: MENU_SHORTCUTS, option: 'b' }
+                    type: 'watch/menu_open',
+                    payload: { type: MENU_SHORTCUTS, option: 'b' }
                 },
                 withShift
             );
