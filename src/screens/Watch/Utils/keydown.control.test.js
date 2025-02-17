@@ -31,20 +31,20 @@ describe('keydownControl', () => {
 
     const pressKey = (keyCode, options = {}) => {
         const event = new KeyboardEvent('keydown', { 
-        keyCode,
-        ...options
+            keyCode,
+            ...options
         });
 
         // Allow setting target after event creation
         if (options.target) {
-        Object.defineProperty(event, 'target', {
-            value: options.target,
-            enumerable: true
-        });
+            Object.defineProperty(event, 'target', {
+                value: options.target,
+                enumerable: true
+            });
         }
 
         if (options.testPreventDefault) {
-        event.preventDefault = jest.fn();
+            event.preventDefault = jest.fn();
         }
 
         keydownControl.handleKeyDown(event);
@@ -56,7 +56,7 @@ describe('keydownControl', () => {
         expect(mockDispatch).toHaveBeenCalledWith(expectedAction);
 
         if (options.testPreventDefault) {
-        expect(event.preventDefault).toHaveBeenCalled();
+            expect(event.preventDefault).toHaveBeenCalled();
         }
     };
 
@@ -67,11 +67,11 @@ describe('keydownControl', () => {
 
     describe('basic keyboard shortcuts', () => {
         it('should handle space key for play/pause when no menu is open', () => {
-        expectDispatch(
-            KeyCode.KEY_SPACE, 
-            { type: 'watch/onPlayPauseClick' },
-            { testPreventDefault: true }
-        );
+            expectDispatch(
+                KeyCode.KEY_SPACE, 
+                { type: 'watch/onPlayPauseClick' },
+                { testPreventDefault: true }
+            );
         });
 
         it('should not trigger play/pause when menu is open', () => {
