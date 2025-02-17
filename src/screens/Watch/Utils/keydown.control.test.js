@@ -411,9 +411,9 @@ describe('keydownControl', () => {
         });
     });
 
-    describe('ctrl/cmd key combinations', () => {
+    describe('ctrl/cmd/alt key combinations', () => {
         // Test both ctrl and cmd key combinations
-        [withCtrl, withCmd].forEach(modifier => {
+        [withCtrl, withCmd, withAlt].forEach(modifier => {
             const modifierName = Object.keys(modifier)[0].replace('Key', '');
 
             it(`should handle ${modifierName} key combinations`, () => {
@@ -421,14 +421,6 @@ describe('keydownControl', () => {
                 // Most ctrl/cmd combinations should be ignored (return early)
                 expect(mockDispatch).not.toHaveBeenCalled();
             });
-        });
-    });
-
-    describe('alt key combinations', () => {
-        it('should handle alt key combinations', () => {
-            pressKey(KeyCode.KEY_A, withAlt);
-            // Most alt combinations should be ignored (return early)
-            expect(mockDispatch).not.toHaveBeenCalled();
         });
     });
 }); 
