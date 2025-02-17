@@ -203,15 +203,15 @@
     },
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$",
-      "node_modules/(?!axios)"
+      "^.+\\.module\\.(css|sass|scss)$"    
     ],
     "modulePaths": [
       "src"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "\\.(css|less|scss)$": "identity-obj-proxy"
+      "\\.(css|less|scss)$": "identity-obj-proxy",
+      "^axios$": "axios/dist/node/axios.cjs"
     },
     "moduleFileExtensions": [
       "web.js",
