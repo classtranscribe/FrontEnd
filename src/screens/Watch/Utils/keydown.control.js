@@ -4,8 +4,6 @@ import $ from 'jquery';
 
 import * as KeyCode from 'keycode-js';
 
-import PlayerData from '../player'
-
 import { transControl } from './trans.control';
 
 import {
