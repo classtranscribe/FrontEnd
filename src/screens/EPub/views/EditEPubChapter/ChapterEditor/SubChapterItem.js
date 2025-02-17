@@ -67,12 +67,11 @@ function SubChapterItem({
         onSave={onSaveTitle}
       />
 
-      {contents.map((content, index) => { 
-        const uuid = uuidv4();
-        return (
+      {contents.map((content, index) => 
+        (
           <ChapterContent
             id={`sch-content-${id}-${index}`}
-            key={`sch-content-${id}-${uuid}`}
+            key={`sch-content-${id}-${uuidv4()}`}
             index={index}
             content={content}
             onInsert={onInsert(index)}
@@ -80,7 +79,7 @@ function SubChapterItem({
             onTextChange={onTextChange(index)}
             onImageChange={onImageChange(index)}
           />
-        )})}
+        ))}
       
       <ChapterNewContent index={subChapter.contents.length} onInsert={onInsert(contents.length)} />
     </CTFragment>

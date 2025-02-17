@@ -60,12 +60,11 @@ function ChapterInfo({ chapter, currChIndex, dispatch }) {
         onSave={onSaveTitle}
       />
 
-      {contents.map((content, index) => { 
-        const uuid = uuidv4();
-        return (
+      {contents.map((content, index) => 
+        (
           <ChapterContent
             id={`ch-content-${id}-${index}`}
-            key={`ch-content-${id}-${uuid}`}
+            key={`ch-content-${id}-${uuidv4()}`}
             index={index}
             condition={condition}
             dispatch={dispatch}
@@ -75,7 +74,7 @@ function ChapterInfo({ chapter, currChIndex, dispatch }) {
             onTextChange={onTextChange(index)}
             onImageChange={onImageChange(index)}
           />
-        )})}
+        ))}
 
       <ChapterNewContent onInsert={onInsert(contents.length)} />
     </CTFragment>

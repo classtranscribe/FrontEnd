@@ -247,10 +247,9 @@ function INoteChapter ({
           </CTFragment>
         
         ) : (// If the chapter has elements, then iterate through all of them
-          chapter.contents.map((content, itemIdx) => { 
-            const uuid = uuidv4();
-            return (
-              <CTFragment key={`ch-content-${chapter.id}-${uuid}`}>
+          chapter.contents.map((content, itemIdx) => 
+            (
+              <CTFragment key={`ch-content-${chapter.id}-${uuidv4()}`}>
                 <CTFragment className="item-actions">
                   {mergeChapterBtnElement(itemIdx)}
                   {splitBtnElement(itemIdx)}
@@ -306,7 +305,7 @@ function INoteChapter ({
                   {watchVideoElement(chapter.contents.length)}
                 </CTFragment>)}
               </CTFragment>
-            )}))}
+            )))}
       </CTFragment>
 
       {insertType !== null && (
