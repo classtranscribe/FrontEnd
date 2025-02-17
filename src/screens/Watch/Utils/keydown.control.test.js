@@ -43,7 +43,7 @@ describe('keydownControl', () => {
       });
     }
 
-    if (options.preventDefault) {
+    if (options.testPreventDefault) {
       event.preventDefault = jest.fn();
     }
 
@@ -54,7 +54,8 @@ describe('keydownControl', () => {
   const expectDispatch = (keyCode, expectedAction, options = {}) => {
     const event = pressKey(keyCode, options);
     expect(mockDispatch).toHaveBeenCalledWith(expectedAction);
-    if (options.preventDefault) {
+
+    if (options.testPreventDefault) {
       expect(event.preventDefault).toHaveBeenCalled();
     }
   };
@@ -69,7 +70,7 @@ describe('keydownControl', () => {
       expectDispatch(
         KeyCode.KEY_SPACE, 
         { type: 'watch/onPlayPauseClick' },
-        { preventDefault: true }
+        { testPreventDefault: true }
       );
     });
 
@@ -172,7 +173,7 @@ describe('keydownControl', () => {
 
     it('should not trigger play/pause when menu is open', () => {
       keydownControl.menu = 'some-menu';
-      const event = pressKey(KeyCode.KEY_SPACE, { preventDefault: true });
+      const event = pressKey(KeyCode.KEY_SPACE, { testPreventDefault: true });
       expect(event.preventDefault).toHaveBeenCalled();
       expect(mockDispatch).not.toHaveBeenCalled();
     });
@@ -238,7 +239,7 @@ describe('keydownControl', () => {
       expectDispatch(
         KeyCode.KEY_SLASH,
         { type: 'watch/search_open' },
-        withShift
+        { ...withShift, testPreventDefault: true }
       );
     });
   });
