@@ -1,5 +1,5 @@
-import { keydownControl } from './keydown.control';
 import * as KeyCode from 'keycode-js';
+import { keydownControl } from './keydown.control';
 import {
   MENU_LANGUAGE,
   MENU_SCREEN_MODE,
@@ -19,34 +19,38 @@ describe('keydownControl', () => {
     keydownControl.dispatch = mockDispatch;
     keydownControl.menu = null;
 
-    // Save original location
-    originalLocation = window.location;
-
-    // Mock window.location
-    delete window.location;
     // This is because we only enable the keydown on /video or /liveplayer
+    originalLocation = window.location;
+    delete window.location;
     window.location = { pathname: '/video' }; 
   });
 
   afterEach(() => {
-    // Restore original location
     window.location = originalLocation;
   });
 
-  // Helper function to create and dispatch keyboard events
   const pressKey = (keyCode, options = {}) => {
     const event = new KeyboardEvent('keydown', { 
       keyCode,
       ...options
     });
+
+    // Allow setting target after event creation
+    if (options.target) {
+      Object.defineProperty(event, 'target', {
+        value: options.target,
+        enumerable: true
+      });
+    }
+
     if (options.preventDefault) {
       event.preventDefault = jest.fn();
     }
+
     keydownControl.handleKeyDown(event);
     return event;
   };
 
-  // Helper function to test dispatch calls
   const expectDispatch = (keyCode, expectedAction, options = {}) => {
     const event = pressKey(keyCode, options);
     expect(mockDispatch).toHaveBeenCalledWith(expectedAction);
@@ -54,6 +58,11 @@ describe('keydownControl', () => {
       expect(event.preventDefault).toHaveBeenCalled();
     }
   };
+
+  const withAlt = { altKey: true };
+  const withShift = { shiftKey: true };
+  const withCtrl = { ctrlKey: true };
+  const withCmd = { metaKey: true };
 
   describe('basic keyboard shortcuts', () => {
     it('should handle space key for play/pause when no menu is open', () => {
@@ -134,7 +143,7 @@ describe('keydownControl', () => {
     });
 
     it('should handle number keys 0-9 for seeking to percentage', () => {
-      for(let i = 0; i <= 9; i++) {
+      for(let i = 0; i <= 9; i += 1) {
         expectDispatch(
           KeyCode[`KEY_${i}`],
           { 
@@ -162,8 +171,6 @@ describe('keydownControl', () => {
   });
 
   describe('shift key combinations', () => {
-    const withShift = { shiftKey: true };
-
     it('should handle Shift + ESC to stop audio description', () => {
       expectDispatch(
         KeyCode.KEY_ESCAPE,
@@ -236,7 +243,7 @@ describe('keydownControl', () => {
           type: 'playerpref/changeYTranslateByValue',
           payload: 5
         },
-        { shiftKey: true }
+        withShift
       );
     });
 
@@ -247,7 +254,7 @@ describe('keydownControl', () => {
           type: 'playerpref/changeYTranslateByValue',
           payload: -5
         },
-        { shiftKey: true }
+        withShift
       );
     });
 
@@ -258,7 +265,7 @@ describe('keydownControl', () => {
           type: 'playerpref/changeXTranslateByValue',
           payload: 5
         },
-        { shiftKey: true }
+        withShift
       );
     });
 
@@ -269,14 +276,12 @@ describe('keydownControl', () => {
           type: 'playerpref/changeXTranslateByValue',
           payload: -5
         },
-        { shiftKey: true }
+        withShift
       );
     });
   });
 
   describe('menu shortcuts', () => {
-    const withShift = { shiftKey: true };
-
     it('should handle Shift + Q to close menu', () => {
       expectDispatch(
         KeyCode.KEY_Q,
@@ -366,6 +371,55 @@ describe('keydownControl', () => {
   describe('edit mode shortcuts', () => {
     it.skip('should handle Alt + E to edit current caption', () => {
       // Skipping this test until we properly mock trans.control
+    });
+  });
+
+  describe('input handling', () => {
+    it('should not handle shortcuts when focused on text input', () => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      
+      pressKey(KeyCode.KEY_SPACE, { target: input });
+      
+      expect(mockDispatch).not.toHaveBeenCalled();
+    });
+
+    it('should not handle shortcuts when focused on textarea', () => {
+      const textarea = document.createElement('textarea');
+      
+      pressKey(KeyCode.KEY_SPACE, { target: textarea });
+      
+      expect(mockDispatch).not.toHaveBeenCalled();
+    });
+
+    it('should not handle shortcuts when focused on contentEditable element', () => {
+      const div = document.createElement('div');
+      div.contentEditable = 'true';
+      
+      pressKey(KeyCode.KEY_SPACE, { target: div });
+      
+      expect(mockDispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ctrl/cmd key combinations', () => {
+    // Test both ctrl and cmd key combinations
+    [withCtrl, withCmd].forEach(modifier => {
+      const modifierName = Object.keys(modifier)[0].replace('Key', '');
+
+      it(`should handle ${modifierName} key combinations`, () => {
+        pressKey(KeyCode.KEY_A, modifier);
+        // Most ctrl/cmd combinations should be ignored (return early)
+        expect(mockDispatch).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('alt key combinations', () => {
+    it('should handle alt key combinations', () => {
+      pressKey(KeyCode.KEY_A, withAlt);
+      // Most alt combinations should be ignored (return early)
+      expect(mockDispatch).not.toHaveBeenCalled();
     });
   });
 }); 
