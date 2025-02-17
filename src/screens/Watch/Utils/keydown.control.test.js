@@ -1,5 +1,14 @@
 import { keydownControl } from './keydown.control';
 import * as KeyCode from 'keycode-js';
+import {
+  MENU_LANGUAGE,
+  MENU_SCREEN_MODE,
+  MENU_PLAYLISTS,
+  MENU_PLAYBACKRATE,
+  MENU_SETTING,
+  MENU_DOWNLOAD,
+  MENU_SHORTCUTS
+} from './constants.util';
 
 describe('keydownControl', () => {
   let mockDispatch;
@@ -262,6 +271,101 @@ describe('keydownControl', () => {
         },
         { shiftKey: true }
       );
+    });
+  });
+
+  describe('menu shortcuts', () => {
+    const withShift = { shiftKey: true };
+
+    it('should handle Shift + Q to close menu', () => {
+      expectDispatch(
+        KeyCode.KEY_Q,
+        { type: 'watch/menu_close' },
+        withShift
+      );
+    });
+
+    it('should handle Shift + C to open settings menu', () => {
+      expectDispatch(
+        KeyCode.KEY_C,
+        { 
+          type: 'watch/menu_open',
+          payload: { type: MENU_SETTING, option: 'b' }
+        },
+        withShift
+      );
+    });
+
+    it('should handle Shift + X to open download menu', () => {
+      expectDispatch(
+        KeyCode.KEY_X,
+        { 
+          type: 'watch/menu_open',
+          payload: { type: MENU_DOWNLOAD, option: 'b' }
+        },
+        withShift
+      );
+    });
+
+    it('should handle Shift + L to open language menu', () => {
+      expectDispatch(
+        KeyCode.KEY_L,
+        { 
+          type: 'watch/menu_open',
+          payload: { type: MENU_LANGUAGE, option: 'b' }
+        },
+        withShift
+      );
+    });
+
+    it('should handle Shift + P to open playlists menu', () => {
+      expectDispatch(
+        KeyCode.KEY_P,
+        { 
+          type: 'watch/menu_open',
+          payload: { type: MENU_PLAYLISTS, option: 'b' }
+        },
+        withShift
+      );
+    });
+
+    it('should handle Shift + R to open playback rates menu', () => {
+      expectDispatch(
+        KeyCode.KEY_R,
+        { 
+          type: 'watch/menu_open',
+          payload: { type: MENU_PLAYBACKRATE, option: 'b' }
+        },
+        withShift
+      );
+    });
+
+    it('should handle Shift + M to open screen mode menu', () => {
+      expectDispatch(
+        KeyCode.KEY_M,
+        { 
+          type: 'watch/menu_open',
+          payload: { type: MENU_SCREEN_MODE, option: 'b' }
+        },
+        withShift
+      );
+    });
+
+    it('should handle Shift + \\ to open shortcuts menu', () => {
+      expectDispatch(
+        KeyCode.KEY_BACK_SLASH,
+        { 
+          type: 'watch/menu_open',
+          payload: { type: MENU_SHORTCUTS, option: 'b' }
+        },
+        withShift
+      );
+    });
+  });
+
+  describe('edit mode shortcuts', () => {
+    it.skip('should handle Alt + E to edit current caption', () => {
+      // Skipping this test until we properly mock trans.control
     });
   });
 }); 
