@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-// TypeError: Cannot read properties of undefined (reading '__buildHTMLFromChapter')
-// (src/screens/EPub/controllers/file-builders/EPubParser.js:6:46)
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
 import INoteChapter from './INoteChapter';
 
@@ -12,16 +13,37 @@ jest.mock('uuid', () => {
   };
 });
 
+// Create a simple reducer for the test
+const reducer = (state = {
+  epub: {
+    epub: {
+      chapters: [{ allImagesWithIn: [] }]
+    },
+    images: []
+  }
+}, action) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
 describe('INoteChapter Component', () => {
-    const baseProps = {
-        chapter: {id: "chapter-id-1", title: "Sample title"},
-        chIdx: 0,
-        images: [],
-        dispatch: jest.fn()
-    };
+  const store = createStore(reducer);
+
+  const baseProps = {
+    chapter: {id: "chapter-id-1", title: "Sample title"},
+    chIdx: 0,
+    images: [],
+    dispatch: jest.fn()
+  };
 
   it('should render INoteChapter components with correct keys', () => {
-    render(<INoteChapter {...baseProps} />);
+    render(
+      <Provider store={store}>
+        <INoteChapter {...baseProps} />
+      </Provider>
+    );
 
     const contents = screen.getAllByTestId('content');
     contents.forEach((content) => {
