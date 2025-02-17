@@ -29,8 +29,32 @@ export function searchCaptionInOffering(offeringId, query, filterLanguage = 'en-
 // POST
 
 export function updateCaptionLine(data) {
-  return cthttp.post('Captions', { id: data.id, text: data.text });
+  // eslint-disable-next-line no-console
+  console.log("Preparing to update caption line with data:", data);
+  
+  // Check if all required fields are present
+  if (!data.id || !data.text || !data.begin || !data.end) {
+    // eslint-disable-next-line no-console
+    console.error("Missing required data fields:", data);
+    throw new Error("Required data fields are missing.");
+  }
+  
+  return cthttp.post('Captions', { 
+    id: data.id, 
+    text: data.text, 
+    begin: data.begin, 
+    end: data.end 
+  }).then(response => {
+    // eslint-disable-next-line no-console
+    console.log("Caption line updated successfully:", response);
+    return response;
+  }).catch(error => {
+    // eslint-disable-next-line no-console
+    console.error("Error updating caption line:", error);
+    throw error; // Re-throw to handle it upstream if necessary
+  });
 }
+
 
 export function searchCaptions(transList, data) {
   return cthttp.post('CaptionsSearch',
