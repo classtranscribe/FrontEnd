@@ -74,6 +74,13 @@ describe('keydownControl', () => {
       );
     });
 
+    it('should not trigger play/pause when menu is open', () => {
+      keydownControl.menu = 'some-menu';
+      const event = pressKey(KeyCode.KEY_SPACE, { testPreventDefault: true });
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(mockDispatch).not.toHaveBeenCalled();
+    });
+
     it('should handle "k" key for play/pause', () => {
       expectDispatch(
         KeyCode.KEY_K,
@@ -171,11 +178,11 @@ describe('keydownControl', () => {
       );
     });
 
-    it('should not trigger play/pause when menu is open', () => {
-      keydownControl.menu = 'some-menu';
-      const event = pressKey(KeyCode.KEY_SPACE, { testPreventDefault: true });
-      expect(event.preventDefault).toHaveBeenCalled();
-      expect(mockDispatch).not.toHaveBeenCalled();
+    it('should handle down arrow for volume down when no menu is open', () => {
+      expectDispatch(
+        KeyCode.KEY_DOWN,
+        { type: 'watch/media_volumeDown' }
+      );
     });
   });
 

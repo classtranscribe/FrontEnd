@@ -149,6 +149,11 @@ export default {
         // Could be removed
         yield put({ type: 'playerpref/setPreference', payload: { volume: toSet } })
     },
+    *media_volumeDown(_unused, { put, select }) {
+        const { playerpref } = yield select();
+        const newVolume = Math.max(0, playerpref.volume - 0.05);
+        yield put({ type: 'watch/media_volume', payload: newVolume });
+    },
     *media_brightness({ payload: toSet }, { put }) {
         // Could be removed
         yield put({ type: 'playerpref/setPreference', payload: { brightness: toSet } })
