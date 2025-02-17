@@ -4,6 +4,8 @@ import $ from 'jquery';
 
 import * as KeyCode from 'keycode-js';
 
+import PlayerData from '../player'
+
 import { transControl } from './trans.control';
 
 import {
@@ -239,7 +241,8 @@ export const keydownControl = {
   handleDownArrow(e) {
     // If there is no menu opening - decrease the volume by slider amount each time
     if (!this.isMenuOpen()) {
-      return this.dispatch({ type: 'watch/media_volumeDown' });
+      window.focusVolumeSlider?.();
+      return;
     }
 
     // If is focusing on the triggers in control bar - no lower elems
