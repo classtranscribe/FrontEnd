@@ -3,7 +3,8 @@ export default ({
   navContents = '',
   content = '',
   author = '',
-  cover = ''
+  cover = '',
+  createLinks = true
 }) => `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,14 +17,13 @@ export default ({
   </head>
   <body>
     <div id="root" role="main">
-      <img id="epub_cover" src="images/cover.jpeg" alt="Cover image" />
       <div id="epub_cover">
-        <img src="${cover}" alt="Cover image" />
+        <img src="${cover.src}" alt="Cover image" />
       </div>
       <h1 id="epub_title">${title}</h1>
       <div id="epub_author">${author}</div>
 
-      <a id="skip_toc" href="#epub_content">Skip the table of Content</a>
+      ${createLinks ? `<a id="skip_toc" href="#epub_content">Skip the table of Contents</a>` : ""}
 
       <div id="toc_container">
         <h2 id="toc_title">Contents</h2>

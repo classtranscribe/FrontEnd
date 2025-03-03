@@ -1,12 +1,13 @@
 import download from 'js-file-download';
 import { prompt } from 'utils/prompt';
-import { jsPDF } from "jspdf";
-import { EPubFileBuilder, HTMLFileBuilder, ScreenshotsBuilder } from './file-builders';
+import EPubParser from './file-builders/EPubParser';
+import { EPubFileBuilder, HTMLFileBuilder, PDFFileBuilder, LatexFileBuilder } from './file-builders';
 
-const _download = async (Builder, filenameSuffix) => {
+const _download = async (Builder, filenameSuffix, options) => {
   const { epub } = window.temp_app._store.getState();
   const filename = epub.epub.filename + filenameSuffix;
-  const fileBuffer = await Builder.toBuffer(epub);
+  const parsedData = await EPubParser.parse(epub, options);
+  const fileBuffer = await Builder.toBuffer(parsedData);
   download(fileBuffer, filename);
 };
 
@@ -17,64 +18,46 @@ const _logError = (error) => {
     position: 'bottom left',
     timeout: -1
   });
+  // eslint-disable-next-line no-console
+  console.log(error);
+  throw error;
 };
 
 class EPubDownloadController {
-  static async downloadEPub(onDownloaded) {
+  static async downloadEPub(options) {
     try {
-      await _download(EPubFileBuilder, '.epub');
-      if (typeof onDownloaded === 'function') onDownloaded();
+      await _download(EPubFileBuilder, '.epub', options);
+      // if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);
     }
   }
 
-  static async downloadHTML(onDownloaded) {
+  static async downloadHTML(options) {
     try {
-      await _download(HTMLFileBuilder, '.zip', true);
-      if (typeof onDownloaded === 'function') onDownloaded();
+      // eslint-disable-next-line no-console
+      console.log("download options", options);
+      await _download(HTMLFileBuilder, '.zip', options);
+      // if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);
     }
   }
 
-  static async preview(print = false) {
+  static async downloadPDF(options) {
     try {
-      const { epub } = window.temp_app._store.getState();
-      const builder = new HTMLFileBuilder();
-      await builder.init(epub, true);
-
-      const subchapterImages = await builder.prefetchSubchapterImages(builder.data.chapters);
-
-      // eslint-disable-next-line
-      let PDF = new jsPDF();
-      PDF.setLanguage("en-US");
-      // This has the side-effect of bulding the PDF
-      // eslint-disable-next-line no-unused-vars
-      const _html = await builder.getIndexHTML(true, print, PDF, subchapterImages);
-      PDF.save();
+      await _download(PDFFileBuilder, '.pdf', options);
+      // if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);
     }
   }
 
-  static async downloadPDF() {
-    await EPubDownloadController.preview(true);
-  }
-
-  static async downloadLatex(onDownloaded) {
+  static async downloadLatex(options) {
     try {
-      await _download(HTMLFileBuilder, '.tex');
-      if (typeof onDownloaded === 'function') onDownloaded();
-    } catch (error) {
-      _logError(error);
-    }
-  }
-
-  static async downloadScreenshots(onDownloaded) {
-    try {
-      await _download(ScreenshotsBuilder, ' - Screenshots.zip');
-      if (typeof onDownloaded === 'function') onDownloaded();
+      options.replaceImageSrc = false;
+      await _download(LatexFileBuilder, '.zip', options);
+      // if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
       _logError(error);
     }
