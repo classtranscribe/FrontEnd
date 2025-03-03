@@ -18,7 +18,8 @@ export class TextBox {
     this.getYLoc = (height) => { return owner.getYLoc(height) };
     this.incrementYLoc = (height, allow_new_page) => { return owner.incrementYLoc(height, allow_new_page) };
 
-    this.beginBlockQuoteYLocs = [];
+    this.blockQuoteXLocs = [];
+    // this.beginBlockQuoteYLocs = [];
     this.doc.setFillColor(STYLE_SHEET.blockquote.color.r, STYLE_SHEET.blockquote.color.g, STYLE_SHEET.blockquote.color.b)
 
     // state variables that track current and past text formatting/positioning
@@ -103,16 +104,20 @@ export class TextBox {
       // blockquote
       "blockquote": {
         'start': () => {
-          this.beginBlockQuoteYLocs.push(this.getYLoc(this.line_height));
+          // this.allow_new_page = false;
+          // this.beginBlockQuoteYLocs.push(this.getYLoc(this.line_height));
           this.line_start += STYLE_SHEET.blockquote.indentSize;
-          this.incrementYLoc(STYLE_SHEET.blockquote.vertMargin);
-          this.allow_new_page = false;
+          this.x_loc = this.line_start;
+          this.blockQuoteXLocs.push(this.line_start);
+          this.incrementYLoc(STYLE_SHEET.blockquote.vertMargin + this.curr_text_options.size);
         },
         'end': () => {
-          this.drawBlockQuote(this.beginBlockQuoteYLocs.pop(), this.getYLoc(0));
+          // this.drawBlockQuote(this.beginBlockQuoteYLocs.pop(), this.getYLoc(0));
           this.line_start -= STYLE_SHEET.blockquote.indentSize;
+          this.x_loc = this.line_start
           this.incrementYLoc(STYLE_SHEET.blockquote.vertMargin);
-          this.allow_new_page = true;
+          this.blockQuoteXLocs.pop();
+          // this.allow_new_page = true;
         }
       },
 
@@ -222,12 +227,20 @@ export class TextBox {
   nextLine() {
     this.lines += 1;
     this.x_loc = this.line_start;
+
+    const prev_y = this.getYLoc();
+    // if we are inside a block quote, we gotta draw the vertical lines
+    _.forEach(this.blockQuoteXLocs, (startXLoc) => {
+      this.drawBlockQuote(prev_y - this.curr_text_options.size, prev_y + STYLE_SHEET.blockquote.vertMargin, startXLoc);
+    })
+
     this.incrementYLoc(this.curr_text_options.size, this.allow_new_page);
   }
 
   getXLoc(expected_size) {
     if (expected_size > this.line_end - this.line_start) {
-      // size overflows a single line
+      // Size overflows a single line. This should be handled in the calling function.
+      // This is a fallback in case we don't.
       this.nextLine();
     } else if (this.x_loc + expected_size > this.line_end) {
       this.nextLine();
@@ -243,8 +256,8 @@ export class TextBox {
     }
   }
 
-  drawBlockQuote(startYloc, endYLoc) {
-    // this.doc.rect(this.line_start - 10, startYloc, 5, endYLoc - startYloc, 'F');
+  drawBlockQuote(startYloc, endYLoc, startXLoc) {
+    this.doc.rect(startXLoc - 10, startYloc, 5, endYLoc - startYloc, 'F');
   }
 
   pushTextType(options) {
@@ -285,6 +298,9 @@ export class TextBox {
     const root = this.parseHTML(htmlString);
     this.traverseDOM(root, []);
   }
+
+  // does not properly support any flags, like allow_new_page.
+  // Use only to print VERY short things like bullet points.
   writeTextSimple(text) {
     this.doc.text(text, this.getXLoc(this.doc.getTextWidth(text)), this.getYLoc())
     this.incrementXLoc(this.doc.getTextWidth(text));
@@ -466,14 +482,14 @@ export class TextBox {
     if (node.nodeType === Node.ELEMENT_NODE) {
       this.onEnterNode(node);
     } else if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim()) {
-      this.onEnterNode(node); // Handle text nodes if needed
+      this.onEnterNode(node); // Handle text nodes
     }
 
     if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() === 'table') {
       this.drawTable(node);
     } else {
       for (let child of node.childNodes) {
-        this.traverseDOM(child); // Preserve ancestor hierarchy
+        this.traverseDOM(child);
       }
     }
 
