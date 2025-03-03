@@ -106,11 +106,13 @@ export class TextBox {
           this.beginBlockQuoteYLocs.push(this.getYLoc(this.line_height));
           this.line_start += STYLE_SHEET.blockquote.indentSize;
           this.incrementYLoc(STYLE_SHEET.blockquote.vertMargin);
+          this.allow_new_page = false;
         },
         'end': () => {
           this.drawBlockQuote(this.beginBlockQuoteYLocs.pop(), this.getYLoc(0));
           this.line_start -= STYLE_SHEET.blockquote.indentSize;
           this.incrementYLoc(STYLE_SHEET.blockquote.vertMargin);
+          this.allow_new_page = true;
         }
       },
 
@@ -296,11 +298,14 @@ export class TextBox {
 
     _.forEach(words, (word) => {
       const word_len = this.doc.getTextWidth(`${word}`);
-      if (word_len > this.line_end - this.line_start) {
+      if (word.trim().length > 3 && word_len > this.line_end - this.line_start) {
+        // console.log("word", word);
         let split_word = this.doc.splitTextToSize(`${word}`, this.line_end - this.line_start);
-        console.log("split, len", split_word, word_len, this.line_end - this.line_start);
+        // console.log("split, len", split_word, word_len, this.line_end - this.line_start);
         this.writeWordsToPDF(split_word.join(" "));
       } else if (this.phony_write) {
+        this.getXLoc(word_len);
+        this.getYLoc(line_height);
         this.incrementXLoc(this.doc.getTextWidth(`${word} `));
       } else if (this.linking) {
         this.doc.textWithLink(`${word} `, this.getXLoc(word_len), this.getYLoc(line_height), { url: this.link_target });
@@ -317,16 +322,41 @@ export class TextBox {
     return doc.body; // The parsed HTML content
   }
 
-  // Warning: this will explode if the table crosses page boundaries
-  drawTable(table) {
+  writeTableRow(rowIdx, data) {
     const save_y_loc = () => {
       this.saved_y_loc = this.getYLoc(0);
     }
     const load_y_loc = () => {
       this.setYLoc(this.saved_y_loc);
     }
-    const data = [];
+    const num_cols = data[0].length;
+    const row_width = (this.line_end - this.line_start) / num_cols;
+    const stored_line_start = this.line_start;
+    const stored_line_end = this.line_end;
 
+    let max_lines = 1;
+    save_y_loc();
+    for (let colIdx = 0; colIdx < num_cols; colIdx += 1) {
+      this.lines = 1
+      this.line_start = stored_line_start + row_width * colIdx;
+      this.line_end = this.line_start + row_width;
+      this.x_loc = this.line_start;
+
+      this.traverseDOM(data[rowIdx][colIdx]);
+      console.log("col, row, lines", colIdx, rowIdx, this.lines);
+      if (this.lines > max_lines) {
+        max_lines = this.lines;
+      }
+      load_y_loc();
+    }
+    console.log("row, max lines", rowIdx, max_lines);
+    this.line_end = stored_line_end;
+    this.line_start = stored_line_start;
+    return max_lines;
+  }
+
+  parseTableHTML(table) {
+    const data = []
     // parse <thead> (Header Row)
     const thead = table.querySelector('thead');
     if (thead) {
@@ -343,58 +373,71 @@ export class TextBox {
         data.push(rowData);
       });
     }
+    return data
+  }
+
+  // Warning: if any table row is longer than a full page, it'll just run off the page
+  drawTable(table) {
+    let data = this.parseTableHTML(table);
 
     // setup
-    const stored_line_start = this.line_start;
-    const stored_line_end = this.line_end;
-    const num_cols = data[0].length;
-    const num_rows = data.length;
-    const row_width = (this.line_end - this.line_start) / num_cols;
     const bMargin = STYLE_SHEET.table.cellBottomMargin;
-    this.owner.nextPage();
     this.allow_new_page = false;
     let end_y_loc = this.getYLoc();
     let start_y_loc = this.getYLoc() - this.curr_text_options.size;
 
-    // print table
-    this.doc.line(stored_line_start, start_y_loc, stored_line_end, start_y_loc);
-    this.pushTextType({ style: 'bold' });
-    for (let row = 0; row < num_rows; row += 1) {
-      let max_lines = 1;
-      save_y_loc();
-      for (let col = 0; col < num_cols; col += 1) {
-        // console.log("stored start, stored end, col", stored_line_start)
-        this.lines = 1
-        this.line_start = stored_line_start + row_width * col;
-        this.line_end = this.line_start + row_width;
-        this.x_loc = this.line_start;
-        // console.log("row_width, line_start, line_end, x_loc", row_width, this.line_start, this.line_end, this.x_loc);
+    const num_rows = data.length;
+    const num_cols = data[0].length;
+    const row_width = (this.line_end - this.line_start) / num_cols;
 
-        this.traverseDOM(data[row][col]);
-        if (this.lines > max_lines) {
-          max_lines = this.lines;
+    // topmost horizontal line
+    this.doc.line(this.line_start, start_y_loc, this.line_end, start_y_loc);
+
+    // bolded table head
+    this.pushTextType({ style: 'bold' });
+
+    // print table, row by row
+    for (let row = 0; row < num_rows; row += 1) {
+      // determine if table will go over to the next page
+      this.phony_write = true
+      let max_lines = this.writeTableRow(row, data);
+
+      // if overflowing page, go to next page
+      if (max_lines * this.curr_text_options.size + this.getYLoc() > this.owner.doc.getPageHeight() - STYLE_SHEET.vertEdgeMargin) {
+        // draw vertical lines on previous page
+        for (let col = 0; col < num_cols + 1; col += 1) {
+          const x_val = this.line_start + row_width * col
+          this.doc.line(x_val, start_y_loc, x_val, end_y_loc);
         }
-        // console.log("max_lines", max_lines);
-        load_y_loc();
+        // next page and reset
+        this.owner.nextPage();
+        start_y_loc = this.getYLoc();
+        this.doc.line(this.line_start, start_y_loc, this.line_end, start_y_loc);
+        this.incrementYLoc(this.curr_text_options.size, this.allow_new_page);
       }
+      // actually write the row this time
+      this.phony_write = false
+      this.writeTableRow(row, data);
+
+      // only table head should be bolded
       if (row === 0) {
         this.popTextType();
       }
-      this.doc.line(stored_line_start, this.getYLoc() + bMargin, stored_line_end, this.getYLoc() + bMargin);
-      end_y_loc = this.getYLoc() + bMargin;
-      this.incrementYLoc(max_lines * this.curr_text_options.size * 1.1, this.allow_new_page);
+
+      // move to next row yloc
+      this.incrementYLoc(max_lines * this.curr_text_options.size, this.allow_new_page);
+      end_y_loc = this.getYLoc() - this.curr_text_options.size + bMargin;
+      // draw the horizonal line below just written text
+      this.doc.line(this.line_start, end_y_loc, this.line_end, end_y_loc);
     }
 
     // draw vertical lines
     for (let col = 0; col < num_cols + 1; col += 1) {
-      const x_val = stored_line_start + row_width * col
+      const x_val = this.line_start + row_width * col
       this.doc.line(x_val, start_y_loc, x_val, end_y_loc);
     }
 
-
     // cleanup
-    this.line_start = stored_line_start;
-    this.line_end = stored_line_end;
     this.allow_new_page = true;
     this.x_loc = this.line_start;
   }
@@ -406,7 +449,7 @@ export class TextBox {
       if (node.tagName.toLowerCase() in this.callbacks) {
         this.callbacks[node.tagName.toLowerCase()].start(node);
       } else {
-        console.log(`${node.tagName.toLowerCase()} has no enter handler, doing nothing`);
+        // console.log(`${node.tagName.toLowerCase()} has no enter handler, doing nothing`);
       }
     }
   }
@@ -415,7 +458,7 @@ export class TextBox {
     if (node.tagName.toLowerCase() in this.callbacks) {
       this.callbacks[node.tagName.toLowerCase()].end(node);
     } else {
-      console.log(`${node.tagName.toLowerCase()} has no exit handler, doing nothing`);
+      // console.log(`${node.tagName.toLowerCase()} has no exit handler, doing nothing`);
     }
   }
 
