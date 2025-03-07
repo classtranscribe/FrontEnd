@@ -8,6 +8,9 @@ const placeholderImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAdCA
 // Sizes are in pixels
 // Colors are in black and white with 0 black, and 255 white
 const STYLE_SHEET = {
+  latex: {
+    scale: 1 / 24 / 20
+  },
   font: {
     glossary: {
       color: 0,

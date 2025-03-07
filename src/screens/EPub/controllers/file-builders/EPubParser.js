@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import _ from 'lodash';
 import { uurl, api, CTError, html } from 'utils';
+import html2canvas from 'html2canvas';
 import { getGlossaryData } from './GlossaryCreator';
-import { placeholderImg } from './file-templates/pdf';
 
 /**
  * The error which occurred while loading the images for an ePub
@@ -10,48 +10,111 @@ import { placeholderImg } from './file-templates/pdf';
 export const LoadImageError = new CTError('LoadImageError', 'Failed to load images.');
 
 /**
- * EPubData parser for file builders
+ * EPubData parser for file builders. The parser should handle all necessary async functions, not just
+ * the functions common to all four downloaders
  */
 class EPubParser {
   /**
   * Create an EPubParser
   * @param {EPubData} ePubData 
-  * @param {Boolean} replaceImageSrc
   */
   async init(epubData, options) {
     this.options = options
-    const data = JSON.parse(JSON.stringify(epubData));
-
-    this.parseChapters(data);
-    data.glossary = await getGlossaryData(data.sourceId);
-    data.cover = await this.parseContent(data.cover);
-
-    this.data = data;
+    this.data = JSON.parse(JSON.stringify(epubData));
+    this.data.chapters = await this.parseChapters(epubData.chapters);
+    this.data.glossary = await getGlossaryData(epubData.sourceId);
+    this.data.cover = await this.parseContent(epubData.cover);
+    // console.log(this.data);
+    let post_data_copy = JSON.parse(JSON.stringify(epubData));
+    console.log("postparse data", post_data_copy);
   }
 
-  parseChapters(epubData) {
-    _.forEach(epubData.chapters, (ch) => this.parseChapter(ch));
+  async parseChapters(chapters) {
+    let new_chapters = await Promise.all(_.map(chapters, async (ch) => {
+      return this.parseChapter(ch)
+    }));
+    console.log("parseChapters new_chapters", new_chapters);
+    return new_chapters;
   }
-  async parseChapter(chapter) {
-    _.forEach(chapter.contents, async (content, idx, contents) => { contents[idx] = await this.parseContent(content) });
+  async parseChapter({ contents, title }) {
+    let new_contents = await Promise.all(_.map(contents, async (content) => {
+      return this.parseContent(content);
+    }));
+    // _.forEach(chapter.contents, async (content, idx, contents) => { contents[idx] = await this.parseContent(content) });
+    // chapter.contents = await Promise.all(chapter.contents);
     if (this.options.imagesFirst) {
-      let image_contents = _.filter(chapter.contents, (c) => typeof c !== "string");
-      let other_contents = _.filter(chapter.contents, (c) => typeof c === "string");
-      chapter.contents = _.concat(image_contents, other_contents);
+      let image_contents = _.filter(new_contents, (c) => typeof c !== "string");
+      let other_contents = _.filter(new_contents, (c) => typeof c === "string");
+      new_contents = _.concat(image_contents, other_contents);
     }
+    console.log("parseChapter new contents", new_contents);
+    return { contents: new_contents, title }
   }
 
   async parseContent(content) {
     if (typeof content !== "string") {
-      let a = await this.parseImage(content);
-      return a;
+      return this.parseImage(content);
     } if (typeof content === "string") {
-      // handle string parsing here. right now, we don't do anything
+      return this.parseText(content);
     }
     return content;
   }
 
+  async parseText(text) {
+    if (!this.options.replaceLatex) {
+      return text;
+    }
+    const regex = /\$\$(.*?)\$\$/g
+    const latexElems = text.match(regex);
+    let latex_parsed = await Promise.all(_.map(latexElems, async (val) => {
+      let img_blob = await this.htmlToImageBlob(html.markdown(val));
+      let data_src = await EPubParser.blobToDataUrl(img_blob);
+      let { height, width } = await EPubParser.getImageDimensions(img_blob);
+      return { src: data_src, height, width };
+    }))
+
+    console.log("parser text, latex", text, latex_parsed);
+    return { text, latex: latex_parsed };
+  }
+  async htmlToImageBlob(htmlString) {
+    if (!htmlString) {
+      throw new Error("HTML string is required");
+    }
+
+    try {
+      // Create a temporary container to render the HTML string
+      const container = document.createElement("div");
+      container.style.position = "absolute";
+      container.style.left = "-9999px";
+      container.style.top = "-9999px";
+      container.innerHTML = htmlString;
+      document.body.appendChild(container);
+
+      // Render the container to canvas
+      const canvas = await html2canvas(container, { scale: 20 });
+
+      // Remove the container from the DOM
+      document.body.removeChild(container);
+
+      // Convert canvas to blob
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error("Canvas to Blob conversion failed"));
+          }
+        }, 'image/png');
+      });
+    } catch (error) {
+      console.error("Error rendering HTML to image:", error);
+      throw error;
+    }
+  }
+
+
   async parseImage(content) {
+    let new_content = JSON.parse(JSON.stringify(content));
     let img_buffer = await EPubParser.loadImageBuffer(content.src);
     let img_blob = new Blob([img_buffer]);
 
@@ -62,20 +125,20 @@ class EPubParser {
     }
     // console.log("AAA blob", img_blob)
     if (this.options.replaceImageSrc) {
-      content.src = await EPubParser.blobToDataUrl(img_blob);
+      new_content.src = await EPubParser.blobToDataUrl(img_blob);
     } else {
-      content.blob = img_blob;
-      content.buffer = img_buffer;
+      new_content.blob = img_blob;
+      new_content.buffer = img_buffer;
     }
 
 
-    if (content.src !== "") {
+    if (new_content.src !== "") {
       const { height, width } = await EPubParser.getImageDimensions(img_blob);
-      content.height = height;
-      content.width = width;
+      new_content.height = height;
+      new_content.width = width;
     }
-    content.descriptions = _.filter(content.descriptions, (desc) => desc.trim() !== "");
-    return content;
+    new_content.descriptions = _.filter(content.descriptions, (desc) => desc.trim() !== "");
+    return new_content;
   }
 
   /**
@@ -88,10 +151,10 @@ class EPubParser {
    * @param {Boolean} replaceLatex Attempts to replace any latex expressions in md ($$latex$$) with images
    * @returns {Any} parsed epubData
    */
-  static async parse(ePubData, { replaceImageSrc = true, invertColors = false, imagesFirst = false, replaceLatex = false }) {
+  static async parse(ePubData, options) {
     const parser = new EPubParser();
-    console.log("parser options", replaceImageSrc, invertColors, imagesFirst, replaceLatex);
-    await parser.init(ePubData.epub, { replaceImageSrc, invertColors, imagesFirst, replaceLatex })
+    console.log("parser options", options);
+    await parser.init(ePubData.epub, options)
 
     console.log("Parsed data", parser.data);
     return parser.data;

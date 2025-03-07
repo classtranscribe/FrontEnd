@@ -2,11 +2,8 @@
 /* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
-// import { EPubData } from 'entities/EPubs';
-// import { doc } from 'prettier';
-// import { jsPDF as JsPDF } from 'jspdf';
 
-import { _buildID, html } from 'utils';
+import { html } from 'utils';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   glossaryToHTMLString,
@@ -122,25 +119,24 @@ class LatexFileBuilder {
 
 
   static markdownToLatex(markdown) {
-    const regex = /\$\$[^\n]*\$\$/g;
-    const outputString = markdown.replace(regex, (match) => {
-      return `<math>${match.slice(2, -2)}</math>`;  // Removing the $$ and wrapping the content in <math> tags
-    });
+    const markdown_stripped = markdown.replace(/\$\$(.*?)\$\$/g, '<latex>$1</latex>');
 
-    const html_text = html.markdown(outputString);
-    return this.htmlToLatex(html_text)
+    const html_text = html.markdown(markdown_stripped);
+    return LatexFileBuilder.htmlToLatex(html_text)
   }
 
   static htmlToLatex(html_text) {
     let latex = html_text;
+    console.log("html_text preconversion", latex);
 
 
     // Replace special characters without affecting code blocks or latex sections
     latex = LatexFileBuilder.substituteSpecialChars(latex);
 
     // Convert tables
-    latex = latex.replace(/<table>(.*?)<\/table>/gs, (match, level, content) => {
-      return LatexFileBuilder.htmlTableToLatex(content);
+    latex = latex.replace(/<table>(.*?)<\/table>/gs, (match) => {
+      console.log("replacing origin", match);
+      return LatexFileBuilder.htmlTableToLatex(match);
     })
 
     // Convert bold and strong text
@@ -180,7 +176,7 @@ class LatexFileBuilder {
     });
 
     // Convert custom math tag
-    latex = latex.replace(/<math>(.*)?<\/math>/gs, '$$$1$$')
+    latex = latex.replace(/<latex>(.*?)?<\/latex>/gs, '$$$1$$')
 
     // Convert newline
     latex = latex.replace(/<br>/, "\\newline")
@@ -228,40 +224,47 @@ class LatexFileBuilder {
     // Serialize the DOM back to an HTML string and return it
     return doc.body.innerHTML;
   }
+
+  static parseTableHTML(table_string) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(table_string, "text/html");
+    const table = doc.body.firstElementChild;
+
+    if (!table) return [];
+
+    return Array.from(table.rows).map(row =>
+      Array.from(row.cells).map(cell => cell.textContent.trim())
+    );
+  }
+
   static htmlTableToLatex(htmlString) {
     // Parse the HTML string into a DOM structure
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString, 'text/html');
-
-    // Find the table in the parsed HTML
-    const table = doc.querySelector('table');
-    if (!table) {
-      return htmlString;
-    }
-
+    const data = LatexFileBuilder.parseTableHTML(htmlString)
     let latex = '\\begin{tabular}{';
 
-    // Get the column alignment based on the number of columns (assume 'l' for left)
-    const columns = table.rows[0].cells.length;
-    for (let i = 0; i < columns; i += 1) {
-      latex += 'l';  // Assuming left alignment for simplicity (use 'c' for center or 'r' for right if needed)
+    const num_rows = data.length;
+    const num_cols = data.length;
+    for (let i = 0; i < num_cols; i += 1) {
+      latex += 'l';
     }
     latex += '}\n';
 
     // Add the table headers
-    const headers = table.rows[0].cells;
-    for (let i = 0; i < headers.length; i += 1) {
-      latex += headers[i].innerText;
-      if (i < headers.length - 1) latex += ' & ';
+    for (let col = 0; col < num_cols; col += 1) {
+      latex += data[0][col];
+      if (col < num_cols - 1) {
+        latex += ' & ';
+      }
     }
     latex += ' \\\\ \\hline\n';
 
     // Add the table rows
-    for (let i = 1; i < table.rows.length; i += 1) {
-      const row = table.rows[i];
-      for (let j = 0; j < row.cells.length; j += 1) {
-        latex += row.cells[j].innerText;
-        if (j < row.cells.length - 1) latex += ' & ';
+    for (let row = 1; row < num_rows; row += 1) {
+      for (let col = 0; col < num_cols; col += 1) {
+        latex += data[row][col];
+        if (col < num_cols - 1) {
+          latex += ' & ';
+        }
       }
       latex += ' \\\\ \n';
     }
@@ -269,6 +272,12 @@ class LatexFileBuilder {
     latex += '\\end{tabular}';
 
     return latex;
+  }
+
+  static getOptions(options) {
+    options.replaceImageSrc = false;
+    options.replaceLatex = false;
+    return options;
   }
 }
 export default LatexFileBuilder;

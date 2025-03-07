@@ -158,6 +158,12 @@ class HTMLFileBuilder {
 
     return zip.toBuffer();
   }
+
+  static getOptions(options) {
+    options.replaceImageSrc = true;
+    options.replaceLatex = false;
+    return options;
+  }
 }
 
 export default HTMLFileBuilder;

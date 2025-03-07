@@ -26,6 +26,7 @@ class PDFFileBuilder {
   }
 
   async init(parsedData) {
+    console.log("pdf builder data", parsedData);
     this.data = parsedData;
     this.glossaryData = parsedData.glossary;
   }
@@ -56,10 +57,10 @@ class PDFFileBuilder {
     }
     if (expected_size > this.max_height) {
       // should split lines in calling function
-      console.log("getyloc new page");
+      // console.log("getyloc new page");
       this.nextPage();
     } else if (this.y_loc + expected_size > this.doc.getPageHeight() - STYLE_SHEET.vertEdgeMargin) {
-      console.log("getyloc new page other");
+      // console.log("getyloc new page other");
       this.nextPage();
     }
     return this.y_loc;
@@ -94,8 +95,9 @@ class PDFFileBuilder {
     return false;
   }
 
-  convertText(text, default_options = STYLE_SHEET.font.body) {
-    TextBox.write(this, text, default_options);
+  convertText(text, latex = [], default_options = STYLE_SHEET.font.body) {
+    console.log("pdf builder latex", latex);
+    TextBox.write(this, text, latex, default_options);
   }
 
   convertImage({ src, descriptions, alt, height = 100, width = 100 }) {
@@ -109,9 +111,9 @@ class PDFFileBuilder {
       this.incrementYLoc(STYLE_SHEET.image.AltDescGap);
     }
     _.forEach(descriptions, (desc) => {
-      console.log("convert img desc start");
+      // console.log("convert img desc start");
       this.convertText(desc, STYLE_SHEET.font.imgDescription);
-      console.log("convert img desc end");
+      // console.log("convert img desc end");
       // this.incrementYLoc(STYLE_SHEET.image.DescDescGap)
     })
 
@@ -119,12 +121,15 @@ class PDFFileBuilder {
   }
 
   convertContent(content) {
-    // console.log("convertContent", content);
+    console.log("convertContent", content);
     if (typeof content === 'string') {
-      this.convertText(content)
-      return;
-    };
-    this.convertImage(content)
+      this.convertText(content);
+    } else if ("latex" in content) {
+      console.log("pdf latexing");
+      this.convertText(content.text, content.latex);
+    } else {
+      this.convertImage(content);
+    }
   }
 
   convertChapter({ contents, title }) {
@@ -173,6 +178,12 @@ class PDFFileBuilder {
   async getPDFBuffer() {
     this.createPDF();
     return this.doc.output("blob");
+  }
+
+  static getOptions(options) {
+    options.replaceImageSrc = true;
+    options.replaceLatex = true;
+    return options;
   }
 }
 

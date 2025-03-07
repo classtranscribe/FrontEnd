@@ -4,6 +4,7 @@ import EPubParser from './file-builders/EPubParser';
 import { EPubFileBuilder, HTMLFileBuilder, PDFFileBuilder, LatexFileBuilder } from './file-builders';
 
 const _download = async (Builder, filenameSuffix, options) => {
+  options = Builder.getOptions(options);
   const { epub } = window.temp_app._store.getState();
   const filename = epub.epub.filename + filenameSuffix;
   const parsedData = await EPubParser.parse(epub, options);
@@ -35,8 +36,6 @@ class EPubDownloadController {
 
   static async downloadHTML(options) {
     try {
-      // eslint-disable-next-line no-console
-      console.log("download options", options);
       await _download(HTMLFileBuilder, '.zip', options);
       // if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {
@@ -55,7 +54,6 @@ class EPubDownloadController {
 
   static async downloadLatex(options) {
     try {
-      options.replaceImageSrc = false;
       await _download(LatexFileBuilder, '.zip', options);
       // if (typeof onDownloaded === 'function') onDownloaded();
     } catch (error) {

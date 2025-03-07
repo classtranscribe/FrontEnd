@@ -6,12 +6,13 @@ import { STYLE_SHEET } from "./pdfstyle";
 
 
 export class TextBox {
-  static write(owner, text, options) {
-    let tb = new TextBox(owner, options)
+  static write(owner, text, latex, options) {
+    let tb = new TextBox(owner, latex, options)
     tb.writeAll(text)
   }
 
-  constructor(owner, init_text_style = STYLE_SHEET.font.body) {
+  constructor(owner, latex, init_text_style = STYLE_SHEET.font.body) {
+    this.latex = latex;
     this.owner = owner;
     this.doc = owner.doc;
     this.setYLoc = (y_loc) => { owner.y_loc = y_loc };
@@ -35,6 +36,8 @@ export class TextBox {
     this.first_p_seen = true;
 
     // state variables that track what is currently being printed
+    this.writing_latex = false;
+    this.latex_idx = 0;
     this.linking = false;
     this.link_target = "";
     this.bullet_point = false;
@@ -158,6 +161,12 @@ export class TextBox {
       "table": {
         'start': () => { },
         'end': () => { }
+      },
+
+      // latex
+      "latex": {
+        'start': () => { this.writing_latex = true },
+        'end': () => { this.writing_latex = false }
       },
 
       // Various header sizes, from largest to smallest
@@ -307,6 +316,10 @@ export class TextBox {
   }
 
   writeWordsToPDF(text) {
+    if (this.blockQuoteXLocs.length !== 0) {
+      text = text.trim();
+    }
+    text = text.replace("\n", "");
     let words = text.split(" ");
 
     // if line_height is zero, getYLoc(line_height) never moves to new page
@@ -332,6 +345,24 @@ export class TextBox {
       }
     });
   }
+  writeLatex(text) {
+    let latex = this.latex[this.latex_idx]
+    // console.log("writing latex", latex, this.latex_idx, latex);
+    const scale = STYLE_SHEET.latex.scale * this.curr_text_options.size
+
+    if (!this.phony_write) {
+      const text_scale = (latex.width * scale) / this.doc.getTextWidth(text);
+      this.pushTextType({ size: this.curr_text_options.size * text_scale });
+      this.doc.text(text, this.getXLoc(0), this.getYLoc(0));
+      this.popTextType();
+
+      this.doc.addImage(latex.src, 'png', this.getXLoc(latex.height * scale), this.getYLoc(0) - latex.height * scale * .78, latex.width * scale, latex.height * scale);
+    }
+
+    this.incrementXLoc(latex.width * scale);
+    this.latex_idx += 1;
+  }
+
   parseHTML(htmlString) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, "text/html");
@@ -359,13 +390,11 @@ export class TextBox {
       this.x_loc = this.line_start;
 
       this.traverseDOM(data[rowIdx][colIdx]);
-      console.log("col, row, lines", colIdx, rowIdx, this.lines);
       if (this.lines > max_lines) {
         max_lines = this.lines;
       }
       load_y_loc();
     }
-    console.log("row, max lines", rowIdx, max_lines);
     this.line_end = stored_line_end;
     this.line_start = stored_line_start;
     return max_lines;
@@ -392,7 +421,7 @@ export class TextBox {
     return data
   }
 
-  // Warning: if any table row is longer than a full page, it'll just run off the page
+  // Warning: if any table row is longer than a full page, it'll run off the page
   drawTable(table) {
     let data = this.parseTableHTML(table);
 
@@ -416,6 +445,7 @@ export class TextBox {
     for (let row = 0; row < num_rows; row += 1) {
       // determine if table will go over to the next page
       this.phony_write = true
+      let saved_latex_idx = this.latex_idx;
       let max_lines = this.writeTableRow(row, data);
 
       // if overflowing page, go to next page
@@ -433,6 +463,7 @@ export class TextBox {
       }
       // actually write the row this time
       this.phony_write = false
+      this.latex_idx = saved_latex_idx;
       this.writeTableRow(row, data);
 
       // only table head should be bolded
@@ -460,7 +491,11 @@ export class TextBox {
 
   onEnterNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
-      this.writeWordsToPDF(node.nodeValue);
+      if (this.writing_latex) {
+        this.writeLatex(node.nodeValue);
+      } else {
+        this.writeWordsToPDF(node.nodeValue);
+      }
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       if (node.tagName.toLowerCase() in this.callbacks) {
         this.callbacks[node.tagName.toLowerCase()].start(node);
