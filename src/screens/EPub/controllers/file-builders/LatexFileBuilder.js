@@ -24,7 +24,7 @@ class LatexFileBuilder {
 
   async init(parsedData) {
     this.data = parsedData;
-    this.glossaryData = parsedData.glossary
+    this.glossary = parsedData.glossary
   }
 
   /**
@@ -39,11 +39,17 @@ class LatexFileBuilder {
     return buffer;
   }
 
-  convertGlossary() {
-    return ""
+  convertGlossary(glossary) {
+    if (_.isEmpty(glossary)) {
+      return ""
+    }
+    // console.log("glossary", glossary);
+    return _.map(glossary, (value, key) => {
+      return `\\textbf{${key}}: ${value.description}`
+    }).join("\n\n");
   }
 
-  getTitlePage(title, author, cover_img) {
+  getTitlePage(title, author, cover) {
     return `
     \\begin{titlepage}
       \\centering
@@ -54,7 +60,8 @@ class LatexFileBuilder {
         ${author}
       }    
       \\vfill
-      \\includegraphics[width=4cm]{${cover_img}} % also works with logo.pdf
+      \\includegraphics[width=4cm]
+      {${this.saveImage(cover)}}
       \\vfill
       \\vfill
   \\end{titlepage}
@@ -66,14 +73,16 @@ class LatexFileBuilder {
     return this.image_idx
   }
 
+  saveImage(content) {
+    const img_path = `images/${this.getImageId()}.jpeg`
+    this.zip.addFile(img_path, content.buffer);
+    return img_path
+  }
   convertContent(content) {
     if (typeof content === "string") {
       return LatexFileBuilder.markdownToLatex(content);
     }
-    console.log("Latex file builder image", content, this.image_idx);
-    const img_path = `images/${this.getImageId()}.jpeg`
-    // console.log("latex image path", img_path);
-    this.zip.addFile(img_path, content.buffer);
+    const img_path = this.saveImage(content);
     const captions = _.map(content.descriptions, (d) => {
       const new_desc = LatexFileBuilder.markdownToLatex(d);
       return `\\caption*{${new_desc}}`
@@ -81,7 +90,7 @@ class LatexFileBuilder {
     return [
       `\\begin{figure}`,
       `\\centering`,
-      `\\includegraphics[alt={${content.alt}}]{${img_path}}`,
+      `\\includegraphics[alt={${content.alt}}, width=.5\\textwidth]{${img_path}}`,
       captions,
       `\\end{figure}`
     ].join("\n")
@@ -95,15 +104,16 @@ class LatexFileBuilder {
   }
   getMainText() {
     return [
-      "\\documentclass{book}",
+      "\\documentclass{article}",
       "\\usepackage{caption}",
       "\\usepackage{graphicx}",
       "\\usepackage{hyperref}",
       "\\usepackage[T1]{fontenc}",
       "\\begin{document}",
-      this.getTitlePage(this.data.title, this.data.author, "placeholder"),
+      this.getTitlePage(this.data.title, this.data.author, this.data.cover),
+      "\\tableofcontents",
       _.map(this.data.chapters, (ch) => this.convertChapter(ch)).join("\n"),
-      this.convertGlossary(),
+      this.convertGlossary(this.glossary),
       "\\end{document}"
     ].join("\n");
   }
@@ -127,7 +137,6 @@ class LatexFileBuilder {
 
   static htmlToLatex(html_text) {
     let latex = html_text;
-    console.log("html_text preconversion", latex);
 
 
     // Replace special characters without affecting code blocks or latex sections
@@ -135,7 +144,6 @@ class LatexFileBuilder {
 
     // Convert tables
     latex = latex.replace(/<table>(.*?)<\/table>/gs, (match) => {
-      console.log("replacing origin", match);
       return LatexFileBuilder.htmlTableToLatex(match);
     })
 
@@ -243,7 +251,7 @@ class LatexFileBuilder {
     let latex = '\\begin{tabular}{';
 
     const num_rows = data.length;
-    const num_cols = data.length;
+    const num_cols = data[0].length;
     for (let i = 0; i < num_cols; i += 1) {
       latex += 'l';
     }

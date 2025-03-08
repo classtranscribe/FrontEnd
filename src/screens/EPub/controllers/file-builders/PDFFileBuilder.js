@@ -155,7 +155,8 @@ class PDFFileBuilder {
   }
 
   convertVisualTOC(visualTOC) {
-    if (_.isEmpty(this.data.visualTOC)) {
+    console.log("PDF printer visual TOC", visualTOC);
+    if (_.isEmpty(this.data.visualTOC.flat())) {
       return;
     }
     const style = STYLE_SHEET.visualTOC;

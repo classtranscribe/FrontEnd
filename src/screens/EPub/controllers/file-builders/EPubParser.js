@@ -40,7 +40,7 @@ class EPubParser {
   getVisualTOC(chapters) {
     let visualTOC = _.map(chapters, (chapter) => {
       return _.filter(chapter.contents, (content) => {
-        return "src" in content;
+        return typeof content === "object" && "src" in content;
       })
     })
     return visualTOC;

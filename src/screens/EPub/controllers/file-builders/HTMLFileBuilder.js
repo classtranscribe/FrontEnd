@@ -28,7 +28,7 @@ class HTMLFileBuilder {
   init(parsedData, createLinks = true) {
     this.createLinks = createLinks;
     this.data = parsedData;
-    this.glossaryData = parsedData.glossary
+    this.glossary = parsedData.glossary
   }
 
   /**
@@ -37,7 +37,6 @@ class HTMLFileBuilder {
    * @returns {Buffer} html zipped combo buffer
    */
   static async toBuffer(parsedData) {
-    // eslint-disable-next-line no-console
     const builder = new HTMLFileBuilder();
     builder.init(parsedData);
     const buffer = await builder.getHTMLBuffer();
@@ -51,30 +50,14 @@ class HTMLFileBuilder {
     return html_buffer;
   }
 
-  static convertContent(content) {
-    if (typeof content === 'string') {
-      return [
-        '<p>',
-        html.markdown(content),
-        '</p>'
-      ].join("")
-    };
-
-    // unwrap __data__ for correct image loading in subchapters 
-    if ("__data__" in content) {
-      content = content.__data__
-    }
-
-    if (content.src === null) {
-      content.src = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
-      let despId = _buildID();
-      return [
-        '<div class="img-block">',
-        `\t<img src="${content.src}" alt="${content.alt}" aria-describedby="${despId}" />`,
-        `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>`,
-        '</div>'
-      ].join('\n');
-    }
+  static convertText(content) {
+    return [
+      '<p>',
+      html.markdown(content),
+      '</p>'
+    ].join("")
+  };
+  static convertImage(content) {
     if (content.descriptions.length !== 0) {
       let despId = _buildID();
       return [
@@ -91,27 +74,49 @@ class HTMLFileBuilder {
     ].join('\n');
   }
 
-  static convertChapter({ contents, id, title }) {
+  static convertContent(content) {
+    if (typeof content === 'string') {
+      return HTMLFileBuilder.convertText(content)
+    }
+    return HTMLFileBuilder.convertImage(content)
+  }
+
+  static convertChapter(chapter) {
+    chapter.id = _buildID();
     return [
-      `<!-- Chapter -->\n<h2 data-ch id="${id}">${title}</h2>`,
-      _.map(contents, (c) => HTMLFileBuilder.convertContent(c)).join("\n"),
+      `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${chapter.title}</h2>`,
+      _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c)).join("\n"),
     ].join("\n\n");
   }
 
   convertChapters() {
     const chapters = this.data.chapters
     return [
-      '<div id="epub_content">',
       '<div class="ee-preview-text-con">',
       _.map(chapters, (ch) => HTMLFileBuilder.convertChapter(ch)).join("\n"),
       '</div>',
-      '</div>',
     ].join("\n");
   }
-
-  convertTableOfContents() {
-    const chapters = this.data.chapters
-    const createLinks = this.createLinks
+  convertVisualTOC() {
+    console.log("visualTOC chapters", this.data.chapters);
+    return _.map(this.data.visualTOC, (ch, chIdx) => {
+      let link_target = this.data.chapters[chIdx].id;
+      return _.map(ch, (img) => {
+        const caption_id = _buildID();
+        return [
+          '<div class="img-block">',
+          `<a href=#${link_target}>`,
+          `\t<img src="${img.src}" alt="${img.alt}" aria-describedby="${caption_id}"/>`,
+          `\t<p id="${caption_id}">${img.alt}</p>`,
+          `</a>`,
+          '</div>'
+        ].join("\n");
+      }).join("\n");
+    }).join("\n");
+  }
+  convertTOC() {
+    const chapters = this.data.chapters;
+    const createLinks = this.createLinks;
     return _.map(
       chapters,
       (ch, chIndex) => `
@@ -130,14 +135,27 @@ class HTMLFileBuilder {
   }
 
   convertGlossary() {
-    return glossaryToHTMLString(this.glossaryData);
+    return glossaryToHTMLString(this.glossary);
   }
 
   getIndexHTML() {
     const conversion = this.convertChapters();
-    const toc = this.convertTableOfContents();
-    console.log("HTMLFileBuilder, cover", this.data.cover);
-    return INDEX_HTML_LOCAL({ title: this.title, navContents: toc, content: conversion, author: this.data.author, cover: this.data.cover, createLinks: this.createLinks })
+    let toc = "";
+    if (this.data.visualTOC) {
+      toc = this.convertVisualTOC();
+    } else {
+      toc = this.convertTOC();
+    }
+    console.log("html file toc", toc)
+    return INDEX_HTML_LOCAL({
+      title: this.title,
+      navContents: toc,
+      content: conversion,
+      author: this.data.author,
+      cover: this.data.cover,
+      createLinks: this.createLinks,
+      visualTOC: this.data.visualTOC
+    })
       + this.convertGlossary();
     // TODO: test glossary, add table of contents
   }

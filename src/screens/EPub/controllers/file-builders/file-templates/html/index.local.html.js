@@ -4,7 +4,8 @@ export default ({
   content = '',
   author = '',
   cover = '',
-  createLinks = true
+  createLinks = true,
+  visualTOC = false
 }) => `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,7 +28,7 @@ export default ({
 
       <div id="toc_container">
         <h2 id="toc_title">Contents</h2>
-        <div id="toc_list">
+        <div id=${visualTOC ? "visual_toc_list" : "toc_list"}>
           ${navContents}
         </div>
       </div>

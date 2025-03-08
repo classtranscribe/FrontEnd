@@ -88,6 +88,22 @@ class EPubFileBuilder {
     const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
     this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
   }
+
+  buildVisualTocXHTML(visualTOC) {
+    console.log("epub visualTOC chapters", this.data);
+    let navContents = _.map(visualTOC, (ch, chIdx) => {
+      return _.map(ch, (img) => {
+        console.log("id", this.data.chapters[chIdx].id);
+        return `
+          <dt class="table-of-content">  
+          <a href="${this.data.chapters[chIdx].id}.xhtml"> <img src="${img.src}" alt="${img.alt}"/> </a>
+          </dt>
+        `
+      }).join("\n")
+    }).join("\n");
+    const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
+    this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
+  }
   buildTocNCX(chapters) {
     let navPoints = "";
     _.forEach(chapters, (ch, index) => {
@@ -104,7 +120,11 @@ class EPubFileBuilder {
   }
   convertTableOfContents() {
     const chapters = this.data.chapters;
-    this.buildTocXHTML(chapters);
+    if (this.data.visualTOC) {
+      this.buildVisualTocXHTML(this.data.visualTOC);
+    } else {
+      this.buildTocXHTML(chapters);
+    }
     this.buildTocNCX(chapters);
   }
   convertChapter(chapter) {
@@ -152,10 +172,9 @@ class EPubFileBuilder {
       chapters,
     );
     zip.addFile('OEBPS/content.opf', Buffer.from(contentOPF));
-
-    this.convertTableOfContents();
     // OEBPS/chapter-id.xhtml
     this.convertEPub();
+    this.convertTableOfContents();
 
     return zip.toBuffer();
   }
