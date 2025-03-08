@@ -29,7 +29,8 @@ class PDFFileBuilder {
 
   async init(parsedData) {
     this.data = parsedData;
-    this.glossaryData = parsedData.glossary;
+    this.glossary = parsedData.glossary;
+    this.includeRawLatex = parsedData.includeRawLatex;
   }
 
   /**
@@ -56,11 +57,9 @@ class PDFFileBuilder {
       return this.y_loc;
     }
     if (expected_size > this.max_height) {
-      // should split lines in calling function
-      // console.log("getyloc new page");
+      // should split pages in calling function. this is a fallback in case that doesn't happen
       this.nextPage();
     } else if (this.y_loc + expected_size > this.doc.getPageHeight() - STYLE_SHEET.vertEdgeMargin) {
-      // console.log("getyloc new page other");
       this.nextPage();
     }
     return this.y_loc;
@@ -68,7 +67,6 @@ class PDFFileBuilder {
 
   incrementYLoc(diff, allow_new_page = true) {
     if (allow_new_page && this.y_loc + diff > this.doc.getPageHeight() - STYLE_SHEET.vertEdgeMargin) {
-      console.log("inc y loc newpage", diff, allow_new_page);
       this.nextPage();
     } else {
       this.y_loc += diff;
@@ -95,8 +93,12 @@ class PDFFileBuilder {
     return false;
   }
 
-  convertText(text, latex = [], default_options = STYLE_SHEET.font.body) {
-    TextBox.write(this, text, latex, default_options);
+  convertText(content, default_options = STYLE_SHEET.font.body) {
+    if (typeof content === "string") {
+      TextBox.write(this, content, [], default_options)
+    } else {
+      TextBox.write(this, content.text, content.latex, default_options);
+    }
   }
 
   convertImage({ src, descriptions, alt, height = 100, width = 100 }) {
@@ -110,10 +112,7 @@ class PDFFileBuilder {
       this.incrementYLoc(STYLE_SHEET.image.AltDescGap);
     }
     _.forEach(descriptions, (desc) => {
-      // console.log("convert img desc start");
       this.convertText(desc, STYLE_SHEET.font.imgDescription);
-      // console.log("convert img desc end");
-      // this.incrementYLoc(STYLE_SHEET.image.DescDescGap)
     })
 
     this.incrementYLoc(STYLE_SHEET.spacing);
@@ -121,10 +120,8 @@ class PDFFileBuilder {
 
   convertContent(content) {
     // console.log("convertContent", content);
-    if (typeof content === 'string') {
+    if (typeof content === 'string' || "latex" in content) {
       this.convertText(content);
-    } else if ("latex" in content) {
-      this.convertText(content.text, content.latex);
     } else {
       this.convertImage(content);
     }
@@ -134,18 +131,12 @@ class PDFFileBuilder {
     this.writeTextToPDF(title, STYLE_SHEET.font.chapterTitle);
     this.chapter_page_indexes.push(this.currentPageNumber);
     this.incrementYLoc(STYLE_SHEET.spacing);
-    // eslint-disable-next-line guard-for-in
-    for (const contentIdx in contents) {
-      this.convertContent(contents[contentIdx]);
-    }
+    _.forEach(contents, (content) => { this.convertContent(content) });
     this.nextPage();
   }
 
   convertChapters() {
-    // eslint-disable-next-line guard-for-in
-    for (const chapterIdx in this.data.chapters) {
-      this.convertChapter(this.data.chapters[chapterIdx]);
-    }
+    _.forEach(this.data.chapters, (chapter) => this.convertChapter(chapter))
   }
   writeGlossaryEntry(key, value) {
     this.writeTextToPDF(`${key}: ${value.description}`, STYLE_SHEET.font.glossary);
@@ -157,8 +148,8 @@ class PDFFileBuilder {
       this.writeGlossaryEntry(key, value);
     }
   }
-  nextPageTOC() {
-    this.y_loc = STYLE_SHEET.vertEdgeMargin;
+  nextPageTOC(offset = 0) {
+    this.y_loc = offset + STYLE_SHEET.vertEdgeMargin;
     this.doc.insertPage(this.currentPageNumber);
     this.currentPageNumber += 1;
   }
@@ -174,14 +165,17 @@ class PDFFileBuilder {
 
     const col_width = (this.max_text_width / style.imagesPerRow);
     const max_scale = (col_width - 2 * style.hMargin) / min_width;
-    const max_height = _.maxBy(all_imgs, (img) => { return img.height }).height * max_scale;
-    const rowsPerPage = Math.floor(this.max_height / (max_height + style.vMargin));
+    const max_height = _.maxBy(all_imgs, (img) => { return img.height }).height;
+    const rowsPerPage = Math.floor((this.max_height - STYLE_SHEET.visualTOC.topMargin) / (max_height * max_scale + style.vSpacing));
 
     this.pageOffset = Math.ceil(all_imgs.length / (style.imagesPerRow * rowsPerPage));
-    // console.log("col_width, min_width, max_scale, max_height, rowsPerPage", col_width, min_width, max_scale, max_height, rowsPerPage);
     this.currentPageNumber = 2;
     this.nextPageTOC();
 
+    this.doc.setFontSize(STYLE_SHEET.font.title.size);
+    this.doc.setTextColor(STYLE_SHEET.font.title.color);
+    this.doc.text("Table of Contents", this.doc.getPageWidth() / 2, STYLE_SHEET.font.title.size + this.y_loc, { align: "center" })
+    this.y_loc += style.topMargin
 
     this.doc.setFontSize(style.font.size);
     this.doc.setTextColor(style.font.color);
@@ -196,25 +190,60 @@ class PDFFileBuilder {
 
         const scale = (col_width - 2 * style.hMargin) / img.width;
         this.doc.addImage(img.src, 'jpeg', x_loc + style.hMargin, this.y_loc, scale * img.width, scale * img.height);
-        const split_text = this.doc.splitTextToSize(img.alt, scale * img.width);
+        const split_text = this.doc.splitTextToSize(`${chapter + 1}. ${img.alt}`, scale * img.width);
         _.forEach(split_text, (val, idx) => {
+          if (idx === style.maxLines - 1 && style.maxLines < split_text.length) {
+            val = `${val.slice(0, -4)}...`
+          } else if (idx >= style.maxLines) {
+            return;
+          }
           const new_y_loc = this.y_loc + scale * img.height + (style.font.size * (idx + 1))
           this.doc.textWithLink(val, x_loc + style.hMargin, new_y_loc, { pageNumber: this.pageOffset + this.chapter_page_indexes[chapter] });
         })
 
         entry_idx += 1;
         if (entry_idx % style.imagesPerRow === 0) {
-          this.y_loc += img.height * scale + style.vMargin;
+          this.y_loc += max_height * scale + style.vSpacing;
         }
         if (entry_idx % (style.imagesPerRow * rowsPerPage) === 0 && entry_idx < all_imgs.length - 1) {
-          this.nextPageTOC();
+          this.nextPageTOC(style.topMargin);
         }
       }
     }
   }
-  convertTOC() {
+  convertTOC(chapters) {
+    const TOC_width = this.max_text_width - 2 * STYLE_SHEET.TOC.hMargin;
+    let split_titles = _.map(chapters, (chapter) => { return this.doc.splitTextToSize(chapter.title, TOC_width) });
+    let num_lines = split_titles.flat().length;
+    let lines_per_page = Math.floor((this.max_height - STYLE_SHEET.TOC.topMargin) / (STYLE_SHEET.TOC.font.size + STYLE_SHEET.TOC.vSpacing));
+    this.pageOffset = Math.ceil(num_lines / lines_per_page);
 
+    this.currentPageNumber = 2;
+    this.nextPageTOC();
+
+    this.doc.setFontSize(STYLE_SHEET.font.title.size);
+    this.doc.setTextColor(STYLE_SHEET.font.title.color);
+    this.doc.text("Table of Contents", this.doc.getPageWidth() / 2, STYLE_SHEET.font.title.size + this.y_loc, { align: "center" })
+    this.y_loc += STYLE_SHEET.TOC.topMargin
+
+    this.doc.setFontSize(STYLE_SHEET.TOC.font.size);
+    this.doc.setTextColor(STYLE_SHEET.font.link.color);
+
+    let line_num = 0;
+    for (let chapterIdx = 0; chapterIdx < this.data.chapters.length; chapterIdx += 1) {
+      for (let idx = 0; idx < split_titles[chapterIdx].length; idx += 1) {
+        // puts `chIdx. ` in front if first line 
+        const line = `${idx === 0 ? `${chapterIdx + 1}. ` : ""}${split_titles[chapterIdx][idx]}`;
+        this.y_loc += (STYLE_SHEET.TOC.font.size + STYLE_SHEET.TOC.vSpacing);
+        this.doc.textWithLink(line, STYLE_SHEET.edgeMargin + STYLE_SHEET.TOC.hMargin, this.y_loc, { pageNumber: this.chapter_page_indexes[chapterIdx] + this.pageOffset });
+        line_num += 1;
+        if (line_num >= lines_per_page && line_num < num_lines) {
+          this.nextPageTOC(STYLE_SHEET.TOC.topMargin);
+        }
+      }
+    }
   }
+
   convertOutline() {
     for (let i = 0; i < this.chapter_page_indexes.length; i += 1) {
       this.doc.outline.add(null, this.data.chapters[i].title, { pageNumber: this.chapter_page_indexes[i] + this.pageOffset });
@@ -231,14 +260,14 @@ class PDFFileBuilder {
     this.nextPage();
     this.convertChapters();
 
-    if (this.glossaryData && !_.isEmpty(this.glossaryData)) {
-      this.convertGlossary(this.glossaryData);
+    if (this.glossary && !_.isEmpty(this.glossary)) {
+      this.convertGlossary(this.glossary);
     }
 
     if (this.data.visualTOC) {
       this.convertVisualTOC(this.data.visualTOC);
     } else {
-      this.convertTOC();
+      this.convertTOC(this.data.chapters);
     }
 
     this.convertOutline();

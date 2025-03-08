@@ -49,6 +49,17 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
         }
         label="Include Glossary"
       />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={downloadOptions.includeRawLatex}
+            onChange={handleCheckboxChange}
+            name="includeRawLatex"
+            color="primary"
+          />
+        }
+        label="Include Raw Latex"
+      />
     </CTFragment>
   );
 }

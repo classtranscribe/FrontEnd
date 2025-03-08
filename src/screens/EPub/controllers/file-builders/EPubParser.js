@@ -32,9 +32,10 @@ class EPubParser {
       this.data.visualTOC = this.getVisualTOC(this.data.chapters);
     }
     this.data.cover = await this.parseContent(epubData.cover);
+    this.data.includeRawLatex = options.includeRawLatex;
 
-    let post_data_copy = JSON.parse(JSON.stringify(this.data));
-    console.log("postparse data", post_data_copy);
+    // let post_data_copy = JSON.parse(JSON.stringify(this.data));
+    // console.log("postparse data", post_data_copy);
   }
   getVisualTOC(chapters) {
     let visualTOC = _.map(chapters, (chapter) => {
@@ -156,12 +157,16 @@ class EPubParser {
   /**
    * Create an EPubParser
    * @param {EPubData} ePubData 
+   * 
+   * The following are fields of options
    * @param {Boolean} replaceImageSrc Replace the image src from a url to a data url. If false, attaches the buffer of the image.
    * @param {Boolean} replaceLatex Attempts to replace any latex expressions in md ($$latex$$) with images
    * 
    * @param {Boolean} invertColors Invert the colors of images that are overly dark.
    * @param {Boolean} visualTOC Place images as a table of contents, with links to the relevant chapters
    * @param {Boolean} includeGlossary Prints the associated glossary
+   * @param {Boolean} includeRawLatex Includes the raw, unparsed latex after rendered image. Does nothing to .tex files.
+   * 
    * @returns {Any} parsed epubData
    */
   static async parse(ePubData, options) {

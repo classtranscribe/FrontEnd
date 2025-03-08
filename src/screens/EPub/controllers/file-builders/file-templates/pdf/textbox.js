@@ -31,8 +31,8 @@ export class TextBox {
     this.text_options_stack = [];
     this.lines = 0;
     this.allow_new_page = true;
-    // double spaced text is separated only by p tags, but new lines of p tags
-    // 
+    // double spaced text is separated only by p tags, but new lines on all p tags
+    // spaces out certain elements too much. This is the compromise.
     this.first_p_seen = true;
 
     // state variables that track what is currently being printed
@@ -351,15 +351,17 @@ export class TextBox {
     const scale = STYLE_SHEET.latex.scale * this.curr_text_options.size
 
     if (!this.phony_write) {
-      const text_scale = (latex.width * scale) / this.doc.getTextWidth(text);
-      this.pushTextType({ size: this.curr_text_options.size * text_scale });
-      this.doc.text(text, this.getXLoc(0), this.getYLoc(0));
-      this.popTextType();
-
       this.doc.addImage(latex.src, 'png', this.getXLoc(latex.height * scale), this.getYLoc(0) - latex.height * scale * .78, latex.width * scale, latex.height * scale);
     }
 
     this.incrementXLoc(latex.width * scale);
+
+    if (this.owner.includeRawLatex) {
+      if (!this.phony_write) {
+        this.doc.text(` (${text})`, this.getXLoc(this.doc.getTextWidth(text)), this.getYLoc(0));
+      }
+      this.incrementXLoc(this.doc.getTextWidth(` (${text})`));
+    }
     this.latex_idx += 1;
   }
 
@@ -426,6 +428,7 @@ export class TextBox {
     let data = this.parseTableHTML(table);
 
     // setup
+    this.nextLine();
     const bMargin = STYLE_SHEET.table.cellBottomMargin;
     this.allow_new_page = false;
     let end_y_loc = this.getYLoc();

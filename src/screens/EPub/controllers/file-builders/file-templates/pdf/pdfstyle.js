@@ -101,7 +101,18 @@ const STYLE_SHEET = {
       size: 12,
       color: "#0000EE"
     },
-    vMargin: 30
+    vSpacing: 50,
+    maxLines: 3,
+    topMargin: 40
+  },
+  TOC: {
+    vSpacing: 10,
+    font: {
+      size: 12,
+      color: "#0000EE"
+    },
+    hMargin: 30,
+    topMargin: 40
   }
 }
 

@@ -15,7 +15,8 @@ function ViewAndDownload({ dispatch }) {
   const [downloadOptions, setDownloadOptions] = useState({
     visualTOC: true,
     invertColors: false,
-    includeGlossary: true
+    includeGlossary: true,
+    includeRawLatex: false
   });
 
   return (
