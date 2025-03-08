@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash'
 import { CTFragment } from 'layout';
 import { connect } from 'dva'
@@ -12,6 +12,12 @@ function ViewAndDownload({ dispatch }) {
   const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
   const onScroll = (e) => dispatchScroll(e.target)
 
+  const [downloadOptions, setDownloadOptions] = useState({
+    visualTOC: true,
+    invertColors: false,
+    includeGlossary: true
+  });
+
   return (
     <EPubNavigationProvider defaultClosed>
       <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID} onScroll={onScroll}>
@@ -20,8 +26,8 @@ function ViewAndDownload({ dispatch }) {
         </CTFragment>
 
         <CTFragment width="30%" sticky scrollY dFlexCol padding={[30, 10]}>
-          <EditOptions />
-          <DownloadOptions />
+          <EditOptions setDownloadOptions={setDownloadOptions} downloadOptions={downloadOptions} />
+          <DownloadOptions downloadOptions={downloadOptions} />
         </CTFragment>
       </CTFragment>
     </EPubNavigationProvider>

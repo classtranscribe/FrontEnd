@@ -93,6 +93,15 @@ const STYLE_SHEET = {
   table: {
     cellBottomMargin: 2,
     cellLeftMargin: 2
+  },
+  visualTOC: {
+    imagesPerRow: 2,
+    hMargin: 10,
+    font: {
+      size: 12,
+      color: "#0000EE"
+    },
+    vMargin: 30
   }
 }
 

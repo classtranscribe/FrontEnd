@@ -19,23 +19,38 @@ class EPubParser {
   * @param {EPubData} ePubData 
   */
   async init(epubData, options) {
+    console.log("parser options", options);
     this.options = options
     this.data = JSON.parse(JSON.stringify(epubData));
     this.data.chapters = await this.parseChapters(epubData.chapters);
-    this.data.glossary = await getGlossaryData(epubData.sourceId);
+    this.data.glossary = {}
+    if (this.options.includeGlossary) {
+      this.data.glossary = await getGlossaryData(epubData.sourceId);
+    }
+
+    if (this.options.visualTOC) {
+      this.data.visualTOC = this.getVisualTOC(this.data.chapters);
+    }
     this.data.cover = await this.parseContent(epubData.cover);
-    // console.log(this.data);
-    let post_data_copy = JSON.parse(JSON.stringify(epubData));
+
+    let post_data_copy = JSON.parse(JSON.stringify(this.data));
     console.log("postparse data", post_data_copy);
   }
-
+  getVisualTOC(chapters) {
+    let visualTOC = _.map(chapters, (chapter) => {
+      return _.filter(chapter.contents, (content) => {
+        return "src" in content;
+      })
+    })
+    return visualTOC;
+  }
   async parseChapters(chapters) {
     let new_chapters = await Promise.all(_.map(chapters, async (ch) => {
       return this.parseChapter(ch)
     }));
-    console.log("parseChapters new_chapters", new_chapters);
     return new_chapters;
   }
+
   async parseChapter({ contents, title }) {
     let new_contents = await Promise.all(_.map(contents, async (content) => {
       return this.parseContent(content);
@@ -47,7 +62,6 @@ class EPubParser {
       let other_contents = _.filter(new_contents, (c) => typeof c === "string");
       new_contents = _.concat(image_contents, other_contents);
     }
-    console.log("parseChapter new contents", new_contents);
     return { contents: new_contents, title }
   }
 
@@ -72,8 +86,6 @@ class EPubParser {
       let { height, width } = await EPubParser.getImageDimensions(img_blob);
       return { src: data_src, height, width };
     }))
-
-    console.log("parser text, latex", text, latex_parsed);
     return { text, latex: latex_parsed };
   }
   async htmlToImageBlob(htmlString) {
@@ -119,11 +131,11 @@ class EPubParser {
     let img_blob = new Blob([img_buffer]);
 
     if (this.options.invertColors) {
-      img_blob = await EPubParser.invertImage(img_blob);
+      img_blob = await EPubParser.invertImageIfDim(img_blob);
       const arr_buf = await img_blob.arrayBuffer();
       img_buffer = new Uint8Array(arr_buf);
     }
-    // console.log("AAA blob", img_blob)
+
     if (this.options.replaceImageSrc) {
       new_content.src = await EPubParser.blobToDataUrl(img_blob);
     } else {
@@ -144,19 +156,20 @@ class EPubParser {
   /**
    * Create an EPubParser
    * @param {EPubData} ePubData 
-   * @param {Boolean} replaceImageSrc Replace the image src from a url to a data url.
-   * If false, attaches the buffer of the image without changing src.
-   * @param {Boolean} invertColors Invert the colors of the images
-   * @param {Boolean} imagesFirst Rearrange chapter contents to place all images before any text
+   * @param {Boolean} replaceImageSrc Replace the image src from a url to a data url. If false, attaches the buffer of the image.
    * @param {Boolean} replaceLatex Attempts to replace any latex expressions in md ($$latex$$) with images
+   * 
+   * @param {Boolean} invertColors Invert the colors of images that are overly dark.
+   * @param {Boolean} visualTOC Place images as a table of contents, with links to the relevant chapters
+   * @param {Boolean} includeGlossary Prints the associated glossary
    * @returns {Any} parsed epubData
    */
   static async parse(ePubData, options) {
     const parser = new EPubParser();
-    console.log("parser options", options);
+    // console.log("parser options", options);
     await parser.init(ePubData.epub, options)
 
-    console.log("Parsed data", parser.data);
+    // console.log("Parsed data", parser.data);
     return parser.data;
   }
 
@@ -199,7 +212,7 @@ class EPubParser {
     })
   };
 
-  static async invertImage(blob) {
+  static async invertImageIfDim(blob, threshold = 100) {
     console.log("pre inv", blob);
     // Create an ImageBitmap from the Blob
     const imageBitmap = await createImageBitmap(blob);
@@ -215,6 +228,14 @@ class EPubParser {
     let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     let data = imageData.data;
 
+    // quit if below brightness
+    let avg_brightness = _.mean(_.filter(data, (val, idx) => { return idx % 4 !== 3 }));
+    if (avg_brightness > threshold) {
+      imageBitmap.close();
+      console.log("breaking");
+      return blob;
+    }
+
     // Invert colors
     for (let i = 0; i < data.length; i += 4) {
       data[i] = 255 - data[i];       // Red
@@ -229,7 +250,6 @@ class EPubParser {
     // Convert to Blob and clean up
     const invertedBlob = await canvas.convertToBlob({ type: "image/png" });
 
-    // Cleanup (not needed for OffscreenCanvas, but good practice)
     imageBitmap.close();
     console.log("post inv", invertedBlob);
 

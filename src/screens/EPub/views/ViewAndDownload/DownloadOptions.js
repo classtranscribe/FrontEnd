@@ -1,56 +1,16 @@
 import React, { useState } from 'react';
 import { CTFileButton, CTFragment, CTHeading } from 'layout';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
-import { epub, connectWithRedux } from '../../controllers';
+import { connectWithRedux, epub } from '../../controllers';
 
 function DownloadOptions(props) {
   const epubData = props.epub;
+  const downloadOptions = props.downloadOptions;
   const { filename } = epubData;
-
-  const [downloadOptions, setDownloadOptions] = useState({
-    imagesFirst: false,
-    invertColors: false
-  });
-
-  // Handle change for each checkbox
-  const handleCheckboxChange = (event) => {
-    // eslint-disable-next-line no-console
-    console.log("checked", event.target);
-    const { name, checked } = event.target;
-    // eslint-disable-next-line no-console
-    console.log("checked", name, checked);
-
-    setDownloadOptions((prevState) => ({
-      ...prevState,
-      [name]: checked // Update the specific checkbox state
-    }));
-  };
 
   return (
     <CTFragment>
       <CTHeading as="h3" icon="get_app">Download</CTHeading>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={downloadOptions.imagesFirst}
-            onChange={handleCheckboxChange}
-            name="imagesFirst"
-            color="primary"
-          />
-        }
-        label="Place Images at the Start of Chapters"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={downloadOptions.invertColors}
-            onChange={handleCheckboxChange}
-            name="invertColors"
-            color="primary"
-          />
-        }
-        label="Invert Colors of Images"
-      />
       <CTFragment dFlexCol padding={[0, 15, 0, 0]}>
         <CTFileButton
           icon={<i className="fas fa-file-alt" />}
