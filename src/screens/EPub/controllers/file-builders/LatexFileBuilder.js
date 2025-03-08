@@ -1,15 +1,7 @@
-/* eslint-disable no-console */
-/* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 
 import { html } from 'utils';
-import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
-import {
-  glossaryToHTMLString,
-} from './GlossaryCreator';
-
-import { INDEX_HTML_LOCAL, STYLE_CSS/* , PRISM_JS */ } from './file-templates/html';
 
 class LatexFileBuilder {
   /**

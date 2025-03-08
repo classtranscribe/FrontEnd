@@ -1,17 +1,8 @@
-/* eslint-disable no-console */
-/* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
-// import { EPubData } from 'entities/EPubs';
-import { links } from 'utils';
-import EPubParser from './EPubParser';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
-import {
-  getGlossaryData,
-  glossaryToHTMLString,
-  getChapterGlossaryAndTextHighlight,
-} from './GlossaryCreator';
+
 import {
   MIMETYPE,
   META_INF_CONTAINER_XML,
@@ -90,10 +81,8 @@ class EPubFileBuilder {
   }
 
   buildVisualTocXHTML(visualTOC) {
-    console.log("epub visualTOC chapters", this.data);
     let navContents = _.map(visualTOC, (ch, chIdx) => {
       return _.map(ch, (img) => {
-        console.log("id", this.data.chapters[chIdx].id);
         return `
           <dt class="table-of-content">  
           <a href="${this.data.chapters[chIdx].id}.xhtml"> <img src="${img.src}" alt="${img.alt}"/> </a>
@@ -146,7 +135,7 @@ class EPubFileBuilder {
   }
 
   getEPubBuffer() {
-    const { title, author, language, chapters, cover } = this.data;
+    const { title, author, language, chapters } = this.data;
     const zip = this.zip;
 
     // mimetype

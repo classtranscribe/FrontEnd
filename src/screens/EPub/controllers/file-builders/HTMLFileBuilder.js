@@ -1,19 +1,11 @@
-/* eslint-disable no-console */
-/* eslint-disable complexity */
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
-// import { EPubData } from 'entities/EPubs';
-// import { doc } from 'prettier';
-// import { jsPDF as JsPDF } from 'jspdf';
-
 import { _buildID, html } from 'utils';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import {
   glossaryToHTMLString,
 } from './GlossaryCreator';
-
 import { INDEX_HTML_LOCAL, STYLE_CSS/* , PRISM_JS */ } from './file-templates/html';
-import EPubParser from './EPubParser';
 
 class HTMLFileBuilder {
   /**
@@ -98,7 +90,6 @@ class HTMLFileBuilder {
     ].join("\n");
   }
   convertVisualTOC() {
-    console.log("visualTOC chapters", this.data.chapters);
     return _.map(this.data.visualTOC, (ch, chIdx) => {
       let link_target = this.data.chapters[chIdx].id;
       return _.map(ch, (img) => {
@@ -146,7 +137,6 @@ class HTMLFileBuilder {
     } else {
       toc = this.convertTOC();
     }
-    console.log("html file toc", toc)
     return INDEX_HTML_LOCAL({
       title: this.title,
       navContents: toc,

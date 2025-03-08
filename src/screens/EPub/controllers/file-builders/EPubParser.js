@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import _ from 'lodash';
 import { uurl, api, CTError, html } from 'utils';
 import html2canvas from 'html2canvas';
@@ -19,7 +18,6 @@ class EPubParser {
   * @param {EPubData} ePubData 
   */
   async init(epubData, options) {
-    console.log("parser options", options);
     this.options = options
     this.data = JSON.parse(JSON.stringify(epubData));
     this.data.chapters = await this.parseChapters(epubData.chapters);
@@ -33,9 +31,6 @@ class EPubParser {
     }
     this.data.cover = await this.parseContent(epubData.cover);
     this.data.includeRawLatex = options.includeRawLatex;
-
-    // let post_data_copy = JSON.parse(JSON.stringify(this.data));
-    // console.log("postparse data", post_data_copy);
   }
   getVisualTOC(chapters) {
     let visualTOC = _.map(chapters, (chapter) => {
@@ -171,10 +166,8 @@ class EPubParser {
    */
   static async parse(ePubData, options) {
     const parser = new EPubParser();
-    // console.log("parser options", options);
     await parser.init(ePubData.epub, options)
 
-    // console.log("Parsed data", parser.data);
     return parser.data;
   }
 
@@ -218,7 +211,6 @@ class EPubParser {
   };
 
   static async invertImageIfDim(blob, threshold = 100) {
-    console.log("pre inv", blob);
     // Create an ImageBitmap from the Blob
     const imageBitmap = await createImageBitmap(blob);
 
@@ -237,7 +229,6 @@ class EPubParser {
     let avg_brightness = _.mean(_.filter(data, (val, idx) => { return idx % 4 !== 3 }));
     if (avg_brightness > threshold) {
       imageBitmap.close();
-      console.log("breaking");
       return blob;
     }
 
@@ -256,7 +247,6 @@ class EPubParser {
     const invertedBlob = await canvas.convertToBlob({ type: "image/png" });
 
     imageBitmap.close();
-    console.log("post inv", invertedBlob);
 
     return invertedBlob;
   }

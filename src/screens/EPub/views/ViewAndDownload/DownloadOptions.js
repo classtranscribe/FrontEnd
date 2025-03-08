@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CTFileButton, CTFragment, CTHeading } from 'layout';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
 import { connectWithRedux, epub } from '../../controllers';
 
 function DownloadOptions(props) {

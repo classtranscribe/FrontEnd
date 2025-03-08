@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'dva'
 import { CTFragment, CTHeading } from 'layout';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
-import { epub } from '../../controllers';
 
 function EditOptions({ setDownloadOptions, downloadOptions }) {
   const handleCheckboxChange = (event) => {

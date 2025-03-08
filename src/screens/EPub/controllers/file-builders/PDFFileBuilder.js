@@ -1,10 +1,5 @@
-/* eslint-disable no-unreachable */
-/* eslint-disable no-console */
-/* eslint-disable complexity */
-import _, { forEach, random } from 'lodash';
-import { html } from 'utils';
+import _ from 'lodash';
 import { newPDF, STYLE_SHEET, placeholderImg, TextBox } from './file-templates/pdf';
-import HTMLFileBuilder from './HTMLFileBuilder';
 
 
 /**
@@ -39,7 +34,6 @@ class PDFFileBuilder {
    * @returns {Buffer} html zipped combo buffer
    */
   static async toBuffer(ePubData) {
-    // eslint-disable-next-line no-console
     const builder = new PDFFileBuilder(ePubData);
     await builder.init(ePubData, true);
     const buffer = await builder.getPDFBuffer();
@@ -102,7 +96,6 @@ class PDFFileBuilder {
   }
 
   convertImage({ src, descriptions, alt, height = 100, width = 100 }) {
-    // console.log("pdf image data:", src, descriptions, alt, height, width)
     const scale = this.max_text_width / width;
     const curr_y_loc = this.getYLoc(height);
     this.doc.addImage(src === "" ? placeholderImg : src, STYLE_SHEET.edgeMargin, curr_y_loc, width * scale, height * scale);
@@ -119,7 +112,6 @@ class PDFFileBuilder {
   }
 
   convertContent(content) {
-    // console.log("convertContent", content);
     if (typeof content === 'string' || "latex" in content) {
       this.convertText(content);
     } else {
@@ -155,7 +147,6 @@ class PDFFileBuilder {
   }
 
   convertVisualTOC(visualTOC) {
-    console.log("PDF printer visual TOC", visualTOC);
     if (_.isEmpty(this.data.visualTOC.flat())) {
       return;
     }
@@ -186,8 +177,6 @@ class PDFFileBuilder {
       for (let img_idx = 0; img_idx < visualTOC[chapter].length; img_idx += 1) {
         const img = visualTOC[chapter][img_idx];
         const x_loc = STYLE_SHEET.edgeMargin + (entry_idx % style.imagesPerRow) * col_width;
-
-        // console.log("image", chapter, img_idx, entry_idx, this.y_loc, this.x_loc);
 
         const scale = (col_width - 2 * style.hMargin) / img.width;
         this.doc.addImage(img.src, 'jpeg', x_loc + style.hMargin, this.y_loc, scale * img.width, scale * img.height);
