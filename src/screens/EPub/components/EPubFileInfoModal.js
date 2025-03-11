@@ -19,7 +19,7 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   if (!epubData.condition) {
     epubData.condition = { default: true };
   }
-  if(!('enableGlossary' in epubData)) {
+  if (!('enableGlossary' in epubData)) {
     epubData.enableGlossary = true;
   }
   useEffect(() => {
@@ -35,24 +35,8 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
 
   const onSaveCover = (newCover) => setEPubData({ ...epubData, cover: newCover });
 
-  const onVisualTocChange = ({ target: { checked } }) =>
-    setEPubData({ ...epubData, enableVisualToc: checked });
-
-  const onAllGlossaryTermHighlight = ({ target: { checked } }) =>
-    setEPubData({ ...epubData, enableAllGlossaryTermHighlight: checked });
-
-  const onGlossaryEnable = ({ target: { checked } }) =>
-    setEPubData({ ...epubData, enableGlossary: checked });
-
   const onPublishChange = ({ target: { checked } }) =>
     setEPubData({ ...epubData, isPublished: checked });
-
-  const onHeaderChange = ({ target: { checked } }) => setEPubData({ ...epubData, isH4: checked });
-
-  const onConditionChange = ({ target: { id, checked } }) => {
-    epubData.condition[id] = checked;
-    setEPubData({ ...epubData });
-  };
 
   const canSave = epubData.title && epubData.filename && epubData.author;
 
@@ -144,55 +128,11 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
         </CTFormRow>
         <CTFormRow>
           <CTCheckbox
-            id="ct-epb-enable-visual-toc-checkbox"
-            label="Enable Visual Table of Contents"
-            checked={epubData.enableVisualToc}
-            onChange={onVisualTocChange}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
-            id="ct-epb-enable-glossary"
-            label="Include Glossary"
-            checked={epubData.enableGlossary}
-            onChange={onGlossaryEnable}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
-            id="ct-epb-enable-all-glossary-term-highlight"
-            label="Highlight All Occurences of Glossary Terms"
-            checked={epubData.enableAllGlossaryTermHighlight}
-            onChange={onAllGlossaryTermHighlight}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
             id="ct-epb-is-pub-checkbox"
             label="Publish the I-Note file"
             checked={epubData.isPublished}
             onChange={onPublishChange}
           />
-        </CTFormRow>
-        <CTFormRow>
-          <CTCheckbox
-            id="ct-epb-is-pub-checkbox"
-            label="Enable future merge of I-Note"
-            checked={epubData.isH4}
-            onChange={onHeaderChange}
-          />
-        </CTFormRow>
-        <CTFormRow>
-          {conditions.map((data) => {
-            return (
-              <CTCheckbox
-                id={data}
-                label={data}
-                checked={epubData.condition[data]}
-                onChange={onConditionChange}
-              />
-            );
-          })}
         </CTFormRow>
         {delConfirmation.element}
       </CTFragment>

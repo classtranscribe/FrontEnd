@@ -14,7 +14,7 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
 
   return (
     <CTFragment dFlexCol margin={[0, 0, 30, 0]}>
-      <CTHeading as="h3" icon="edit">Options</CTHeading>
+      <CTHeading as="h3" icon="settings">Download Options</CTHeading>
       <FormControlLabel
         control={
           <Checkbox
