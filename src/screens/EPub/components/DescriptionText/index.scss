@@ -1,0 +1,14 @@
+.ct-epb.ch-text-con {
+  width: 100%;
+  margin: 10px 0;
+
+  &.attached {
+    margin: 0;
+    
+    .ct-epb.clickable.bordered[data-empty=true] {
+      padding-top: 0;
+      color: rgb(85, 85, 85);
+      // text-align: center;
+    }
+  }
+}

@@ -27,7 +27,7 @@ function ChapterImage({
   images,
   dispatch
 }) {
-  const { alt, src, description } = image;
+  const { alt, src, descriptions } = image;
 
   const onSave = (newImage) => {
     if (onChooseImage) {
@@ -36,7 +36,7 @@ function ChapterImage({
   };
 
   const handleImageChange = (imgLike) => {
-    onSave({ src, alt, description, ...imgLike });
+    onSave({ src, alt, descriptions, ...imgLike });
   };
 
   const onSrcChange = (val) => {
@@ -47,8 +47,17 @@ function ChapterImage({
     if (val !== alt) handleImageChange({ alt: val });
   };
 
-  const onDescriptionChange = (val) => {
-    if (val !== description) handleImageChange({ description: val });
+  const onDescriptionChange = (val, index) => {
+    // if (val !== description) handleImageChange({ description: val });
+    let new_desc = [...descriptions];
+    if (index >= new_desc.length) {
+      new_desc.push(val);
+    } else if (val.trim().length === 0 && new_desc.length > 1) {
+      new_desc.splice(index, 1);
+    } else {
+      new_desc[index] = val
+    }
+    handleImageChange({ descriptions: new_desc });
   };
 
   const openImagePicker = () => {
@@ -95,14 +104,14 @@ function ChapterImage({
             &&
             <ImageDescription
               id={id}
-              description={description}
+              descriptions={descriptions}
               onChange={onDescriptionChange}
             />
           }
         </div>
       ) : (
         <NewImageButton onClick={openImagePicker} />
-        )}
+      )}
     </>
   );
 }
