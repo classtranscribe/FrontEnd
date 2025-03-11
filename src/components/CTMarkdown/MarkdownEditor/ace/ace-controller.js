@@ -14,10 +14,10 @@ function getSelectionRange(ace) {
     lead.row > anchor.row
       ? anchor
       : lead.row < anchor.row
-      ? lead
-      : lead.column > anchor.column
-      ? anchor
-      : lead;
+        ? lead
+        : lead.column > anchor.column
+          ? anchor
+          : lead;
   const endAnchor = frontAnchor === lead ? anchor : lead;
 
   return { endAnchor, frontAnchor };
@@ -105,7 +105,7 @@ export function insertLink(ace) {
 }
 
 export function insertMathCodeBlock(ace) {
-  setOuterText(ace, '\n```latex\n\n', '```\n');
+  setOuterText(ace, '$$', '$$');
   focus(ace);
 }
 

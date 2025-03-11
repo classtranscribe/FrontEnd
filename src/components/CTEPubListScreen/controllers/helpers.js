@@ -8,7 +8,7 @@ export function _filterTrivalItems(epubData) {
   // return _.filter(epubData, (item) => Boolean(_.trim(item.text)));
 }
 function getLastPunctuationIndex(sentence) {
-  let lastPunctuationIndex = -1; 
+  let lastPunctuationIndex = -1;
   for (let i = sentence.length - 1; i >= 0; i -= 1) {
     if (sentence[i] === '.' || sentence[i] === '?' || sentence[i] === '!') {
       lastPunctuationIndex = i;
@@ -19,19 +19,20 @@ function getLastPunctuationIndex(sentence) {
 }
 
 function _parseRawEPubDataSplittingOnPunctuation(rawEPubData) {
-  let buffer = "";
-  for (let i = 0; i < rawEPubData.length; i += 1) {
-    let curr = (buffer + rawEPubData[i].text).trim();
-    let idx = getLastPunctuationIndex(curr);
-    if (idx === curr.length - 1) {
-      rawEPubData[i].text = curr;
-      buffer = "";
-    } else {
-      buffer = `${curr.substring(getLastPunctuationIndex(curr) + 1, curr.length) } `;
-       rawEPubData[i].text = curr.substring(0, getLastPunctuationIndex(curr) + 1);
-    }
-  }
   return null;
+  // let buffer = "";
+  // for (let i = 0; i < rawEPubData.length; i += 1) {
+  //   let curr = (buffer + rawEPubData[i].text).trim();
+  //   let idx = getLastPunctuationIndex(curr);
+  //   if (idx === curr.length - 1) {
+  //     rawEPubData[i].text = curr;
+  //     buffer = "";
+  //   } else {
+  //     buffer = `${curr.substring(getLastPunctuationIndex(curr) + 1, curr.length)} `;
+  //     rawEPubData[i].text = curr.substring(0, getLastPunctuationIndex(curr) + 1);
+  //   }
+  // }
+  // return null;
 }
 export function _parseRawEPubData(rawEPubData) {
   let a = _.map(_filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));
@@ -50,11 +51,11 @@ export function _generateDefaultEpubName(ePubs, defaultTitle) {
   if (ePubs.length > 0 && ePubs !== ARRAY_INIT) { // if there are previous epubs made 
     let mediaName = defaultTitle; // the default title 
     let mediaNameLen = mediaName.length;
-    let maxAffix = -1; 
+    let maxAffix = -1;
     for (const epub of ePubs) {
-      let title = epub.title; 
+      let title = epub.title;
       if (title.substring(0, mediaNameLen) === mediaName) { // if the title includes the default name 
-        let diff = title.length - mediaName.length;  
+        let diff = title.length - mediaName.length;
         if (diff === 0) {  // if the title is exactly the default name 
           maxAffix = (maxAffix < 0) ? 0 : maxAffix;
         } else {
@@ -62,10 +63,10 @@ export function _generateDefaultEpubName(ePubs, defaultTitle) {
           maxAffix = (parseInt(affix, 10) > maxAffix) ? affix : maxAffix; // if this affix is greater than max affix, set it  
         }
       }
-    } 
+    }
     if (maxAffix > -1) {  // if we found other ebooks
       // increment maxAffix and set the name of this new ebook accordingly 
-      maxAffix = parseInt(maxAffix, 10) + 1; 
+      maxAffix = parseInt(maxAffix, 10) + 1;
       return `${mediaName}-${maxAffix}`
     }
   }

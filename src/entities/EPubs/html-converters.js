@@ -16,23 +16,40 @@ export async function buildMDFromContent(content) {
   if ("__data__" in content) {
     content = JSON.parse(JSON.stringify(content.__data__))
   }
-  const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(content.src))
-  const img_blob = new Blob([img]);
-  const img_data_url = await EPubParser.blobToDataUrl(img_blob)
-  if (_.trim(content.description)) {
+
+  let img_data_url = null
+  try {
+    const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(content.src));
+    const img_blob = new Blob([img]);
+    img_data_url = await EPubParser.blobToDataUrl(img_blob);
+  } catch (error) {
+    // intentionally ignoring error in fetching image.
+    // Most likely cause is CORS policy when running local dev server
+  }
+
+  if (img_data_url === null) {
+    let despId = _buildID();
+    return [
+      '<div class="img-block">',
+      `\t<img src="${""}" alt="${content.alt}" aria-describedby="${despId}" />`,
+      `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>`,
+      '</div>'
+    ].join('\n');
+  }
+  if (content.descriptions.length !== 0) {
     let despId = _buildID();
     return [
       '<div class="img-block">',
       `\t<img src="${img_data_url}" alt="${content.alt}" aria-describedby="${despId}" />`,
-      `\t<div id="${despId}">${html.markdown(content.description)}</div>`,
+      `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>`,
       '</div>'
     ].join('\n');
-  } 
-    return [
-      '<div class="img-block">',
-      `\t<img src="${img_data_url}" alt="${content.alt}" />`,
-      '</div>'
-    ].join('\n');
+  }
+  return [
+    '<div class="img-block">',
+    `\t<img src="${img_data_url}" alt="${content.alt}" />`,
+    '</div>'
+  ].join('\n');
 }
 
 export async function buildMDFromSubChapter({ id, title, contents }) {
@@ -72,5 +89,5 @@ export function encodeXmlEntities(text) {
     .replace(/'/g, "&apos;")
     /* eslint-disable */
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, ''); // Remove control characters
-    /* eslint-enable */
+  /* eslint-enable */
 }

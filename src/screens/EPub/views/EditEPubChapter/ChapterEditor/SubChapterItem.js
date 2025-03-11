@@ -13,7 +13,7 @@ function SubChapterItem({
   currChIndex,
   dispatch
 }) {
-  const { title, id, contents : _contents } = subChapter;
+  const { title, id, contents: _contents } = subChapter;
   const contents = typeof subChapter === 'string' ? [subChapter] : _contents;
   const onSaveTitle = (newTitle) =>
     dispatch({
@@ -67,7 +67,7 @@ function SubChapterItem({
         onSave={onSaveTitle}
       />
 
-      {contents.map((content, index) => { 
+      {contents.map((content, index) => {
         const uuid = uuidv4();
         return (
           <ChapterContent
@@ -80,8 +80,9 @@ function SubChapterItem({
             onTextChange={onTextChange(index)}
             onImageChange={onImageChange(index)}
           />
-        )})}
-      
+        )
+      })}
+
       <ChapterNewContent index={subChapter.contents.length} onInsert={onInsert(contents.length)} />
     </CTFragment>
   );
