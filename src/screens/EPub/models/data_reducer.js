@@ -33,6 +33,7 @@ function insertChapter(chapters, index, chapterLike, resetText = true) {
     newChapter = newChapter.__data__ ? newChapter.__data__ : newChapter.toObject();
 
     console.log(`Inserting chapter at ${index}: `, chapterLike);
+    console.log(`insertChapter`, newChapter);
 
     return [
         ...chapters.slice(0, index),
@@ -120,17 +121,17 @@ function rebuildSubChapter(chapters, chapterIndex, subChapterIndex, subChapterLi
     let currChapter = chapters[chapterIndex];
     console.log(`Rebuilding subchapter ${chapterIndex}-${subChapterIndex}: `, subChapterLike);
     if (currChapter) {
-      let subChapters = currChapter.subChapters;
-      // if there is such a subchapter in the epub data
-      // update the subchapter item
-      if (subChapters[subChapterIndex]) {
-        let toBuild = subChapterLike || subChapters[subChapterIndex];
-        const rebuilt = new EPubSubChapterData(toBuild, resetText).toObject();
-        console.log(`Rebuilt subchapter ${chapterIndex}-${subChapterIndex}: `, rebuilt);
-        subChapters[subChapterIndex] = rebuilt;
-      }
+        let subChapters = currChapter.subChapters;
+        // if there is such a subchapter in the epub data
+        // update the subchapter item
+        if (subChapters[subChapterIndex]) {
+            let toBuild = subChapterLike || subChapters[subChapterIndex];
+            const rebuilt = new EPubSubChapterData(toBuild, resetText).toObject();
+            console.log(`Rebuilt subchapter ${chapterIndex}-${subChapterIndex}: `, rebuilt);
+            subChapters[subChapterIndex] = rebuilt;
+        }
     }
-  }
+}
 
 function nextStateOfChapters(chapters) {
     console.log(`Building next state of chapters...`);
@@ -150,6 +151,7 @@ export default {
         // remove the items after itemIdx
         chapter.items = _.slice(chapter.items, 0, itemIdx);
         rebuildChapter(chapters, chapterIdx);
+
         // this.updateAll('Subdivide the chapter');
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } }
     },
@@ -278,27 +280,29 @@ export default {
             prevChp.subChapters = currChp?.subChapters;
             // remove combined chapter
             newChapters = removeChapter(chapters, chapterIdx);
-        } 
+        }
         rebuildChapter(chapters, chapterIdx - 1);
         // this.updateAll('Undo split chapters', chapterIdx - 1);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
-    sliceChapter(state, { payload: { chapterIdx, itemIdx}}) {
+    sliceChapter(state, { payload: { chapterIdx, itemIdx } }) {
         console.log(`Splitting Chapter ${chapterIdx} at ItemIdx ${itemIdx}`);
         const chapters = state.epub.chapters;
         const chapter = chapters[chapterIdx]
         // remove contents from current chapter and add to new chapter
         let contents = _.slice(chapter.contents, itemIdx, chapter.contents.length);
         chapter.contents = _.slice(chapter.contents, 0, itemIdx);
+
         // insert the new chapter
         const newChapters = insertChapter(chapters, chapterIdx + 1, { contents }, false);
-        if(newChapters[chapterIdx].timemerge>'00:00:00') {
-            newChapters[chapterIdx+1].end = newChapters[chapterIdx].end;
+
+        if (newChapters[chapterIdx].timemerge > '00:00:00') {
+            newChapters[chapterIdx + 1].end = newChapters[chapterIdx].end;
             newChapters[chapterIdx].end = newChapters[chapterIdx].timemerge;
-            newChapters[chapterIdx+1].start = newChapters[chapterIdx].timemerge;
+            newChapters[chapterIdx + 1].start = newChapters[chapterIdx].timemerge;
             newChapters[chapterIdx].timemerge = '00:00:00';
         }
-        
+
 
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
@@ -307,14 +311,14 @@ export default {
         const chapters = state.epub.chapters;
         const currChp = chapters[chapterIdx];
         const prevChp = chapters[chapterIdx - 1];
-        
+
         // TODO account for sub chapters
         prevChp.contents = _.concat(prevChp?.contents, currChp?.contents);
-       // prevChp.contents
-       if(state.epub.chapters[chapterIdx].end>'00:00:00') {
-        state.epub.chapters[chapterIdx-1].timemerge = state.epub.chapters[chapterIdx].start;
-        state.epub.chapters[chapterIdx-1].end = state.epub.chapters[chapterIdx].end;
-       }
+        // prevChp.contents
+        if (state.epub.chapters[chapterIdx].end > '00:00:00') {
+            state.epub.chapters[chapterIdx - 1].timemerge = state.epub.chapters[chapterIdx].start;
+            state.epub.chapters[chapterIdx - 1].end = state.epub.chapters[chapterIdx].end;
+        }
         let newChapters = removeChapter(chapters, chapterIdx);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(newChapters) } };
     },
@@ -337,7 +341,7 @@ export default {
         chapters[chapterIdx].title = value;
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters([...chapters]) } };
     },
-    splitChaptersByScreenshots(state, {payload: {wc}}) { // Enforces Word Count
+    splitChaptersByScreenshots(state, { payload: { wc } }) { // Enforces Word Count
         console.log(`Splitting chapters by screenshots`);
         const new_items = []; // duplicating some sentences (sentences with less than wc words)
         // min word count that each chapter should have
@@ -351,37 +355,38 @@ export default {
             if (a === undefined || a === null) {
                 return wordCount;
             }
-                return wordCount + a.text.split(' ').length;
+            return wordCount + a.text.split(' ').length;
         }, 0);
         if (min_word_count > total_word_count) {
             min_word_count = default_word_count;
         }
         // loop through chapters and enforce minimum wc 
-        (state.items).forEach((elem)=> {
+        (state.items).forEach((elem) => {
             if (elem !== undefined && elem !== null) {
-            if (new_items.length!==0) { 
-                const oldelem = new_items.pop();
-                let words = (oldelem.text).split(' ').length;
-                if(words < min_word_count ) {
-                // append shorter text to previous chapter
-                    oldelem.text += " ";
-                    oldelem.text += elem.text;
-                    oldelem.end = elem.end;
-                    new_items.push(oldelem);
+                if (new_items.length !== 0) {
+                    const oldelem = new_items.pop();
+                    let words = (oldelem.text).split(' ').length;
+                    if (words < min_word_count) {
+                        // append shorter text to previous chapter
+                        oldelem.text += " ";
+                        oldelem.text += elem.text;
+                        oldelem.end = elem.end;
+                        new_items.push(oldelem);
+                    }
+                    else {
+                        new_items.push(oldelem);
+                        new_items.push(elem)
+                    }
+                } else {
+                    new_items.push(elem);
                 }
-                else {
-                    new_items.push(oldelem);
-                    new_items.push(elem)
-                }
-            } else {
-                new_items.push(elem);
             }
-    }});
+        });
         // makes sure the first element also has a min of min_word_count words
-       const last_elem = new_items.pop();
+        const last_elem = new_items.pop();
         let words = (last_elem.text).split(' ').length;
-        if(words !==0) {
-            if(words > min_word_count) {
+        if (words !== 0) {
+            if (words > min_word_count) {
                 new_items.push(last_elem);
             }
             else {
@@ -395,16 +400,16 @@ export default {
         state.items = new_items;
         let splitChapters = _.map(new_items, (data) => {
             if (data === undefined || data === null) {
-              return null; 
+                return null;
             }
-          
+
             return new EPubChapterData({
-              items: [data],
-              title: data.title,
+                items: [data],
+                title: data.title,
             }).toObject();
-          });
-          splitChapters = _.compact(splitChapters);
-          
+        });
+        splitChapters = _.compact(splitChapters);
+
         /*
         let splitChapters = _.map(
             new_items,
@@ -421,11 +426,12 @@ export default {
         const defaultChapters = EPubData.__buildEPubDataFromArray(state.items);
         return { ...state, epub: { ...state.epub, ...nextStateOfChapters(defaultChapters) }, currChIndex: 0 };
     },
-     insertChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
+    insertChapterContent(state, { payload: { type = 'text', contentIdx, subChapterIdx, value } }) {
         if (type === 'image') {
             value = new EPubImageData(value).toObject();
         }
         const chapters = state.epub.chapters;
+
         if (subChapterIdx === undefined) {
             console.log(`Inserting chapter ${state.currChIndex} content: `, value);
             insertContentChapter(chapters[state.currChIndex], contentIdx, value);
@@ -461,7 +467,7 @@ export default {
             if (type === 'condition') {
                 chapter.condition = value;
                 console.log(`Setting chapter ${state.currChIndex} condition: `, value);
-            } else{
+            } else {
                 chapter.contents[contentIdx] = value;
                 console.log(`Setting chapter ${state.currChIndex} content: `, value);
             }
@@ -484,7 +490,7 @@ export default {
             if (type === 'condition') {
                 chapter.condition = value;
                 console.log(`Setting chapter ${state.currChIndex} condition: `, value);
-            } else{
+            } else {
                 chapter.contents[contentIdx] = value;
                 console.log(`Setting chapter ${state.currChIndex} content: `, value);
             }

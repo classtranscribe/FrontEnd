@@ -24,6 +24,8 @@ import { cthttp } from 'utils/cthttp/request';
 export async function getGlossaryData(mediaId) {
   try {
     const response = await cthttp.get(`EPubs/GetGlossaryData?mediaId=${mediaId}`);
+    // eslint-disable-next-line no-console
+    console.log("getGlossaryData response", response);
     const glossaryData = {};
 
     for (const term of response.data.Glossary) {
@@ -69,7 +71,7 @@ export function getChapterGlossaryAndTextHighlight(text, glossary, highlightAll)
   let target_words = Object.keys(glossary);
   let chapter_glossary = {};
 
-  for (let i = 0; i < text.length; ) {
+  for (let i = 0; i < text.length;) {
     // First we check that we are not inside a TAG i.e. <>
     // Because we do not want to replace text within an attribute
 
@@ -139,7 +141,7 @@ export function glossaryToHTMLString(glossary) {
   let html = '<html><body><div>';
   html += '<h4>Glossary</h4>';
   html += '<ul>';
-  
+
   // sort the words alphabetically
   Object.keys(glossary)
     .sort((t1, t2) => t1.toLowerCase().localeCompare(t2.toLowerCase()))
@@ -149,8 +151,8 @@ export function glossaryToHTMLString(glossary) {
       const word_link = glossary[word].link;
       const word_id = get_word_id(word);
       html += `<li id='${word_id}'>${word}: ${word_description}`;
-      if(word_link && word_link.length > 0) { 
-        html += `<a href="${word_link}">[more]</a>` 
+      if (word_link && word_link.length > 0) {
+        html += `<a href="${word_link}">[more]</a>`
       }
       html += `</li>`;
       html += `<br/>`;
@@ -163,7 +165,7 @@ export function glossaryToHTMLString(glossary) {
 }
 
 export function glossaryToText(glossary) {
-  if (Object.keys(glossary).length === 0) {
+  if ((typeof glossary !== "object" || glossary === null) || Object.keys(glossary).length === 0) {
     return '';
   }
 
@@ -173,7 +175,7 @@ export function glossaryToText(glossary) {
   Object.keys(glossary)
     .sort((t1, t2) => t1.toLowerCase().localeCompare(t2.toLowerCase()))
     .forEach(word => {
-      text += `${word}: ${glossary[word].description}\n\n`;    
+      text += `${word}: ${glossary[word].description}\n\n`;
     });
 
   return text;

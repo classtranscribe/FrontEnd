@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 // import ReactDOM from 'react-dom';
 import { Button } from 'pico-ui';
 import { CTFragment, CTInput } from 'layout';
@@ -59,9 +59,9 @@ function ImageWrapper({
     <CTFragment dFlexCol justConBetween className="ch-img-wrapper" padding="20">
       <CTFragment justConEnd>
         <Button.Group>
-          <Button 
-            uppercase 
-            color="white" 
+          <Button
+            uppercase
+            color="white"
             icon="image"
             className="ct-epb shadow-btn"
             onClick={onChooseImage}
@@ -78,7 +78,7 @@ function ImageWrapper({
             Change Embedded Link
           </Button> */}
           {
-            showLink && 
+            showLink &&
             <div>
               <div>
                 <input onChange={handleTextChange} placeholder="Change video start time" />
@@ -94,9 +94,9 @@ function ImageWrapper({
             canRemoveImage
             &&
             <Button
-              uppercase 
+              uppercase
               icon="delete"
-              color="white" 
+              color="white"
               className="ct-epb shadow-btn"
               onClick={onRemoveImage}
             >
@@ -107,13 +107,13 @@ function ImageWrapper({
       </CTFragment>
 
       <CTFragment alignItEnd>
-        <CTInput 
+        <CTInput
           // textarea
           underlined
           darkMode
           id={`image-alt-input-${id}`}
-          label={`Image Alt Text${ alt.value.length >100 ? ` - Too long! (${alt.value.length} characters). Maximum 100 characters recommended.`:
-          alt.value.length === 0 ? " - A short text description is needed here" : ""}`}
+          label={`Image Alt Text${typeof alt.value !== "string" ? ` - Does not exist ` : alt.value.length > 100 ? ` - Too long! (${alt.value.length} characters). Maximum 100 characters recommended.` :
+            alt.value.length === 0 ? " - A short text description is needed here" : ""}`}
           value={alt.value}
           onChange={alt.onChange}
           onReturn={handleSaveAlt}
@@ -130,9 +130,9 @@ function ImageWrapper({
             className="ct-a-fade-in ml-3"
           >
             Save
-          </Button> 
+          </Button>
         }
-        
+
       </CTFragment>
     </CTFragment>
   );

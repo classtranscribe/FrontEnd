@@ -1,16 +1,15 @@
 import _ from 'lodash';
 import { timestr, _buildID } from 'utils';
 import { findChapterTimeSpan, getAllImagesInChapter, getAllItemsInChapter } from '../utils';
-import { encodeXmlEntities } from '../html-converters';
 import EPubImageData from './EPubImageData';
 
 function _buildContentsFromItems(items) {
   const content = [];
   for (const item of items) {
-   if (item !== undefined) { 
+    if (item !== undefined) {
       if (item.image) { // if there is an image 
-        const altText = item.ocrPhrases ? JSON.parse(item.ocrPhrases).map(encodeXmlEntities).join(', ') : '' // add in OCR data
-        const imageData = new EPubImageData({src: item.image, alt: altText}); 
+        const altText = item.title
+        const imageData = new EPubImageData({ src: item.image, alt: altText, descriptions: item.ocrElements });
         content.push(imageData)
       }
       if (item.text) { // if there is text 
@@ -19,8 +18,9 @@ function _buildContentsFromItems(items) {
           content.push(text);
         }
       }
-   }
+    }
   }
+
   return content;
 }
 
@@ -50,11 +50,10 @@ class EPubChapterLikeData {
     } = data;
 
     const { start, end } = findChapterTimeSpan(data); // TODO 
-    
+
     if (!title && typeof getTitle === 'function') {
       title = getTitle();
     }
-
     this.__data__ = {
       id: id || _buildID(),
       start,
@@ -62,9 +61,11 @@ class EPubChapterLikeData {
       title: title || 'Untitled',
       items,
       condition: ['default'],
-      contents: resetText 
-        ? _buildContentsFromItems(items) 
-        : contents.map(con => typeof con === 'string' ? con : new EPubImageData(con))
+      contents: resetText
+        ? _buildContentsFromItems(items)
+        : contents.map(con => typeof con === 'string' ? con : (new EPubImageData(con)).toObject())
+      // you have to explicitly cast EPubImageData to plain object to maintain consistency with
+      // _buildContentsFromItems, which implicitly makes the cast
     };
   }
 
@@ -234,7 +235,7 @@ class EPubChapterLikeData {
    * 
    * @param {Number|String|EPubImageData} predictor 
    */
-  
+
 
   static __getAllImagesInChapter = getAllImagesInChapter;
   static __getAllItemsInChapter = getAllItemsInChapter;

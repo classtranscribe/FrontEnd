@@ -2,15 +2,11 @@ import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { Popup } from 'semantic-ui-react';
 import { elem } from 'utils/use-elem';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, IconButton, Button } from '@material-ui/core';
-import Delete from '@material-ui/icons/Delete';
-// import autosize from 'autosize';
-// import { } from '../../controllers';
 import { MDPreviewer, MDEditor } from '../Markdown';
 import ChapterEditButton from '../ChapterEditButton';
 import './index.scss';
 
-function ChapterText({
+function DescriptionText({
   text = '',
   id = '',
   className,
@@ -20,7 +16,6 @@ function ChapterText({
   height = '300px'
 }) {
   const [editing, setEditing] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const startEditing = () => setEditing(true);
   const closeEditing = () => setEditing(false);
@@ -51,50 +46,7 @@ function ChapterText({
 
   const txtConClasses = cx('ct-epb', 'ch-text-con', className, { attached });
 
-  const handleDeleteText = () => {
-    setDialogOpen(true);
-  };
-
-  const handleNo = () => {
-    setDialogOpen(false);
-  };
-
-  const handleYes = () => {
-    onSave("");
-    setDialogOpen(false);
-  };
-
-  const deleteButton = text !== "" ? (
-    <div>
-      <div style={{ float: 'right' }}>
-        <IconButton
-          aria-label="delete"
-          onClick={handleDeleteText}
-        >
-          <Delete />
-        </IconButton>
-      </div>
-      <Dialog
-        open={dialogOpen}
-        onClose={handleNo}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Delete Text Block
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Do you want to delete the Text Block?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleNo} autoFocus>NO</Button>
-          <Button onClick={handleYes}>YES</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  ) : null;
+  const deleteButton = null;
 
 
 
@@ -142,4 +94,4 @@ function ChapterText({
   );
 }
 
-export default ChapterText;
+export default DescriptionText;

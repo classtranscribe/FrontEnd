@@ -65,6 +65,7 @@
     "history": "^5.0.0",
     "hls.js": "^1.0.2",
     "html-webpack-plugin": "4.5.0",
+    "html2canvas": "^1.4.1",
     "identity-obj-proxy": "3.0.0",
     "jquery": "^3.5.1",
     "js-file-download": "^0.4.9",
@@ -204,7 +205,7 @@
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
       "^.+\\.module\\.(css|sass|scss)$",
-      "node_modules\/(?!axios)"
+      "node_modules/(?!axios)"
     ],
     "modulePaths": [
       "src"

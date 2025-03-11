@@ -17,7 +17,7 @@ const guides = [
       'There are many keyboard shortcuts for you to quickly manage your I-Note file, click the "keyboard" icon button to explore!',
   },
   {
-    element: '#ct-epb-download-dropdown',
+    element: '#ct-epb-view-dropdown-btn',
     header: '3/3. Download Options',
     description: 'You can download your I-Note book in many formats, such as .epub, .pdf or HTML scripts.',
   },

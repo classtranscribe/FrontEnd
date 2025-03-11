@@ -1,10 +1,23 @@
-body, html {
+body,
+html {
   margin: 0;
   color: #272727;
-  font-family: -apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-family: -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-weight: 400;
   line-height: 1.43;
   letter-spacing: 0.01071em;
+}
+
+#visual_toc_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+#visual_toc_list .img-block {
+  flex: 1 1 calc(50% - 16px);
+  max-width: 50%;
+  height: auto;
 }
 
 /* TOC */
@@ -21,9 +34,9 @@ body, html {
   text-align: center;
 }
 
-#toc_container li, 
-#toc_container ol, 
-#toc_container ol li{
+#toc_container li,
+#toc_container ol,
+#toc_container ol li {
   list-style: outside none none;
 }
 
@@ -34,6 +47,7 @@ body, html {
 #epub_title {
   text-align: center;
 }
+
 #epub_author {
   text-align: center;
   font-size: 18px;
@@ -50,6 +64,7 @@ body, html {
   #epub_cover {
     display: flex;
   }
+
   #epub_content h2,
   #epub_content h3,
   #toc_container {
@@ -68,4 +83,3 @@ body, html {
     display: none;
   }
 }
-
