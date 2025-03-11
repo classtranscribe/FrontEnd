@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import _ from 'lodash';
 import { api, prompt, links, uurl, elem, timestr } from 'utils';
 import { delay } from 'dva/saga'
@@ -113,7 +114,7 @@ const EPubModel = {
         ...model_data_reducer
     },
     effects: {
-        *setupEPub({ payload: ePubId }, { call, put}) {
+        *setupEPub({ payload: ePubId }, { call, put }) {
             /*
             if (this.ePubId === ePubId) {
                 epubState.resetStates();
@@ -121,8 +122,6 @@ const EPubModel = {
             }
             */
             let _epub = yield call(getEPubById, ePubId);
-            // eslint-disable-next-line no-console
-            console.log(_epub)
             const { view, h } = uurl.useHash();
             if (Constants.EPubViews.includes(view)) {
                 yield put({ type: 'setView', payload: view });
@@ -187,7 +186,7 @@ const EPubModel = {
             uurl.openNewTab(links.epub(newEPubData.id, Constants.EditINote));
         },
         *deleteEPub({ payload: ePubId }, { call }) {
-            try { 
+            try {
                 yield call(api.deleteEPub, ePubId);
                 window.close();
             } catch (error) {

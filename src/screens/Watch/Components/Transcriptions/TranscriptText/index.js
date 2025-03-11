@@ -11,7 +11,7 @@ import {
 } from '../../../Utils';
 
 export default function TranscriptText({ caption = {}, /* isCurrent = false, */ dispatch }) {
-  const { text = '', id, begin, kind } = caption;
+  const { text = '', id, begin, end, kind } = caption;
 
   const handleSeek = () => {
     const time = timeStrToSec(begin);

@@ -65,10 +65,11 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
     // Meta key actions
     switch (keyCode) {
       case KeyCode.KEY_1: // 1
-      case KeyCode.KEY_2: // 2
-      case KeyCode.KEY_3: // 3
         e.preventDefault();
-        return dispatch({ type: 'epub/setView', payload: (Constants.EPubViews[keyCode - 49]) })
+        return dispatch({ type: 'epub/setView', payload: (Constants.EpbReadOnly) })
+      case KeyCode.KEY_2: // 2
+        e.preventDefault();
+        return dispatch({ type: 'epub/setView', payload: (Constants.EditINote) })
       case KeyCode.KEY_B: // b
         e.preventDefault();
         return dispatch({ type: 'epub/toggleNav' })

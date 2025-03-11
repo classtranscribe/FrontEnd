@@ -1,5 +1,5 @@
 import { connect } from 'dva';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Popup } from 'semantic-ui-react';
 import './index.scss';
 import './slider.scss';
@@ -27,6 +27,17 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
       e.preventDefault();
     }
   };
+
+  const sliderRef = useRef();
+  useEffect(() => {
+    window.focusVolumeSlider = () => {
+      sliderRef.current?.focus();
+    };
+    
+    return () => {
+      delete window.focusVolumeSlider;
+    };
+  }, []);
 
   const iconName =
     muted || volume < 0.04 ? 'volume_off' : volume >= 0.6 ? 'volume_up' : 'volume_down';
@@ -70,6 +81,7 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
         content={<strong>Volume: {Math.floor(volume * 100)}%</strong>}
         trigger={
           <input
+            ref={sliderRef}
             id="volume-slider"
             className="volume-slider"
             aria-label={`Volume at ${Math.floor(volume * 100)} %`}
