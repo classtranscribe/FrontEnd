@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-import _ from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import ErrorTypes from 'entities/ErrorTypes';
 import { api, prompt } from 'utils';
@@ -25,7 +23,6 @@ const GlossaryModel = {
     },
     setOffering(state, { payload }) {
       const { courses, offering, term } = payload;
-      console.log("courses", courses);
       return { ...state, courseId: courses[0]?.courseId, courseName: offering.courseName, termName: term.name, sectionName: offering.sectionName }
     }
   },
@@ -55,7 +52,6 @@ const GlossaryModel = {
       history.listen((event) => {
         const pathname = event.pathname ? event.pathname : event.location?.pathname
         const match = pathToRegexp('/glossary/:id?').exec(pathname);
-        console.log("match", match);
         if (match) {
           dispatch({ type: 'setupGlossary', payload: { offeringId: match[1] } });
         }
