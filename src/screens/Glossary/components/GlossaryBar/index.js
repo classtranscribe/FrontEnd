@@ -5,6 +5,9 @@ import { Cascader } from 'rsuite';
 import { cthttp } from 'utils/cthttp/request';
 import FolderFillIcon from "@rsuite/icons/FolderFill";
 import PageIcon from "@rsuite/icons/Page";
+import { links } from 'utils';
+import { routerRedux } from 'dva/router';
+import { connect } from 'dva';
 // import { env } from 'utils/env';
 
 
@@ -13,147 +16,150 @@ import PageIcon from "@rsuite/icons/Page";
  * @param setSelectCourse, used for seting courseId for getting glossaries
  * @param setSelectOffering, used for seting offeringId for getting glossaries
  */
-export default function GlossaryBar({setSelectCourse, setSelectOffering}) {
-    // eslint-disable-next-line no-unused-vars
-    const [isLoading, setIsLoading] = useState(true);
-    const [terms, setTerms] = useState({});
-    const [initialData, setInitialData] = useState([]);
+function GlossaryBar({ dispatch }) {
+  // eslint-disable-next-line no-unused-vars
+  const [isLoading, setIsLoading] = useState(true);
+  const [terms, setTerms] = useState({});
+  const [initialData, setInitialData] = useState([]);
 
-    // see cthttp request
-    
+  // see cthttp request
 
-    
-    // this is run at the start of the website
-    // will get the list of universities and get all the term name for corresponding term ID
-    useEffect(() => {
-        let newTerms = {};
-        cthttp.get("Universities").then(response => {
-            let universityData = response.data.map((object => {
-                // get terms for that university
-                cthttp.get(`Terms/ByUniversity/${object.id}`).then(response2 => {
-                    response2.data.map((term) => {
-                        newTerms[term.id] = term.name
-                        return undefined;
-                    })
-                })
-    
-                return {
-                    label: object.name,
-                    value: object.id,
-                    type: 0,
-                    children: [],
-                }
-            }))
-            
-            setInitialData(universityData);
-            setTerms(newTerms);
-            setIsLoading(false);
+
+
+  // this is run at the start of the website
+  // will get the list of universities and get all the term name for corresponding term ID
+  useEffect(() => {
+    let newTerms = {};
+    cthttp.get("Universities").then(response => {
+      let universityData = response.data.map((object => {
+        // get terms for that university
+        cthttp.get(`Terms/ByUniversity/${object.id}`).then(response2 => {
+          response2.data.map((term) => {
+            newTerms[term.id] = term.name
+            return undefined;
+          })
         })
-    }, [])
-    
-    /**
-     * function to fetch choices from the server
-     * type 0: for each university, we get departments
-     * type 1: for each department, we get courses
-     * type 2: for each course, we get offerings
-     */
-    const getNodes = async (type, id) => {
-        try {
-            if (type === 0) {
-                let res = await cthttp.get(`Departments/ByUniversity/${id}`);
-                let resData = res.data;
-                
-                return resData.map((object) => {
-                    return {
-                        label: object.acronym,
-                        value: object.id,
-                        type: 1,
-                        children: [],
-                    }
-                })
-            }
-            
-            if (type === 1) {
-                let res = await cthttp.get(`Courses/ByDepartment/${id}`);
-                let resData = res.data;
-                
-                return resData.map((object) => {
-                    return {
-                        label:object.courseNumber,
-                        value:object.id,
-                        type:2,
-                        children:[]
-                    }
-                });
-            }
-            
-            if (type === 2) {
-                let res = await cthttp.get(`CourseOfferings/ByCourse/${id}`);
-                let resData = res.data.offerings;
 
-                if (res.status === 204) {
-                    // this course has no offerings
-                    return [];
-                }
-
-                return resData.map((object) => {
-                    return {
-                        label:`${terms[object.termId]} ${object.sectionName}`,
-                        value:object.id,
-                        type:3,
-                        children:null
-                    }
-                });
-            }
-        } catch (err) {
-            return [{label:'error loading', value:"error", children:null}];
+        return {
+          label: object.name,
+          value: object.id,
+          type: 0,
+          children: [],
         }
-    }
+      }))
 
-    const fetchNodes = (type, id) => {
-        return new Promise(
-            resolve => {
-                setTimeout(
-                    () => resolve(getNodes(type, id)),
-                    1000
-                );
-            }
-        )
-    }
+      setInitialData(universityData);
+      setTerms(newTerms);
+      setIsLoading(false);
+    })
+  }, [])
 
-    const handleOnSelect = (e) => {
-        if (e.type === 3) {
-            setSelectCourse(e.parent.value);
-            setSelectOffering(e.value);
+  /**
+   * function to fetch choices from the server
+   * type 0: for each university, we get departments
+   * type 1: for each department, we get courses
+   * type 2: for each course, we get offerings
+   */
+  const getNodes = async (type, id) => {
+    try {
+      if (type === 0) {
+        let res = await cthttp.get(`Departments/ByUniversity/${id}`);
+        let resData = res.data;
+
+        return resData.map((object) => {
+          return {
+            label: object.acronym,
+            value: object.id,
+            type: 1,
+            children: [],
+          }
+        })
+      }
+
+      if (type === 1) {
+        let res = await cthttp.get(`Courses/ByDepartment/${id}`);
+        let resData = res.data;
+
+        return resData.map((object) => {
+          return {
+            label: object.courseNumber,
+            value: object.id,
+            type: 2,
+            children: []
+          }
+        });
+      }
+
+      if (type === 2) {
+        let res = await cthttp.get(`CourseOfferings/ByCourse/${id}`);
+        let resData = res.data.offerings;
+
+        if (res.status === 204) {
+          // this course has no offerings
+          return [];
         }
-    }
 
-    return (
-      <div className="example-item">
-        {/* ignore WAVE "Missing form label" since rsuite.Cascader input is aria-hidden */}
-        <Cascader
-          onSelect={(e) => handleOnSelect(e)}
-          placeholder="Select your course"
-          data={initialData}
-          menuWidth={200}
-          searchable
-          getChildren={node => {
-            return fetchNodes(node.type, node.value);
-          }}
-          renderMenuItem={(label, item) => {
-              return (
-                <>
-                  {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
-                </>
-              );
-          }}
-          renderMenu={(children, menu, parentNode) => {
-              if (parentNode && parentNode.loading) {
-                  return <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>Loading...</p>;
-              }
-              return menu;
-          }}
-        />
-      </div>
+        return resData.map((object) => {
+          return {
+            label: `${terms[object.termId]} ${object.sectionName}`,
+            value: object.id,
+            type: 3,
+            children: null
+          }
+        });
+      }
+    } catch (err) {
+      return [{ label: 'error loading', value: "error", children: null }];
+    }
+  }
+
+  const fetchNodes = (type, id) => {
+    return new Promise(
+      resolve => {
+        setTimeout(
+          () => resolve(getNodes(type, id)),
+          1000
+        );
+      }
     )
+  }
+
+  const handleOnSelect = (e) => {
+    if (e.type === 3) {
+      dispatch(routerRedux.push(links.courseGlossary(e.value)));
+      // setSelectCourse(e.parent.value);
+      // setSelectOffering(e.value);
+    }
+  }
+
+  return (
+    <div className="example-item">
+      {/* ignore WAVE "Missing form label" since rsuite.Cascader input is aria-hidden */}
+      <Cascader
+        onSelect={(e) => handleOnSelect(e)}
+        placeholder="Select your course"
+        data={initialData}
+        menuWidth={200}
+        searchable
+        getChildren={node => {
+          return fetchNodes(node.type, node.value);
+        }}
+        renderMenuItem={(label, item) => {
+          return (
+            <>
+              {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
+            </>
+          );
+        }}
+        renderMenu={(children, menu, parentNode) => {
+          if (parentNode && parentNode.loading) {
+            return <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>Loading...</p>;
+          }
+          return menu;
+        }}
+      />
+    </div>
+  )
 }
+
+export default connect()(GlossaryBar);

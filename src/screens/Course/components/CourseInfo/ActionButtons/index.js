@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { CTFragment } from 'layout';
 import { CopyButton } from 'components';
 import { links, user } from 'utils';
+import { useNavigate } from 'react-router-dom';
 import CourseAnalyticsButton from './CourseAnalyticsButton';
 import CourseSettingsButton from './CourseSettingsButton';
 import InstModeCheckBox from './InstModeCheckBox';
 import StarButton from './StarButton';
+import GlossaryLinkButton from './GlossaryLinkButton';
 
 function ActionButtons(props) {
   const {
@@ -50,6 +52,7 @@ function ActionButtons(props) {
         padding={[10, 0, 10, 0]}
         className="cp-action-bar"
       >
+        <GlossaryLinkButton offeringId={offering.id} />
         {hasAnalytics && <CourseAnalyticsButton offeringId={offering.id} />}
         {isInstMode && <CourseSettingsButton offeringId={offering.id} />}
 

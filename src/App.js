@@ -2,7 +2,7 @@
 import React from 'react';
 import { withRouter, Route, Switch, Redirect } from 'dva/router';
 import dynamic from "dva/dynamic";
-import { env,user } from 'utils';
+import { env, user } from 'utils';
 // import AppInsightsProvider from './azure-app-insights';
 import {
   // General
@@ -48,7 +48,7 @@ class App extends React.Component {
     const isAdminOrInstructor = user.isInstructor || user.isAdmin;
 
     // no apparent purpose const adminRoute = altEl();
-    
+
     // Lazy Load
     const WatchPage = dynamic({
       app: this.props.app,
@@ -59,6 +59,11 @@ class App extends React.Component {
       app: this.props.app,
       models: () => [require('./screens/EPub/model').default],
       component: () => EPub
+    })
+    const GlossaryPage = dynamic({
+      app: this.props.app,
+      models: () => [require('./screens/Glossary/model').default],
+      component: () => Glossary
     })
     const CoursePage = dynamic({
       app: this.props.app,
@@ -80,11 +85,11 @@ class App extends React.Component {
       models: () => [require('./screens/MediaSettings/model')],
       component: () => MediaSettings
     })
-    if( env.classTranscribeDownMessage ) return <Maintenance />
+    if (env.classTranscribeDownMessage) return <Maintenance />
     return (
       // <AppInsightsProvider>
       <Switch>
-        {user.callbackPaths.map((path)=><Route exact path={path} key={path} component={AuthCallback} /> )}
+        {user.callbackPaths.map((path) => <Route exact path={path} key={path} component={AuthCallback} />)}
         <Route exact path="/sign-in" component={SignIn} />
 
         {/* Admin */}
@@ -136,14 +141,14 @@ class App extends React.Component {
         <Route exact path="/search" component={Search} />
         <Route exact path="/history" component={History} />
         <Route exact path="/personal-analytics" component={Analytics} />
-        <Route exact path="/glossary" component={Glossary} /> 
-        <Route exact path="/asl" component={Asl} /> 
+        <Route path="/glossary/:course?" component={GlossaryPage} />
+        <Route exact path="/asl" component={Asl} />
         <Route exact path="/video" component={WatchPage} />
         <Route exact path="/embed/:id" component={Embed} />
         <Route path="/playlist/:id" component={InstPlaylistPage} />
 
         <Route path="/404" component={NotFound404} />
-        
+
 
         {
           // env.dev

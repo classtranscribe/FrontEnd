@@ -9,6 +9,7 @@ import * as Captions from './entities/Captions';
 import * as Courses from './entities/Courses';
 import * as Departments from './entities/Departments';
 import * as EPubs from './entities/EPubs';
+import * as Glossaries from './entities/Glossaries'
 import * as Images from './entities/Images';
 import * as Logs from './entities/Logs';
 import * as Media from './entities/Media';
@@ -23,24 +24,25 @@ import * as WatchHistories from './entities/WatchHistories';
  * HTTP request tool for ClassTranscribe
  */
 export const api = {
-    ...statics,
-    ...generalRequests,
-    ...userMetadata,
-    ...responseErrors,
-    ...responseParsers,
+  ...statics,
+  ...generalRequests,
+  ...userMetadata,
+  ...responseErrors,
+  ...responseParsers,
 
-    ...Account,
-    ...Captions,
-    ...Courses,
-    ...Departments,
-    ...EPubs,
-    ...Images,
-    ...Logs,
-    ...Media,
-    ...Offerings,
-    ...Playlists,
-    ...Roles,
-    ...Terms,
-    ...Universities,
-    ...WatchHistories,   
+  ...Account,
+  ...Captions,
+  ...Courses,
+  ...Departments,
+  ...EPubs,
+  ...Glossaries,
+  ...Images,
+  ...Logs,
+  ...Media,
+  ...Offerings,
+  ...Playlists,
+  ...Roles,
+  ...Terms,
+  ...Universities,
+  ...WatchHistories,
 };
