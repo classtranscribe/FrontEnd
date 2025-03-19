@@ -42,12 +42,16 @@ class HTMLFileBuilder {
     return html_buffer;
   }
 
-  static convertText(content) {
-    return [
+  static convertText(content, includeRawLatex) {
+    if (includeRawLatex) {
+      content = content.replace(/\$\$(.*?)\$\$/g, `$$$$$1$$$$ \`($1)\``);
+    }
+    let text = [
       '<p>',
       html.markdown(content),
       '</p>'
     ].join("")
+    return text
   };
   static convertImage(content) {
     if (content.descriptions.length !== 0) {
@@ -66,18 +70,20 @@ class HTMLFileBuilder {
     ].join('\n');
   }
 
-  static convertContent(content) {
+  static convertContent(content, includeRawLatex) {
     if (typeof content === 'string') {
-      return HTMLFileBuilder.convertText(content)
+      return HTMLFileBuilder.convertText(content, includeRawLatex);
     }
-    return HTMLFileBuilder.convertImage(content)
+    return HTMLFileBuilder.convertImage(content);
   }
 
-  static convertChapter(chapter) {
+  static convertChapter(chapter, includeRawLatex = false) {
     chapter.id = _buildID();
     return [
       `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${chapter.title}</h2>`,
-      _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c)).join("\n"),
+      `<div class="wrap-text">`,
+      _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c, includeRawLatex)).join("\n"),
+      `</div>`
     ].join("\n\n");
   }
 
@@ -85,7 +91,7 @@ class HTMLFileBuilder {
     const chapters = this.data.chapters
     return [
       '<div class="ee-preview-text-con">',
-      _.map(chapters, (ch) => HTMLFileBuilder.convertChapter(ch)).join("\n"),
+      _.map(chapters, (ch) => HTMLFileBuilder.convertChapter(ch, this.data.includeRawLatex)).join("\n"),
       '</div>',
     ].join("\n");
   }
@@ -98,7 +104,7 @@ class HTMLFileBuilder {
           '<div class="img-block">',
           `<a href=#${link_target}>`,
           `\t<img src="${img.src}" alt="${img.alt}" aria-describedby="${caption_id}"/>`,
-          `\t<p id="${caption_id}">${img.alt}</p>`,
+          `\t<p class="wrap-text" id="${caption_id}">${img.alt}</p>`,
           `</a>`,
           '</div>'
         ].join("\n");
@@ -138,7 +144,7 @@ class HTMLFileBuilder {
       toc = this.convertTOC();
     }
     return INDEX_HTML_LOCAL({
-      title: this.title,
+      title: this.data.title,
       navContents: toc,
       content: conversion,
       author: this.data.author,
@@ -147,10 +153,12 @@ class HTMLFileBuilder {
       visualTOC: this.data.visualTOC
     })
       + this.convertGlossary();
-    // TODO: test glossary, add table of contents
   }
 
   async getHTMLBuffer() {
+    // eslint-disable-next-line no-console
+    console.log(this.data);
+
     const zip = this.zip;
 
     // styles

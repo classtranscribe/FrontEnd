@@ -117,7 +117,7 @@ class EPubFileBuilder {
     this.buildTocNCX(chapters);
   }
   convertChapter(chapter) {
-    const text = HTMLFileBuilder.convertChapter(chapter);
+    const text = HTMLFileBuilder.convertChapter(chapter, this.data.includeRawLatex);
     let content = dedent(`
       <div class="epub-ch">            
         ${text}
@@ -151,6 +151,11 @@ class EPubFileBuilder {
     // OEBPS/prism.css
     zip.addFile('OEBPS/prism.css', Buffer.from(PRISM_CSS));
 
+    // OEBPS/chapter-id.xhtml
+    // Note: convertEPub populates the chapter ids, so it has to be done first
+    this.convertEPub();
+    this.convertTableOfContents();
+
     // OEBPS/content.opf
     const contentOPF = this.getContentOPF(
       title,
@@ -161,9 +166,6 @@ class EPubFileBuilder {
       chapters,
     );
     zip.addFile('OEBPS/content.opf', Buffer.from(contentOPF));
-    // OEBPS/chapter-id.xhtml
-    this.convertEPub();
-    this.convertTableOfContents();
 
     return zip.toBuffer();
   }

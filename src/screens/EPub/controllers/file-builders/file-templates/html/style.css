@@ -34,6 +34,12 @@ html {
   text-align: center;
 }
 
+.wrap-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
 #toc_container li,
 #toc_container ol,
 #toc_container ol li {
@@ -56,8 +62,9 @@ html {
 }
 
 #epub_cover {
-  display: none;
+  /* display: none; */
   justify-content: center;
+  text-align: center;
 }
 
 @media print {

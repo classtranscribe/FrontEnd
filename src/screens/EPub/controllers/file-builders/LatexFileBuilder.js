@@ -35,8 +35,8 @@ class LatexFileBuilder {
     if (_.isEmpty(glossary)) {
       return ""
     }
-    // console.log("glossary", glossary);
-    return _.map(glossary, (value, key) => {
+    let text = `\\section{Glossary}`;
+    return text + _.map(glossary, (value, key) => {
       return `\\textbf{${key}}: ${value.description}`
     }).join("\n\n");
   }
@@ -52,7 +52,7 @@ class LatexFileBuilder {
         ${author}
       }    
       \\vfill
-      \\includegraphics[width=4cm]
+      \\includegraphics[width=8cm]
       {${this.saveImage(cover)}}
       \\vfill
       \\vfill
@@ -149,7 +149,7 @@ class LatexFileBuilder {
     latex = latex.replace(/<u>(.*?)<\/u>/gs, '\\underline{$1}');
 
     // Convert block quote
-    latex = latex.replace(/<blockquote>(.*?)<\/blockquote>/gs, '\\\\$1\\\\');
+    latex = latex.replace(/<blockquote>(.*?)<\/blockquote>/gs, '\\begin{quote}$1\\end{quote}');
 
     // Convert code block
     latex = latex.replace(/<code>(.*?)<\/code>/gs, '\\begin{verbatim}$1\\end{verbatim}');
@@ -158,8 +158,16 @@ class LatexFileBuilder {
     latex = latex.replace(/<p>(.*?)<\/p>/gs, '\n$1\n');
 
     // Convert headings (h1, h2, h3...)
-    latex = latex.replace(/<h([1-6])>(.*?)<\/h\1>/g, (match, level, content) => {
-      return `\\${'section'.repeat(level)}{${content}}`;
+    const level_maps = {
+      1: `section`,
+      2: `subsection`,
+      3: `subsubsection`,
+      4: `paragraph`,
+      5: `subparagraph`,
+      6: `subparagraph`
+    }
+    latex = latex.replace(/<h([1-6]) id=".*?">(.*?)<\/h\1>/gs, (match, level, content) => {
+      return `\\${level_maps[level]}{${content}}`;
     });
 
     // Convert links
@@ -179,13 +187,13 @@ class LatexFileBuilder {
     latex = latex.replace(/<latex>(.*?)?<\/latex>/gs, '$$$1$$')
 
     // Convert newline
-    latex = latex.replace(/<br>/, "\\newline")
+    latex = latex.replace(/<br>/gs, "\\newline")
 
     return latex;
   }
 
   static substituteSpecialChar(str) {
-    str = str.replace(/\\/g, '\\textbackslash');
+    str = str.replace(/\\/g, '\\textbackslash ');
     str = str.replace(/\$/g, '\\$');
     str = str.replace(/\{/g, '\\{');
     str = str.replace(/\}/g, '\\}');
@@ -199,15 +207,15 @@ class LatexFileBuilder {
   }
   static substituteSpecialChars(htmlString) {
     // Parse the HTML string into a DOM structure
-    const excludeTags = ['code', 'math']
+    const excludeTags = ['code', 'latex']
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
 
     // Recursive function to traverse and apply text substitution to text nodes
     function traverseAndReplace(node) {
       // If the node is a text node, apply the substitution
-      if (node.nodeType === Node.TEXT_NODE && !excludeTags.includes(node.tagName)) {
-        LatexFileBuilder.substituteSpecialChar(node.textContent);
+      if (node.nodeType === Node.TEXT_NODE) {
+        node.textContent = LatexFileBuilder.substituteSpecialChar(node.textContent);
       }
 
       // If the node is an element, and it's not in the exclude list, traverse its children
