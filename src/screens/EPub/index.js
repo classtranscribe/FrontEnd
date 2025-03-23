@@ -8,7 +8,6 @@ import Constants from './controllers/constants/EPubConstants';
 import {
   EPubHeader,
   PlayerModal,
-  PreviewModal,
   ShortcutModal,
   EPubFileInfoModal,
   ImagePickerModal
@@ -32,7 +31,6 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   const readOnlyView = altEl(ViewAndDownload, view === epubController.const.EpbReadOnly);
   const editINoteView = altEl(EditINote, view === epubController.const.EditINote);
 
-  const previewModal = makeEl(PreviewModal);
   const shortcutModal = makeEl(ShortcutModal);
   const fileSettingsModal = makeEl(EPubFileInfoModal);
   useEffect(() => {
@@ -56,12 +54,11 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
   // eslint-disable-next-line complexity
   const onKeyDown = (e) => {
-    const { keyCode, metaKey, shiftKey } = e;
+    const { keyCode, shiftKey } = e;
     if (shouldDisable()) {
       return;
     }
-
-    if (!metaKey) return;
+    if (!shiftKey) return;
     // Meta key actions
     switch (keyCode) {
       case KeyCode.KEY_1: // 1
@@ -84,19 +81,6 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
       default:
         break;
     }
-
-    if (!shiftKey) return;
-    // Shift + Meta key actions
-    switch (keyCode) {
-      case KeyCode.KEY_P: // p
-        e.preventDefault();
-        return dispatch({ type: 'epub/togglePreview' })
-      case KeyCode.KEY_Z: // z
-        e.preventDefault();
-        return 0// this.onRedo(event);
-      default:
-        break;
-    }
   }
 
   return (
@@ -112,7 +96,6 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
       <ImagePickerModal />
       <PlayerModal />
-      {previewModal}
       {shortcutModal}
       {fileSettingsModal}
     </CTFragment>

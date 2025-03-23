@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import _ from 'lodash';
 import { api, prompt, links, uurl, elem, timestr } from 'utils';
-import { delay } from 'dva/saga'
 import pathToRegexp from 'path-to-regexp';
 import { EPubListCtrl } from 'components/CTEPubListScreen/controllers/EPubListController';
 import ErrorTypes from 'entities/ErrorTypes';
@@ -25,7 +24,6 @@ const initState = {
   showNav: true,
   imgPickerData: null,
   playerData: null,
-  showPreview: false,
   showFileSettings: false,
   showPrefSettings: false,
   showShortcuts: false,
@@ -44,7 +42,6 @@ const EPubModel = {
         ...state,
         view: payload,
         showNav: true,
-        showPreview: false,
         // navId: null,
         currChIndex: payload === Constants.EpbReadOnly ? 0 : state.currChIndex
       };
@@ -89,12 +86,6 @@ const EPubModel = {
     },
     setPlayerData(state, { payload }) {
       return { ...state, playerData: payload };
-    },
-    setShowPreview(state, { payload }) {
-      return { ...state, showPreview: payload };
-    },
-    togglePreview(state) {
-      return { ...state, showPreview: !state.showPreview }
     },
     setShowFileSettings(state, { payload }) {
       return { ...state, showFileSettings: payload };

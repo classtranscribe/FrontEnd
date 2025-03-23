@@ -15,7 +15,7 @@ function PlayerModal({
   dispatch
 }) {
   const isOpen = Boolean(playerData) && media;
-  if(!isOpen) {
+  if (!isOpen) {
     return null;
   }
   const { title, begin, end } = playerData;
