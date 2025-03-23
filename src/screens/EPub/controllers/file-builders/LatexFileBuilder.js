@@ -205,6 +205,18 @@ class LatexFileBuilder {
     str = str.replace(/~/g, '\\~');
     return str
   }
+  static removeVerbatimEscape(str) {
+    const regex = /\\end\{verbatim\}/g
+    while (regex.test(str)) {
+      str = str.replace(regex, '');
+    }
+    return str;
+  }
+  static removeUnescapedDollar(str) {
+    // catches all $ with an odd number of slashes in front
+    const regex = /((?<!\\)(?:\\\\)*)\$/g
+    return str.replace(regex, '$1');
+  }
   static substituteSpecialChars(htmlString) {
     // Parse the HTML string into a DOM structure
     const excludeTags = ['code', 'latex']
@@ -212,16 +224,28 @@ class LatexFileBuilder {
     const doc = parser.parseFromString(htmlString, 'text/html');
 
     // Recursive function to traverse and apply text substitution to text nodes
-    function traverseAndReplace(node) {
+    function traverseAndReplace(node, state = "") {
       // If the node is a text node, apply the substitution
       if (node.nodeType === Node.TEXT_NODE) {
-        node.textContent = LatexFileBuilder.substituteSpecialChar(node.textContent);
+        if (state === "") {
+          node.textContent = LatexFileBuilder.substituteSpecialChar(node.textContent);
+        } else if (state === 'code') {
+          node.textContent = LatexFileBuilder.removeVerbatimEscape(node.textContent);
+        } else if (state === 'latex') {
+          node.textContent = LatexFileBuilder.removeUnescapedDollar(node.textContent);
+        }
       }
 
-      // If the node is an element, and it's not in the exclude list, traverse its children
-      if (node.nodeType === Node.ELEMENT_NODE && !excludeTags.includes(node.tagName.toLowerCase())) {
-        for (let child of node.childNodes) {
-          traverseAndReplace(child);
+      // If the node is an element, traverse its children while tracking if we are inside specific blocks
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        if (excludeTags.includes(node.tagName.toLowerCase()) && state === "") {
+          for (let child of node.childNodes) {
+            traverseAndReplace(child, node.tagName.toLowerCase());
+          }
+        } else {
+          for (let child of node.childNodes) {
+            traverseAndReplace(child, state);
+          }
         }
       }
     }
