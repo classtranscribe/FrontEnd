@@ -10,13 +10,14 @@ class LatexFileBuilder {
    * @param {Boolean} forPreview
    */
   constructor() {
-    this.image_idx = 0
     this.zip = new AdmZip();
   }
 
   async init(parsedData) {
     this.data = parsedData;
     this.glossary = parsedData.glossary
+    // eslint-disable-next-line no-console
+    console.log(this.data);
   }
 
   /**
@@ -60,13 +61,8 @@ class LatexFileBuilder {
   `
   }
 
-  getImageId() {
-    this.image_idx += 1
-    return this.image_idx
-  }
-
   saveImage(content) {
-    const img_path = `images/${this.getImageId()}.jpeg`
+    const img_path = `images/${content.id}.jpeg`
     this.zip.addFile(img_path, content.buffer);
     return img_path
   }
@@ -82,7 +78,7 @@ class LatexFileBuilder {
     return [
       `\\begin{figure}`,
       `\\centering`,
-      `\\includegraphics[alt={${content.alt}}, width=.5\\textwidth]{${img_path}}`,
+      `\\includegraphics[alt={${content.alt}}, width=.8\\textwidth]{${img_path}}`,
       captions,
       `\\end{figure}`
     ].join("\n")
@@ -91,10 +87,32 @@ class LatexFileBuilder {
   convertChapter(chapter) {
     return [
       `\\section{${chapter.title}}`,
+      `\\label{sec:${chapter.title}}`,
       _.map(chapter.contents, (c) => this.convertContent(c)).join("\n")
     ].join("\n");
   }
+
+  convertVisualTOC(visualTOC) {
+    let all_imgs = _.flatMap(visualTOC, (imgs, chapter) => imgs.map(img => ({ ...img, chapter })))
+    return `
+      \\section{Contents}
+      \\begin{center}
+        ${_.chunk(all_imgs, 2).map((pair) => {
+      return _.map(pair, (img) => {
+        const split_alt = img.alt.replace(/(.{10})/g, `$1\\hspace{0pt}`);
+        return `
+        \\begin{minipage}{0.45\\textwidth}
+        \\centering
+        \\includegraphics[width =\\linewidth]{images/${img.id}.jpeg}
+        \\hyperref[sec:${this.data.chapters[img.chapter].title}]{${split_alt}}
+        \\end{minipage}
+        `}).join("\\hfill");
+    }).join("\\vspace{1em}")}
+    \\end{center}
+    `;
+  }
   getMainText() {
+    const TOC = this.data.visualTOC ? this.convertVisualTOC(this.data.visualTOC) : `\\tableofcontents`;
     return [
       "\\documentclass{article}",
       "\\usepackage{caption}",
@@ -103,7 +121,7 @@ class LatexFileBuilder {
       "\\usepackage[T1]{fontenc}",
       "\\begin{document}",
       this.getTitlePage(this.data.title, this.data.author, this.data.cover),
-      "\\tableofcontents",
+      TOC,
       _.map(this.data.chapters, (ch) => this.convertChapter(ch)).join("\n"),
       this.convertGlossary(this.glossary),
       "\\end{document}"
@@ -167,7 +185,7 @@ class LatexFileBuilder {
       6: `subparagraph`
     }
     latex = latex.replace(/<h([1-6]) id=".*?">(.*?)<\/h\1>/gs, (match, level, content) => {
-      return `\\${level_maps[level]}{${content}}`;
+      return `\\${level_maps[level]} {${content} } `;
     });
 
     // Convert links
@@ -175,12 +193,12 @@ class LatexFileBuilder {
 
     // Convert ordered lists
     latex = latex.replace(/<ol>(.*?)<\/ol>/gs, (match, content) => {
-      return `\\begin{enumerate}\n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')}\n\\end{enumerate}`;
+      return `\\begin{ enumerate } \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{ enumerate } `;
     });
 
     // Convert unordered lists
     latex = latex.replace(/<ul>(.*?)<\/ul>/gs, (match, content) => {
-      return `\\begin{itemize}\n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')}\n\\end{itemize}`;
+      return `\\begin{ itemize } \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{ itemize } `;
     });
 
     // Convert custom math tag

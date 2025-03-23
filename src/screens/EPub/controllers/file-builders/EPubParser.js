@@ -18,6 +18,7 @@ class EPubParser {
   * @param {EPubData} ePubData 
   */
   async init(epubData, options) {
+    this.img_id = 1
     this.options = options
     this.data = JSON.parse(JSON.stringify(epubData));
     this.data.chapters = await this.parseChapters(epubData.chapters);
@@ -70,6 +71,36 @@ class EPubParser {
     return content;
   }
 
+  async parseImage(content) {
+    let new_content = JSON.parse(JSON.stringify(content));
+    let img_buffer = await EPubParser.loadImageBuffer(content.src);
+    let img_blob = new Blob([img_buffer]);
+
+    if (this.options.invertColors) {
+      img_blob = await EPubParser.invertImageIfDim(img_blob);
+      const arr_buf = await img_blob.arrayBuffer();
+      img_buffer = new Uint8Array(arr_buf);
+    }
+
+    if (this.options.replaceImageSrc) {
+      new_content.src = await EPubParser.blobToDataUrl(img_blob);
+    } else {
+      new_content.blob = img_blob;
+      new_content.buffer = img_buffer;
+    }
+
+
+    if (new_content.src !== "") {
+      const { height, width } = await EPubParser.getImageDimensions(img_blob);
+      new_content.height = height;
+      new_content.width = width;
+    }
+    new_content.descriptions = _.filter(content.descriptions, (desc) => desc.trim() !== "");
+    new_content.id = this.img_id;
+    this.img_id += 1;
+    return new_content;
+  }
+
   async parseText(text) {
     if (!this.options.replaceLatex) {
       return text;
@@ -118,35 +149,6 @@ class EPubParser {
       console.error("Error rendering HTML to image:", error);
       throw error;
     }
-  }
-
-
-  async parseImage(content) {
-    let new_content = JSON.parse(JSON.stringify(content));
-    let img_buffer = await EPubParser.loadImageBuffer(content.src);
-    let img_blob = new Blob([img_buffer]);
-
-    if (this.options.invertColors) {
-      img_blob = await EPubParser.invertImageIfDim(img_blob);
-      const arr_buf = await img_blob.arrayBuffer();
-      img_buffer = new Uint8Array(arr_buf);
-    }
-
-    if (this.options.replaceImageSrc) {
-      new_content.src = await EPubParser.blobToDataUrl(img_blob);
-    } else {
-      new_content.blob = img_blob;
-      new_content.buffer = img_buffer;
-    }
-
-
-    if (new_content.src !== "") {
-      const { height, width } = await EPubParser.getImageDimensions(img_blob);
-      new_content.height = height;
-      new_content.width = width;
-    }
-    new_content.descriptions = _.filter(content.descriptions, (desc) => desc.trim() !== "");
-    return new_content;
   }
 
   /**
