@@ -35,7 +35,7 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
             color="primary"
           />
         }
-        label="Force Light Image Backgrounds"
+        label="Automatically Invert Dark Images"
       />
       <FormControlLabel
         control={

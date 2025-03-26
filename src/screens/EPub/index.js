@@ -41,7 +41,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
     epubData.history.undo(); NOT IMPLEMENTED
     }
   }
-
+  
   onRedo(e) {
     this.preventDefault(e);
     if (epubState.view !== Constants.EpbReadOnly && epubData.history.canRedo) {
