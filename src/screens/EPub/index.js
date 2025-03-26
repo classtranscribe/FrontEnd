@@ -12,7 +12,7 @@ import {
   EPubFileInfoModal,
   ImagePickerModal
 } from './components';
-import { EditEPubStructure, EditEPubChapter, ViewAndDownload, EditINote } from './views';
+import { ViewAndDownload, EditINote } from './views';
 import './index.scss';
 
 function shouldDisable() {
@@ -26,8 +26,6 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   const loading = chapters === ARRAY_INIT || epub === null;
   const headerElement = altEl(EPubHeader, !loading);
 
-  const editStructView = altEl(EditEPubStructure, view === epubController.const.EpbEditStructure);
-  const editChapterView = altEl(EditEPubChapter, view === epubController.const.EpbEditChapter);
   const readOnlyView = altEl(ViewAndDownload, view === epubController.const.EpbReadOnly);
   const editINoteView = altEl(EditINote, view === epubController.const.EditINote);
 
@@ -89,8 +87,6 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
       <CTFragment id="ct-epb-view-con">
         {editINoteView}
-        {editStructView}
-        {editChapterView}
         {readOnlyView}
       </CTFragment>
 

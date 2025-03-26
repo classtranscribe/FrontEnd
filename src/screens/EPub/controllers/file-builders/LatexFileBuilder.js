@@ -11,13 +11,12 @@ class LatexFileBuilder {
    */
   constructor() {
     this.zip = new AdmZip();
+    this.ch_id = 0;
   }
 
   async init(parsedData) {
     this.data = parsedData;
-    this.glossary = parsedData.glossary
-    // eslint-disable-next-line no-console
-    console.log(this.data);
+    this.glossary = parsedData.glossary;
   }
 
   /**
@@ -36,13 +35,17 @@ class LatexFileBuilder {
     if (_.isEmpty(glossary)) {
       return ""
     }
-    let text = `\\section{Glossary}`;
+    let text = `\\section{Glossary}\n`;
     return text + _.map(glossary, (value, key) => {
-      return `\\textbf{${key}}: ${value.description}`
+      const new_key = LatexFileBuilder.escapeSpecialChars(key);
+      const new_desc = LatexFileBuilder.escapeSpecialChars(value.description);
+      return `\\textbf{${new_key}}: ${new_desc}`;
     }).join("\n\n");
   }
 
   getTitlePage(title, author, cover) {
+    title = LatexFileBuilder.escapeSpecialChars(title);
+    author = LatexFileBuilder.escapeSpecialChars(author);
     return `
     \\begin{titlepage}
       \\centering
@@ -75,19 +78,24 @@ class LatexFileBuilder {
       const new_desc = LatexFileBuilder.markdownToLatex(d);
       return `\\caption*{${new_desc}}`
     }).join("\n");
+
+    const new_alt = LatexFileBuilder.escapeSpecialChars(content.alt);
     return [
       `\\begin{figure}`,
       `\\centering`,
-      `\\includegraphics[alt={${content.alt}}, width=.8\\textwidth]{${img_path}}`,
+      `\\includegraphics[alt={${new_alt}}, width=.8\\textwidth]{${img_path}}`,
       captions,
       `\\end{figure}`
     ].join("\n")
   }
 
   convertChapter(chapter) {
+    chapter.title = LatexFileBuilder.escapeSpecialChars(chapter.title)
+    chapter.id = this.ch_id;
+    this.ch_id += 1;
     return [
       `\\section{${chapter.title}}`,
-      `\\label{sec:${chapter.title}}`,
+      `\\label{sec:${chapter.id}}`,
       _.map(chapter.contents, (c) => this.convertContent(c)).join("\n")
     ].join("\n");
   }
@@ -99,12 +107,14 @@ class LatexFileBuilder {
       \\begin{center}
         ${_.chunk(all_imgs, 2).map((pair) => {
       return _.map(pair, (img) => {
+        // evil hack to allow latex to split a long word.
         const split_alt = img.alt.replace(/(.{10})/g, `$1\\hspace{0pt}`);
+
         return `
         \\begin{minipage}{0.45\\textwidth}
         \\centering
         \\includegraphics[width =\\linewidth]{images/${img.id}.jpeg}
-        \\hyperref[sec:${this.data.chapters[img.chapter].title}]{${split_alt}}
+        \\hyperref[sec:${this.data.chapters[img.chapter].id}]{${split_alt}}
         \\end{minipage}
         `}).join("\\hfill");
     }).join("\\vspace{1em}")}
@@ -112,7 +122,12 @@ class LatexFileBuilder {
     `;
   }
   getMainText() {
+    // note, chapters must be converted first, since it also populates the chapter.id field
+    const chapters = _.map(this.data.chapters, (ch) => this.convertChapter(ch)).join("\n");
+
     const TOC = this.data.visualTOC ? this.convertVisualTOC(this.data.visualTOC) : `\\tableofcontents`;
+    const titlepage = this.getTitlePage(this.data.title, this.data.author, this.data.cover);
+    const glossary = this.convertGlossary(this.glossary)
     return [
       "\\documentclass{article}",
       "\\usepackage{caption}",
@@ -120,10 +135,10 @@ class LatexFileBuilder {
       "\\usepackage{hyperref}",
       "\\usepackage[T1]{fontenc}",
       "\\begin{document}",
-      this.getTitlePage(this.data.title, this.data.author, this.data.cover),
+      titlepage,
       TOC,
-      _.map(this.data.chapters, (ch) => this.convertChapter(ch)).join("\n"),
-      this.convertGlossary(this.glossary),
+      chapters,
+      glossary,
       "\\end{document}"
     ].join("\n");
   }
@@ -147,7 +162,6 @@ class LatexFileBuilder {
 
   static htmlToLatex(html_text) {
     let latex = html_text;
-
 
     // Replace special characters without affecting code blocks or latex sections
     latex = LatexFileBuilder.substituteSpecialChars(latex);
@@ -185,7 +199,7 @@ class LatexFileBuilder {
       6: `subparagraph`
     }
     latex = latex.replace(/<h([1-6]) id=".*?">(.*?)<\/h\1>/gs, (match, level, content) => {
-      return `\\${level_maps[level]} {${content} } `;
+      return `\\${level_maps[level]}{${content}}`;
     });
 
     // Convert links
@@ -193,12 +207,12 @@ class LatexFileBuilder {
 
     // Convert ordered lists
     latex = latex.replace(/<ol>(.*?)<\/ol>/gs, (match, content) => {
-      return `\\begin{ enumerate } \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{ enumerate } `;
+      return `\\begin{enumerate} \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{enumerate} `;
     });
 
     // Convert unordered lists
     latex = latex.replace(/<ul>(.*?)<\/ul>/gs, (match, content) => {
-      return `\\begin{ itemize } \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{ itemize } `;
+      return `\\begin{itemize} \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{itemize} `;
     });
 
     // Convert custom math tag
@@ -210,7 +224,7 @@ class LatexFileBuilder {
     return latex;
   }
 
-  static substituteSpecialChar(str) {
+  static escapeSpecialChars(str) {
     str = str.replace(/\\/g, '\\textbackslash ');
     str = str.replace(/\$/g, '\\$');
     str = str.replace(/\{/g, '\\{');
@@ -246,7 +260,7 @@ class LatexFileBuilder {
       // If the node is a text node, apply the substitution
       if (node.nodeType === Node.TEXT_NODE) {
         if (state === "") {
-          node.textContent = LatexFileBuilder.substituteSpecialChar(node.textContent);
+          node.textContent = LatexFileBuilder.escapeSpecialChars(node.textContent);
         } else if (state === 'code') {
           node.textContent = LatexFileBuilder.removeVerbatimEscape(node.textContent);
         } else if (state === 'latex') {
