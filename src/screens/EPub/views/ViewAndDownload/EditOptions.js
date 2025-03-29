@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva'
 import { CTFragment, CTHeading } from 'layout';
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import { FormControlLabel, Checkbox, Box } from '@material-ui/core';
 
 function EditOptions({ setDownloadOptions, downloadOptions }) {
   const handleCheckboxChange = (event) => {
@@ -13,7 +13,7 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
   };
 
   return (
-    <CTFragment dFlexCol margin={[0, 0, 30, 0]}>
+    <CTFragment dFlexCol margin={[0, 0, 0, 0]}>
       <CTHeading as="h3" icon="settings">Download Options</CTHeading>
       <FormControlLabel
         control={
@@ -47,7 +47,22 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
           />
         }
         label="Include Glossary"
+        sx={{ marginBottom: 0 }}
       />
+      <Box pl={2} sx={{ marginTop: "-15px", marginBottom: "-15px" }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={downloadOptions.chapterGlossary}
+              onChange={handleCheckboxChange}
+              name="chapterGlossary"
+              color="primary"
+              disabled={!downloadOptions.includeGlossary}
+            />
+          }
+          label="Glossary Per Chapter"
+        />
+      </Box>
       <FormControlLabel
         control={
           <Checkbox

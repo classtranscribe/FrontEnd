@@ -119,25 +119,32 @@ class PDFFileBuilder {
     }
   }
 
-  convertChapter({ contents, title }) {
-    this.writeTextToPDF(title, STYLE_SHEET.font.chapterTitle);
+  convertChapter(idx, { contents, title }) {
+    this.writeTextToPDF(`${idx}: ${title}`, STYLE_SHEET.font.chapterTitle);
     this.chapter_page_indexes.push(this.currentPageNumber);
     this.incrementYLoc(STYLE_SHEET.spacing);
     _.forEach(contents, (content) => { this.convertContent(content) });
+    if (this.data.chapterGlossary) {
+      this.incrementYLoc(20);
+      this.convertGlossary(this.data.chapterGlossary[idx], false);
+    }
     this.nextPage();
   }
 
   convertChapters() {
-    _.forEach(this.data.chapters, (chapter) => this.convertChapter(chapter))
+    _.forEach(this.data.chapters, (chapter, idx) => this.convertChapter(idx, chapter))
   }
   writeGlossaryEntry(key, value) {
     this.writeTextToPDF(`${key}: ${value.description}`, STYLE_SHEET.font.glossary);
   }
-  convertGlossary(glossary) {
-    this.doc.outline.add(null, "Glossary", { pageNumber: this.currentPageNumber })
-    this.writeTextToPDF("Glossary", STYLE_SHEET.font.title);
+  convertGlossary(glossary, add_outline = true) {
+    if (add_outline) {
+      this.glossary_page = this.currentPageNumber;
+    }
+    this.writeTextToPDF("Glossary", add_outline ? STYLE_SHEET.font.title : STYLE_SHEET.font.chapterTitle);
     for (const [key, value] of Object.entries(glossary)) {
       this.writeGlossaryEntry(key, value);
+      this.incrementYLoc(5);
     }
   }
   nextPageTOC(offset = 0) {
@@ -238,6 +245,9 @@ class PDFFileBuilder {
     for (let i = 0; i < this.chapter_page_indexes.length; i += 1) {
       this.doc.outline.add(null, this.data.chapters[i].title, { pageNumber: this.chapter_page_indexes[i] + this.pageOffset });
     }
+    if (this.glossary_page) {
+      this.doc.outline.add(null, "Glossary", { pageNumber: this.glossary_page + this.pageOffset });
+    }
   }
 
   createPDF() {
@@ -250,7 +260,7 @@ class PDFFileBuilder {
     this.nextPage();
     this.convertChapters();
 
-    if (this.glossary && !_.isEmpty(this.glossary)) {
+    if (this.glossary && !_.isEmpty(this.glossary) && !this.data.chapterGlossary) {
       this.convertGlossary(this.glossary);
     }
 

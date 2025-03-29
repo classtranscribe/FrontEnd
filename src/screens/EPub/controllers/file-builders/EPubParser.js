@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { uurl, api, CTError, html } from 'utils';
 import html2canvas from 'html2canvas';
 import { getGlossaryData } from './GlossaryCreator';
+import { epubIsImage, epubIsText } from './utils';
 
 /**
  * The error which occurred while loading the images for an ePub
@@ -24,22 +25,43 @@ class EPubParser {
     this.data.chapters = await this.parseChapters(epubData.chapters);
     this.data.glossary = {}
     if (this.options.includeGlossary) {
-      this.data.glossary = await getGlossaryData(epubData.sourceId);
+      let glossaryData = await getGlossaryData(epubData.sourceId);
+      if (this.options.chapterGlossary) {
+        this.data.chapterGlossary = this.getChapterGlossary(glossaryData, epubData.chapters);
+      } else {
+        this.data.glossary = glossaryData;
+      }
     }
 
     if (this.options.visualTOC) {
       this.data.visualTOC = this.getVisualTOC(this.data.chapters);
     }
+
     this.data.cover = await this.parseContent(epubData.cover);
     this.data.includeRawLatex = options.includeRawLatex;
+
+    // eslint-disable-next-line no-console
+    console.log("parsed data", this.data);
   }
   getVisualTOC(chapters) {
     let visualTOC = _.map(chapters, (chapter) => {
       return _.filter(chapter.contents, (content) => {
-        return typeof content === "object" && "src" in content;
+        return epubIsImage(content);
       })
     })
     return visualTOC;
+  }
+  getChapterGlossary(glossary, chapters) {
+    return _.map(chapters, (chapter) => {
+      const chapter_text = _.filter(chapter.contents, epubIsText).join("\n").toLowerCase();
+      const desc_text = _.filter(chapter.contents, epubIsImage)
+        .map((content) => content.descriptions.join("\n") + content.alt)
+        .join("\n")
+        .toLowerCase();
+      return _.pickBy(glossary, (value, word) =>
+        chapter_text.includes(word.toLowerCase()) || desc_text.includes(word.toLowerCase())
+      );
+    })
   }
   async parseChapters(chapters) {
     let new_chapters = await Promise.all(_.map(chapters, async (ch) => {
@@ -63,9 +85,9 @@ class EPubParser {
   }
 
   async parseContent(content) {
-    if (typeof content !== "string") {
+    if (epubIsImage(content)) {
       return this.parseImage(content);
-    } if (typeof content === "string") {
+    } if (epubIsText(content)) {
       return this.parseText(content);
     }
     return content;

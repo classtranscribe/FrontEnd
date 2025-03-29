@@ -16,7 +16,8 @@ function ViewAndDownload({ dispatch }) {
     visualTOC: true,
     invertColors: false,
     includeGlossary: true,
-    includeRawLatex: false
+    includeRawLatex: false,
+    chapterGlossary: false
   });
 
   return (

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 
 import { html } from 'utils';
+import { epubIsText } from './utils';
 
 class LatexFileBuilder {
   /**
@@ -31,11 +32,11 @@ class LatexFileBuilder {
     return buffer;
   }
 
-  convertGlossary(glossary) {
+  convertGlossary(glossary, is_section = true) {
     if (_.isEmpty(glossary)) {
       return ""
     }
-    let text = `\\section{Glossary}\n`;
+    let text = is_section ? `\\section{Glossary}\n` : `\\subsection{Glossary}\n`;
     return text + _.map(glossary, (value, key) => {
       const new_key = LatexFileBuilder.escapeSpecialChars(key);
       const new_desc = LatexFileBuilder.escapeSpecialChars(value.description);
@@ -70,7 +71,7 @@ class LatexFileBuilder {
     return img_path
   }
   convertContent(content) {
-    if (typeof content === "string") {
+    if (epubIsText(content)) {
       return LatexFileBuilder.markdownToLatex(content);
     }
     const img_path = this.saveImage(content);
@@ -89,14 +90,13 @@ class LatexFileBuilder {
     ].join("\n")
   }
 
-  convertChapter(chapter) {
+  convertChapter(idx, chapter) {
     chapter.title = LatexFileBuilder.escapeSpecialChars(chapter.title)
-    chapter.id = this.ch_id;
-    this.ch_id += 1;
     return [
       `\\section{${chapter.title}}`,
-      `\\label{sec:${chapter.id}}`,
-      _.map(chapter.contents, (c) => this.convertContent(c)).join("\n")
+      `\\label{sec:${idx}}`,
+      _.map(chapter.contents, (c) => this.convertContent(c)).join("\n"),
+      this.data.chapterGlossary ? this.convertGlossary(this.data.chapterGlossary[idx], false) : ""
     ].join("\n");
   }
 
@@ -114,7 +114,7 @@ class LatexFileBuilder {
         \\begin{minipage}{0.45\\textwidth}
         \\centering
         \\includegraphics[width =\\linewidth]{images/${img.id}.jpeg}
-        \\hyperref[sec:${this.data.chapters[img.chapter].id}]{${split_alt}}
+        \\hyperref[sec:${img.chapter}]{${split_alt}}
         \\end{minipage}
         `}).join("\\hfill");
     }).join("\\vspace{1em}")}
@@ -122,12 +122,11 @@ class LatexFileBuilder {
     `;
   }
   getMainText() {
-    // note, chapters must be converted first, since it also populates the chapter.id field
-    const chapters = _.map(this.data.chapters, (ch) => this.convertChapter(ch)).join("\n");
+    const chapters = _.map(this.data.chapters, (ch, idx) => this.convertChapter(idx, ch)).join("\n");
 
     const TOC = this.data.visualTOC ? this.convertVisualTOC(this.data.visualTOC) : `\\tableofcontents`;
     const titlepage = this.getTitlePage(this.data.title, this.data.author, this.data.cover);
-    const glossary = this.convertGlossary(this.glossary)
+    const glossary = this.data.chapterGlossary ? "" : this.convertGlossary(this.glossary)
     return [
       "\\documentclass{article}",
       "\\usepackage{caption}",

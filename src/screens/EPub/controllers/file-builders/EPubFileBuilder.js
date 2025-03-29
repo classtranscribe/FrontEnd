@@ -2,6 +2,7 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 import { dedent } from 'dentist';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
+import { glossaryToHTMLString } from './GlossaryCreator';
 
 import {
   MIMETYPE,
@@ -29,7 +30,7 @@ class EPubFileBuilder {
   async init(parsedData) {
     this.data = parsedData;
     this.language = this.data.language;
-    this.glossaryData = parsedData.glossary;
+    this.glossary = parsedData.glossary;
   }
 
   /**
@@ -47,14 +48,19 @@ class EPubFileBuilder {
   getContentOPF() {
     const { title, author, language, publisher, chapters } = this.data;
     // content items
-    const contentItems = _.map(
+    let contentItems = _.map(
       chapters,
       (ch) => `<item id="${ch.id}" href="${ch.id}.xhtml" media-type="application/xhtml+xml" />`,
     ).join('\n\t\t');
 
     // content itemrefs
-    const contentItemsRefs = _.map(chapters, (ch) => `<itemref idref="${ch.id}"/>`
+    let contentItemsRefs = _.map(chapters, (ch) => `<itemref idref="${ch.id}"/>`
     ).join('\n\t\t');
+
+    if (this.glossary && !_.isEmpty(this.glossary) && !this.data.chapterGlossary) {
+      contentItems += `<item id="glossary" href="glossary.xhtml" media-type="application/xhtml+xml" />`;
+      contentItemsRefs += `<itemref idref="glossary"/>`
+    }
 
     return OEBPS_CONTENT_OPF({
       title,
@@ -116,8 +122,12 @@ class EPubFileBuilder {
     }
     this.buildTocNCX(chapters);
   }
-  convertChapter(chapter) {
-    const text = HTMLFileBuilder.convertChapter(chapter, this.data.includeRawLatex);
+  convertGlossary(glossary) {
+    return OEBPS_CONTENT_XHTML({ title: "Glossary", content: glossaryToHTMLString(glossary), language: this.language });
+  }
+
+  convertChapter(idx, chapter, chapterGlossary) {
+    const text = HTMLFileBuilder.convertChapter(idx, chapter, chapterGlossary, this.data.includeRawLatex);
     let content = dedent(`
       <div class="epub-ch">            
         ${text}
@@ -128,10 +138,14 @@ class EPubFileBuilder {
   }
 
   convertEPub() {
-    _.forEach(this.data.chapters, (ch) => {
-      const contentXHTML = this.convertChapter(ch);
+    _.forEach(this.data.chapters, (ch, idx) => {
+      const contentXHTML = this.convertChapter(idx, ch, this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false);
       this.zip.addFile(`OEBPS/${ch.id}.xhtml`, Buffer.from(contentXHTML));
     });
+    if (this.glossary && !_.isEmpty(this.glossary) && !this.data.chapterGlossary) {
+      const glossaryXHTML = this.convertGlossary(this.glossary);
+      this.zip.addFile(`OEBPS/glossary.xhtml`, Buffer.from(glossaryXHTML));
+    }
   }
 
   getEPubBuffer() {

@@ -6,6 +6,7 @@ import {
   glossaryToHTMLString,
 } from './GlossaryCreator';
 import { INDEX_HTML_LOCAL, STYLE_CSS/* , PRISM_JS */ } from './file-templates/html';
+import { epubIsText } from './utils';
 
 class HTMLFileBuilder {
   /**
@@ -71,19 +72,22 @@ class HTMLFileBuilder {
   }
 
   static convertContent(content, includeRawLatex) {
-    if (typeof content === 'string') {
+    if (epubIsText(content)) {
       return HTMLFileBuilder.convertText(content, includeRawLatex);
     }
     return HTMLFileBuilder.convertImage(content);
   }
 
-  static convertChapter(chapter, includeRawLatex = false) {
+  static convertChapter(idx, chapter, chapterGlossary, includeRawLatex = false) {
+    let glossaryText = chapterGlossary ? glossaryToHTMLString(chapterGlossary) : "";
     chapter.id = _buildID();
     return [
-      `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${chapter.title}</h2>`,
+      // the first chapter has idx 0, but is chapter 1. Thus, we use idx+1
+      `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${idx + 1}: ${chapter.title}</h2>`,
       `<div class="wrap-text">`,
       _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c, includeRawLatex)).join("\n"),
-      `</div>`
+      `</div>`,
+      glossaryText
     ].join("\n\n");
   }
 
@@ -91,7 +95,7 @@ class HTMLFileBuilder {
     const chapters = this.data.chapters
     return [
       '<div class="ee-preview-text-con">',
-      _.map(chapters, (ch) => HTMLFileBuilder.convertChapter(ch, this.data.includeRawLatex)).join("\n"),
+      _.map(chapters, (ch, idx) => HTMLFileBuilder.convertChapter(idx, ch, this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false, this.data.includeRawLatex,)).join("\n"),
       '</div>',
     ].join("\n");
   }
@@ -131,19 +135,22 @@ class HTMLFileBuilder {
     ).join('\n');
   }
 
-  convertGlossary() {
-    return glossaryToHTMLString(this.glossary);
+  static convertGlossary(glossary) {
+    return `<html><body><div>${glossaryToHTMLString(glossary)}</html></body></div>`;
   }
 
   getIndexHTML() {
     const conversion = this.convertChapters();
+    // eslint-disable-next-line no-console
+    console.log("conversion", conversion)
     let toc = "";
     if (this.data.visualTOC) {
       toc = this.convertVisualTOC();
     } else {
       toc = this.convertTOC();
     }
-    return INDEX_HTML_LOCAL({
+    // eslint-disable-next-line no-console
+    console.log("all vals", {
       title: this.data.title,
       navContents: toc,
       content: conversion,
@@ -152,13 +159,18 @@ class HTMLFileBuilder {
       createLinks: this.createLinks,
       visualTOC: this.data.visualTOC
     })
-      + this.convertGlossary();
+    return INDEX_HTML_LOCAL({
+      title: this.data.title,
+      navContents: toc,
+      content: conversion,
+      author: this.data.author,
+      cover: this.data.cover,
+      createLinks: this.createLinks,
+      visualTOC: this.data.visualTOC
+    }) + (this.data.chapterGlossary ? "" : HTMLFileBuilder.convertGlossary(this.data.glossary));
   }
 
   async getHTMLBuffer() {
-    // eslint-disable-next-line no-console
-    console.log(this.data);
-
     const zip = this.zip;
 
     // styles
