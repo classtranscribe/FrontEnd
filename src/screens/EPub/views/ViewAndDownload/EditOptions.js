@@ -18,17 +18,6 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
       <FormControlLabel
         control={
           <Checkbox
-            checked={downloadOptions.visualTOC}
-            onChange={handleCheckboxChange}
-            name="visualTOC"
-            color="primary"
-          />
-        }
-        label="Include Visual Table of Contents"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
             checked={downloadOptions.invertColors}
             onChange={handleCheckboxChange}
             name="invertColors"
@@ -36,6 +25,39 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
           />
         }
         label="Automatically Invert Dark Images"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={downloadOptions.includeRawLatex}
+            onChange={handleCheckboxChange}
+            name="includeRawLatex"
+            color="primary"
+          />
+        }
+        label="Include Raw Latex"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={downloadOptions.videoLinks}
+            onChange={handleCheckboxChange}
+            name="videoLinks"
+            color="primary"
+          />
+        }
+        label="Include Links to Video"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={downloadOptions.visualTOC}
+            onChange={handleCheckboxChange}
+            name="visualTOC"
+            color="primary"
+          />
+        }
+        label="Include Visual Table of Contents"
       />
       <FormControlLabel
         control={
@@ -63,17 +85,6 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
           label="Glossary Per Chapter"
         />
       </Box>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={downloadOptions.includeRawLatex}
-            onChange={handleCheckboxChange}
-            name="includeRawLatex"
-            color="primary"
-          />
-        }
-        label="Include Raw Latex"
-      />
     </CTFragment>
   );
 }

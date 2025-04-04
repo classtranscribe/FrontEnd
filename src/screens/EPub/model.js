@@ -27,7 +27,8 @@ const initState = {
   showFileSettings: false,
   showPrefSettings: false,
   showShortcuts: false,
-  images: null
+  images: null,
+  items: []
 }
 const EPubModel = {
   namespace: 'epub',
@@ -54,7 +55,7 @@ const EPubModel = {
       if (!payload.chapters) {
         payload.chapters = []
       }
-      return { ...state, epub: payload, items, images: _.map(items, item => item?.image) };
+      return { ...state, epub: payload, images: items };
     },
     setCurrChIndex(state, { payload }) {
       return { ...state, currChIndex: payload };

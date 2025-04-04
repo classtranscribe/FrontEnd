@@ -7,17 +7,18 @@ export function _filterTrivalItems(epubData) {
   return [...epubData];
   // return _.filter(epubData, (item) => Boolean(_.trim(item.text)));
 }
-function getLastPunctuationIndex(sentence) {
-  let lastPunctuationIndex = -1;
-  for (let i = sentence.length - 1; i >= 0; i -= 1) {
-    if (sentence[i] === '.' || sentence[i] === '?' || sentence[i] === '!') {
-      lastPunctuationIndex = i;
-      break;
-    }
-  }
-  return lastPunctuationIndex;
-}
+// function getLastPunctuationIndex(sentence) {
+//   let lastPunctuationIndex = -1;
+//   for (let i = sentence.length - 1; i >= 0; i -= 1) {
+//     if (sentence[i] === '.' || sentence[i] === '?' || sentence[i] === '!') {
+//       lastPunctuationIndex = i;
+//       break;
+//     }
+//   }
+//   return lastPunctuationIndex;
+// }
 
+// eslint-disable-next-line no-unused-vars
 function _parseRawEPubDataSplittingOnPunctuation(rawEPubData) {
   return null;
   // let buffer = "";

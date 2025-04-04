@@ -31,6 +31,7 @@ class EPubFileBuilder {
     this.data = parsedData;
     this.language = this.data.language;
     this.glossary = parsedData.glossary;
+    this.videoLinks = parsedData.videoLinks;
   }
 
   /**
@@ -82,21 +83,34 @@ class EPubFileBuilder {
       </dt>
       `}
     )
+    // eslint-disable-next-line no-console
+    console.log("toc navcontents", navContents);
+
     const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
+    // eslint-disable-next-line no-console
+    console.log("add toc xhtml");
     this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
   }
 
   buildVisualTocXHTML(visualTOC) {
     let navContents = _.map(visualTOC, (ch, chIdx) => {
       return _.map(ch, (img) => {
+        // eslint-disable-next-line no-console
+        console.log(img);
         return `
           <dt class="table-of-content">  
-          <a href="${this.data.chapters[chIdx].id}.xhtml"> <img src="${img.src}" alt="${img.alt}"/> </a>
+          <a href="${this.data.chapters[chIdx].id}.xhtml"><img src="${img.src}"/></a>
           </dt>
         `
       }).join("\n")
     }).join("\n");
+
+    // eslint-disable-next-line no-console
+    console.log("vtoc navcontents", navContents);
     const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
+    // eslint-disable-next-line no-console
+    console.log("add visual toc xhtml", toc_xhtml);
+
     this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
   }
   buildTocNCX(chapters) {
@@ -127,7 +141,7 @@ class EPubFileBuilder {
   }
 
   convertChapter(idx, chapter, chapterGlossary) {
-    const text = HTMLFileBuilder.convertChapter(idx, chapter, chapterGlossary, this.data.includeRawLatex);
+    const text = HTMLFileBuilder.convertChapter(idx, chapter, chapterGlossary, this.data.includeRawLatex, this.videoLinks);
     let content = dedent(`
       <div class="epub-ch">            
         ${text}

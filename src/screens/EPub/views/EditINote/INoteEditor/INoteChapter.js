@@ -80,7 +80,6 @@ function INoteChapter({
       onSave: handleSaveImage(itemIdx),
       chapterScreenshots: epub.chapters[chIdx].allImagesWithIn
     };
-
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
 

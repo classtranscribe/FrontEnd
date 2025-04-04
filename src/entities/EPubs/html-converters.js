@@ -27,27 +27,21 @@ export async function buildMDFromContent(content) {
     // Most likely cause is CORS policy when running local dev server
   }
 
+  let link_url = content.link;
+  // if (content.timestamp) {
+  //   link_url = links.watch(epub.sourceId, { begin: TimeString.toSeconds(timestamp) })
+  // }
+
   if (img_data_url === null) {
-    let despId = _buildID();
-    return [
-      '<div class="img-block">',
-      `\t<img src="${""}" alt="${content.alt}" aria-describedby="${despId}" />`,
-      `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>`,
-      '</div>'
-    ].join('\n');
+    img_data_url = "";
   }
-  if (content.descriptions.length !== 0) {
-    let despId = _buildID();
-    return [
-      '<div class="img-block">',
-      `\t<img src="${img_data_url}" alt="${content.alt}" aria-describedby="${despId}" />`,
-      `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>`,
-      '</div>'
-    ].join('\n');
-  }
+  let despId = _buildID();
   return [
     '<div class="img-block">',
-    `\t<img src="${img_data_url}" alt="${content.alt}" />`,
+    (link_url && link_url !== "") ? `<a href="${link_url}">` : "",
+    `\t<img src="${img_data_url}" alt="${content.alt}" aria-describedby="${despId}" />`,
+    (link_url && link_url !== "") ? `</a>` : "",
+    content.descriptions.length !== 0 ? `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>` : "",
     '</div>'
   ].join('\n');
 }

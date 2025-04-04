@@ -22,6 +22,7 @@ class HTMLFileBuilder {
     this.createLinks = createLinks;
     this.data = parsedData;
     this.glossary = parsedData.glossary
+    this.videoLinks = parsedData.videoLinks;
   }
 
   /**
@@ -54,38 +55,33 @@ class HTMLFileBuilder {
     ].join("")
     return text
   };
-  static convertImage(content) {
-    if (content.descriptions.length !== 0) {
-      let despId = _buildID();
-      return [
-        '<div class="img-block">',
-        `\t<img src="${content.src}" alt="${content.alt}" aria-describedby="${despId}" />`,
-        `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>`,
-        '</div>'
-      ].join('\n');
-    }
+  static convertImage(content, videoLinks) {
+    let despId = _buildID();
     return [
       '<div class="img-block">',
-      `\t<img src="${content.src}" alt="${content.alt}" />`,
+      videoLinks && content.link && content.link !== "" ? `<a href="${content.link}">` : "",
+      `\t<img src="${content.src}" alt="${content.alt}" aria-describedby="${despId}" />`,
+      videoLinks && content.link && content.link !== "" ? `</a>` : "",
+      content.descriptions.length !== 0 ? `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>` : "",
       '</div>'
     ].join('\n');
   }
 
-  static convertContent(content, includeRawLatex) {
+  static convertContent(content, includeRawLatex, videoLinks) {
     if (epubIsText(content)) {
       return HTMLFileBuilder.convertText(content, includeRawLatex);
     }
-    return HTMLFileBuilder.convertImage(content);
+    return HTMLFileBuilder.convertImage(content, videoLinks);
   }
 
-  static convertChapter(idx, chapter, chapterGlossary, includeRawLatex = false) {
+  static convertChapter(idx, chapter, chapterGlossary, includeRawLatex = false, videoLinks = false) {
     let glossaryText = chapterGlossary ? glossaryToHTMLString(chapterGlossary) : "";
     chapter.id = _buildID();
     return [
       // the first chapter has idx 0, but is chapter 1. Thus, we use idx+1
       `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${idx + 1}: ${chapter.title}</h2>`,
       `<div class="wrap-text">`,
-      _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c, includeRawLatex)).join("\n"),
+      _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c, includeRawLatex, videoLinks)).join("\n"),
       `</div>`,
       glossaryText
     ].join("\n\n");
@@ -95,7 +91,7 @@ class HTMLFileBuilder {
     const chapters = this.data.chapters
     return [
       '<div class="ee-preview-text-con">',
-      _.map(chapters, (ch, idx) => HTMLFileBuilder.convertChapter(idx, ch, this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false, this.data.includeRawLatex,)).join("\n"),
+      _.map(chapters, (ch, idx) => HTMLFileBuilder.convertChapter(idx, ch, this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false, this.data.includeRawLatex, this.videoLinks)).join("\n"),
       '</div>',
     ].join("\n");
   }
@@ -141,24 +137,12 @@ class HTMLFileBuilder {
 
   getIndexHTML() {
     const conversion = this.convertChapters();
-    // eslint-disable-next-line no-console
-    console.log("conversion", conversion)
     let toc = "";
     if (this.data.visualTOC) {
       toc = this.convertVisualTOC();
     } else {
       toc = this.convertTOC();
     }
-    // eslint-disable-next-line no-console
-    console.log("all vals", {
-      title: this.data.title,
-      navContents: toc,
-      content: conversion,
-      author: this.data.author,
-      cover: this.data.cover,
-      createLinks: this.createLinks,
-      visualTOC: this.data.visualTOC
-    })
     return INDEX_HTML_LOCAL({
       title: this.data.title,
       navContents: toc,

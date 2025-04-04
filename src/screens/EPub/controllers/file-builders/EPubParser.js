@@ -39,9 +39,7 @@ class EPubParser {
 
     this.data.cover = await this.parseContent(epubData.cover);
     this.data.includeRawLatex = options.includeRawLatex;
-
-    // eslint-disable-next-line no-console
-    console.log("parsed data", this.data);
+    this.data.videoLinks = options.videoLinks;
   }
   getVisualTOC(chapters) {
     let visualTOC = _.map(chapters, (chapter) => {

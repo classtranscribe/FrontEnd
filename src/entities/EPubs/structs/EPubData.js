@@ -2,22 +2,9 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import CTError from 'utils/use-error';
-import { getAllItemsInChapters } from '../utils';
 import { buildMDFromChapters } from '../html-converters';
 import EPubChapterData from './EPubChapterData';
-import EPubSubChapterData from './EPubSubChapterData';
 import EPubImageData from './EPubImageData';
-
-function _buildEPubDataFromArray(rawEPubData) {
-  let a = [
-    new EPubChapterData({
-      items: _.cloneDeep(rawEPubData),
-      title: 'Default Chapter',
-    }).toObject()
-  ];
-
-  return a;
-}
 
 /**
  * The error which occurred when the required information 
@@ -40,10 +27,8 @@ export default class EPubData {
     cover: null,
     chapters: [],
     h3: true,
-    condition: { 'default': true }
+    condition: { 'default': true },
   };
-
-  images = [];
 
   /**
    * Create a ePub data instance
@@ -56,10 +41,6 @@ export default class EPubData {
 
     if (data instanceof EPubData) {
       this.__data__ = data.__data__;
-    }
-    // if the input data is the raw epub data
-    else if (data.rawEPubData && Array.isArray(data.rawEPubData)) {
-      this.chapters = _buildEPubDataFromArray(data.rawEPubData);
     }
     // if the input data is the epub-like
     else if (typeof data === 'object') {
@@ -92,24 +73,28 @@ export default class EPubData {
       this.h3 = true;
     }
 
-    this.chapters = _.map(this.chapters, chapter => new EPubChapterData(chapter, false));
-    // this.condition = ['default'];
-    this.condition.default = true;
-    // extract all the items and images from the chapters
-    this.items = getAllItemsInChapters(this.chapters);
-    this.images = _.map(this.items, item => item.image);
-
     // set up cover image
     if (!this.cover) {
       this.cover = new EPubImageData();
-    } if (!(this.cover instanceof EPubImageData)) {
+    } else {
       this.cover = new EPubImageData(this.cover);
     }
+  }
 
-    if (!this.cover.src && this.images.length > 0) {
-      this.cover = new EPubImageData({
-        src: this.images[0], alt: `Cover for ${this.title}`
-      });
+  initFromRawData(rawEPubData) {
+    this.chapters = [
+      new EPubChapterData({
+        title: 'Default Chapter',
+        items: rawEPubData,
+      }, true, this.sourceId).toObject()
+    ];
+    // this.condition = ['default'];
+    this.condition.default = true;
+
+    this.items = rawEPubData.map((item) => (EPubImageData.createWithTimestamp(item, this.sourceId)));
+
+    if (!this.cover.src && this.items.length > 0) {
+      this.cover = { ...this.items[0], descriptions: [], alt: "cover image" };
     }
   }
 
@@ -208,6 +193,14 @@ export default class EPubData {
     return this.__data__.language;
   }
 
+  set items(items) {
+    this.__data__.chapters[0].items = items;
+  }
+
+  get items() {
+    return this.__data__.chapters[0].items;
+  }
+
   set chapters(chapters) {
     this.__data__.chapters = chapters;
   }
@@ -222,8 +215,8 @@ export default class EPubData {
   toObject() {
     return {
       ...this.__data__,
-      cover: this.cover.toObject(),
-      chapters: this.chapters.map(chapter => chapter.toObject())
+      cover: this.cover instanceof EPubImageData ? this.cover.toObject() : this.cover,
+      chapters: this.chapters.map(chapter => (chapter instanceof EPubChapterData ? chapter.toObject() : chapter))
     };
   }
 
@@ -239,15 +232,6 @@ export default class EPubData {
     return epub.chapters[chapterIndex];
   }
 
-  getSubChapter(chapterIndex, subChapterIndex) {
-    let currChapter = this.getChapter(chapterIndex);
-    if (currChapter) {
-      return currChapter.subChapters[subChapterIndex];
-    }
-
-    return null;
-  }
-
   rebuildChapter(chapterIndex, chapterLike, resetText) {
     let chapters = this.chapters;
     // if there is such a chapter in the epub data
@@ -256,32 +240,6 @@ export default class EPubData {
       let toBuild = chapterLike || chapters[chapterIndex];
       chapters[chapterIndex] = new EPubChapterData(toBuild, resetText);
     }
-  }
-
-  rebuildSubChapter(chapterIndex, subChapterIndex, subChapterLike, resetText) {
-    let chapters = this.chapters;
-    let currChapter = chapters[chapterIndex];
-    if (currChapter) {
-      let subChapters = currChapter.subChapters;
-      // if there is such a subchapter in the epub data
-      // update the subchapter item
-      if (subChapters[subChapterIndex]) {
-        let toBuild = subChapterLike || subChapters[subChapterIndex];
-        subChapters[subChapterIndex] = new EPubSubChapterData(toBuild, resetText);
-      }
-    }
-  }
-
-  insertSubChapter(chapterIndex, subChapterIndex, subChapterLike) {
-    let newSubChapter = new EPubSubChapterData(subChapterLike);
-    let chapter = this.getChapter(chapterIndex);
-    chapter.subChapters = [
-      ...chapter.subChapters.slice(0, subChapterIndex),
-      newSubChapter,
-      ...chapter.subChapters.slice(subChapterIndex)
-    ];
-
-    return newSubChapter;
   }
 
   removeChapter(index) {
@@ -295,44 +253,29 @@ export default class EPubData {
     return chapter;
   }
 
-  removeSubChapter(chapterIndex, subChapterIndex) {
-    let chapter = this.getChapter(chapterIndex);
-    let subChapter = chapter.subChapters[subChapterIndex];
-    chapter.subChapters = [
-      ...chapter.subChapters.slice(0, subChapterIndex),
-      ...chapter.subChapters.slice(subChapterIndex + 1)
-    ];
 
-    return subChapter;
-  }
-
-  static create(rawEPubData, data, copyChapterStructure) {
-    return new EPubData({
-      ...data,
-      chapters: copyChapterStructure
-        ? EPubData.copyChapterStructure(rawEPubData, data.chapters)
-        : _buildEPubDataFromArray(rawEPubData)
+  static create(rawEPubData, data) {
+    const newData = new EPubData({
+      ...data
     });
+    newData.initFromRawData(rawEPubData);
+
+    // eslint-disable-next-line no-console
+    console.log("created data", newData.chapters);
+    return newData;
   }
 
-  static copyChapterStructure(rawEPubData, chapters) {
-    let lastIdx = 0;
-    return _.map(chapters, (chapter) => {
-      let chItems = rawEPubData.slice(lastIdx, lastIdx + chapter.items.length);
-      lastIdx += chapter.items.length;
-      let newSubChapters = _.map(chapter.subChapters, (subChapter) => {
-        let schItems = rawEPubData.slice(lastIdx, lastIdx + subChapter.items.length);
-        lastIdx += subChapter.items.length;
-        return new EPubSubChapterData({ title: subChapter.title, items: schItems });
-      });
 
-      return new EPubChapterData({
-        title: chapter.title,
-        items: chItems,
-        subChapters: newSubChapters
-      })
-    });
-  }
+  // static copyChapterStructure(rawEPubData, chapters) {
+  //   let lastIdx = 0;
+  //   return _.map(chapters, (chapter) => {
+  //     let chItems = rawEPubData.slice(lastIdx, lastIdx + chapter.items.length);
+  //     lastIdx += chapter.items.length;
 
-  static __buildEPubDataFromArray = _buildEPubDataFromArray;
+  //     return new EPubChapterData({
+  //       title: chapter.title,
+  //       items: chItems,
+  //     })
+  //   });
+  // }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CTText } from 'layout';
 import { uurl } from 'utils/use-url';
 import Image from 'components/Image';
+import _ from 'lodash';
 import ImagePreview from './ImagePreview';
 
 function ImagesTab(props) {
@@ -19,18 +20,18 @@ function ImagesTab(props) {
         {description && <CTText margin="5">{description}</CTText>}
         <div role="list" className="ct-img-picker-imgs">
           {images.map(img => (
-            <div 
-              key={img} 
+            <div
+              key={img.src}
               tabIndex={0}
               className="ct-img-picker-img-con"
-              data-current={img === imgUrl}
-              onClick={() => setImgUrl(img)}
+              data-current={img.src === imgUrl}
+              onClick={() => setImgUrl(img.src)}
               role="listitem"
             >
-              <Image src={uurl.getMediaUrl(img)} alt="Chapter Cover" />
+              <Image src={uurl.getMediaUrl(img.src)} alt="Chapter Cover" />
               <div className="ct-img-picker-img-wrapper ct-d-r-center">
                 {
-                  img === imgUrl
+                  img.src === imgUrl
                   &&
                   <i className="material-icons">check_circle</i>
                 }

@@ -17,7 +17,8 @@ function ViewAndDownload({ dispatch }) {
     invertColors: false,
     includeGlossary: true,
     includeRawLatex: false,
-    chapterGlossary: false
+    chapterGlossary: false,
+    videoLinks: true
   });
 
   return (

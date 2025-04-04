@@ -26,6 +26,7 @@ class PDFFileBuilder {
     this.data = parsedData;
     this.glossary = parsedData.glossary;
     this.includeRawLatex = parsedData.includeRawLatex;
+    this.videoLinks = parsedData.videoLinks;
   }
 
   /**
@@ -95,11 +96,14 @@ class PDFFileBuilder {
     }
   }
 
-  convertImage({ src, descriptions, alt, height = 100, width = 100 }) {
+  convertImage({ src, descriptions, alt, height = 100, width = 100, link }) {
     const scale = this.max_text_width / width;
     const curr_y_loc = this.getYLoc(height);
     this.doc.addImage(src === "" ? placeholderImg : src, STYLE_SHEET.edgeMargin, curr_y_loc, width * scale, height * scale);
-    this.incrementYLoc(height * scale + STYLE_SHEET.image.imageAltGap);
+    if (this.videoLinks && link && link !== "") {
+      this.doc.link(STYLE_SHEET.edgeMargin, curr_y_loc, width * scale, height * scale, { url: link });
+    }
+    this.incrementYLoc(height * scale);
 
     if (this.writeTextToPDF(alt, STYLE_SHEET.font.altText)) {
       this.incrementYLoc(STYLE_SHEET.image.AltDescGap);

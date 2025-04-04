@@ -39,7 +39,7 @@ export class ClassTranscribeLinks {
     const {
       redirect = window.location.href,
       method,
-      aspopup 
+      aspopup
     } = config || {};
     return `/sign-in${uurl.createSearch({ redirect, method, aspopup })}`
   }
@@ -64,12 +64,12 @@ export class ClassTranscribeLinks {
   home() {
     return '/';
   }
-  
+
   /**
    * to `/search`
    */
   search(query) {
-    return `/search${ uurl.createSearch({ q: query })}`;
+    return `/search${uurl.createSearch({ q: query })}`;
   }
 
   /**
@@ -116,9 +116,9 @@ export class ClassTranscribeLinks {
    * @param {Object} params - search query
    */
   watch(id, params = {}) {
-    if (params.begin) {
+    if (params.begin !== undefined) {
       params.begin = Math.floor(Number(params.begin));
-      if (params.begin <= 0) {
+      if (params.begin < 0) {
         params.begin = undefined;
       }
     }
@@ -130,8 +130,8 @@ export class ClassTranscribeLinks {
    * @param {String} tab - admin tab
    */
   admin(tab = '') {
-    if (tab) tab = `/${ tab}`;
-    return `/admin${ tab}`;
+    if (tab) tab = `/${tab}`;
+    return `/admin${tab}`;
   }
 
   /**
@@ -206,7 +206,7 @@ export class ClassTranscribeLinks {
   instMediaSettings(mediaId, tab) {
     return `/media-settings/${mediaId}${tab ? `/${tab}` : ''}`;
   }
-  
+
   /**
    * to `/media-settings/<media_id>/epub`
    * @param {String} mediaId - media id
@@ -245,19 +245,19 @@ export class ClassTranscribeLinks {
   notfound404() {
     return '/404';
   }
-  
+
   pgadmin() {
     return `${env.baseURL}/pgadmin/`;
   }
-  
+
   rabbitmq() {
     return `${env.baseURL}/rabbitmq/`;
   }
-  
+
   traefik() {
     return `${env.baseURL}/traefik/`;
   }
-  
+
   swag() {
     return `${env.baseURL}/swag/`;
   }

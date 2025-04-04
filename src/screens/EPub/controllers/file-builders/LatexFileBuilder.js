@@ -18,6 +18,7 @@ class LatexFileBuilder {
   async init(parsedData) {
     this.data = parsedData;
     this.glossary = parsedData.glossary;
+    this.videoLinks = parsedData.videoLinks;
   }
 
   /**
@@ -84,7 +85,9 @@ class LatexFileBuilder {
     return [
       `\\begin{figure}`,
       `\\centering`,
+      this.videoLinks && content.link && content.link !== "" ? `\\href{${content.link}}{` : "",
       `\\includegraphics[alt={${new_alt}}, width=.8\\textwidth]{${img_path}}`,
+      this.videoLinks && content.link && content.link !== "" ? `}` : "",
       captions,
       `\\end{figure}`
     ].join("\n")
