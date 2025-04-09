@@ -36,11 +36,15 @@ function ChapterImage({
   };
 
   const handleImageChange = (imgLike) => {
-    onSave({ src, alt, descriptions, link, ...imgLike });
+    // eslint-disable-next-line no-console
+    console.log("imglike", imgLike);
+    onSave({ src, alt, descriptions, timestamp, link, ...imgLike });
   };
 
   const onSrcChange = (val) => {
-    if (val !== src) handleImageChange({ src: val });
+    if (val !== src) {
+      handleImageChange({ src: val });
+    }
   };
 
   const onAltChange = (val) => {
@@ -62,7 +66,7 @@ function ChapterImage({
 
   const openImagePicker = () => {
     const imgData = {
-      screenshots: images,
+      screenshots: images.map(img => img.src),
       onSave: onSrcChange,
       defaultImage: src
     };

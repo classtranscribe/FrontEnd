@@ -37,7 +37,7 @@ export function getAllItemsInChapter(chapter) {
 }
 
 export function getAllItemsInChapters(chapters) {
-  return _.flatMap(chapters, ch => ch.items);
+  return _.flatMap(chapters.filter(ch => "items" in ch), ch => ch.items);
 }
 
 export function getAllImagesInChapter(chapter) {

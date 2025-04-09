@@ -8,6 +8,8 @@ function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {
     return null;
   }
   const { screenshots = [], chapterScreenshots = [] } = imgPickerData;
+  // eslint-disable-next-line no-console
+  console.log("imgPickerData", imgPickerData)
   let tabs = [
     {
       name: 'All Screenshots',

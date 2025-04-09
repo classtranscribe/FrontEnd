@@ -21,17 +21,17 @@ function ImagesTab(props) {
         <div role="list" className="ct-img-picker-imgs">
           {images.map(img => (
             <div
-              key={img.src}
+              key={img}
               tabIndex={0}
               className="ct-img-picker-img-con"
-              data-current={img.src === imgUrl}
-              onClick={() => setImgUrl(img.src)}
+              data-current={img === imgUrl}
+              onClick={() => setImgUrl(img)}
               role="listitem"
             >
-              <Image src={uurl.getMediaUrl(img.src)} alt="Chapter Cover" />
+              <Image src={uurl.getMediaUrl(img)} alt="Chapter Cover" />
               <div className="ct-img-picker-img-wrapper ct-d-r-center">
                 {
-                  img.src === imgUrl
+                  img === imgUrl
                   &&
                   <i className="material-icons">check_circle</i>
                 }
