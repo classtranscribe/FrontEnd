@@ -83,12 +83,8 @@ class EPubFileBuilder {
       </dt>
       `}
     )
-    // eslint-disable-next-line no-console
-    console.log("toc navcontents", navContents);
 
     const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
-    // eslint-disable-next-line no-console
-    console.log("add toc xhtml");
     this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
   }
 
@@ -96,7 +92,6 @@ class EPubFileBuilder {
     let navContents = _.map(visualTOC, (ch, chIdx) => {
       return _.map(ch, (img) => {
         // eslint-disable-next-line no-console
-        console.log(img);
         return `
           <dt class="table-of-content">  
           <a href="${this.data.chapters[chIdx].id}.xhtml"><img src="${img.src}"/></a>
@@ -105,11 +100,7 @@ class EPubFileBuilder {
       }).join("\n")
     }).join("\n");
 
-    // eslint-disable-next-line no-console
-    console.log("vtoc navcontents", navContents);
     const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
-    // eslint-disable-next-line no-console
-    console.log("add visual toc xhtml", toc_xhtml);
 
     this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
   }

@@ -8,7 +8,7 @@ import { cthttp } from '../request';
 
 // GET
 
-export function getTranscriptionFile(transcriptionId,format) {
+export function getTranscriptionFile(transcriptionId, format) {
   // {vtt,srt,txt}
   return cthttp.get(`Captions/TranscriptionFile/${transcriptionId}/${format}`);
 }
@@ -31,19 +31,19 @@ export function searchCaptionInOffering(offeringId, query, filterLanguage = 'en-
 export function updateCaptionLine(data) {
   // eslint-disable-next-line no-console
   console.log("Preparing to update caption line with data:", data);
-  
+
   // Check if all required fields are present
   if (!data.id || !data.text || !data.begin || !data.end) {
     // eslint-disable-next-line no-console
     console.error("Missing required data fields:", data);
     throw new Error("Required data fields are missing.");
   }
-  
-  return cthttp.post('Captions', { 
-    id: data.id, 
-    text: data.text, 
-    begin: data.begin, 
-    end: data.end 
+
+  return cthttp.post('Captions', {
+    id: data.id,
+    text: data.text,
+    begin: data.begin,
+    end: data.end
   }).then(response => {
     // eslint-disable-next-line no-console
     console.log("Caption line updated successfully:", response);

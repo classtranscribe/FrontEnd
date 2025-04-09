@@ -76,15 +76,11 @@ function INoteChapter({
   };
 
   const handleOpenImgPicker = (itemIdx) => {
-    // eslint-disable-next-line no-console
-    console.log("screenshots", images);
     const imgData = {
       screenshots: images.map(img => img.src),
       onSave: handleSaveImage(itemIdx),
       chapterScreenshots: epub.chapters[chIdx].allImagesWithIn
     };
-    // eslint-disable-next-line no-console
-    console.log("imgData", imgData);
     dispatch({ type: 'epub/setImgPickerData', payload: imgData });
   }
 
@@ -196,9 +192,6 @@ function INoteChapter({
 
   // Chapter Image Functions
   const onImageChange = (index) => (val) => {
-    // const val_obj = typeof val === 'string' ? images.filter(img => img.src === val)[0] : undefined;
-    // eslint-disable-next-line no-console
-    console.log("onimgchange", val);
     dispatch({
       type: 'epub/updateEpubData', payload: {
         action: 'setChapterContentAtChapterIdx', payload: { chapterIdx: chIdx, contentIdx: index, value: val, type: 'image' }

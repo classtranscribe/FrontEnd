@@ -52,7 +52,6 @@ const EPubModel = {
     },
     setEPub(state, { payload }) {
       const items = getAllItemsInChapters(payload.chapters);
-      console.log("setEPub items", items);
 
       if (!payload.chapters) {
         payload.chapters = []

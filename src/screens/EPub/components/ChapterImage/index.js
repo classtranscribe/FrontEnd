@@ -36,8 +36,6 @@ function ChapterImage({
   };
 
   const handleImageChange = (imgLike) => {
-    // eslint-disable-next-line no-console
-    console.log("imglike", imgLike);
     onSave({ src, alt, descriptions, timestamp, link, ...imgLike });
   };
 
