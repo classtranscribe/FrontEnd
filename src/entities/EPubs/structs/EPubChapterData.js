@@ -25,7 +25,8 @@ class EPubChapterData {
       id,
       title,
       items,
-      contents = []
+      contents = [],
+      start
     } = data;
 
     // const { start, end } = findChapterTimeSpan(data); // TODO 
@@ -33,6 +34,7 @@ class EPubChapterData {
     this.__data__ = {
       ...this.__data__,
       id: id || _buildID(),
+      start,
       title: title || EPubChapterData.createChapterTitle(),
       condition: ['default'],
       contents: resetText

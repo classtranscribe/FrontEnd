@@ -25,7 +25,7 @@ function INoteChapter({
   const { start, end, title } = chapter;
   // const btnStyles = useButtonStyles();
   const startTimeStr = timestr.toPrettierTimeString(start);
-  const endTimeStr = timestr.toPrettierTimeString(end);
+  // const endTimeStr = timestr.toPrettierTimeString(end);
   const [insertType, setInsertType] = useState(null);
   const openMDEditor = insertType === 'md';
   const [openModalIndex, setOpenModalIndex] = useState(null);
@@ -152,7 +152,7 @@ function INoteChapter({
   function watchVideoElement(itemIdx) {
     return altEl(Button, itemIdx === 0, {
       ...btnProps,
-      text: <span className="ml-1">Watch {startTimeStr} - {endTimeStr}</span>,
+      text: <span className="ml-1">Watch {startTimeStr}</span>,
       icon: <span className="material-icons">play_circle_filled</span>,
       onClick: watchInPlayer
     })
@@ -263,7 +263,7 @@ function INoteChapter({
                   {splitBtnElement(itemIdx)}
                   {addImgElement(itemIdx)}
                   {addTextElement(itemIdx)}
-                  {watchVideoElement(itemIdx)}
+                  {start ? watchVideoElement(itemIdx) : ""}
                 </CTFragment>
 
                 {typeof content === "object" ? ( // image
@@ -310,7 +310,7 @@ function INoteChapter({
                     {splitBtnElement(chapter.contents.length)}
                     {addImgElement(chapter.contents.length)}
                     {addTextElement(chapter.contents.length)}
-                    {watchVideoElement(chapter.contents.length)}
+                    {start ? watchVideoElement(chapter.contents.length) : ""}
                   </CTFragment>)}
               </CTFragment>
             )
