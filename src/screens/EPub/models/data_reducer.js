@@ -482,7 +482,12 @@ export default {
 
   setChapterContentAtChapterIdx(state, { payload: { type = 'text', contentIdx, chapterIdx, subChapterIdx, value } }) {
     if (type === 'image') {
-      value = new EPubImageData(value).toObject();
+      const base_img = _.find(state.images, { src: value.src })
+      if (base_img && value.src !== state.epub.chapters[chapterIdx].contents[contentIdx].src) {
+        value = new EPubImageData(base_img).toObject();
+      } else {
+        value = new EPubImageData(value).toObject();
+      }
     }
     // console.log("setchcontent", value);
     const chapters = state.epub.chapters;

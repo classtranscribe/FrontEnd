@@ -28,7 +28,6 @@ const initState = {
   showPrefSettings: false,
   showShortcuts: false,
   images: null,
-  items: []
 }
 const EPubModel = {
   namespace: 'epub',

@@ -46,7 +46,7 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
             color="primary"
           />
         }
-        label="Include Links to Video"
+        label="Include Image Links to Video"
       />
       <FormControlLabel
         control={
