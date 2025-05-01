@@ -57,6 +57,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
       return;
     }
     if (!shiftKey) return;
+    if (document.activeElement.getAttribute("role") === "textbox") return;
     // Meta key actions
     switch (keyCode) {
       case KeyCode.KEY_1: // 1

@@ -115,7 +115,8 @@ class EPubParser {
       new_content.height = height;
       new_content.width = width;
     }
-    new_content.descriptions = _.filter(content.descriptions, (desc) => desc.trim() !== "");
+    new_content.descriptions = await Promise.all(content.descriptions.filter((desc) => desc.trim() !== "")
+      .map((desc) => this.parseText(desc)));
     new_content.id = this.img_id;
     this.img_id += 1;
     return new_content;
@@ -190,6 +191,8 @@ class EPubParser {
     const parser = new EPubParser();
     await parser.init(ePubData.epub, options)
 
+    // eslint-disable-next-line no-console
+    console.log("parsed data", parser.data);
     return parser.data;
   }
 
