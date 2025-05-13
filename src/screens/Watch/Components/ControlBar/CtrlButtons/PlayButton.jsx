@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { connect } from 'dva'
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { CTP_LOADING, CTP_ENDED, CTP_ERROR } from '../../../Utils';
@@ -13,12 +13,20 @@ export function PlayButtonWithRedux({ paused = true, ctpPriEvent = CTP_LOADING, 
       dispatch({type: 'watch/onPlayPauseClick'})
     }
   };
+
+  const playButtonRef = useRef();
+  useEffect(() => {
+    window.focusPlayButton = () => playButtonRef.current?.focus();
+
+    return () => delete window.focusPlayButton;
+  })
   return (
     <WatchCtrlButton
       onClick={handlePause}
       label={paused ? 'Play (k)' : 'Pause (k)'}
       disabled={cantPlay}
       // mouseEnterDelay={600}
+      ref={playButtonRef}
       id="play-btn"
       ariaTags={{
         'aria-label': ended ? 'Replay' : paused ? 'Play (k)' : 'Pause (k)',

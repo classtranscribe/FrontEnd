@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button } from 'semantic-ui-react';
 import { keydownControl, MENU_SHORTCUTS } from '../../../Utils';
 import './index.scss';
@@ -8,8 +8,8 @@ export function TabEventHelperButtons(props) {
 
   const ctrlBarRef = useRef();
   useEffect(() => {
-    window.focusSkipToCtrlBar = () => ctrlBarRef.current?.focus();
-    return () => window.focusSkipToCtrlBar;
+    window.focusSkipToCtrlBar = () => ctrlBarRef.current?.focus()
+    return () => delete window.focusSkipToCtrlBar;
   });
 
   return (

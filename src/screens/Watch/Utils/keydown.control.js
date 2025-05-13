@@ -367,8 +367,12 @@ export const keydownControl = {
     // then focus on the switch screen trigger
     if ($('#volume-mute-btn:focus').length) {
       const switchScreenBtnElem = $('#switch-screen-btn');
-      if (switchScreenBtnElem.length) switchScreenBtnElem.focus();
-      else $('#play-btn').focus();
+      if (switchScreenBtnElem.length) {
+        switchScreenBtnElem.focus();
+      } else {
+        // $('#play-btn').focus();
+        window.focusPlayButton?.();
+      }
       return;
     }
     // if is focusing on the playback rate menu trigger
@@ -557,10 +561,12 @@ export const keydownControl = {
   },
 
   openTabHelper() {
+    // $('#skip-to-ctrl-bar').focus();
     window.focusSkipToCtrlBar?.();
   },
   skipToControlBar() {
-    $('#play-btn').focus();
+    // $('#play-btn').focus();
+    window.focusPlayButton?.();
   },
   skipToCaptionBox() {
     $('#trans-setting-btn').focus();
