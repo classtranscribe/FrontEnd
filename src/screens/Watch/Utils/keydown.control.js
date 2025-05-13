@@ -557,7 +557,7 @@ export const keydownControl = {
   },
 
   openTabHelper() {
-    $('#skip-to-ctrl-bar').focus();
+    window.focusSkipToCtrlBar?.();
   },
   skipToControlBar() {
     $('#play-btn').focus();
