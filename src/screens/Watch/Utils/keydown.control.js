@@ -237,9 +237,9 @@ export const keydownControl = {
    * Function for handling down-arrow key down
    */
   handleDownArrow(e) {
-    // If there is no menu opening - decrease the volume by 0.1 each time
+    // If there is no menu opening - decrease the volume by slider amount each time
     if (!this.isMenuOpen()) {
-      $('#volume-slider').focus(); // NEED TO MODIFY
+      window.focusVolumeSlider?.();
       return;
     }
 
