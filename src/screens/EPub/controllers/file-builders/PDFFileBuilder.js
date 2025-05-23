@@ -26,6 +26,7 @@ class PDFFileBuilder {
     this.data = parsedData;
     this.glossary = parsedData.glossary;
     this.includeRawLatex = parsedData.includeRawLatex;
+    this.videoLinks = parsedData.videoLinks;
   }
 
   /**
@@ -95,11 +96,14 @@ class PDFFileBuilder {
     }
   }
 
-  convertImage({ src, descriptions, alt, height = 100, width = 100 }) {
+  convertImage({ src, descriptions, alt, height = 100, width = 100, link }) {
     const scale = this.max_text_width / width;
-    const curr_y_loc = this.getYLoc(height);
+    const curr_y_loc = this.getYLoc(height * scale);
     this.doc.addImage(src === "" ? placeholderImg : src, STYLE_SHEET.edgeMargin, curr_y_loc, width * scale, height * scale);
-    this.incrementYLoc(height * scale + STYLE_SHEET.image.imageAltGap);
+    if (this.videoLinks && link && link !== "") {
+      this.doc.link(STYLE_SHEET.edgeMargin, curr_y_loc, width * scale, height * scale, { url: link });
+    }
+    this.incrementYLoc(height * scale + STYLE_SHEET.font.altText.size);
 
     if (this.writeTextToPDF(alt, STYLE_SHEET.font.altText)) {
       this.incrementYLoc(STYLE_SHEET.image.AltDescGap);
@@ -119,25 +123,34 @@ class PDFFileBuilder {
     }
   }
 
-  convertChapter({ contents, title }) {
-    this.writeTextToPDF(title, STYLE_SHEET.font.chapterTitle);
+  convertChapter(idx, { contents, title }) {
+    this.incrementYLoc(STYLE_SHEET.spacing);
+    this.writeTextToPDF(`${idx + 1}: ${title}`, STYLE_SHEET.font.chapterTitle);
     this.chapter_page_indexes.push(this.currentPageNumber);
     this.incrementYLoc(STYLE_SHEET.spacing);
     _.forEach(contents, (content) => { this.convertContent(content) });
+    if (this.data.chapterGlossary) {
+      this.incrementYLoc(20);
+      this.convertGlossary(this.data.chapterGlossary[idx], false);
+    }
     this.nextPage();
   }
 
   convertChapters() {
-    _.forEach(this.data.chapters, (chapter) => this.convertChapter(chapter))
+    _.forEach(this.data.chapters, (chapter, idx) => this.convertChapter(idx, chapter))
   }
   writeGlossaryEntry(key, value) {
     this.writeTextToPDF(`${key}: ${value.description}`, STYLE_SHEET.font.glossary);
   }
-  convertGlossary(glossary) {
-    this.doc.outline.add(null, "Glossary", { pageNumber: this.currentPageNumber })
-    this.writeTextToPDF("Glossary", STYLE_SHEET.font.title);
+  convertGlossary(glossary, add_outline = true) {
+    this.incrementYLoc(STYLE_SHEET.spacing);
+    if (add_outline) {
+      this.glossary_page = this.currentPageNumber;
+    }
+    this.writeTextToPDF("Glossary", add_outline ? STYLE_SHEET.font.title : STYLE_SHEET.font.chapterTitle);
     for (const [key, value] of Object.entries(glossary)) {
       this.writeGlossaryEntry(key, value);
+      this.incrementYLoc(5);
     }
   }
   nextPageTOC(offset = 0) {
@@ -153,12 +166,11 @@ class PDFFileBuilder {
     const style = STYLE_SHEET.visualTOC;
     const all_imgs = visualTOC.flat()
 
-    const min_width = _.minBy(all_imgs, (img) => { return img.width }).width;
-
     const col_width = (this.max_text_width / style.imagesPerRow);
-    const max_scale = (col_width - 2 * style.hMargin) / min_width;
-    const max_height = _.maxBy(all_imgs, (img) => { return img.height }).height;
-    const rowsPerPage = Math.floor((this.max_height - STYLE_SHEET.visualTOC.topMargin) / (max_height * max_scale + style.vSpacing));
+    const img_width = (col_width - 2 * style.hMargin);
+    const tallest_img = _.maxBy(all_imgs, img => img.height / img.width);
+    const tallest_aspect_ratio = tallest_img.height / tallest_img.width
+    const rowsPerPage = Math.floor((this.max_height - STYLE_SHEET.visualTOC.topMargin) / (tallest_aspect_ratio * img_width + style.vSpacing));
 
     this.pageOffset = Math.ceil(all_imgs.length / (style.imagesPerRow * rowsPerPage));
     this.currentPageNumber = 2;
@@ -178,7 +190,7 @@ class PDFFileBuilder {
         const img = visualTOC[chapter][img_idx];
         const x_loc = STYLE_SHEET.edgeMargin + (entry_idx % style.imagesPerRow) * col_width;
 
-        const scale = (col_width - 2 * style.hMargin) / img.width;
+        const scale = img_width / img.width;
         this.doc.addImage(img.src, 'jpeg', x_loc + style.hMargin, this.y_loc, scale * img.width, scale * img.height);
         const split_text = this.doc.splitTextToSize(`${chapter + 1}. ${img.alt}`, scale * img.width);
         _.forEach(split_text, (val, idx) => {
@@ -193,7 +205,7 @@ class PDFFileBuilder {
 
         entry_idx += 1;
         if (entry_idx % style.imagesPerRow === 0) {
-          this.y_loc += max_height * scale + style.vSpacing;
+          this.y_loc += tallest_aspect_ratio * img_width + style.vSpacing;
         }
         if (entry_idx % (style.imagesPerRow * rowsPerPage) === 0 && entry_idx < all_imgs.length - 1) {
           this.nextPageTOC(style.topMargin);
@@ -238,6 +250,9 @@ class PDFFileBuilder {
     for (let i = 0; i < this.chapter_page_indexes.length; i += 1) {
       this.doc.outline.add(null, this.data.chapters[i].title, { pageNumber: this.chapter_page_indexes[i] + this.pageOffset });
     }
+    if (this.glossary_page) {
+      this.doc.outline.add(null, "Glossary", { pageNumber: this.glossary_page + this.pageOffset });
+    }
   }
 
   createPDF() {
@@ -250,7 +265,7 @@ class PDFFileBuilder {
     this.nextPage();
     this.convertChapters();
 
-    if (this.glossary && !_.isEmpty(this.glossary)) {
+    if (this.glossary && !_.isEmpty(this.glossary) && !this.data.chapterGlossary) {
       this.convertGlossary(this.glossary);
     }
 

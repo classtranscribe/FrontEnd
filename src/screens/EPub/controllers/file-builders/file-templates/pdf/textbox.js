@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unreachable */
 import _ from "lodash";
 import { html } from "utils";
 import { STYLE_SHEET } from "./pdfstyle";
@@ -79,9 +77,8 @@ export class TextBox {
           } else if (this.numbered_list) {
             this.writeTextSimple(` ${this.list_index + 1}. `);
             this.list_index += 1;
-          } else {
-            console.log("error, not bullet or numbered list");
           }
+          // invalid list
         },
         'end': () => { this.nextLine(); }
       },

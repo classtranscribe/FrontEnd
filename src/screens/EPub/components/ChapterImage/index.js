@@ -27,7 +27,7 @@ function ChapterImage({
   images,
   dispatch
 }) {
-  const { alt, src, descriptions } = image;
+  const { alt, src, descriptions, timestamp, link } = image;
 
   const onSave = (newImage) => {
     if (onChooseImage) {
@@ -36,11 +36,13 @@ function ChapterImage({
   };
 
   const handleImageChange = (imgLike) => {
-    onSave({ src, alt, descriptions, ...imgLike });
+    onSave({ src, alt, descriptions, timestamp, link, ...imgLike });
   };
 
   const onSrcChange = (val) => {
-    if (val !== src) handleImageChange({ src: val });
+    if (val !== src) {
+      handleImageChange({ src: val });
+    }
   };
 
   const onAltChange = (val) => {
@@ -62,7 +64,7 @@ function ChapterImage({
 
   const openImagePicker = () => {
     const imgData = {
-      screenshots: images,
+      screenshots: images.map(img => img.src),
       onSave: onSrcChange,
       defaultImage: src
     };
@@ -81,6 +83,7 @@ function ChapterImage({
     // console.log(newEpub);
     dispatch({ type: 'epub/setEPub', payload: newEpub });
   }
+
   return (
     <>
       {image ? (
@@ -91,6 +94,8 @@ function ChapterImage({
               epub={epub}
               id={id}
               imageAlt={alt}
+              videoLink={link}
+              timestamp={timestamp}
               chapter={epub.chapters[currChIndex]}
               onChooseImage={openImagePicker}
               onRemoveImage={onRemoveImage}

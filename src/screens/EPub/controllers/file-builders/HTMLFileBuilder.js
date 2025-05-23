@@ -6,6 +6,7 @@ import {
   glossaryToHTMLString,
 } from './GlossaryCreator';
 import { INDEX_HTML_LOCAL, STYLE_CSS/* , PRISM_JS */ } from './file-templates/html';
+import { epubIsText } from './utils';
 
 class HTMLFileBuilder {
   /**
@@ -21,6 +22,7 @@ class HTMLFileBuilder {
     this.createLinks = createLinks;
     this.data = parsedData;
     this.glossary = parsedData.glossary
+    this.videoLinks = parsedData.videoLinks;
   }
 
   /**
@@ -42,42 +44,46 @@ class HTMLFileBuilder {
     return html_buffer;
   }
 
-  static convertText(content) {
-    return [
+  static convertText(content, includeRawLatex) {
+    if (includeRawLatex) {
+      content = content.replace(/\$\$(.*?)\$\$/g, `$$$$$1$$$$ \`($1)\``);
+    }
+    let text = [
       '<p>',
       html.markdown(content),
       '</p>'
     ].join("")
+    return text
   };
-  static convertImage(content) {
-    if (content.descriptions.length !== 0) {
-      let despId = _buildID();
-      return [
-        '<div class="img-block">',
-        `\t<img src="${content.src}" alt="${content.alt}" aria-describedby="${despId}" />`,
-        `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>`,
-        '</div>'
-      ].join('\n');
-    }
+  static convertImage(content, videoLinks) {
+    let despId = _buildID();
     return [
       '<div class="img-block">',
-      `\t<img src="${content.src}" alt="${content.alt}" />`,
+      videoLinks && content.link && content.link !== "" ? `<a href="${content.link}">` : "",
+      `\t<img src="${content.src}" alt="${content.alt}" aria-describedby="${despId}" />`,
+      videoLinks && content.link && content.link !== "" ? `</a>` : "",
+      content.descriptions.length !== 0 ? `\t<div id="${despId}">${html.markdown(content.descriptions.join("\n"))}</div>` : "",
       '</div>'
     ].join('\n');
   }
 
-  static convertContent(content) {
-    if (typeof content === 'string') {
-      return HTMLFileBuilder.convertText(content)
+  static convertContent(content, includeRawLatex, videoLinks) {
+    if (epubIsText(content)) {
+      return HTMLFileBuilder.convertText(content, includeRawLatex);
     }
-    return HTMLFileBuilder.convertImage(content)
+    return HTMLFileBuilder.convertImage(content, videoLinks);
   }
 
-  static convertChapter(chapter) {
+  static convertChapter(idx, chapter, chapterGlossary, includeRawLatex = false, videoLinks = false) {
+    let glossaryText = chapterGlossary ? glossaryToHTMLString(chapterGlossary) : "";
     chapter.id = _buildID();
     return [
-      `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${chapter.title}</h2>`,
-      _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c)).join("\n"),
+      // the first chapter has idx 0, but is chapter 1. Thus, we use idx+1
+      `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${idx + 1}: ${chapter.title}</h2>`,
+      `<div class="wrap-text">`,
+      _.map(chapter.contents, (c) => HTMLFileBuilder.convertContent(c, includeRawLatex, videoLinks)).join("\n"),
+      `</div>`,
+      glossaryText
     ].join("\n\n");
   }
 
@@ -85,7 +91,7 @@ class HTMLFileBuilder {
     const chapters = this.data.chapters
     return [
       '<div class="ee-preview-text-con">',
-      _.map(chapters, (ch) => HTMLFileBuilder.convertChapter(ch)).join("\n"),
+      _.map(chapters, (ch, idx) => HTMLFileBuilder.convertChapter(idx, ch, this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false, this.data.includeRawLatex, this.videoLinks)).join("\n"),
       '</div>',
     ].join("\n");
   }
@@ -98,7 +104,7 @@ class HTMLFileBuilder {
           '<div class="img-block">',
           `<a href=#${link_target}>`,
           `\t<img src="${img.src}" alt="${img.alt}" aria-describedby="${caption_id}"/>`,
-          `\t<p id="${caption_id}">${img.alt}</p>`,
+          `\t<p class="wrap-text" id="${caption_id}">${img.alt}</p>`,
           `</a>`,
           '</div>'
         ].join("\n");
@@ -125,8 +131,8 @@ class HTMLFileBuilder {
     ).join('\n');
   }
 
-  convertGlossary() {
-    return glossaryToHTMLString(this.glossary);
+  static convertGlossary(glossary) {
+    return `<html><body><div>${glossaryToHTMLString(glossary)}</html></body></div>`;
   }
 
   getIndexHTML() {
@@ -138,16 +144,14 @@ class HTMLFileBuilder {
       toc = this.convertTOC();
     }
     return INDEX_HTML_LOCAL({
-      title: this.title,
+      title: this.data.title,
       navContents: toc,
       content: conversion,
       author: this.data.author,
       cover: this.data.cover,
       createLinks: this.createLinks,
       visualTOC: this.data.visualTOC
-    })
-      + this.convertGlossary();
-    // TODO: test glossary, add table of contents
+    }) + (this.data.chapterGlossary ? "" : HTMLFileBuilder.convertGlossary(this.data.glossary));
   }
 
   async getHTMLBuffer() {

@@ -20,7 +20,7 @@
 
 #root img,
 #root audio,
-#root video{
+#root video {
   margin: 15px 0;
   max-width: 100%;
   height: auto;
@@ -55,14 +55,14 @@
   width: 100%;
   max-width: 100%;
   overflow: auto;
+  table-layout: fixed;
 }
 
-#root table, 
-#root th, 
+#root th,
 #root td {
-  padding: 10px 20px;
-  border: 1px solid rgb(209, 209, 209);
-  white-space: nowrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 #root thead {
@@ -85,4 +85,3 @@
 #root .img-block img {
   margin-bottom: 5px;
 }
-

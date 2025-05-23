@@ -8,12 +8,11 @@ import Constants from './controllers/constants/EPubConstants';
 import {
   EPubHeader,
   PlayerModal,
-  PreviewModal,
   ShortcutModal,
   EPubFileInfoModal,
   ImagePickerModal
 } from './components';
-import { EditEPubStructure, EditEPubChapter, ViewAndDownload, EditINote } from './views';
+import { ViewAndDownload, EditINote } from './views';
 import './index.scss';
 
 function shouldDisable() {
@@ -27,12 +26,9 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   const loading = chapters === ARRAY_INIT || epub === null;
   const headerElement = altEl(EPubHeader, !loading);
 
-  const editStructView = altEl(EditEPubStructure, view === epubController.const.EpbEditStructure);
-  const editChapterView = altEl(EditEPubChapter, view === epubController.const.EpbEditChapter);
   const readOnlyView = altEl(ViewAndDownload, view === epubController.const.EpbReadOnly);
   const editINoteView = altEl(EditINote, view === epubController.const.EditINote);
 
-  const previewModal = makeEl(PreviewModal);
   const shortcutModal = makeEl(ShortcutModal);
   const fileSettingsModal = makeEl(EPubFileInfoModal);
   useEffect(() => {
@@ -45,7 +41,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
     epubData.history.undo(); NOT IMPLEMENTED
     }
   }
-
+  
   onRedo(e) {
     this.preventDefault(e);
     if (epubState.view !== Constants.EpbReadOnly && epubData.history.canRedo) {
@@ -56,12 +52,12 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
   // eslint-disable-next-line complexity
   const onKeyDown = (e) => {
-    const { keyCode, metaKey, shiftKey } = e;
+    const { keyCode, shiftKey } = e;
     if (shouldDisable()) {
       return;
     }
-
-    if (!metaKey) return;
+    if (!shiftKey) return;
+    if (document.activeElement.getAttribute("role") === "textbox") return;
     // Meta key actions
     switch (keyCode) {
       case KeyCode.KEY_1: // 1
@@ -84,19 +80,6 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
       default:
         break;
     }
-
-    if (!shiftKey) return;
-    // Shift + Meta key actions
-    switch (keyCode) {
-      case KeyCode.KEY_P: // p
-        e.preventDefault();
-        return dispatch({ type: 'epub/togglePreview' })
-      case KeyCode.KEY_Z: // z
-        e.preventDefault();
-        return 0// this.onRedo(event);
-      default:
-        break;
-    }
   }
 
   return (
@@ -105,14 +88,11 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
       <CTFragment id="ct-epb-view-con">
         {editINoteView}
-        {editStructView}
-        {editChapterView}
         {readOnlyView}
       </CTFragment>
 
       <ImagePickerModal />
       <PlayerModal />
-      {previewModal}
       {shortcutModal}
       {fileSettingsModal}
     </CTFragment>

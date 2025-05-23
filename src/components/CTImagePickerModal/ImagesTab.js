@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CTText } from 'layout';
 import { uurl } from 'utils/use-url';
 import Image from 'components/Image';
+import _ from 'lodash';
 import ImagePreview from './ImagePreview';
 
 function ImagesTab(props) {
@@ -19,8 +20,8 @@ function ImagesTab(props) {
         {description && <CTText margin="5">{description}</CTText>}
         <div role="list" className="ct-img-picker-imgs">
           {images.map(img => (
-            <div 
-              key={img} 
+            <div
+              key={img}
               tabIndex={0}
               className="ct-img-picker-img-con"
               data-current={img === imgUrl}

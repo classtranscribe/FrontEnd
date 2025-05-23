@@ -78,7 +78,7 @@ export function prettierTimeStr(time, showMilliseconds = false) {
 
 // export function prettierTimeStr(str) {
 //   if (typeof str !== 'string') return '';
-  
+
 //   const strs = str.split(':');
 //   if (strs.length !== 3) return ''; // Ensure the input is in HH:MM:SS format
 
@@ -115,6 +115,13 @@ export function colorMap(color = CC_COLOR_BLACK, opacity = 1) {
 export function getShareableURL(begin = 0) {
   const { origin } = window.location;
   const { id } = uurl.useSearch();
+  const pathname = links.watch(id, { begin, from: 'sharedlink' });
+
+  return origin + pathname;
+}
+
+export function getShareableVideoURL(id, begin = 0) {
+  const { origin } = window.location;
   const pathname = links.watch(id, { begin, from: 'sharedlink' });
 
   return origin + pathname;

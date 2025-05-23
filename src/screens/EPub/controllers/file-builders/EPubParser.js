@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { uurl, api, CTError, html } from 'utils';
 import html2canvas from 'html2canvas';
 import { getGlossaryData } from './GlossaryCreator';
+import { epubIsImage, epubIsText } from './utils';
 
 /**
  * The error which occurred while loading the images for an ePub
@@ -18,27 +19,47 @@ class EPubParser {
   * @param {EPubData} ePubData 
   */
   async init(epubData, options) {
+    this.img_id = 1
     this.options = options
     this.data = JSON.parse(JSON.stringify(epubData));
     this.data.chapters = await this.parseChapters(epubData.chapters);
     this.data.glossary = {}
     if (this.options.includeGlossary) {
-      this.data.glossary = await getGlossaryData(epubData.sourceId);
+      let glossaryData = await getGlossaryData(epubData.sourceId);
+      if (this.options.chapterGlossary) {
+        this.data.chapterGlossary = this.getChapterGlossary(glossaryData, epubData.chapters);
+      } else {
+        this.data.glossary = glossaryData;
+      }
     }
 
     if (this.options.visualTOC) {
       this.data.visualTOC = this.getVisualTOC(this.data.chapters);
     }
+
     this.data.cover = await this.parseContent(epubData.cover);
     this.data.includeRawLatex = options.includeRawLatex;
+    this.data.videoLinks = options.videoLinks;
   }
   getVisualTOC(chapters) {
     let visualTOC = _.map(chapters, (chapter) => {
       return _.filter(chapter.contents, (content) => {
-        return typeof content === "object" && "src" in content;
+        return epubIsImage(content);
       })
     })
     return visualTOC;
+  }
+  getChapterGlossary(glossary, chapters) {
+    return _.map(chapters, (chapter) => {
+      const chapter_text = _.filter(chapter.contents, epubIsText).join("\n").toLowerCase();
+      const desc_text = _.filter(chapter.contents, epubIsImage)
+        .map((content) => content.descriptions.join("\n") + content.alt)
+        .join("\n")
+        .toLowerCase();
+      return _.pickBy(glossary, (value, word) =>
+        chapter_text.includes(word.toLowerCase()) || desc_text.includes(word.toLowerCase())
+      );
+    })
   }
   async parseChapters(chapters) {
     let new_chapters = await Promise.all(_.map(chapters, async (ch) => {
@@ -62,12 +83,43 @@ class EPubParser {
   }
 
   async parseContent(content) {
-    if (typeof content !== "string") {
+    if (epubIsImage(content)) {
       return this.parseImage(content);
-    } if (typeof content === "string") {
+    } if (epubIsText(content)) {
       return this.parseText(content);
     }
     return content;
+  }
+
+  async parseImage(content) {
+    let new_content = JSON.parse(JSON.stringify(content));
+    let img_buffer = await EPubParser.loadImageBuffer(content.src);
+    let img_blob = new Blob([img_buffer]);
+
+    if (this.options.invertColors) {
+      img_blob = await EPubParser.invertImageIfDim(img_blob);
+      const arr_buf = await img_blob.arrayBuffer();
+      img_buffer = new Uint8Array(arr_buf);
+    }
+
+    if (this.options.replaceImageSrc) {
+      new_content.src = await EPubParser.blobToDataUrl(img_blob);
+    } else {
+      new_content.blob = img_blob;
+      new_content.buffer = img_buffer;
+    }
+
+
+    if (new_content.src !== "") {
+      const { height, width } = await EPubParser.getImageDimensions(img_blob);
+      new_content.height = height;
+      new_content.width = width;
+    }
+    new_content.descriptions = await Promise.all(content.descriptions.filter((desc) => desc.trim() !== "")
+      .map((desc) => this.parseText(desc)));
+    new_content.id = this.img_id;
+    this.img_id += 1;
+    return new_content;
   }
 
   async parseText(text) {
@@ -120,35 +172,6 @@ class EPubParser {
     }
   }
 
-
-  async parseImage(content) {
-    let new_content = JSON.parse(JSON.stringify(content));
-    let img_buffer = await EPubParser.loadImageBuffer(content.src);
-    let img_blob = new Blob([img_buffer]);
-
-    if (this.options.invertColors) {
-      img_blob = await EPubParser.invertImageIfDim(img_blob);
-      const arr_buf = await img_blob.arrayBuffer();
-      img_buffer = new Uint8Array(arr_buf);
-    }
-
-    if (this.options.replaceImageSrc) {
-      new_content.src = await EPubParser.blobToDataUrl(img_blob);
-    } else {
-      new_content.blob = img_blob;
-      new_content.buffer = img_buffer;
-    }
-
-
-    if (new_content.src !== "") {
-      const { height, width } = await EPubParser.getImageDimensions(img_blob);
-      new_content.height = height;
-      new_content.width = width;
-    }
-    new_content.descriptions = _.filter(content.descriptions, (desc) => desc.trim() !== "");
-    return new_content;
-  }
-
   /**
    * Create an EPubParser
    * @param {EPubData} ePubData 
@@ -168,6 +191,8 @@ class EPubParser {
     const parser = new EPubParser();
     await parser.init(ePubData.epub, options)
 
+    // eslint-disable-next-line no-console
+    console.log("parsed data", parser.data);
     return parser.data;
   }
 

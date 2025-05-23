@@ -37,7 +37,7 @@ export function getAllItemsInChapter(chapter) {
 }
 
 export function getAllItemsInChapters(chapters) {
-  return _.flatten(_.map(chapters, (chapter) => getAllItemsInChapter(chapter)));
+  return _.flatMap(chapters.filter(ch => "items" in ch), ch => ch.items);
 }
 
 export function getAllImagesInChapter(chapter) {
@@ -46,6 +46,9 @@ export function getAllImagesInChapter(chapter) {
 }
 
 export function getAllImagesInChapters(chapters) {
-  return _.flatten(_.map(chapters, (chapter) => getAllImagesInChapter(chapter)));
+  const filteredContents = _.flatMap(chapters, 'contents')
+    .filter(val => typeof val === 'object' && 'src' in val); // Keep only images
+
+  return _.union(_.map(filteredContents, 'src')); // Extract 'src' and remove duplicates
 }
 

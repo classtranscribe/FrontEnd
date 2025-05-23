@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva'
 import { CTFragment, CTHeading } from 'layout';
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import { FormControlLabel, Checkbox, Box } from '@material-ui/core';
 
 function EditOptions({ setDownloadOptions, downloadOptions }) {
   const handleCheckboxChange = (event) => {
@@ -13,8 +13,41 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
   };
 
   return (
-    <CTFragment dFlexCol margin={[0, 0, 30, 0]}>
+    <CTFragment dFlexCol margin={[0, 0, 0, 0]}>
       <CTHeading as="h3" icon="settings">Download Options</CTHeading>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={downloadOptions.invertColors}
+            onChange={handleCheckboxChange}
+            name="invertColors"
+            color="primary"
+          />
+        }
+        label="Automatically Invert Dark Images"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={downloadOptions.includeRawLatex}
+            onChange={handleCheckboxChange}
+            name="includeRawLatex"
+            color="primary"
+          />
+        }
+        label="Include Raw Latex"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={downloadOptions.videoLinks}
+            onChange={handleCheckboxChange}
+            name="videoLinks"
+            color="primary"
+          />
+        }
+        label="Include Image Links to Video"
+      />
       <FormControlLabel
         control={
           <Checkbox
@@ -29,17 +62,6 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
       <FormControlLabel
         control={
           <Checkbox
-            checked={downloadOptions.invertColors}
-            onChange={handleCheckboxChange}
-            name="invertColors"
-            color="primary"
-          />
-        }
-        label="Force Light Image Backgrounds"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
             checked={downloadOptions.includeGlossary}
             onChange={handleCheckboxChange}
             name="includeGlossary"
@@ -47,18 +69,22 @@ function EditOptions({ setDownloadOptions, downloadOptions }) {
           />
         }
         label="Include Glossary"
+        sx={{ marginBottom: 0 }}
       />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={downloadOptions.includeRawLatex}
-            onChange={handleCheckboxChange}
-            name="includeRawLatex"
-            color="primary"
-          />
-        }
-        label="Include Raw Latex"
-      />
+      <Box pl={2} sx={{ marginTop: "-15px", marginBottom: "-15px" }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={downloadOptions.chapterGlossary}
+              onChange={handleCheckboxChange}
+              name="chapterGlossary"
+              color="primary"
+              disabled={!downloadOptions.includeGlossary}
+            />
+          }
+          label="Glossary Per Chapter"
+        />
+      </Box>
     </CTFragment>
   );
 }
