@@ -44,8 +44,6 @@ const Asl = React.lazy(() => import('./screens/Asl'));
 
 function App() {
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("AUTHING")
     user.validate();
   }, []);
 

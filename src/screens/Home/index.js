@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { env } from 'utils';
 import { CTLayout, CTLoadable, altEl, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
-import { useSelector, useDispatch, connect } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { Placeholder, SectionList, CourseFilter, MaintenanceMesg } from './components';
 import { initialize } from './homeThunks';
 
@@ -22,6 +22,7 @@ const HomeWithRedux = (props) => {
   const filterElement = altEl(CourseFilter, !loading);
   const maintenance = env.maintenanceWarningBanner;
 
+  // Initialization
   const dispatch = useDispatch();
   useEffect(() => {
     const ready = () => document.readyState === 'complete';
@@ -37,8 +38,6 @@ const HomeWithRedux = (props) => {
     }
   }, [dispatch]);
 
-  // eslint-disable-next-line no-console
-  console.log("Home mounted", loading)
   return (
     <CTLayout {...layoutProps}>
       <h1 className='sr-only'>Course Browser</h1>

@@ -35,7 +35,7 @@ function MediaCard(props) {
   const cardProps = {
     id,
     as: Link,
-    to: { pathname: href, search: '', hash: '' },
+    to: href,
     className: cardClasses,
     role: 'listitem',
     /* title: name */ /* A11Y: title should not be the same as the content */
