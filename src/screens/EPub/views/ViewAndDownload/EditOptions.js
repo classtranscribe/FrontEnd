@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { CTFragment, CTHeading } from 'layout';
 import { FormControlLabel, Checkbox, Box } from '@material-ui/core';
 

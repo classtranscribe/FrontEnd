@@ -1,11 +1,11 @@
 import React from 'react';
 import { CTFragment, CTFilter } from 'layout';
 import { MediaCard } from 'components';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { ARRAY_INIT } from 'utils/constants';
 
-const filterValid = data => data.filter(item => Boolean(item.id) && ! item.isUnavailable);
-const addReactKey = data => data.map( (row,index)=> {row.reactRowKey = `${row.id}-${index}`; return row;});
+const filterValid = data => data.filter(item => Boolean(item.id) && !item.isUnavailable);
+const addReactKey = data => data.map((row, index) => { row.reactRowKey = `${row.id}-${index}`; return row; });
 
 function WatchHistoriesWithRedux(props) {
   const { historypage } = props;
@@ -22,7 +22,7 @@ function WatchHistoriesWithRedux(props) {
         </div>
       );
     } else {
-      whElement = 
+      whElement =
         result.map((media) => (
           <MediaCard
             row

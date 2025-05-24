@@ -1,4 +1,4 @@
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import React, { useRef, useEffect } from 'react';
 import { Popup } from 'semantic-ui-react';
 import './index.scss';
@@ -8,17 +8,17 @@ import * as KeyCode from 'keycode-js';
 function VolumeControl({ muted = false, volume = true, dispatch }) {
   const handleVolumeChange = ({ target: { value } }) => {
     if (muted) {
-      dispatch({type: 'watch/media_mute', payload: false})
+      dispatch({ type: 'watch/media_mute', payload: false })
     }
-    dispatch({type: 'watch/media_volume', payload: value})
+    dispatch({ type: 'watch/media_volume', payload: value })
 
     if (value < 0.04) {
-      dispatch({type: 'watch/media_mute', payload: true})
+      dispatch({ type: 'watch/media_mute', payload: true })
     }
   };
 
   const handleButtonClick = () => {
-    dispatch({type: 'watch/media_mute'})
+    dispatch({ type: 'watch/media_mute' })
   };
 
   const handleVolumeKeyDown = (e) => {
@@ -33,7 +33,7 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
     window.focusVolumeSlider = () => {
       sliderRef.current?.focus();
     };
-    
+
     return () => {
       delete window.focusVolumeSlider;
     };
@@ -60,7 +60,7 @@ function VolumeControl({ muted = false, volume = true, dispatch }) {
             onClick={handleButtonClick}
             aria-label={muted ? 'Unmute' : 'Mute'}
             id="volume-mute-btn"
-            // position="bottom"
+          // position="bottom"
           >
             <span className="watch-btn-content" tabIndex="-1">
               <i className="material-icons">{iconName}</i>

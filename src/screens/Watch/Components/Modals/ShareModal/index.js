@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import { timestr } from 'utils';
 import { getShareableURL } from '../../../Utils';
@@ -84,13 +84,13 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
                 <>
                   <i className="material-icons">file_copy</i>COPY
                 </>
-                )}
+              )}
             </span>
           </button>
         </div>
 
         <div className="w-100 wml-share-radio">
-          
+
           <label className="wml-share-radio-label" htmlFor="wml-share-radio">
             <span className="ct-radio">
               <input
@@ -102,7 +102,7 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
               <span className="radio-slider round" /> radio
             </span>&nbsp;Share video with current time
           </label>
-          
+
           <div className="wml-share-time" data-show={Boolean(begin >= 0).toString()}>
             <input
               readOnly
@@ -133,6 +133,6 @@ function ShareModal({ show = false, onClose, embed = false, setEmbed, currTime, 
   );
 }
 
-export default connect(({ watch : { time } }) => ({
+export default connect(({ watch: { time } }) => ({
   currTime: time
 }))(ShareModal);

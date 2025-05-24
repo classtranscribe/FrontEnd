@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { uurl, elem } from 'utils';
 // import { findChapterTimeSpan } from 'entities/EPubs/utils';
 // import Text from 'layout/CTText/Text';

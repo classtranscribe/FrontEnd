@@ -1,6 +1,6 @@
 import React from 'react';
 import { CTLayout } from 'layout';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import WatchHistories from './components/WatchHistories';
 
 const HistoryWithRedux = () => {

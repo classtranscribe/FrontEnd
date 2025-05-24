@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { api, links, uurl } from 'utils';
 import { theLogoOutlineSvg } from 'assets/images';
 import { CTPopoverLabel } from 'layout';
@@ -21,7 +21,7 @@ function ActionBar(props) {
   } = props;
   const { allowScreenshot: isScreenshotAllowed } = embedded;
   const { mediaName, id } = media || {};
-  
+
   const watchOnClassTranscribe = (e) => {
     e.preventDefault();
     let url = window.location.origin + links.watch(id, { begin: time });

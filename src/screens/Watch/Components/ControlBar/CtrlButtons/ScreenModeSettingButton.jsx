@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import {
   screenModes,
@@ -11,9 +11,9 @@ import {
 export function ScreenModeSettingButtonWithRedux({ mode = NORMAL_MODE, dispatch, menu }) {
   const handleMenuTrigger = () => {
     if (menu !== MENU_SCREEN_MODE) {
-      dispatch({type: 'watch/menu_open', payload: { type: MENU_SCREEN_MODE } });
+      dispatch({ type: 'watch/menu_open', payload: { type: MENU_SCREEN_MODE } });
     } else {
-      dispatch({type: 'watch/menu_close'});
+      dispatch({ type: 'watch/menu_close' });
     }
   };
 

@@ -1,14 +1,14 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { MENU_GLOSSARY } from '../../../Utils';
 
-export function GlossaryButtonWithRedux({menu = MENU_GLOSSARY, dispatch}) {
+export function GlossaryButtonWithRedux({ menu = MENU_GLOSSARY, dispatch }) {
   const handleMenuTrigger = () => {
     if (menu !== MENU_GLOSSARY) {
-      dispatch({type: 'watch/menu_open', payload: { type: MENU_GLOSSARY } });
+      dispatch({ type: 'watch/menu_open', payload: { type: MENU_GLOSSARY } });
     } else {
-      dispatch({type: 'watch/menu_close'});
+      dispatch({ type: 'watch/menu_close' });
     }
   };
 
@@ -30,6 +30,7 @@ export function GlossaryButtonWithRedux({menu = MENU_GLOSSARY, dispatch}) {
   );
 }
 
-export const GlossaryButton = connect(({ watch : { menu} }) => ({menu
+export const GlossaryButton = connect(({ watch: { menu } }) => ({
+  menu
 }))(GlossaryButtonWithRedux)
 

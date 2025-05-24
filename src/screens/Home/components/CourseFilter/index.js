@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
 import { CTFragment, CTSelect, CTFormRow } from 'layout';
@@ -22,16 +22,16 @@ function CourseFilter(props) {
   const showDepartments = selUniversity && !isMobile && departmentOptions.length > 0;
   const showTerms = selUniversity && !isMobile && termOptions.length > 0;
 
-  const handleUniversityChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectUniversity', payload: value})
+  const handleUniversityChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectUniversity', payload: value })
   };
 
-  const handleDepartmentsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectDepartments', payload: value})
+  const handleDepartmentsChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectDepartments', payload: value })
   };
 
-  const handleTermsChange = ({ target: { value }}) => {
-    dispatch({type: 'home/selectTerms', payload: value})
+  const handleTermsChange = ({ target: { value } }) => {
+    dispatch({ type: 'home/selectTerms', payload: value })
   };
   return (
     <CTFragment sticky={!isMobile} offsetTop="50" className="ct-homep course-filter">
@@ -81,7 +81,7 @@ function CourseFilter(props) {
     </CTFragment>
   );
 }
-export default connect(({home}) => {
+export default connect(({ home }) => {
   return {
     ...home
   }

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { api, user, InvalidDataError } from 'utils';
 import ErrorTypes from 'entities/ErrorTypes';
-import HomeConstants from '../controllers/HomeConstants';
+import HomeConstants from './controllers/HomeConstants';
 import { pageLoadError, setOfferings, setSelUniversity, setUniversities, setWatchHistory, setStarredOfferings, setTerms, setDepartments } from './homeSlice';
 
 // --- Async Thunks (former effects) ---

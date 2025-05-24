@@ -1,4 +1,4 @@
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import React from 'react';
 import { parseSec } from '../../../Utils';
 import './index.scss';
@@ -15,11 +15,11 @@ function TimeDisplay({ time = 0, duration = 0, liveMode = false }) {
     <div className="watch-time-display">
       {
         liveMode ? <>Live - {liveMode}</> :
-        <>
-          <span className="td-played-time" role="timer">{displayedTime}</span>
-          <span className="td-time-separator">/</span>
-          <span className="td-duration" aria-description='Duration'>{displayedDuration}</span>
-        </>
+          <>
+            <span className="td-played-time" role="timer">{displayedTime}</span>
+            <span className="td-time-separator">/</span>
+            <span className="td-duration" aria-description='Duration'>{displayedDuration}</span>
+          </>
       }
 
     </div>

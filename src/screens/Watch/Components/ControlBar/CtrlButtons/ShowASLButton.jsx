@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 export function ShowASLButtonWithRedux({ hasASL = true, aslCorner = 0, dispatch }) {
@@ -7,18 +7,18 @@ export function ShowASLButtonWithRedux({ hasASL = true, aslCorner = 0, dispatch 
     dispatch({ type: 'playerpref/toggleASLPosition' })
   };
   // eslint-disable-next-line no-console 
- const corner = `ASL ${ ['Off', 'Left' , 'Right'][aslCorner]}`;
+  const corner = `ASL ${['Off', 'Left', 'Right'][aslCorner]}`;
   return hasASL ? (
     <WatchCtrlButton
       onClick={handleASLTrigger}
       label={corner}
       id="asl-screen--btn"
-      colored={aslCorner>0}
+      colored={aslCorner > 0}
       ariaTags={{
-        'aria-label': {corner},
+        'aria-label': { corner },
         // 'aria-keyshortcuts': 'c',
         'aria-controls': 'watch-ad-container',
-        'aria-expanded': {corner}
+        'aria-expanded': { corner }
       }}
     >
       <span aria-hidden="true" className="watch-btn-content" tabIndex="-1">
@@ -28,6 +28,6 @@ export function ShowASLButtonWithRedux({ hasASL = true, aslCorner = 0, dispatch 
   ) : null;
 }
 
-export const ShowASLButton = connect(({ watch: { media: { hasASL }}, playerpref: { aslCorner } }) => ({
-   hasASL, aslCorner
+export const ShowASLButton = connect(({ watch: { media: { hasASL } }, playerpref: { aslCorner } }) => ({
+  hasASL, aslCorner
 }))(ShowASLButtonWithRedux);
