@@ -10,37 +10,33 @@ import { env, user } from 'utils';
 import './App.css';
 
 // Lazy load screens
-const WatchPage = React.lazy(() => import('./screens/Watch'));
-const EPubPage = React.lazy(() => import('./screens/EPub'));
-const CoursePage = React.lazy(() => import('./screens/Course'));
-const MyCoursesPage = React.lazy(() => import('./screens/Instructor/MyCourses'));
-const InstPlaylistPage = React.lazy(() => import('./screens/Instructor/InstPlaylist'));
-const MediaSettingsPage = React.lazy(() => import('./screens/MediaSettings'));
+const lazyImport = (exportName) =>
+  React.lazy(() =>
+    import(`./screens`).then(module => ({ default: module[exportName] }))
+  );
+const WatchPage = lazyImport('Watch');
+const EPubPage = lazyImport('EPub');
+const CoursePage = lazyImport('Course');
+const MyCoursesPage = lazyImport('MyCourses');
+const InstPlaylistPage = lazyImport('InstPlaylist');
+const MediaSettingsPage = lazyImport('MediaSettings');
 
-const NotFound404 = React.lazy(() => import('./screens/NotFound404'));
-const Maintenance = React.lazy(() => import('./screens/Maintenance'));
-const SignIn = React.lazy(() =>
-  import('./screens').then(module => ({ default: module.SignIn }))
-);
-const AuthCallback = React.lazy(() =>
-  import('./screens').then(module => ({ default: module.AuthCallback }))
-);
-const Admin = React.lazy(() => import('./screens/Admin'));
-const NewCourse = React.lazy(() => import('./screens/Instructor/NewCourse'));
-const CourseSettings = React.lazy(() => import('./screens/Instructor/CourseSettings'));
-const CourseAnalytics = React.lazy(() => import('./screens/Instructor/CourseAnalytics'));
-const NewPlaylist = React.lazy(() => import('./screens/Instructor/NewPlaylist'));
-const Embed = React.lazy(() =>
-  import('./screens/Instructor').then(module => ({ default: module.Embed }))
-);
-const Home = React.lazy(() =>
-  import('./screens/Home').then(module => ({ default: module.Home }))
-);
-const Search = React.lazy(() => import('./screens/Search'));
-const History = React.lazy(() => import('./screens/History'));
-const Analytics = React.lazy(() => import('./screens/Analytics'));
-const Glossary = React.lazy(() => import('./screens/Glossary'));
-const Asl = React.lazy(() => import('./screens/Asl'));
+const NotFound404 = lazyImport('NotFound404');
+const Maintenance = lazyImport('Maintenance');
+const SignIn = lazyImport('SignIn');
+const AuthCallback = lazyImport('AuthCallback');
+const Admin = lazyImport('Admin');
+const NewCourse = lazyImport('NewCourse');
+const CourseSettings = lazyImport('CourseSettings');
+const CourseAnalytics = lazyImport('CourseAnalytics');
+const NewPlaylist = lazyImport('NewPlaylist');
+const Embed = lazyImport('Embed');
+const Home = lazyImport('Home');
+const Search = lazyImport('Search');
+const History = lazyImport('History');
+const Analytics = lazyImport('Analytics');
+const Glossary = lazyImport('Glossary');
+const Asl = lazyImport('Asl');
 
 function App() {
   useEffect(() => {
@@ -67,30 +63,30 @@ function App() {
         {isAdminOrInstructor && (
           <>
             <Route exact path="/instructor/my-courses" element={<MyCoursesPage />} />
-            <Route exact path="/instructor/new-course" component={NewCourse} />
-            <Route exact path="/offering/:id/settings" component={CourseSettings} />
-            <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
-            <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
-            <Route path="/media-settings/:id" component={MediaSettingsPage} />
-            <Route path="/epub/:id" component={EPubPage} />
+            <Route exact path="/instructor/new-course" element={<NewCourse />} />
+            <Route exact path="/offering/:id/settings" element={<CourseSettings />} />
+            <Route exact path="/offering/:id/analytics" element={<CourseAnalytics />} />
+            <Route exact path="/offering/:id/new-playlist" element={<NewPlaylist />} />
+            <Route path="/media-settings/:id" element={<MediaSettingsPage />} />
+            <Route path="/epub/:id" element={<EPubPage />} />
           </>
         )}
 
         {/* Student */}
         <Route exact path="/" element={<Home />} />
         <Route exact path="/home" element={<Navigate to="/" replace />} />
-        <Route exact path="/offering/:id" component={<CoursePage />} />
-        <Route exact path="/search" component={Search} />
-        <Route exact path="/history" component={History} />
-        <Route exact path="/personal-analytics" component={Analytics} />
-        <Route exact path="/glossary" component={Glossary} />
-        <Route exact path="/asl" component={Asl} />
-        <Route exact path="/video" component={WatchPage} />
-        <Route exact path="/embed/:id" component={Embed} />
-        <Route path="/playlist/:id" component={InstPlaylistPage} />
+        <Route exact path="/offering/:id" element={<CoursePage />} />
+        <Route exact path="/search" element={<Search />} />
+        <Route exact path="/history" element={<History />} />
+        <Route exact path="/personal-analytics" element={<Analytics />} />
+        <Route exact path="/glossary" element={<Glossary />} />
+        <Route exact path="/asl" element={<Asl />} />
+        <Route exact path="/video" element={<WatchPage />} />
+        <Route exact path="/embed/:id" element={<Embed />} />
+        <Route path="/playlist/:id" element={<InstPlaylistPage />} />
 
-        <Route path="/404" component={NotFound404} />
-        <Route component={NotFound404} />
+        <Route path="/404" element={<NotFound404 />} />
+        <Route element={<NotFound404 />} />
       </Routes>
     </Suspense>
   );
