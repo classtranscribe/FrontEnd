@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import { links } from 'utils/links';
 
 import { theTextBrand, theDarkTextBrand, theLogoOutline } from 'assets/images';
 
 
 export function CTBrand(props) {
-  let { 
+  let {
     size = 'normal',
     darkMode,
     small,
@@ -19,18 +19,18 @@ export function CTBrand(props) {
 
   const brandClasses = classNames('ct-header-brand', size, { small, medium, logo })
 
-  const imgSrc = 
-  logo 
-  ? theLogoOutline
-  : darkMode
-    ? theDarkTextBrand
-    : theTextBrand;
+  const imgSrc =
+    logo
+      ? theLogoOutline
+      : darkMode
+        ? theDarkTextBrand
+        : theTextBrand;
 
   const linkProps = {
     'aria-label': 'Home',
     tabIndex: disabled ? '-1' : '0',
     className: brandClasses,
-    to: {pathname: links.home(), search: '', hash: ''}
+    to: { pathname: links.home(), search: '', hash: '' }
   };
 
   return (

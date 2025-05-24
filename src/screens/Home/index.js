@@ -19,6 +19,9 @@ export const Home = () => {
   const sectionElement = altEl(SectionList, !loading, { sections, hasDepartmentSections });
   const filterElement = altEl(CourseFilter, !loading);
   const maintenance = env.maintenanceWarningBanner;
+
+  // eslint-disable-next-line no-console
+  console.log("Home mounted", loading,)
   return (
     <CTLayout {...layoutProps}>
       <h1 className='sr-only'>Course Browser</h1>
