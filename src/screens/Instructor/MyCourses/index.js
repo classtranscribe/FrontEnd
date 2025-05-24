@@ -27,7 +27,7 @@ function sortOfferings(offerings = [], terms = []) {
   return { currentOfferings, pastOfferings };
 }
 
-const MyCoursesWithRedux = (props) => {
+export const MyCourses = (props) => {
   const layoutProps = CTLayout.createProps({
     transition: true,
     responsive: true,
@@ -95,12 +95,9 @@ const MyCoursesWithRedux = (props) => {
               <CTFilter {...filterProps}>
                 {offeringResult}
               </CTFilter>
-              )
+            )
         }
       </CTFragment>
     </CTLayout>
   );
 };
-export const MyCourses = connect(({ instcourse }) => ({
-  instcourse
-}))(MyCoursesWithRedux);

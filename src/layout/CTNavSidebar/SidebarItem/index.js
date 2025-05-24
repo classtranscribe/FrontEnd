@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import './index.scss';
 
 import { SidebarSubItem, SidebarSubItemPropTypes } from './SidebarSubItem';
@@ -44,12 +44,12 @@ export function SidebarItem(props) {
     <button className="ct-nsb-li-content" onClick={onClick}>
       {itemContentElem}
     </button>
-  ) : reloadOnPathnameChange || value.includes("extLinks")? (
+  ) : reloadOnPathnameChange || value.includes("extLinks") ? (
     <a className="ct-nsb-li-content" href={href}>
       {itemContentElem}
     </a>
   ) : (
-    <Link className="ct-nsb-li-content" to={{pathname: href, search: '', hash: '' }}>
+    <Link className="ct-nsb-li-content" to={{ pathname: href, search: '', hash: '' }}>
       {itemContentElem}
     </Link>
   );

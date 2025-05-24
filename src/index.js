@@ -1,23 +1,20 @@
-import React from 'react'
-import { Router } from 'dva/router'
-import { createBrowserHistory as createHistory } from 'history';
-import dva from 'dva'
-import App from './App'
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 
-const app = dva({ history: createHistory() });
+import App from './App';
+import store from './store';
 
-// Todo: Remove this hack
-// window.temp_app is used twice in screens/EPub/controllers/EPubDownloadController.js
-// to access the store (to build and download epub/pdf)
-window.temp_app = app
 
-app.model(require('./model/global').default);
-app.model(require('./screens/Home/model').default);
-app.model(require('./screens/Search/model').default);
-app.model(require('./screens/History/model').default);
-app.model(require('./screens/Course/model').default);
-app.model(require('./screens/Watch/model').default);
-app.model(require('./screens/Watch/playermodel').default);
-
-app.router(({ history }) => <Router history={history}><App app={app} /></Router>); // basename="/" 
-app.start('#root')
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);

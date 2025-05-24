@@ -1,162 +1,103 @@
-/* eslint-disable complexity */
-import React from 'react';
-import { withRouter, Route, Switch, Redirect } from 'dva/router';
-import dynamic from "dva/dynamic";
-import { env,user } from 'utils';
-// import AppInsightsProvider from './azure-app-insights';
+// src/App.js
+import React, { Suspense, useEffect } from 'react';
 import {
-  // General
-  NotFound404,
-  Maintenance,
-  SignIn,
-  AuthCallback,
-  // Admin
-  Admin,
-  // Instructor
-  MyCourses,
-  NewCourse,
-  CourseSettings,
-  CourseAnalytics,
-  InstPlaylist,
-  MediaSettings,
-  NewPlaylist,
-  Embed,
-  EPub,
-  // Student
-  Home,
-  Course,
-  Search,
-  History,
-  Analytics,
-  Glossary,
-  Asl,
-  Watch,
-  // ComponentAPI,
-  // Example
-} from './screens';
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 
+import { env, user } from 'utils';
 import './App.css';
-// import 'braft-editor/dist/index.scss';
-// Can this be deleted? import { altEl } from './layout';
 
-class App extends React.Component {
-  componentDidMount() {
+// Lazy load screens
+const WatchPage = React.lazy(() => import('./screens/Watch'));
+const EPubPage = React.lazy(() => import('./screens/EPub'));
+const CoursePage = React.lazy(() => import('./screens/Course'));
+const MyCoursesPage = React.lazy(() => import('./screens/Instructor/MyCourses'));
+const InstPlaylistPage = React.lazy(() => import('./screens/Instructor/InstPlaylist'));
+const MediaSettingsPage = React.lazy(() => import('./screens/MediaSettings'));
+
+const NotFound404 = React.lazy(() => import('./screens/NotFound404'));
+const Maintenance = React.lazy(() => import('./screens/Maintenance'));
+const SignIn = React.lazy(() =>
+  import('./screens').then(module => ({ default: module.SignIn }))
+);
+const AuthCallback = React.lazy(() =>
+  import('./screens').then(module => ({ default: module.AuthCallback }))
+);
+const Admin = React.lazy(() => import('./screens/Admin'));
+const NewCourse = React.lazy(() => import('./screens/Instructor/NewCourse'));
+const CourseSettings = React.lazy(() => import('./screens/Instructor/CourseSettings'));
+const CourseAnalytics = React.lazy(() => import('./screens/Instructor/CourseAnalytics'));
+const NewPlaylist = React.lazy(() => import('./screens/Instructor/NewPlaylist'));
+const Embed = React.lazy(() =>
+  import('./screens/Instructor').then(module => ({ default: module.Embed }))
+);
+const Home = React.lazy(() =>
+  import('./screens/Home').then(module => ({ default: module.Home }))
+);
+const Search = React.lazy(() => import('./screens/Search'));
+const History = React.lazy(() => import('./screens/History'));
+const Analytics = React.lazy(() => import('./screens/Analytics'));
+const Glossary = React.lazy(() => import('./screens/Glossary'));
+const Asl = React.lazy(() => import('./screens/Asl'));
+
+function App() {
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log("AUTHING")
     user.validate();
-  }
+  }, []);
 
-  render() {
-    const isAdminOrInstructor = user.isInstructor || user.isAdmin;
+  const isAdminOrInstructor = user.isInstructor || user.isAdmin;
 
-    // no apparent purpose const adminRoute = altEl();
-    
-    // Lazy Load
-    const WatchPage = dynamic({
-      app: this.props.app,
-      models: () => [],
-      component: () => Watch
-    })
-    const EPubPage = dynamic({
-      app: this.props.app,
-      models: () => [require('./screens/EPub/model').default],
-      component: () => EPub
-    })
-    const CoursePage = dynamic({
-      app: this.props.app,
-      models: () => [], // require('./screens/Course/model').default
-      component: () => Course
-    })
-    const MyCoursesPage = dynamic({
-      app: this.props.app,
-      models: () => [require('./screens/Instructor/MyCourses/model').default], //
-      component: () => MyCourses
-    })
-    const InstPlaylistPage = dynamic({
-      app: this.props.app,
-      models: () => [require('./screens/Instructor/InstPlaylist/model')],
-      component: () => InstPlaylist
-    })
-    const MediaSettingsPage = dynamic({
-      app: this.props.app,
-      models: () => [require('./screens/MediaSettings/model')],
-      component: () => MediaSettings
-    })
-    if( env.classTranscribeDownMessage ) return <Maintenance />
-    return (
-      // <AppInsightsProvider>
-      <Switch>
-        {user.callbackPaths.map((path)=><Route exact path={path} key={path} component={AuthCallback} /> )}
-        <Route exact path="/sign-in" component={SignIn} />
+  if (env.classTranscribeDownMessage) return <Maintenance />;
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        {user.callbackPaths.map((path) => (
+          <Route exact path={path} key={path} element={<AuthCallback />} />
+        ))}
+        <Route exact path="/sign-in" element={<SignIn />} />
 
         {/* Admin */}
-        {user.isAdmin && <Route path="/admin" component={Admin} />}
+        {user.isAdmin && <Route path="/admin" element={<Admin />} />}
 
         {/* Instructor */}
-        <Route exact path="/instructor" render={() => <Redirect to="/instructor/my-courses" />} />
-        {
-          isAdminOrInstructor
-          &&
-          <Route exact path="/instructor/my-courses" component={MyCoursesPage} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route exact path="/instructor/new-course" component={NewCourse} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route exact path="/offering/:id/settings" component={CourseSettings} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
-        }
-        {
-          isAdminOrInstructor
-          &&
-          <Route path="/media-settings/:id" component={MediaSettingsPage} />
-        }
-
-        {
-          isAdminOrInstructor
-          &&
-          <Route path="/epub/:id" component={EPubPage} />
-        }
+        <Route path="/instructor" element={<Navigate to="/instructor/my-courses" replace />} />
+        {isAdminOrInstructor && (
+          <>
+            <Route exact path="/instructor/my-courses" element={<MyCoursesPage />} />
+            <Route exact path="/instructor/new-course" component={NewCourse} />
+            <Route exact path="/offering/:id/settings" component={CourseSettings} />
+            <Route exact path="/offering/:id/analytics" component={CourseAnalytics} />
+            <Route exact path="/offering/:id/new-playlist" component={NewPlaylist} />
+            <Route path="/media-settings/:id" component={MediaSettingsPage} />
+            <Route path="/epub/:id" component={EPubPage} />
+          </>
+        )}
 
         {/* Student */}
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home" render={() => <Redirect to="/" />} />
-        <Route exact path="/offering/:id" component={CoursePage} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/home" element={<Navigate to="/" replace />} />
+        <Route exact path="/offering/:id" component={<CoursePage />} />
         <Route exact path="/search" component={Search} />
         <Route exact path="/history" component={History} />
         <Route exact path="/personal-analytics" component={Analytics} />
-        <Route exact path="/glossary" component={Glossary} /> 
-        <Route exact path="/asl" component={Asl} /> 
+        <Route exact path="/glossary" component={Glossary} />
+        <Route exact path="/asl" component={Asl} />
         <Route exact path="/video" component={WatchPage} />
         <Route exact path="/embed/:id" component={Embed} />
         <Route path="/playlist/:id" component={InstPlaylistPage} />
 
         <Route path="/404" component={NotFound404} />
-        
-
-        {
-          // env.dev
-          // &&
-          // <Route exact path="/example" component={Example} />
-        }
-
         <Route component={NotFound404} />
-        {/* <Route exact path="/docs/component-api/:type" component={ComponentAPI} /> */}
-      </Switch>
-      // </AppInsightsProvider>
-    );
-  }
+      </Routes>
+    </Suspense>
+  );
 }
 
-export default withRouter(App);
+export default App;
+
+

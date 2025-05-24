@@ -1,12 +1,14 @@
 import React from 'react';
-import { connect } from 'dva';
 import { env } from 'utils';
 import { CTLayout, CTLoadable, altEl, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
+import { useSelector } from 'react-redux';
 import { Placeholder, SectionList, CourseFilter, MaintenanceMesg } from './components';
 
-const HomeWithRedux = (props) => {
-  const { sections, hasDepartmentSections } = props;
+export const Home = () => {
+  // const { sections, hasDepartmentSections } = props;
+  const sections = useSelector((state) => state.home.sections);
+  const hasDepartmentSections = useSelector((state) => state.home.hasDepartmentSections);
   const layoutProps = CTLayout.createProps({
     transition: true,
     responsive: true,
@@ -29,7 +31,3 @@ const HomeWithRedux = (props) => {
     </CTLayout>
   );
 }
-
-export const Home = connect(({ home }) => ({
-  ...home
-}))(HomeWithRedux);
