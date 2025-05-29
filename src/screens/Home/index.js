@@ -4,7 +4,6 @@ import { CTLayout, CTLoadable, altEl, makeEl } from 'layout';
 import { ARRAY_INIT } from 'utils/constants';
 import { useDispatch, connect } from 'react-redux';
 import { Placeholder, SectionList, CourseFilter, MaintenanceMesg } from './components';
-import { initialize } from './homeThunks';
 
 
 const HomeWithRedux = (props) => {
@@ -21,22 +20,6 @@ const HomeWithRedux = (props) => {
   const sectionElement = altEl(SectionList, !loading, { sections, hasDepartmentSections });
   const filterElement = altEl(CourseFilter, !loading);
   const maintenance = env.maintenanceWarningBanner;
-
-  // Initialization
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const ready = () => document.readyState === 'complete';
-    if (ready()) dispatch(initialize());
-    else {
-      const listener = () => {
-        if (ready()) {
-          dispatch(initialize());
-          document.removeEventListener('readystatechange', listener);
-        }
-      };
-      document.addEventListener('readystatechange', listener);
-    }
-  }, [dispatch]);
 
   return (
     <CTLayout {...layoutProps}>
