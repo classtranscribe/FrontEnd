@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import epubReducer from 'screens/EPub/epubSlice';
 import homeReducer from 'screens/Home/homeSlice'
 import courseReducer from 'screens/Course/courseSlice'
+import instPlaylistReducer from 'screens/Instructor/InstPlaylist/instPlaylistSlice'
 
 const store = configureStore({
   reducer: {
     epub: epubReducer,
     home: homeReducer,
-    course: courseReducer
+    course: courseReducer,
+    instplaylist: instPlaylistReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
