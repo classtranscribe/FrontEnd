@@ -8,7 +8,7 @@ import {
 
 import { env, user } from 'utils';
 import './App.css';
-
+import { UploadFiles } from 'screens/Instructor/InstPlaylist/components';
 // Lazy load screens
 const lazyImport = (exportName) =>
   React.lazy(() =>
@@ -83,7 +83,9 @@ function App() {
         <Route exact path="/asl" element={<Asl />} />
         <Route exact path="/video" element={<WatchPage />} />
         <Route exact path="/embed/:id" element={<Embed />} />
-        <Route path="/playlist/:id" element={<InstPlaylistPage />} />
+        <Route path="/playlist/:id" element={<InstPlaylistPage />}>
+          <Route path="/playlist/:id/upload-files" element={<UploadFiles />} />
+        </Route>
 
         <Route path="/404" element={<NotFound404 />} />
         <Route element={<NotFound404 />} />

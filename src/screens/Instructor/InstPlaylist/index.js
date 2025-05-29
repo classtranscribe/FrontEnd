@@ -1,9 +1,9 @@
 import React from 'react';
-import { Route } from 'dva/router';
 import { connect } from 'react-redux';
 import { CTLayout, CTErrorWrapper, altEl } from 'layout';
 import { InfoAndListLayout } from 'components';
 import ErrorTypes from 'entities/ErrorTypes';
+import { Outlet } from 'react-router-dom';
 import {
   PlaylistInfo,
   MediaList,
@@ -47,7 +47,7 @@ export const InstPlaylistWithRedux = (props) => {
         <MediaList />
         {confirmation && <Confirmation confirmation={confirmation} onClose={() => dispatch({ type: 'instplaylist/setConfirmation', payload: null })} />}
 
-        <Route path="/playlist/:id/upload-files" component={UploadFiles} />
+        <Outlet />
       </InfoAndListLayout>
     </CTLayout>
   )

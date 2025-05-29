@@ -183,6 +183,6 @@ addSubscription((dispatch, pathname) => {
   const match = pathToRegexp('/playlist/:id/:option?').exec(pathname);
   if (match) {
     const playlistId = match[1];
-    dispatch({ type: 'loadModel', payload: playlistId });
+    dispatch(loadModel(playlistId));
   }
 })
