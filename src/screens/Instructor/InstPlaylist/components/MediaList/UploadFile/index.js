@@ -10,6 +10,7 @@ import {
   CTConfirmation
 } from 'layout';
 import { links, api, prompt } from 'utils';
+import { useParams, useNavigate } from 'react-router-dom';
 import VideoUploadTable from './VideoUploadTable';
 import VideoUploadActions from './VideoUploadActions';
 import './index.scss';
@@ -22,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 const mediaControl = {
   async handleUpload(
-    mediaId, 
-    uploadedMedias, 
-    setUploadingIndex, 
-    setProgress, 
+    mediaId,
+    uploadedMedias,
+    setUploadingIndex,
+    setProgress,
     onUploadProgress,
     setFailedVideos
   ) {
-    if(uploadedMedias.length === 0) return;
+    if (uploadedMedias.length === 0) return;
     let successedVideos = [];
     // Just upload one video.
     const index = uploadedMedias.length - 1;
@@ -38,9 +39,9 @@ const mediaControl = {
     setProgress(0);
     let successed = await this.uploadasl(mediaId, oneMedia, onUploadProgress);
     if (successed) {
-        successedVideos.push(index);
+      successedVideos.push(index);
     } else {
-        setFailedVideos(fvis => [...fvis, index]);
+      setFailedVideos(fvis => [...fvis, index]);
     }
 
     if (successedVideos.length > 0) {
@@ -57,12 +58,14 @@ const mediaControl = {
       prompt.error(`Failed to upload video.`);
       return false;
     }
-  } 
+  }
 }
-export function UploadSingleFile(props) {
-  const { history, match } = props;
-  const playlistId = match.params.playlistId;
-  const mediaId = match.params.mediaId
+export function UploadSingleFile() {
+  const { id, mediaId } = useParams();
+  const navigate = useNavigate();
+  // const { history, match } = props;
+  // const playlistId = match.params.playlistId;
+  // const mediaId = match.params.mediaId
   const classes = useStyles();
 
   const [videos, setVideos] = useState([]);
@@ -83,15 +86,17 @@ export function UploadSingleFile(props) {
   };
 
   const handleAddVideo = (files) => {
-    setVideos([...files ]);
+    setVideos([...files]);
   };
-  
+
   const handleClose = () => {
     if (!uploading) {
-      history.push(links.playlist(playlistId));
+      navigate(links.playlist(id));
     } else {
       // refresh the page to cancel the upload process
-      window.location = links.playlist(playlistId)
+      // eslint-disable-next-line no-console
+      console.log("AAAA")
+      window.location = links.playlist(id)
     }
   };
 
@@ -160,7 +165,7 @@ export function UploadSingleFile(props) {
         <b>Upload an ASL video.</b>
         <br />
       </CTFormHelp>
-      <CTFragment margin={[-15,0,0,10]}>
+      <CTFragment margin={[-15, 0, 0, 10]}>
         <CTConfirmation
           text="Are you sure you want to remove this video?"
           onConfirm={handleConfirm}
@@ -169,9 +174,9 @@ export function UploadSingleFile(props) {
         />
       </CTFragment>
 
-      <CTUploadButton 
-        fluid 
-        accept="video/mp4,video/x-m4v,video/*" 
+      <CTUploadButton
+        fluid
+        accept="video/mp4,video/x-m4v,video/*"
         onFileChange={handleAddVideo}
         disabled={uploading}
         id="id"

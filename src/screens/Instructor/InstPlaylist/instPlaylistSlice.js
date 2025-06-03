@@ -180,7 +180,7 @@ export const setCrowdEditMode = createAsyncThunk('instplaylist/setCrowdEditMode'
 
 // on load
 addSubscription((dispatch, pathname) => {
-  const match = pathToRegexp('/playlist/:id/:option?').exec(pathname);
+  const match = pathToRegexp('/playlist/:id/:option?', { end: false }).exec(pathname);
   if (match) {
     const playlistId = match[1];
     dispatch(loadModel(playlistId));
