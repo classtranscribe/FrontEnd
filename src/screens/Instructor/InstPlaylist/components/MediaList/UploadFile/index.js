@@ -94,8 +94,6 @@ export function UploadSingleFile() {
       navigate(links.playlist(id));
     } else {
       // refresh the page to cancel the upload process
-      // eslint-disable-next-line no-console
-      console.log("AAAA")
       window.location = links.playlist(id)
     }
   };
