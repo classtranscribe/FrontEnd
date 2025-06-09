@@ -225,18 +225,18 @@ export const initialize = createAsyncThunk('home/initialize', async (_unused, { 
   }
 });
 
+export const allHomeThunks = {
+  getUniversities,
+  getOfferings,
+  getWatchHistory,
+  getStarredOfferings,
+  getTerms,
+  getDepartmentsData,
+  selectUniversity,
+  initialize
+}
+
 // on load
 addSubscription((dispatch) => {
   dispatch(initialize());
-  // const ready = () => document.readyState === 'complete';
-  // if (ready()) dispatch(initialize());
-  // else {
-  //   const listener = () => {
-  //     if (ready()) {
-  //       dispatch(initialize());
-  //       document.removeEventListener('readystatechange', listener);
-  //     }
-  //   };
-  //   document.addEventListener('readystatechange', listener);
-  // }
 })

@@ -161,6 +161,13 @@ export const getPlaylistById = createAsyncThunk(
   }
 );
 
+export const allCourseThunks = {
+  loadCourse,
+  setStar,
+  updatePlaylists,
+  getPlaylistById
+}
+
 // on load
 addSubscription((dispatch, pathname) => {
   const match = pathToRegexp('/offering/:id/:option?').exec(pathname);

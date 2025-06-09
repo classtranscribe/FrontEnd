@@ -15,10 +15,13 @@ import {
 import { uEvent } from './Utils/UserEventController';
 import { promptControl } from './Utils/prompt.control';
 import setup from './model/setup';
-import player_effects from './model/player_effects';
-import menu_effects from './model/menu_effects';
-import trans_effects from './model/trans_effects';
-import search_effects from './model/search_effects';
+import playerEffects from './model/playerEffects';
+import './model/menuEffects'
+import './model/transEffects'
+import './model/searchEffects'
+// import menu_effects from './model/menu_effects';
+// import trans_effects from './model/trans_effects';
+// import search_effects from './model/search_effects';
 import {
   MENU_HIDE,
   NORMAL_MODE,
@@ -29,6 +32,7 @@ import {
   ERR_INVALID_MEDIA_ID,
   ERR_AUTH,
 } from './Utils';
+import { allEffectThunks } from './model/index';
 
 const initState = {
   userRole: DEFAULT_ROLE,
@@ -309,7 +313,7 @@ const watchSlice = createSlice({
     resetStates() {
       return initState;
     },
-    // ...player_effects,
+    ...playerEffects,
     // ...menu_effects,
     // ...trans_effects,
     // ...search_effects
@@ -464,6 +468,12 @@ export const setupEmbeddedMedia = createAsyncThunk(
     await dispatch(setTranscriptions(transcriptions));
   }
 );
+
+export const allWatchThunks = {
+  setupMedia,
+  setupEmbeddedMedia,
+  ...allEffectThunks
+}
 
 // initialize
 addInitializer((dispatch) => {

@@ -213,6 +213,10 @@ export const loadPreferenceFromStorage = createAsyncThunk(
   }
 );
 
+export const allPlayerPrefThunks = {
+  setTransViewAsync,
+  loadPreferenceFromStorage
+}
 
 // initialize
 addInitializer((dispatch) => {
