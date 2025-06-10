@@ -3,6 +3,7 @@ import { allHomeThunks } from "screens/Home/homeSlice";
 import { allInstPlaylistThunks } from "screens/Instructor/InstPlaylist/instPlaylistSlice";
 import { allPlayerPrefThunks } from "screens/Watch/playerPrefSlice";
 import { allWatchThunks } from "screens/Watch/watchSlice";
+import { allEffectThunks } from "screens/Watch/model/index";
 
 // this is only for legacy async thunks to maintain compatibility with
 // dispatch({type:"slice/action"}). In the future, if new thunks
@@ -13,5 +14,6 @@ export const allThunks = {
   ...allHomeThunks,
   ...allInstPlaylistThunks,
   ...allPlayerPrefThunks,
-  ...allWatchThunks
+  ...allWatchThunks,
+  ...allEffectThunks
 }

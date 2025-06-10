@@ -16,9 +16,9 @@ import { uEvent } from './Utils/UserEventController';
 import { promptControl } from './Utils/prompt.control';
 import setup from './model/setup';
 import playerEffects from './model/playerEffects';
-import './model/menuEffects'
-import './model/transEffects'
-import './model/searchEffects'
+import './model/menuThunks'
+import './model/transThunks'
+import './model/searchThunks'
 // import menu_effects from './model/menu_effects';
 // import trans_effects from './model/trans_effects';
 // import search_effects from './model/search_effects';
@@ -32,7 +32,6 @@ import {
   ERR_INVALID_MEDIA_ID,
   ERR_AUTH,
 } from './Utils';
-import { allEffectThunks } from './model/index';
 
 const initState = {
   userRole: DEFAULT_ROLE,
@@ -252,6 +251,8 @@ const watchSlice = createSlice({
       state.mouseOnCaption = action.payload;
     },
     setPause(state, action) {
+      // eslint-disable-next-line no-console
+      console.log("SET PAUSE", { ...action })
       state.paused = action.payload;
     },
     setCTPEvent(state, action) {
@@ -367,6 +368,7 @@ export const {
   setFlashAcknowledged,
   changeVideo,
   resetStates,
+  toggleFullScreen
 } = watchSlice.actions;
 
 export default watchSlice.reducer;
@@ -397,6 +399,8 @@ export const setupMedia = createAsyncThunk(
 
     // set transcriptions
     const { transcriptions } = media;
+    // eslint-disable-next-line no-console
+    console.log("transcriptions", transcriptions)
     dispatch(setTranscriptions(transcriptions));
 
     // Get playlist
@@ -472,7 +476,6 @@ export const setupEmbeddedMedia = createAsyncThunk(
 export const allWatchThunks = {
   setupMedia,
   setupEmbeddedMedia,
-  ...allEffectThunks
 }
 
 // initialize

@@ -118,7 +118,7 @@ export const setCurrTrans = createAsyncThunk('watch/setCurrTrans',
 );
 
 export const setTranscriptions = createAsyncThunk('watch/setTranscriptions',
-  async ({ trans }, { dispatch, getState }) => {
+  async (trans, { dispatch, getState }) => {
     const { playerpref } = getState();
     let keys = playerpref.transKeys;
     if (keys === undefined) {
