@@ -98,7 +98,7 @@ const playerPrefSlice = createSlice({
       Object.assign(state, action.payload);
       updateLocalStorage(state);
     },
-    setTransView(state, action) {
+    setTransViewReducer(state, action) {
       let view = action.payload;
       if (view === null) {
         view = state.prevTransView ?? state.transView;
@@ -152,7 +152,7 @@ const playerPrefSlice = createSlice({
 
 export const {
   setPreference,
-  setTransView,
+  setTransViewReducer,
   toggleOpenAD,
   toggleOpenCC,
   toggleASLPosition,
@@ -165,9 +165,9 @@ export const {
 export default playerPrefSlice.reducer;
 
 // thunks
-export const setTransViewAsync = createAsyncThunk(
-  'playerpref/setTransViewAsync',
-  async ({ view, config = {} }, { getState, dispatch }) => {
+export const setTransView = createAsyncThunk(
+  'playerpref/setTransView',
+  async ({ view, config = {} }, { getState }) => {
     const { sendUserAction = true, updatePrefer = true } = config;
     const state = getState();
     const watch = state.watch;
@@ -183,16 +183,11 @@ export const setTransViewAsync = createAsyncThunk(
       uEvent.transviewchange(watch.time, view);
     }
 
-    // Dispatch the sync state update
-    dispatch(setTransView(view));
-
     // Update localStorage after state update
     if (updatePrefer) {
       const playerpref = getState().playerpref;
       updateLocalStorage(playerpref);
     }
-
-    return view; // thunk result
   }
 );
 
@@ -214,7 +209,7 @@ export const loadPreferenceFromStorage = createAsyncThunk(
 );
 
 export const allPlayerPrefThunks = {
-  setTransViewAsync,
+  setTransView,
   loadPreferenceFromStorage
 }
 

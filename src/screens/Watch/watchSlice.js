@@ -166,10 +166,12 @@ const watchSlice = createSlice({
     setFullscreenTwo(state, action) {
       state.isFullscreenTwo = action.payload;
     },
-    setTranscriptions(state, action) {
+    // named this way for legacy reasons, to not conflict with the thunk setTranscriptions
+    setTranscriptionsReducer(state, action) {
       state.transcriptions = action.payload;
     },
-    setCurrentTranscriptionMulti(state, action) {
+    // named this way for legacy reasons, to not conflict with the thunk setCurrentTranscriptionMulti
+    setCurrentTranscriptionMultiReducer(state, action) {
       const { transKey, active } = action.payload;
       let newKeys = state.currentTranscriptionMulti.transKeysSelected.filter(
         (i) => i !== transKey
@@ -182,7 +184,8 @@ const watchSlice = createSlice({
     setUpdating(state, action) {
       state.updating = action.payload;
     },
-    setFontSize(state, action) {
+    // named this way for legacy reasons, to not conflict with the thunk setFontSize
+    setFontSizeReducer(state, action) {
       state.fontSize = action.payload;
     },
     setTranscript(state) {
@@ -340,10 +343,10 @@ export const {
   setEnglishTrack,
   setFullscreen,
   setFullscreenTwo,
-  setTranscriptions,
-  setCurrentTranscriptionMulti,
+  setTranscriptionsReducer,
+  setCurrentTranscriptionMultiReducer,
   setUpdating,
-  setFontSize,
+  setFontSizeReducer,
   setTranscript,
   setCaptions,
   setCurrCaption,
@@ -399,9 +402,7 @@ export const setupMedia = createAsyncThunk(
 
     // set transcriptions
     const { transcriptions } = media;
-    // eslint-disable-next-line no-console
-    console.log("transcriptions", transcriptions)
-    dispatch(setTranscriptions(transcriptions));
+    dispatch(setTranscriptionsReducer(transcriptions));
 
     // Get playlist
     const { playlistId } = media;
@@ -469,7 +470,7 @@ export const setupEmbeddedMedia = createAsyncThunk(
     const transcriptions = media.transcriptions;
     delete props.media;
     await dispatch(setEmbeddedMedia({ media, ...props }));
-    await dispatch(setTranscriptions(transcriptions));
+    await dispatch(setTranscriptionsReducer(transcriptions));
   }
 );
 

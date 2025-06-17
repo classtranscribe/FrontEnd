@@ -61,7 +61,7 @@ const findCurrentDescription = (descriptions, currentTime) => {
 
 export const setCurrTrans = createAsyncThunk('watch/setCurrTrans',
   async ({ trans }, { dispatch }) => {
-    // // console.log("Starting setCurrTrans with trans payload:", trans);
+    // console.log("Starting setCurrTrans with trans payload:", trans);
 
     // Ensure trans is an array
     if (!Array.isArray(trans)) {
@@ -137,7 +137,7 @@ export const setTranscriptions = createAsyncThunk('watch/setTranscriptions',
     }
     for (const t of keys) {
       dispatch({
-        type: 'watch/setCurrentTranscriptionMulti',
+        type: 'watch/setCurrentTranscriptionMultiReducer',
         payload: { transKey: t, active: true },
       });
     }
@@ -331,11 +331,11 @@ export const setFontSize = createAsyncThunk('watch/setFontSize',
   async ({ fontSize }, { dispatch, getState }) => {
     const { watch } = getState();
     if (fontSize == null) {
-      dispatch({ type: 'watch/setFontSize', payload: "normal" });
+      dispatch({ type: 'watch/setFontSizeReducer', payload: "normal" });
     } else if (fontSize === watch.fontSize) {
       // very good it has changed so stop calling yourself
     } else {
-      dispatch({ type: 'watch/setFontSize', payload: fontSize });
+      dispatch({ type: 'watch/setFontSizeReducer', payload: fontSize });
     }
   }
 );
