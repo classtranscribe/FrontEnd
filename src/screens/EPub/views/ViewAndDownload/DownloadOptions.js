@@ -37,7 +37,7 @@ function DownloadOptions(props) {
 
         <CTFileButton
           icon={<i className="fas fa-file-image" />}
-          description="Save latex with all the screenshots of the I-Note data"
+          description="Save as .tex file with bundled images"
           onClick={() => epub.download.downloadLatex(downloadOptions)}
         >
           {filename} - latex.zip

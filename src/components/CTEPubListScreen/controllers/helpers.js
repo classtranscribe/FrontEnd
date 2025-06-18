@@ -4,8 +4,8 @@ import { ARRAY_INIT } from 'utils/constants';
 import { LanguageConstants } from '../../CTPlayer';
 
 export function _filterTrivalItems(epubData) {
-  return [...epubData];
-  // return _.filter(epubData, (item) => Boolean(_.trim(item.text)));
+  // return [...epubData];
+  return _.filter(epubData, (item) => Boolean(_.trim(item.text)));
 }
 function getLastPunctuationIndex(sentence) {
   let lastPunctuationIndex = -1;
@@ -18,21 +18,22 @@ function getLastPunctuationIndex(sentence) {
   return lastPunctuationIndex;
 }
 
+// eslint-disable-next-line no-unused-vars
 function _parseRawEPubDataSplittingOnPunctuation(rawEPubData) {
-  return null;
-  // let buffer = "";
-  // for (let i = 0; i < rawEPubData.length; i += 1) {
-  //   let curr = (buffer + rawEPubData[i].text).trim();
-  //   let idx = getLastPunctuationIndex(curr);
-  //   if (idx === curr.length - 1) {
-  //     rawEPubData[i].text = curr;
-  //     buffer = "";
-  //   } else {
-  //     buffer = `${curr.substring(getLastPunctuationIndex(curr) + 1, curr.length)} `;
-  //     rawEPubData[i].text = curr.substring(0, getLastPunctuationIndex(curr) + 1);
-  //   }
-  // }
   // return null;
+  let buffer = "";
+  for (let i = 0; i < rawEPubData.length; i += 1) {
+    let curr = (buffer + rawEPubData[i].text).trim();
+    let idx = getLastPunctuationIndex(curr);
+    if (idx === curr.length - 1) {
+      rawEPubData[i].text = curr;
+      buffer = "";
+    } else {
+      buffer = `${curr.substring(getLastPunctuationIndex(curr) + 1, curr.length)} `;
+      rawEPubData[i].text = curr.substring(0, getLastPunctuationIndex(curr) + 1);
+    }
+  }
+  return null;
 }
 export function _parseRawEPubData(rawEPubData) {
   let a = _.map(_filterTrivalItems(rawEPubData), item => ({ ...item, id: _buildID() }));

@@ -1,4 +1,5 @@
 import React from 'react'
+import { _buildID } from 'utils';
 import DescriptionText from '../DescriptionText';
 
 function ImageDescription({
@@ -15,6 +16,7 @@ function ImageDescription({
         {
           descriptions.map((item, index) =>
             <DescriptionText
+              key={`epb-img-des-${_buildID()}`}
               id={`epb-img-des-${id}-${index}`}
               text={item}
               attached="top"

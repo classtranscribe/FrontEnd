@@ -1,4 +1,4 @@
-import EPubChapterLikeData from './EPubChapterLikeData';
+import EPubChapterData from "./EPubChapterData";
 
 let untitledSubChapterNum = 0;
 function _createSubChapterTitle() {
@@ -7,7 +7,7 @@ function _createSubChapterTitle() {
   return `Untitled Sub-Chapter${chapterNum}`;
 }
 
-class EPubSubChapterData extends EPubChapterLikeData {
+class EPubSubChapterData extends EPubChapterData {
   constructor(subChapterLike, resetText) {
     super(subChapterLike, resetText, _createSubChapterTitle);
   }

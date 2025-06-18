@@ -24,8 +24,6 @@ import { cthttp } from 'utils/cthttp/request';
 export async function getGlossaryData(mediaId) {
   try {
     const response = await cthttp.get(`EPubs/GetGlossaryData?mediaId=${mediaId}`);
-    // eslint-disable-next-line no-console
-    console.log("getGlossaryData response", response);
     const glossaryData = {};
 
     for (const term of response.data.Glossary) {
@@ -138,8 +136,7 @@ export function glossaryToHTMLString(glossary) {
     return '';
   }
 
-  let html = '<html><body><div>';
-  html += '<h4>Glossary</h4>';
+  let html = '<h4>Glossary</h4>';
   html += '<ul>';
 
   // sort the words alphabetically
@@ -159,7 +156,6 @@ export function glossaryToHTMLString(glossary) {
     });
 
   html += '</ul>';
-  html += '</div></body></html>';
 
   return html;
 }

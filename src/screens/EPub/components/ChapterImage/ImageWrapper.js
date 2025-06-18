@@ -3,12 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'pico-ui';
 import { CTFragment, CTInput } from 'layout';
 import { useInput } from 'hooks';
+import { uurl } from 'utils';
+import TimeString from 'utils/use-time';
 
 function ImageWrapper({
   epub,
   id,
   disabled,
   imageAlt,
+  timestamp,
+  videoLink,
   chapter,
   onChooseImage,
   onRemoveImage,
@@ -55,6 +59,9 @@ function ImageWrapper({
     onLinkChange(epub);
     setShowLink(false);
   }
+  const onLinkClick = () => {
+    uurl.openNewTab(videoLink);
+  }
   return disabled ? null : (
     <CTFragment dFlexCol justConBetween className="ch-img-wrapper" padding="20">
       <CTFragment justConEnd>
@@ -68,15 +75,16 @@ function ImageWrapper({
           >
             Choose Image
           </Button>
-          {/* <Button 
-            uppercase 
-            color="white" 
-            icon="image"
-            className="ct-epb shadow-btn"
-            onClick={() => setShowLink(true)}
-          >
-            Change Embedded Link
-          </Button> */}
+          {videoLink &&
+            <Button
+              uppercase
+              color="white"
+              icon="image"
+              className="ct-epb shadow-btn"
+              onClick={onLinkClick}
+            >
+              Go To {TimeString.toPrettierTimeString(timestamp)} in Video
+            </Button>}
           {
             showLink &&
             <div>

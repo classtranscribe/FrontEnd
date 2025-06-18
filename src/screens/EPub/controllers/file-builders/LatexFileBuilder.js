@@ -2,6 +2,7 @@ import _ from 'lodash';
 import AdmZip from 'adm-zip';
 
 import { html } from 'utils';
+import { epubIsText } from './utils';
 
 class LatexFileBuilder {
   /**
@@ -10,13 +11,14 @@ class LatexFileBuilder {
    * @param {Boolean} forPreview
    */
   constructor() {
-    this.image_idx = 0
     this.zip = new AdmZip();
+    this.ch_id = 0;
   }
 
   async init(parsedData) {
     this.data = parsedData;
-    this.glossary = parsedData.glossary
+    this.glossary = parsedData.glossary;
+    this.videoLinks = parsedData.videoLinks;
   }
 
   /**
@@ -31,17 +33,21 @@ class LatexFileBuilder {
     return buffer;
   }
 
-  convertGlossary(glossary) {
+  convertGlossary(glossary, is_section = true) {
     if (_.isEmpty(glossary)) {
       return ""
     }
-    // console.log("glossary", glossary);
-    return _.map(glossary, (value, key) => {
-      return `\\textbf{${key}}: ${value.description}`
+    let text = is_section ? `\\section{Glossary}\n` : `\\subsection{Glossary}\n`;
+    return text + _.map(glossary, (value, key) => {
+      const new_key = LatexFileBuilder.escapeSpecialChars(key);
+      const new_desc = LatexFileBuilder.escapeSpecialChars(value.description);
+      return `\\textbf{${new_key}}: ${new_desc}`;
     }).join("\n\n");
   }
 
   getTitlePage(title, author, cover) {
+    title = LatexFileBuilder.escapeSpecialChars(title);
+    author = LatexFileBuilder.escapeSpecialChars(author);
     return `
     \\begin{titlepage}
       \\centering
@@ -52,7 +58,7 @@ class LatexFileBuilder {
         ${author}
       }    
       \\vfill
-      \\includegraphics[width=4cm]
+      \\includegraphics[width=8cm]
       {${this.saveImage(cover)}}
       \\vfill
       \\vfill
@@ -60,18 +66,13 @@ class LatexFileBuilder {
   `
   }
 
-  getImageId() {
-    this.image_idx += 1
-    return this.image_idx
-  }
-
   saveImage(content) {
-    const img_path = `images/${this.getImageId()}.jpeg`
+    const img_path = `images/${content.id}.jpeg`
     this.zip.addFile(img_path, content.buffer);
     return img_path
   }
   convertContent(content) {
-    if (typeof content === "string") {
+    if (epubIsText(content)) {
       return LatexFileBuilder.markdownToLatex(content);
     }
     const img_path = this.saveImage(content);
@@ -79,22 +80,56 @@ class LatexFileBuilder {
       const new_desc = LatexFileBuilder.markdownToLatex(d);
       return `\\caption*{${new_desc}}`
     }).join("\n");
+
+    const new_alt = LatexFileBuilder.escapeSpecialChars(content.alt);
     return [
       `\\begin{figure}`,
       `\\centering`,
-      `\\includegraphics[alt={${content.alt}}, width=.5\\textwidth]{${img_path}}`,
+      this.videoLinks && content.link && content.link !== "" ? `\\href{${content.link}}{` : "",
+      `\\includegraphics[alt={${new_alt}}, width=.8\\textwidth]{${img_path}}`,
+      this.videoLinks && content.link && content.link !== "" ? `}` : "",
       captions,
       `\\end{figure}`
     ].join("\n")
   }
 
-  convertChapter(chapter) {
+  convertChapter(idx, chapter) {
+    chapter.title = LatexFileBuilder.escapeSpecialChars(chapter.title)
     return [
       `\\section{${chapter.title}}`,
-      _.map(chapter.contents, (c) => this.convertContent(c)).join("\n")
+      `\\label{sec:${idx}}`,
+      _.map(chapter.contents, (c) => this.convertContent(c)).join("\n"),
+      this.data.chapterGlossary ? this.convertGlossary(this.data.chapterGlossary[idx], false) : ""
     ].join("\n");
   }
+
+  convertVisualTOC(visualTOC) {
+    let all_imgs = _.flatMap(visualTOC, (imgs, chapter) => imgs.map(img => ({ ...img, chapter })))
+    return `
+      \\section{Contents}
+      \\begin{center}
+        ${_.chunk(all_imgs, 2).map((pair) => {
+      return _.map(pair, (img) => {
+        // evil hack to allow latex to split a long word.
+        const split_alt = img.alt.replace(/(.{10})/g, `$1\\hspace{0pt}`);
+
+        return `
+        \\begin{minipage}{0.45\\textwidth}
+        \\centering
+        \\includegraphics[width =\\linewidth]{images/${img.id}.jpeg}
+        \\hyperref[sec:${img.chapter}]{${split_alt}}
+        \\end{minipage}
+        `}).join("\\hfill");
+    }).join("\\vspace{1em}")}
+    \\end{center}
+    `;
+  }
   getMainText() {
+    const chapters = _.map(this.data.chapters, (ch, idx) => this.convertChapter(idx, ch)).join("\n");
+
+    const TOC = this.data.visualTOC ? this.convertVisualTOC(this.data.visualTOC) : `\\tableofcontents`;
+    const titlepage = this.getTitlePage(this.data.title, this.data.author, this.data.cover);
+    const glossary = this.data.chapterGlossary ? "" : this.convertGlossary(this.glossary)
     return [
       "\\documentclass{article}",
       "\\usepackage{caption}",
@@ -102,10 +137,10 @@ class LatexFileBuilder {
       "\\usepackage{hyperref}",
       "\\usepackage[T1]{fontenc}",
       "\\begin{document}",
-      this.getTitlePage(this.data.title, this.data.author, this.data.cover),
-      "\\tableofcontents",
-      _.map(this.data.chapters, (ch) => this.convertChapter(ch)).join("\n"),
-      this.convertGlossary(this.glossary),
+      titlepage,
+      TOC,
+      chapters,
+      glossary,
       "\\end{document}"
     ].join("\n");
   }
@@ -130,7 +165,6 @@ class LatexFileBuilder {
   static htmlToLatex(html_text) {
     let latex = html_text;
 
-
     // Replace special characters without affecting code blocks or latex sections
     latex = LatexFileBuilder.substituteSpecialChars(latex);
 
@@ -149,7 +183,7 @@ class LatexFileBuilder {
     latex = latex.replace(/<u>(.*?)<\/u>/gs, '\\underline{$1}');
 
     // Convert block quote
-    latex = latex.replace(/<blockquote>(.*?)<\/blockquote>/gs, '\\\\$1\\\\');
+    latex = latex.replace(/<blockquote>(.*?)<\/blockquote>/gs, '\\begin{quote}$1\\end{quote}');
 
     // Convert code block
     latex = latex.replace(/<code>(.*?)<\/code>/gs, '\\begin{verbatim}$1\\end{verbatim}');
@@ -158,8 +192,16 @@ class LatexFileBuilder {
     latex = latex.replace(/<p>(.*?)<\/p>/gs, '\n$1\n');
 
     // Convert headings (h1, h2, h3...)
-    latex = latex.replace(/<h([1-6])>(.*?)<\/h\1>/g, (match, level, content) => {
-      return `\\${'section'.repeat(level)}{${content}}`;
+    const level_maps = {
+      1: `section`,
+      2: `subsection`,
+      3: `subsubsection`,
+      4: `paragraph`,
+      5: `subparagraph`,
+      6: `subparagraph`
+    }
+    latex = latex.replace(/<h([1-6]) id=".*?">(.*?)<\/h\1>/gs, (match, level, content) => {
+      return `\\${level_maps[level]}{${content}}`;
     });
 
     // Convert links
@@ -167,25 +209,25 @@ class LatexFileBuilder {
 
     // Convert ordered lists
     latex = latex.replace(/<ol>(.*?)<\/ol>/gs, (match, content) => {
-      return `\\begin{enumerate}\n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')}\n\\end{enumerate}`;
+      return `\\begin{enumerate} \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{enumerate} `;
     });
 
     // Convert unordered lists
     latex = latex.replace(/<ul>(.*?)<\/ul>/gs, (match, content) => {
-      return `\\begin{itemize}\n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')}\n\\end{itemize}`;
+      return `\\begin{itemize} \n${content.replace(/<li>(.*?)<\/li>/gs, '\\item $1')} \n\\end{itemize} `;
     });
 
     // Convert custom math tag
     latex = latex.replace(/<latex>(.*?)?<\/latex>/gs, '$$$1$$')
 
     // Convert newline
-    latex = latex.replace(/<br>/, "\\newline")
+    latex = latex.replace(/<br>/gs, "\\newline")
 
     return latex;
   }
 
-  static substituteSpecialChar(str) {
-    str = str.replace(/\\/g, '\\textbackslash');
+  static escapeSpecialChars(str) {
+    str = str.replace(/\\/g, '\\textbackslash ');
     str = str.replace(/\$/g, '\\$');
     str = str.replace(/\{/g, '\\{');
     str = str.replace(/\}/g, '\\}');
@@ -197,23 +239,47 @@ class LatexFileBuilder {
     str = str.replace(/~/g, '\\~');
     return str
   }
+  static removeVerbatimEscape(str) {
+    const regex = /\\end\{verbatim\}/g
+    while (regex.test(str)) {
+      str = str.replace(regex, '');
+    }
+    return str;
+  }
+  static removeUnescapedDollar(str) {
+    // catches all $ with an odd number of slashes in front
+    const regex = /((?<!\\)(?:\\\\)*)\$/g
+    return str.replace(regex, '$1');
+  }
   static substituteSpecialChars(htmlString) {
     // Parse the HTML string into a DOM structure
-    const excludeTags = ['code', 'math']
+    const excludeTags = ['code', 'latex']
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
 
     // Recursive function to traverse and apply text substitution to text nodes
-    function traverseAndReplace(node) {
+    function traverseAndReplace(node, state = "") {
       // If the node is a text node, apply the substitution
-      if (node.nodeType === Node.TEXT_NODE && !excludeTags.includes(node.tagName)) {
-        LatexFileBuilder.substituteSpecialChar(node.textContent);
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (state === "") {
+          node.textContent = LatexFileBuilder.escapeSpecialChars(node.textContent);
+        } else if (state === 'code') {
+          node.textContent = LatexFileBuilder.removeVerbatimEscape(node.textContent);
+        } else if (state === 'latex') {
+          node.textContent = LatexFileBuilder.removeUnescapedDollar(node.textContent);
+        }
       }
 
-      // If the node is an element, and it's not in the exclude list, traverse its children
-      if (node.nodeType === Node.ELEMENT_NODE && !excludeTags.includes(node.tagName.toLowerCase())) {
-        for (let child of node.childNodes) {
-          traverseAndReplace(child);
+      // If the node is an element, traverse its children while tracking if we are inside specific blocks
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        if (excludeTags.includes(node.tagName.toLowerCase()) && state === "") {
+          for (let child of node.childNodes) {
+            traverseAndReplace(child, node.tagName.toLowerCase());
+          }
+        } else {
+          for (let child of node.childNodes) {
+            traverseAndReplace(child, state);
+          }
         }
       }
     }

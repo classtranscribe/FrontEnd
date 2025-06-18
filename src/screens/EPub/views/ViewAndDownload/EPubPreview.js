@@ -15,7 +15,7 @@ function EPubPreview(props) {
   }, [epubData])
   return (
     <CTFragment padding={[20]} shadowed>
-      <CTFragment padding={[10,10,100,10]} dFlexCol alignItCenter>
+      <CTFragment padding={[10, 10, 100, 10]} dFlexCol alignItCenter>
         <ChapterImage
           image={epubData.cover}
           disableDescription
