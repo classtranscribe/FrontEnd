@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { MENU_HIDE, MODAL_HIDE } from '../Utils/constants.util';
 
-export const sendMediaHistories = createAsyncThunk('watch/menu_open',
+export const menu_open = createAsyncThunk('watch/menu_open',
   async ({ type, option = 'a' }, { dispatch, getState }) => {
     dispatch({ type: 'watch/search_close' });
     const { watch } = getState()
@@ -55,7 +55,7 @@ export const modal_close = createAsyncThunk('watch/modal_close',
 );
 
 export const allMenuThunks = {
-  sendMediaHistories,
+  menu_open,
   menu_close,
   modal_open,
   modal_close

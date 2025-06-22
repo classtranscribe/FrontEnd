@@ -290,8 +290,6 @@ export const onPlayerReady = createAsyncThunk('watch/onPlayerReady',
         PlayerData.video1.playbackRate = playbackrate;
 
         const start_time = handleRestoreTime(watch);
-        // eslint-disable-next-line no-console
-        console.log("SETCURRTIME", start_time)
         if (start_time) {
           dispatch(media_setCurrTime(start_time));
         }

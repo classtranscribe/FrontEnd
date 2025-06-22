@@ -167,7 +167,8 @@ export default playerPrefSlice.reducer;
 // thunks
 export const setTransView = createAsyncThunk(
   'playerpref/setTransView',
-  async ({ view, config = {} }, { getState }) => {
+  async ({ view, config = {} }, { dispatch, getState }) => {
+    dispatch(setTransViewReducer(view));
     const { sendUserAction = true, updatePrefer = true } = config;
     const state = getState();
     const watch = state.watch;
@@ -192,25 +193,9 @@ export const setTransView = createAsyncThunk(
 );
 
 // Async thunk to load preference from storage on app init
-export const loadPreferenceFromStorage = createAsyncThunk(
-  'playerpref/loadPreferenceFromStorage',
-  async (_arg, { dispatch }) => {
-    if (storageAvailablity) {
-      try {
-        const preference = JSON.parse(localStorage.getItem('CT_preference'));
-        if (preference) {
-          dispatch(setPreference(preference));
-        }
-      } catch {
-        // ignore errors
-      }
-    }
-  }
-);
 
 export const allPlayerPrefThunks = {
-  setTransView,
-  loadPreferenceFromStorage
+  setTransView
 }
 
 // initialize
@@ -231,7 +216,7 @@ addSubscription((dispatch) => {
     try {
       const preference = JSON.parse(localStorage.getItem('CT_preference'));
       // would execute "save to localStorage" again
-      dispatch({ type: 'setPreference', payload: preference });
+      dispatch(setPreference(preference));
     } catch {
       // CATCH
     }

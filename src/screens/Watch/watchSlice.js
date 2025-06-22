@@ -17,7 +17,7 @@ import { promptControl } from './Utils/prompt.control';
 import setup from './model/setup';
 import playerEffects from './model/playerEffects';
 import './model/menuThunks'
-import './model/transThunks'
+import { setTranscriptions } from './model/transThunks'
 import './model/searchThunks'
 // import menu_effects from './model/menu_effects';
 // import trans_effects from './model/trans_effects';
@@ -32,6 +32,7 @@ import {
   ERR_INVALID_MEDIA_ID,
   ERR_AUTH,
 } from './Utils';
+
 
 const initState = {
   userRole: DEFAULT_ROLE,
@@ -184,9 +185,9 @@ const watchSlice = createSlice({
     setUpdating(state, action) {
       state.updating = action.payload;
     },
-    // named this way for legacy reasons, to not conflict with the thunk setFontSize
-    setFontSizeReducer(state, action) {
-      state.fontSize = action.payload;
+    setFontSize(state, action) {
+      const fontSize = action.payload === null ? "normal" : action.payload;
+      state.fontSize = fontSize;
     },
     setTranscript(state) {
       let all = [...state.captions, ...state.descriptions];
@@ -402,7 +403,7 @@ export const setupMedia = createAsyncThunk(
 
     // set transcriptions
     const { transcriptions } = media;
-    dispatch(setTranscriptionsReducer(transcriptions));
+    dispatch(setTranscriptions(transcriptions));
 
     // Get playlist
     const { playlistId } = media;
@@ -470,7 +471,7 @@ export const setupEmbeddedMedia = createAsyncThunk(
     const transcriptions = media.transcriptions;
     delete props.media;
     await dispatch(setEmbeddedMedia({ media, ...props }));
-    await dispatch(setTranscriptionsReducer(transcriptions));
+    await dispatch(setTranscriptions(transcriptions));
   }
 );
 

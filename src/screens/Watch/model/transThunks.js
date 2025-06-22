@@ -60,14 +60,14 @@ const findCurrentDescription = (descriptions, currentTime) => {
 };
 
 export const setCurrTrans = createAsyncThunk('watch/setCurrTrans',
-  async ({ trans }, { dispatch }) => {
+  async (trans, { dispatch }) => {
     // console.log("Starting setCurrTrans with trans payload:", trans);
 
     // Ensure trans is an array
     if (!Array.isArray(trans)) {
       trans = [trans];
     }
-    // // console.log("Normalized trans array:", trans); 
+    // console.log("Normalized trans array:", trans);
 
     let alldata;
     if (trans.length > 0) {
@@ -119,6 +119,7 @@ export const setCurrTrans = createAsyncThunk('watch/setCurrTrans',
 
 export const setTranscriptions = createAsyncThunk('watch/setTranscriptions',
   async (trans, { dispatch, getState }) => {
+    dispatch({ type: 'watch/setTranscriptionsReducer', payload: trans });
     const { playerpref } = getState();
     let keys = playerpref.transKeys;
     if (keys === undefined) {
@@ -137,7 +138,7 @@ export const setTranscriptions = createAsyncThunk('watch/setTranscriptions',
     }
     for (const t of keys) {
       dispatch({
-        type: 'watch/setCurrentTranscriptionMultiReducer',
+        type: 'watch/setCurrentTranscriptionMulti',
         payload: { transKey: t, active: true },
       });
     }
@@ -204,7 +205,8 @@ export const setLanguage = createAsyncThunk('watch/setLanguage',
 );
 
 export const setCurrentTranscriptionMulti = createAsyncThunk('watch/setCurrentTranscriptionMulti',
-  async (_arg, { dispatch, getState }) => {
+  async (payload, { dispatch, getState }) => {
+    dispatch({ type: 'watch/setCurrentTranscriptionMultiReducer', payload });
     const { watch } = getState();
 
     const selected = watch.currentTranscriptionMulti.transKeysSelected
@@ -327,19 +329,6 @@ export const saveCaption = createAsyncThunk('watch/saveCaption',
   }
 );
 
-export const setFontSize = createAsyncThunk('watch/setFontSize',
-  async ({ fontSize }, { dispatch, getState }) => {
-    const { watch } = getState();
-    if (fontSize == null) {
-      dispatch({ type: 'watch/setFontSizeReducer', payload: "normal" });
-    } else if (fontSize === watch.fontSize) {
-      // very good it has changed so stop calling yourself
-    } else {
-      dispatch({ type: 'watch/setFontSizeReducer', payload: fontSize });
-    }
-  }
-);
-
 export const allTransThunks = {
   setCurrTrans,
   setTranscriptions,
@@ -348,6 +337,5 @@ export const allTransThunks = {
   setCurrentTranscriptionMulti,
   setTransEditMode,
   timestampFailed,
-  saveCaption,
-  setFontSize
+  saveCaption
 }
