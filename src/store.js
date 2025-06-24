@@ -7,6 +7,7 @@ import instPlaylistReducer from 'screens/Instructor/InstPlaylist/instPlaylistSli
 import watchReducer from 'screens/Watch/watchSlice'
 import playerPrefReducer from 'screens/Watch/playerPrefSlice'
 import historyPageReducer from 'screens/History/historyPageSlice'
+import instCourseReducer from 'screens/Instructor/MyCourses/instCourseSlice'
 
 import { allThunks } from 'model/thunks';
 
@@ -62,7 +63,8 @@ const store = configureStore({
     instplaylist: instPlaylistReducer,
     watch: watchReducer,
     playerpref: playerPrefReducer,
-    historypage: historyPageReducer
+    historypage: historyPageReducer,
+    instcourse: instCourseReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
