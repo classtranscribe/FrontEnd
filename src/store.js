@@ -9,6 +9,7 @@ import playerPrefReducer from 'screens/Watch/playerPrefSlice'
 import historyPageReducer from 'screens/History/historyPageSlice'
 import instCourseReducer from 'screens/Instructor/MyCourses/instCourseSlice'
 import mediaSettingReducer from 'screens/MediaSettings/mediaSettingSlice'
+import searchReducer from 'screens/Search/searchSlice'
 
 import { allThunks } from 'model/thunks';
 
@@ -30,7 +31,7 @@ const legacyThunkMiddleware = (store) => (next) => (action) => {
 };
 
 const actionStackMap = new Map(); // action.requestId => stack
-export const rethrowRejectedMiddleware = (store) => (next) => (action) => {
+export const rethrowRejectedMiddleware = () => (next) => (action) => {
   // Record the stack when the thunk is first dispatched
   if (action.type.endsWith('/pending') && action.meta?.requestId) {
     const stack = new Error().stack;
@@ -68,7 +69,8 @@ const store = configureStore({
     playerpref: playerPrefReducer,
     historypage: historyPageReducer,
     instcourse: instCourseReducer,
-    mediasetting: mediaSettingReducer
+    mediasetting: mediaSettingReducer,
+    search: searchReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

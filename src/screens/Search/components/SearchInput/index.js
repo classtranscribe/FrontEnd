@@ -2,13 +2,15 @@ import React from 'react';
 import { Button } from 'pico-ui';
 import { CTFragment } from 'layout';
 import './index.scss';
+import { searchValue } from 'screens/Search/searchSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-function SearchInput(props) {
-  const { search, dispatch } = props;
-  const {searchValue = ''} = search;
+function SearchInput() {
+  const dispatch = useDispatch();
+  const sv = useSelector((state) => state.search.searchValue || '');
   const searchPlaceholder = 'Search for courses';
   const handleSearchInputChange = (e) => {
-    dispatch({type: 'search/searchValue', payload: e.target.value})
+    dispatch(searchValue(e.target.value));
   }
   return (
     <CTFragment padding={[0, 30]}>
@@ -17,7 +19,7 @@ function SearchInput(props) {
         <input
           id="sp-input"
           placeholder={`${searchPlaceholder}...`}
-          value={searchValue}
+          value={sv}
           onChange={handleSearchInputChange}
           autoComplete="off"
           autoFocus
