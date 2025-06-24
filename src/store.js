@@ -20,8 +20,10 @@ const thunkMap = Object.fromEntries(
 // which is necessary since async thunks can't be accessed by plain objects
 const legacyThunkMiddleware = (store) => (next) => (action) => {
   if (typeof action === 'object' && thunkMap[action.type]) {
-    // eslint-disable-next-line no-console
-    console.log("middleware", action.type, action.payload);
+    if (process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line no-console
+      console.log("middleware", action.type, action.payload);
+    }
     return store.dispatch(thunkMap[action.type](action.payload));
   }
   return next(action);

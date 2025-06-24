@@ -43,12 +43,12 @@ const scrollToCh = (id, view) => {
     // 
   }
 }
-function* updateNavIdForEpbEditStructure(e, epub, put) {
+function updateNavIdForEpbEditStructure(e, epub, dispatch) {
   const chElScrollTop = e.scrollTop;
   // handle abnormal cases when scroll to top
   if (chElScrollTop < 10 && epub.epub.chapters.length > 0) {
-    yield put({ type: 'setNavId', payload: ID.chNavItemID(epub.epub.chapters[0].id) })
-    yield put({ type: 'setCurrChIndex', payload: 0 })
+    dispatch(setNavId(ID.chNavItemID(epub.epub.chapters[0].id)));
+    dispatch(setCurrChIndex(0));
     return;
   }
 
@@ -59,7 +59,7 @@ function* updateNavIdForEpbEditStructure(e, epub, put) {
 
   // iterate all possible chapters and sub-chapters 
   // to find the current one in view
-  yield _.forEach(epub.epub.chapters, async (ch, chIdx) => {
+  _.forEach(epub.epub.chapters, (ch, chIdx) => {
     const chTop = getChTop(ch.id, epub.view);
     const chDis = chElScrollTop - chTop + 90;
     if (chDis < 0) return false; // stop iterate when exceed the scrollTop
@@ -69,7 +69,7 @@ function* updateNavIdForEpbEditStructure(e, epub, put) {
       currChIndex = chIdx;
     }
 
-    await _.forEach(ch.subChapters, (sch) => {
+    _.forEach(ch.subChapters, (sch) => {
       const schTop = getSubChTop(epub, sch.id, epub.view);
       const schDis = chElScrollTop - schTop + 50;
       if (schDis < 0) return false; // stop iterate when exceed the scrollTop
@@ -80,22 +80,22 @@ function* updateNavIdForEpbEditStructure(e, epub, put) {
       }
     });
   });
-  yield put({ type: 'setNavId', payload: navId })
-  yield put({ type: 'setCurrChIndex', payload: currChIndex })
+  dispatch(setNavId(navId));
+  dispatch(setCurrChIndex(currChIndex));
 }
-function* updateNavIdForEditChaper(e, epub, put) {
+function updateNavIdForEditChaper(e, epub, dispatch) {
   const chElScrollTop = e.scrollTop;
   const chIdx = epub.currChIndex;
   const chapter = epub.epub.chapters[chIdx];
   if (chElScrollTop < 40) {
-    yield put({ type: 'setNavId', payload: ID.chNavItemID(chapter.id) })
+    dispatch(setNavId(ID.chNavItemID(chapter.id)));
   }
 
   // initialize default values
   let navId = epub.navId;
   let minDis = 1000;
 
-  yield _.forEach(chapter.subChapters, (sch) => {
+  _.forEach(chapter.subChapters, (sch) => {
     const schTop = getSubChTop(epub, sch.id);
     const schDis = chElScrollTop - schTop + 50;
     if (schDis < 0) return false; // stop iterate when exceed the scrollTop
@@ -104,7 +104,7 @@ function* updateNavIdForEditChaper(e, epub, put) {
       navId = ID.schNavItemID(sch.id);
     }
   });
-  yield put({ type: 'setNavId', payload: navId })
+  dispatch(setNavId(navId));
 }
 const onScroll = createAsyncThunk("epub/onScroll",
   async (e, { dispatch, getState }) => {

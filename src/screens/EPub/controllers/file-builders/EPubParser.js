@@ -191,8 +191,6 @@ class EPubParser {
     const parser = new EPubParser();
     await parser.init(ePubData.epub, options)
 
-    // eslint-disable-next-line no-console
-    console.log("parsed data", parser.data);
     return parser.data;
   }
 

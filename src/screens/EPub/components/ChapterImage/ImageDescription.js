@@ -7,14 +7,15 @@ function ImageDescription({
   descriptions,
   onChange
 }) {
+  let myDescriptions = [...descriptions]
   if (Array.isArray(descriptions)) {
     if (descriptions[descriptions.length - 1] !== "") {
-      descriptions.push("");
+      myDescriptions.push("");
     }
     return (
       <>
         {
-          descriptions.map((item, index) =>
+          myDescriptions.map((item, index) =>
             <DescriptionText
               key={`epb-img-des-${_buildID()}`}
               id={`epb-img-des-${id}-${index}`}

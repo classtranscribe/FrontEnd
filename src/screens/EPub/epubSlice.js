@@ -151,13 +151,12 @@ export default epubSlice.reducer
 
 // thunks
 const setupEPub = createAsyncThunk("epub/setupEPub",
-  async ({ ePubId }, { dispatch }) => {
-    let _epub = getEPubById(ePubId);
+  async (ePubId, { dispatch }) => {
+    let _epub = await getEPubById(ePubId);
     const { view, h } = uurl.useHash();
     if (Constants.EPubViews.includes(view)) {
       dispatch(setView(view));
     }
-
     if (h) {
       elem.scrollIntoView(h);
     }
@@ -257,7 +256,7 @@ const updateEPubBasicInfo = createAsyncThunk("epub/updateEPubBasicInfo",
 
 const updateEpubData = createAsyncThunk("epub/updateEpubData",
   async ({ payload, action }, { dispatch }) => {
-    await dispatch({ type: action, payload });
+    await dispatch({ type: `epub/${action}`, payload });
     dispatch(updateEPub());
   });
 
