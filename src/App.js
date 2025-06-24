@@ -10,6 +10,7 @@ import { env, user } from 'utils';
 import './App.css';
 import { UploadFiles } from 'screens/Instructor/InstPlaylist/components';
 import { UploadSingleFile } from 'screens/Instructor/InstPlaylist/components/MediaList/UploadFile';
+import { EPub, Transcriptions } from 'screens/MediaSettings/Tabs';
 // Lazy load screens
 const lazyImport = (exportName) =>
   React.lazy(() =>
@@ -68,7 +69,10 @@ function App() {
             <Route exact path="/offering/:id/settings" element={<CourseSettings />} />
             <Route exact path="/offering/:id/analytics" element={<CourseAnalytics />} />
             <Route exact path="/offering/:id/new-playlist" element={<NewPlaylist />} />
-            <Route path="/media-settings/:id" element={<MediaSettingsPage />} />
+            <Route path="/media-settings/:id" element={<MediaSettingsPage />}>
+              <Route path="/media-settings/:id/epub" element={<EPub />} />
+              <Route path="/media-settings/:id/trans" element={<Transcriptions />} />
+            </Route>
             <Route path="/epub/:id" element={<EPubPage />} />
           </>
         )}

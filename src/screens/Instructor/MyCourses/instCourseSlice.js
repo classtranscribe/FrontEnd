@@ -107,30 +107,6 @@ const instCourseSlice = createSlice({
     setMyOfferings(state, { payload }) {
       state.offerings = payload;
     },
-  },
-  effects: {
-    // eslint-disable-next-line no-unused-vars
-    *loadModel({ _payload }, { call, put }) {
-      let terms = yield call(getTerms);
-      yield put({ type: 'setTerms', payload: terms });
-
-      let departs = yield call(getDepartments);
-      let offerings = yield call(getMyOfferings);
-
-      api.contentLoaded();
-      if (api.isError(offerings)) {
-        yield put({ type: 'setMyOfferings', payload: offerings })
-        return;
-      }
-      yield put({ type: 'setMyOfferings', payload: parseCourseOfferings(offerings, departs, terms) })
-    }
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen((event) => {
-
-      })
-    }
   }
 });
 

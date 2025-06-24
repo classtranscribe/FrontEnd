@@ -3,6 +3,7 @@ import { CTFragment, CTFilter } from 'layout';
 import { MediaCard } from 'components';
 import { connect } from 'react-redux';
 import { ARRAY_INIT } from 'utils/constants';
+import _ from 'lodash';
 
 const filterValid = data => data.filter(item => Boolean(item.id) && !item.isUnavailable);
 const addReactKey = data => data.map((row, index) => { row.reactRowKey = `${row.id}-${index}`; return row; });
@@ -12,7 +13,7 @@ function WatchHistoriesWithRedux(props) {
   const { watchHistories = ARRAY_INIT } = historypage;
 
   const loading = watchHistories === ARRAY_INIT;
-  const data = loading ? [] : addReactKey(filterValid(watchHistories));
+  const data = loading ? [] : addReactKey(filterValid(_.cloneDeep(watchHistories)));
   const dWHisResult = (result) => {
     let whElement = null;
     if (result.length === 0) {

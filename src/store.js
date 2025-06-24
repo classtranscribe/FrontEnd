@@ -8,6 +8,7 @@ import watchReducer from 'screens/Watch/watchSlice'
 import playerPrefReducer from 'screens/Watch/playerPrefSlice'
 import historyPageReducer from 'screens/History/historyPageSlice'
 import instCourseReducer from 'screens/Instructor/MyCourses/instCourseSlice'
+import mediaSettingReducer from 'screens/MediaSettings/mediaSettingSlice'
 
 import { allThunks } from 'model/thunks';
 
@@ -64,12 +65,15 @@ const store = configureStore({
     watch: watchReducer,
     playerpref: playerPrefReducer,
     historypage: historyPageReducer,
-    instcourse: instCourseReducer
+    instcourse: instCourseReducer,
+    mediasetting: mediaSettingReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // You can tweak this if needed
-    }).concat(legacyThunkMiddleware).concat(rethrowRejectedMiddleware),
+      serializableCheck: false
+    })
+      .concat(legacyThunkMiddleware)
+      .concat(rethrowRejectedMiddleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

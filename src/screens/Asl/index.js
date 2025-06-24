@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { CTLayout } from 'layout';
-import { connect } from 'react-redux';
 import { cthttp } from 'utils/cthttp/request';
 import AslTable from './components/AslTable';
 
@@ -15,7 +14,7 @@ const config = {
 /**
  * object for the whole Glossary page
  */
-const AslWithRedux = () => {
+export const Asl = () => {
   const layoutProps = CTLayout.createProps({
     transition: true,
     responsive: true,
@@ -42,7 +41,3 @@ const AslWithRedux = () => {
     </CTLayout>
   )
 }
-
-export const Asl = connect(({ aslpage }) => ({
-  aslpage
-}))(AslWithRedux);

@@ -9,7 +9,7 @@ import { EPubData } from 'entities/EPubs';
 import { getAllItemsInChapters } from 'entities/EPubs/utils'
 import Constants from './controllers/constants/EPubConstants'
 import { getEPubById, getMediaById } from './service'
-import model_data_reducer from './models/data_reducer'
+import model_data_reducer from './models/dataReducer'
 import model_nav_effects from './models/navigator_effects'
 
 const initState = {
