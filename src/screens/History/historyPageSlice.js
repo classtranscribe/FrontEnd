@@ -39,7 +39,6 @@ const historySlice = createSlice({
   },
 });
 
-// Optional manual subscription setup like DVA's `subscriptions`
 addInitializer((dispatch) => {
   document.addEventListener('readystatechange', () => {
     if (document.readyState === 'complete') {
