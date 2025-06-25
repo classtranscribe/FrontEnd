@@ -4,27 +4,24 @@
  * Pane for Courses of Admin Page
  */
 
-import React from 'react';
-import { Route } from 'dva/router';
+import React, { useContext } from 'react';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
-import CourseEditing from './CourseEditing';
 import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
+import { AdminContext } from '..';
 
-export default function CoursePane(props) {
-  const { universities, currentUni, currentDept, departments, courses } = props.state;
+export default function CoursePane() {
+  const { universities, currentUni, currentDept, departments, courses, getSelectOptions, updateDepartment, updateUniversity } = useContext(AdminContext);
 
   const displayUni = currentUni || { name: 'none', id: 0 };
   const displayDepart = currentDept || { name: 'none', id: 0 };
 
-  const uniOptions = props.getSelectOptions(universities);
-  const departOptions = props.getSelectOptions(departments);
+  const uniOptions = getSelectOptions(universities);
+  const departOptions = getSelectOptions(departments);
 
   return (
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Course Templates" />
-      <Route path="/admin/course-template/:type?=:id" component={CourseEditing} />
-
       <Message color="black">
         {/* <p>
           <strong>{displayUni.name}</strong>
@@ -36,12 +33,12 @@ export default function CoursePane(props) {
             id='admin-course-uni-select'
             label='University'
             placeholder='University...'
-            onChange={(e,data)=>props.updateUniversity(data.value)}
+            onChange={(e, data) => updateUniversity(data.value)}
           />
         </Form>
         {displayUni.id !== 0 && (
           <>
-           
+
             {/* <p>
               <strong>{displayDepart.name}</strong>
             </p> */}
@@ -53,7 +50,7 @@ export default function CoursePane(props) {
                 placeholder='Department...'
                 control={Select}
                 options={departOptions}
-                onChange={(e, data) => props.updateDepartment(data.value)}
+                onChange={(e, data) => updateDepartment(data.value)}
               />
             </Form>
           </>

@@ -1,1 +1,0 @@
-export { OfferingList } from './OfferingList';

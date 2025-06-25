@@ -50,7 +50,7 @@ export const rethrowRejectedMiddleware = () => (next) => (action) => {
       if (originalStack) {
         enrichedError.stack = `${enrichedError.message}\nDispatched at:\n${originalStack}`;
       }
-      console.error(enrichedError); // still visible even if caught
+      // console.error(enrichedError);
       throw enrichedError;
     }
   }

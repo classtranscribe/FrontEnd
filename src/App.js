@@ -8,9 +8,13 @@ import {
 
 import { env, user } from 'utils';
 import './App.css';
+
+// importing components like this (not lazily) is sketchy and inconsistent.
 import { UploadFiles } from 'screens/Instructor/InstPlaylist/components';
 import { UploadSingleFile } from 'screens/Instructor/InstPlaylist/components/MediaList/UploadFile';
 import { EPub, Transcriptions } from 'screens/MediaSettings/Tabs';
+import { adminTabs } from 'screens/Admin/tabs';
+
 // Lazy load screens
 const lazyImport = (exportName) =>
   React.lazy(() =>
@@ -40,12 +44,27 @@ const Analytics = lazyImport('Analytics');
 const Glossary = lazyImport('Glossary');
 const Asl = lazyImport('Asl');
 
+const UniversityEditing = React.lazy(() => import(`screens/Admin/Universities/UniversityEditing`));
+const TermEditing = React.lazy(() => import(`screens/Admin/Terms/TermEditing`));
+const InstructorEditing = React.lazy(() => import(`screens/Admin/Instructors/InstructorEditing`));
+const CourseEditing = React.lazy(() => import(`screens/Admin/Courses/CourseEditing`));
+const DepartmentEditing = React.lazy(() => import(`screens/Admin/Departments/DepartmentEditing`));
+
 function App() {
   useEffect(() => {
     user.validate();
   }, []);
 
   const isAdminOrInstructor = user.isInstructor || user.isAdmin;
+
+  const adminRoutes = !user.isAdmin ? [] :
+    adminTabs.map(tab => {
+      let RouteElem = tab.component;
+      return {
+        ...tab,
+        element: <RouteElem />
+      }
+    });
 
   if (env.classTranscribeDownMessage) return <Maintenance />;
 
@@ -58,7 +77,26 @@ function App() {
         <Route exact path="/sign-in" element={<SignIn />} />
 
         {/* Admin */}
-        {user.isAdmin && <Route path="/admin" element={<Admin />} />}
+        {user.isAdmin && (
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin" element={<Navigate to={adminRoutes[0].href} replace />} />
+
+            {adminRoutes.map(route => (
+              <Route
+                key={route.value}
+                path={route.href}
+                element={route.element}
+              />
+            ))}
+            <Route path="/admin/universities/:id/:type?" element={<UniversityEditing />} />
+            <Route path="/admin/terms/:id/:type?" element={<TermEditing />} />
+            <Route path="/admin/instructors/:id/:type?" element={<InstructorEditing />} />
+            <Route path="/admin/course-template/:id/:type?" element={<CourseEditing />} />
+            <Route path="/admin/departments/:id/:type?" element={<DepartmentEditing />} />
+
+          </Route>
+        )}
+
 
         {/* Instructor */}
         <Route path="/instructor" element={<Navigate to="/instructor/my-courses" replace />} />
