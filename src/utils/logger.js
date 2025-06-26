@@ -1,4 +1,3 @@
-import { getAppInsights, SeverityLevel } from 'azure-app-insights';
 import { prompt as prp } from './prompt';
 
 /**
@@ -11,17 +10,6 @@ import { prompt as prp } from './prompt';
 export function logErrorToPrompt(text, options) {
   const { position, timeout } = options;
   prp.addOne({ text, position, timeout });
-}
-
-/**
- * Log the error to Azure Application Insights
- * @param {Error} error the error object
- */
-export function logErrorToAzureAppInsights(error) {
-  const appInsights = getAppInsights();
-  if (appInsights && typeof appInsights.trackException === 'function') {
-    appInsights.trackException({ error, severityLevel: SeverityLevel.Error });
-  }
 }
 
 /**
@@ -50,7 +38,6 @@ export function logErrorToConsole(error) {
  */
 export function logError(error, options = {}) {
   const {
-    toAppInsights = true,
     toConsole = true,
     prompt = true,
     promptPosition = 'bottom right',
@@ -65,10 +52,6 @@ export function logError(error, options = {}) {
       position: promptPosition,
       timeout: promptTimeout,
     });
-  }
-
-  if (toAppInsights) {
-    logErrorToAzureAppInsights(errorObj);
   }
 
   if (toConsole) {
