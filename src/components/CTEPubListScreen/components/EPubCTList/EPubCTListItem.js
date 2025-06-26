@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Link } from 'dva/router';
-import { ButtonBase, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton} from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { ButtonBase, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from '@material-ui/core';
 import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { amber } from '@material-ui/core/colors';
 
@@ -125,7 +125,7 @@ function EPubCTListItem(props) {
         <i className="material-icons rename-icon">{renameBtnIcon}</i>
       </IconButton>
     </CTPopoverLabel>
-  ): null);
+  ) : null);
 
   const starBtnIcon = 'star';
   const starBtnLabel = 'Endorse';
@@ -145,7 +145,7 @@ function EPubCTListItem(props) {
         </IconButton>
       </MuiThemeProvider>
     </CTPopoverLabel>
-  ): null);
+  ) : null);
 
   const checkBox = (enableButtons ? (
     <Checkbox
@@ -193,8 +193,8 @@ function EPubCTListItem(props) {
 
   return (
     <ButtonBase
-      id={id} 
-      role={role} 
+      id={id}
+      role={role}
       title={title}
       className="ct-listitem-con"
       {...baseProps}
@@ -204,7 +204,7 @@ function EPubCTListItem(props) {
       <CTFragment dFlex alignItCenter className={baseClasses}>
         {icon && <span aria-hidden="true" className="material-icons">{icon}</span>}
         <CTFragment dFlexCol className="ct-listitem-text">
-          {editing ? 
+          {editing ?
             <CTInput
               label="Video Name"
               placeholder={title}
@@ -216,7 +216,7 @@ function EPubCTListItem(props) {
               onClick={(e) => preventDefault(e)}
               className="ml-3"
               autoFocus
-            /> : 
+            /> :
             <CTText
               bold
               size={titleSize}

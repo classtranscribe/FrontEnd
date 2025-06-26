@@ -8,12 +8,12 @@ import InstructorPane from './Instructors';
 import EventLogs from './EventLogs';
 import LoginAsUser from './LoginAsUser';
 
-export const tabs = [
+export const adminTabs = [
   {
     value: 'ap-tab-universities',
     text: 'Universities',
     href: links.admin('universities'),
-    component: UniPane 
+    component: UniPane
   },
   {
     value: 'ap-tab-terms',

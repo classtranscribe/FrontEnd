@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { api, links, prompt } from 'utils';
 import { Grid, Form, Input } from 'semantic-ui-react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Components';
 
-export default function InstructorEditing({ match: { params }, history }) {
+export default function InstructorEditing() {
+  const params = useParams();
+  const navigate = useNavigate();
   const isNew = params.type === 'new';
   // const id = params.id
   // eslint-disable-next-line no-unused-vars
   const [loading, setloading] = useState(!isNew);
   const [mailId, setMailId] = useState('');
 
-  useEffect(() => {}, [params]);
+  useEffect(() => { }, [params]);
 
   const callBack = {
-    onCancel: () => history.back(),
+    onCancel: () => navigate(-1),
     onClose: () => {
       window.location = links.admin('instructors');
     },

@@ -1,5 +1,6 @@
 import { api, elem, CTSearch } from 'utils';
 import _ from 'lodash';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   ARRAY_INIT,
   ARRAY_EMPTY,
@@ -39,7 +40,7 @@ function htmlEncodeAndHighlightSearchedWords(results = [], value = '', key = 'te
   // eslint-disable-next-line no-alert
   // alert(value);
   return results.map((res) => {
-    let text = _.escape( _.get(res, key));
+    let text = _.escape(_.get(res, key));
     tests.forEach((test) => {
       if (test.testFunc(res)) {
         text = _.replace(text, test.reg, `<span>${test.word}</span>`);
@@ -84,25 +85,31 @@ async function getInCourseTransSearchResults(value, playlist, lang) {
     return [];
   }
 }
-export default {
-  *search_open(_unused, { put, select }) {
-    const { watch } = yield select();
+
+export const search_open = createAsyncThunk('watch/search_open',
+  async (_arg, { dispatch, getState }) => {
+    const { watch } = getState();
     if (watch.search.status !== SEARCH_HIDE) {
       elem.focus('watch-search-input');
       return;
     }
     const status = watch.search.hasResult ? SEARCH_RESULT : SEARCH_BEGIN;
-    yield put({ type: 'setSearch', payload: { status } });
-  },
-  *search_close(_unused, { put }) {
-    yield put({ type: 'setSearch', payload: { status: SEARCH_HIDE } });
-  },
-  // Function used to get search results from captions and videos
-  *search_getResults({ payload: value }, { call, put, select }) {
+    dispatch({ type: 'watch/setSearch', payload: { status } });
+  }
+);
+
+export const search_close = createAsyncThunk('watch/search_close',
+  async (_arg, { dispatch }) => {
+    dispatch({ type: 'watch/setSearch', payload: { status: SEARCH_HIDE } });
+  }
+);
+
+export const search_getResults = createAsyncThunk('watch/search_getResults',
+  async ({ value }, { dispatch, getState }) => {
     if (!value) {
-      return yield put({ type: 'resetSearch' })
+      return dispatch({ type: 'watch/resetSearch' });
     }
-    const { watch } = yield select();
+    const { watch } = getState();
     // caption results in this video
     const {
       inVideoTransResultsEarlier,
@@ -111,8 +118,8 @@ export default {
 
     // shortcut results
     const shortcutResults = getShortcutResults(value);
-    yield put({
-      type: 'setSearch', payload: {
+    dispatch({
+      type: 'watch/setSearch', payload: {
         value,
         status: SEARCH_RESULT,
         inVideoTransResults: [inVideoTransResultsEarlier, inVideoTransResultsLater],
@@ -123,12 +130,18 @@ export default {
     });
 
     // playlist results
-    const playlistResults = yield call(getPlaylistResults, value, watch.playlist);
+    const playlistResults = await getPlaylistResults(value, watch.playlist);
     // caption results in this offering
     const inCourseTransResults =
-      yield call(getInCourseTransSearchResults, value, watch.playlist, watch.currTrans?.language);
-    yield put({ type: 'setSearch', payload: { inCourseTransResults, hasResult: true, playlistResults } });
+      await getInCourseTransSearchResults(value, watch.playlist, watch.currTrans?.language);
+    dispatch({ type: 'watch/setSearch', payload: { inCourseTransResults, hasResult: true, playlistResults } });
     // send user action to logs
     uEvent.filtertrans(value);
   }
+);
+
+export const allSearchThunks = {
+  search_open,
+  search_close,
+  search_getResults
 }

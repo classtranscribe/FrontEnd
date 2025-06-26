@@ -260,8 +260,6 @@ export default class EPubData {
     });
     newData.initFromRawData(rawEPubData);
 
-    // eslint-disable-next-line no-console
-    console.log("created data", newData.chapters);
     return newData;
   }
 

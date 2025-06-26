@@ -5,168 +5,141 @@
  *   universities, departments, terms, and courses
  */
 
-import React from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
 import _ from 'lodash';
-import { Route, Redirect } from 'dva/router';
-// UI
 import './index.css';
-// Layouts
 import { CTLayout } from 'layout';
-// Vars
 import { api, user, links, _getSelectOptions } from 'utils';
-import { tabs } from './tabs';
 
-export class Admin extends React.Component {
-  constructor(props) {
-    super(props);
+export const AdminContext = createContext(null);
+
+export function Admin() {
+  const navigate = useNavigate();
+
+  // State
+  const [universities, setUniversities] = useState([]);
+  const [currentUni, setCurrentUni] = useState(null);
+  const [terms, setTerms] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [currentDept, setCurrentDept] = useState(null);
+  const [courses, setCourses] = useState([]);
+
+  const getSelectOptions = _getSelectOptions;
+
+  // Set page title on mount
+  useEffect(() => {
     links.title('Admin');
-    this.state = {
-      loading: true,
-      currentUni: null,
-      currentDept: null,
+  }, []);
 
-      universities: [],
-      
-      instructors: [], // for currentUni
-      terms: [], // for current Uni
-      departments: [], // for currentUni
-
-      courses: [], // for currentDept
-      // courseCurrDeparts: [],
-      // courseCurrDepart: null,
-
-      
-    };
-    this.getSelectOptions = _getSelectOptions;
-    this.getAll = this.populateState.bind(this);
-  }
-
-  async populateState() {
-    const universities = (await api.getUniversities()).data;
-    
-    let previousUniId =localStorage.getItem('adminCurrUni') || user.getUserInfo().universityId;
-    
-    const currentUni = previousUniId ? _.find(universities, { id: previousUniId }) : '' 
-    this.setState({ universities, currentUni });
-
-    if (currentUni) {
-      this.populateTermsForUniversityIf(currentUni.id);
-      this.populateDepartmentsForUniversityId(currentUni.id);
-    }
-    api.contentLoaded();
-  }
-
-  /**
-   * Specific get-by-id functions
-   */
-  async populateTermsForUniversityIf(uniId) {
-    let terms = null;
+  const populateTermsForUniversityIf = useCallback(async (uniId) => {
     try {
-      terms = uniId? (await api.getTermsByUniId(uniId)).data : null
+      const termsData = uniId ? (await api.getTermsByUniId(uniId)).data : null;
+      setTerms(termsData);
     } catch (err) {
       console.log(err);
     }
-    this.setState({ terms });
-  };
-  async populateDepartmentsForUniversityId(uniId) {
-    let departments = null;
+  }, []);
+
+  const populateDepartmentsForUniversityId = useCallback(async (uniId) => {
     try {
-      departments = uniId ? (await api.getDepartsByUniId(uniId)).data : null;
+      const departmentsData = uniId ? (await api.getDepartsByUniId(uniId)).data : null;
+      setDepartments(departmentsData);
     } catch (err) {
       console.log(err);
     }
+  }, []);
 
-    this.setState({ departments });
-  };
-
-async populateCoursesForDepartmentId(departId) {
-    let courses = [];
+  const populateState = useCallback(async () => {
     try {
-      courses = departId ? (await api.getCoursesByDepartId(departId)).data : [];
+      const universitiesData = (await api.getUniversities()).data;
+      setUniversities(universitiesData);
+
+      let previousUniId = localStorage.getItem('adminCurrUni') || user.getUserInfo().universityId;
+      const foundUni = previousUniId ? _.find(universitiesData, { id: previousUniId }) : null;
+
+      setCurrentUni(foundUni);
+
+      if (foundUni) {
+        populateTermsForUniversityIf(foundUni.id);
+        populateDepartmentsForUniversityId(foundUni.id);
+      }
+
+      api.contentLoaded();
     } catch (err) {
       console.log(err);
     }
-    this.setState({ courses });
-  };
+  }, []);
 
-  /**
-   * GET all info needed based on an admin
-   */
-  componentDidMount() {
-    /**
-     * 1. get userId and authToken
-     */
+  const populateCoursesForDepartmentId = useCallback(async (departId) => {
+    try {
+      const coursesData = departId ? (await api.getCoursesByDepartId(departId)).data : [];
+      setCourses(coursesData);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!user.isLoggedIn) {
       user.signIn();
-    } else if (!user.isAdmin) window.location = links.notfound404();
-    /**
-     * 2. first load of values
-     */
-    this.populateState();
-  }
+    } else if (!user.isAdmin) {
+      window.location = links.notfound404();
+    } else {
+      populateState();
+    }
+  }, [populateState]);
 
-  /**
-   * set current selected options and get corresponding data
-   * @param name the state name to set
-   * @param value the value to assign
-   */
-  updateUniversity = (id) => {
-    // set **CurrUni store in localStorage, then get terms/departs cased on this uni id
-      this.setState((prev)=> {return {
-        currentUni : prev.universities.find(uni => uni.id === id),
-        currentDept : null}} );
-      localStorage.setItem('adminCurrUni', id);
-      this.populateTermsForUniversityIf(id);
-      this.populateDepartmentsForUniversityId(id, 'departments');
-  }
-  updateDepartment = (id) => {
-      this.setState((prev) => {return {
-        currentDept: prev.departments.find(d => d.id === id)
-      }});
-      this.populateCoursesForDepartmentId(id);
+  // Handlers
+  const updateUniversity = (id) => {
+    const selectedUni = universities.find((uni) => uni.id === id);
+    setCurrentUni(selectedUni);
+    setCurrentDept(null);
+    localStorage.setItem('adminCurrUni', id);
+    populateTermsForUniversityIf(id);
+    populateDepartmentsForUniversityId(id);
   };
 
-  onSignOut = () => {
+  const updateDepartment = (id) => {
+    const selectedDept = departments.find((d) => d.id === id);
+    setCurrentDept(selectedDept);
+    populateCoursesForDepartmentId(id);
+  };
+
+  const onSignOut = () => {
     user.signOut();
-    this.props.history.back();
+    navigate(-1); // history.back()
   };
 
-  getLayoutProps() {
-    return CTLayout.createProps({
+  const getLayoutProps = () =>
+    CTLayout.createProps({
       responsive: true,
       transition: true,
       footer: true,
       defaultOpenSidebar: true,
       headerProps: {
         subtitle: 'Admin',
-      }
-    });
-  }
-
-  render() {
-    // Tab panes of the contents
-    const routes = tabs.map(tab => {
-      let RouteElem = tab.component;
-      return {
-        ...tab,
-        render: () => <RouteElem {...this} />
-      };
+      },
     });
 
-    return (
-      <CTLayout {...this.getLayoutProps()}>
+  const contextValue = {
+    currentUni,
+    currentDept,
+    universities,
+    terms,
+    departments,
+    courses,
+    getSelectOptions,
+    updateUniversity,
+    updateDepartment
+  };
+  return (
+    <AdminContext.Provider value={contextValue}>
+      <CTLayout {...getLayoutProps()}>
         <div className="admin-bg">
-          <Route exact path={links.admin()} render={() => <Redirect to={routes[0].href} />} />
-
-          {routes.map( route => (
-            <Route
-              key={route.value} 
-              path={route.href} 
-              render={route.render}
-            />
-          ))}
+          <Outlet />
         </div>
       </CTLayout>
-    );
-  }
+    </AdminContext.Provider>
+  );
 }

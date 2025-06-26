@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { CTLayout } from 'layout';
 import SearchInput from './components/SearchInput';
 import SearchResult from './components/SearchResult';

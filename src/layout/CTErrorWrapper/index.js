@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { user, links } from 'utils';
 import CTNavHeader, { useSignButtonProps } from '../CTNavHeader';
@@ -42,22 +42,22 @@ function CTErrorWrapper(props) {
 
         <div className="ct-ew-actions">
           {
-            (signInButton && !user.isLoggedIn) 
+            (signInButton && !user.isLoggedIn)
             &&
             <Button {...signinProps}>Sign In to Continue</Button>
           }
 
           {
-            goHomeButton 
-            && 
+            goHomeButton
+            &&
             <Button component={Link} className={bthStyles.tealLink} to={links.home()}>
               GO HOME
             </Button>
           }
 
           {
-            retry 
-            && 
+            retry
+            &&
             <Button component="a" className={bthStyles.tealLink} to={links.currentUrl()}>
               REFRESH THE PAGE
             </Button>

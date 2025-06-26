@@ -1,5 +1,4 @@
-import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import ErrorTypes from 'entities/ErrorTypes';
 import { INSTRUCTOR } from 'utils';
 import { CTLayout, CTErrorWrapper } from 'layout';
@@ -10,6 +9,10 @@ import { CourseInfo, Playlists } from './components';
 const CourseWithRedux = (props) => {
   const { course } = props;
   const { offering, role, playlist } = course;
+
+
+
+
   const offeringLoaded = offering && offering.id;
   const playlistLoaded = playlist && playlist.id;
 

@@ -3,12 +3,14 @@ import React from 'react';
 import { CTLayout, CTFragment } from 'layout';
 import { Playlist } from 'entities/Playlists';
 import { links } from 'utils/links';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { NewPlaylistForm } from './components';
 
 export const NewPlaylistWithRedux = (props) => {
   const { course } = props;
   const { offering } = course;
+  const navigate = useNavigate();
   const layoutProps = CTLayout.createProps((sidebar) => ({
     transition: true,
     responsive: true,
@@ -28,10 +30,13 @@ export const NewPlaylistWithRedux = (props) => {
     }
   }));
 
+  // eslint-disable-next-line no-console
+  console.log(layoutProps)
+
   const onSave = async (newPlaylist) => {
     const playlist = await Playlist.create(offering.id, newPlaylist);
     if (playlist) {
-      props.history.push(links.playlist(playlist.id));
+      navigate(links.playlist(playlist.id));
     }
   };
 

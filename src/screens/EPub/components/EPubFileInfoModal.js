@@ -17,10 +17,10 @@ function EPubFileInfoModal({ showFileSettings, dispatch, epub }) {
   const { teal, danger } = useButtonStyles();
   const [epubData, setEPubData] = useState(epub);
   if (!epubData.condition) {
-    epubData.condition = { default: true };
+    setEPubData({ ...epubData, condition: { default: true } })
   }
   if (!('enableGlossary' in epubData)) {
-    epubData.enableGlossary = true;
+    setEPubData({ ...epubData, enableGlossary: true });
   }
   useEffect(() => {
     // update state everytime onShow, in case the user did not save

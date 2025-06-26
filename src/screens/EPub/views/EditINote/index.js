@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTFragment, CTHeading } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import SplitIcon from '@material-ui/icons/UnfoldMore'
 import CollapseIcon from '@material-ui/icons/UnfoldLess'

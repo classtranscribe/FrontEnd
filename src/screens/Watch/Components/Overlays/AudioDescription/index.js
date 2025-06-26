@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import './index.scss';
 import {
   transControl,
@@ -42,15 +42,15 @@ function AudioDescriptionWithRedux({
   });
 
   return shouldDisplayAD ? (
-    
+
     <div id="watch-ad-container" className="watch-ad-container" style={ccContainerStyle}>
       <div className="watch-ad-text" style={ccStyle} />
     </div>
-    
+
   ) : null;
 }
 
- export const AudioDescription = connect(({ watch : { time },
-   playerpref: { openAD, cc_color, cc_bg, cc_size, cc_opacity } }) => ({
-   time, cc_color, cc_bg, cc_size, cc_opacity, openAD
- }))(AudioDescriptionWithRedux);
+export const AudioDescription = connect(({ watch: { time },
+  playerpref: { openAD, cc_color, cc_bg, cc_size, cc_opacity } }) => ({
+    time, cc_color, cc_bg, cc_size, cc_opacity, openAD
+  }))(AudioDescriptionWithRedux);

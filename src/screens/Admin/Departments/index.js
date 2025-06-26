@@ -2,24 +2,22 @@
  * Pane for Courses of Admin Page
  */
 
-import React from 'react';
-import { Route } from 'dva/router';
+import React, { useContext } from 'react';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import DepartmentEditing from './DepartmentEditing';
 import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
+import { AdminContext } from '..';
 
-export default function DepartPane(props) {
-  const { departments, universities, currentUni } = props.state;
-  
-  const uniOptions = props.getSelectOptions(universities);
+export default function DepartPane() {
+  const { departments, universities, currentUni, getSelectOptions, updateUniversity } = useContext(AdminContext);
+
+  const uniOptions = getSelectOptions(universities);
   const displayUni = currentUni || { name: 'none', id: 0 };
 
   return (
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Departments" />
-      <Route path="/admin/departments/:type?=:id" component={DepartmentEditing} />
-
       <Message color="black">
         {/* <p>
           <strong>{displayUni.name}</strong>
@@ -31,7 +29,7 @@ export default function DepartPane(props) {
             label='Select University'
             id='admin-depart-select-uni'
             placeholder='University...'
-            onChange={(e,data)=>props.updateUniversity(data.value)}
+            onChange={(e, data) => updateUniversity(data.value)}
           />
         </Form>
       </Message>

@@ -2,7 +2,7 @@
 import { CTFragment, CTText, altEl } from 'layout'
 import React, { useState, useEffect } from 'react'
 import { Button } from 'pico-ui';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { EPubImageData } from 'entities/EPubs';
 import { timestr } from 'utils';

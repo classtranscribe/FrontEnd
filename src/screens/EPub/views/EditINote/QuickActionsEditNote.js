@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { CTFragment, useButtonStyles } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 
 function QuickActionsEditNote({ chapters = {}, images, currChIndex = 0, dispatch }) {
   const btnStyles = useButtonStyles();

@@ -1,9 +1,10 @@
 /* eslint-disable complexity */
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import _ from 'lodash'
-import { 
+import {
   // timeStrToSec, 
-  colorMap } from './helpers';
+  colorMap
+} from './helpers';
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -39,8 +40,8 @@ export { promptControl } from './prompt.control';
 export { downloadControl } from './download.control';
 export { uEvent } from './UserEventController';
 
-export const findTransByLanguages = (trans,languages=['en-US']) =>{
-   return _.filter(trans, (t)=> languages.includes(t.language));
+export const findTransByLanguages = (trans, languages = ['en-US']) => {
+  return _.filter(trans, (t) => languages.includes(t.language));
 }
 
 export const connectWithRedux = (Component, property) => {
@@ -85,7 +86,7 @@ export const getCCStyle = (options) => {
     ccContainerStyle.bottom = '.7em';
   }
 
-  return { ccStyle , ccContainerStyle };
+  return { ccStyle, ccContainerStyle };
 }
 
 export const getVideoStyle = (options) => {
@@ -123,7 +124,7 @@ export const getVideoStyle = (options) => {
     transform_string += ` translate(${magnifyX}px,${magnifyY}px)`
   }
   const videoStyle = {
-    
+
     filter: filter_string,
     transform: transform_string,
   };
@@ -145,19 +146,19 @@ export const scrollTransToView = (id, smoothScroll = true, isTwoScreen) => {
   const tranBox = document.getElementById('watch-trans-container');
 
   const shouldSmoothScroll = smoothScroll && tranBox.scrollTop - capElem.offsetTop < 0;
-  
-  tranBox.style.scrollBehavior = shouldSmoothScroll ? 'smooth': 'auto' ;
+
+  tranBox.style.scrollBehavior = shouldSmoothScroll ? 'smooth' : 'auto';
   // capElem.classList.add('curr-line'); // A grep suggests this style is not defined?
-  capElem.setAttribute('current','true');
-  if(prevCurrentId && prevCurrentId !== capId) {
+  capElem.setAttribute('current', 'true');
+  if (prevCurrentId && prevCurrentId !== capId) {
     let prevElem = document.getElementById(`caption-line-${prevCurrentId}`);
-    if(prevElem) {
-       prevElem.removeAttribute('current');
+    if (prevElem) {
+      prevElem.removeAttribute('current');
     }
   }
   prevCurrentId = capId;
   const scrollTop =
-      window.innerWidth < 900 || !isTwoScreen ? capElem.offsetTop - 50 : capElem.offsetTop - 80;
+    window.innerWidth < 900 || !isTwoScreen ? capElem.offsetTop - 50 : capElem.offsetTop - 80;
   // if (preferControl.defaultTransView() === TRANSCRIPT_VIEW) scrollTop -= 400 NOT IMPLEMENTED
   tranBox.scrollTop = scrollTop;
   // if (!shouldSmoothScroll) tranBox.style.scrollBehavior = 'smooth';

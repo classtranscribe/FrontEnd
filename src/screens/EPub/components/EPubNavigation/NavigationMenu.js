@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import cx from 'classnames';
-import { Link } from 'dva/router';
-import { connect } from 'dva'
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { uurl, elem } from 'utils';
 // import { findChapterTimeSpan } from 'entities/EPubs/utils';
 // import Text from 'layout/CTText/Text';
-import { CTFragment, CTCheckbox} from 'layout';
+import { CTFragment, CTCheckbox } from 'layout';
 import { Checkbox } from '@material-ui/core';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
@@ -67,8 +67,8 @@ function NavMenuItem({
 
   return (
     <li aria-current={current ? "true" : "false"} className="nav-item-li">
-      {needBox? isTag && checkBox
-      : <></> }
+      {needBox ? isTag && checkBox
+        : <></>}
       <Link
         title={navTxt}
         id={navItemId}
@@ -76,7 +76,7 @@ function NavMenuItem({
         className={liClasses}
         onClick={onNavigate}
       >
-        
+
         <span tabIndex="-1">{navTxt}</span>
       </Link>
     </li>
@@ -103,25 +103,25 @@ function NavigationMenu({
 
   return (
     <div>
-      {showCheckbox?
+      {showCheckbox ?
         <CTFragment margin="10" padding={[5, 10]} width="auto">
           <ButtonGroup fullWidth>
-            <Button startIcon={<TagIcon />} onClick={()=>setShowCheckbox(!showCheckbox)}>Hide Tags</Button> 
+            <Button startIcon={<TagIcon />} onClick={() => setShowCheckbox(!showCheckbox)}>Hide Tags</Button>
           </ButtonGroup>
         </CTFragment>
-    :
+        :
         <CTFragment margin="10" padding={[5, 10]} width="auto">
           <ButtonGroup fullWidth>
-            <Button startIcon={<TagIcon />} onClick={()=>setShowCheckbox(!showCheckbox)}>Show Tags</Button> 
+            <Button startIcon={<TagIcon />} onClick={() => setShowCheckbox(!showCheckbox)}>Show Tags</Button>
           </ButtonGroup>
         </CTFragment>}
-      {showCheckbox?
-        <TagGroup 
+      {showCheckbox ?
+        <TagGroup
           chapters={chapters}
           selectedChapters={selectedChapters}
           setSelectedChapters={setSelectedChapters}
           dispatch={dispatch}
-        />:
+        /> :
         <></>}
       <ul
         className="plain-ul"

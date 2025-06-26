@@ -1,23 +1,23 @@
 import React from 'react';
-import { Route, Redirect } from 'dva/router';
-import { links} from 'utils';
-import { connect } from 'dva';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { links } from 'utils';
+import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import { CTErrorWrapper, CTLayout } from 'layout';
 import { TAB_EPUB, TAB_EDIT_TRANS } from './controllers/constants';
 import { MSPHeaderTabTitle } from './Components';
-import { EPub,Transcriptions } from './Tabs';
 import './index.scss';
 
-class MediaSettingsWithRedux extends React.Component {
-  // setup.verifyUser();
-  getLayoutProps() {
-    const { match } = this.props;
-    let mediaId = match.params.id;
-    // let transPath = links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
-    let epubPath = links.instMediaSettings(mediaId, TAB_EPUB);
 
-    return CTLayout.createProps({
+export function MediaSettings() {
+  const { id: mediaId } = useParams();
+  const location = useLocation();
+  const mediasetting = useSelector(state => state.mediasetting);
+
+  const epubPath = links.instMediaSettings(mediaId, TAB_EPUB);
+
+  const layoutProps = {
+    ...CTLayout.createProps({
       fill: true,
       transition: true,
       sidebarProps: {
@@ -26,34 +26,25 @@ class MediaSettingsWithRedux extends React.Component {
       headerProps: {
         shadowed: true,
         subtitle: 'Media Settings',
-        tabTitleElem: <MSPHeaderTabTitle {...this.props} />,
+        tabTitleElem: <MSPHeaderTabTitle mediasetting={mediasetting} mediaId={mediaId} />,
         tabs: [
-          /* NOT IMPLEMENTED: WIP
-          {
-            text: 'Transcriptions',
-            active: window.location.pathname === transPath,
-            href: transPath
-          },
-          */
+          // {
+          //   text: 'Transcriptions',
+          //   active: location.pathname === transPath,
+          //   href: transPath
+          // },
           {
             text: 'I-Note',
-            active: window.location.pathname === epubPath,
+            active: location.pathname === epubPath,
             href: epubPath
           }
         ]
       }
-    });
-  }
+    })
+  };
 
-  render() {
-    const { /* mediasetting, */ match } = this.props;
-    const mediaId = match.params.id;
-
-    let mspPath = links.instMediaSettings(mediaId);
-    let transPath = links.instMediaSettings(mediaId, TAB_EDIT_TRANS);
-    let epubPath = links.instMediaSettings(mediaId, TAB_EPUB);
-
-    return isMobile ? (
+  if (isMobile) {
+    return (
       <div className="msp-bg">
         <CTErrorWrapper
           show
@@ -64,22 +55,16 @@ class MediaSettingsWithRedux extends React.Component {
           header="Please open this page in a computer/laptop browser."
         />
       </div>
-    ) : (
-      <CTLayout {...this.getLayoutProps()}>
-        <div className="msp-bg">
-          <div className="msp-content">
-            <Route exact path={mspPath} render={() => <Redirect to={transPath} />} />
-
-            <Route path={epubPath} component={EPub} />
-
-            <Route path={transPath} component={Transcriptions} />
-          </div>
-        </div>
-      </CTLayout>
     );
   }
-}
 
-export const MediaSettings = connect(({ mediasetting }) => ({
-  mediasetting
-}))(MediaSettingsWithRedux);
+  return (
+    <CTLayout {...layoutProps}>
+      <div className="msp-bg">
+        <div className="msp-content">
+          <Outlet />
+        </div>
+      </div>
+    </CTLayout>
+  );
+}

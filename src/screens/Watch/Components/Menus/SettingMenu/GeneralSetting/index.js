@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import MenuRadio from '../MenuRadio';
 
 
@@ -25,9 +25,9 @@ function GeneralSetting({ show = false, autoPlay = true, dispatch }) {
         />
       </div>
     </form>
-    
+
   );
 }
-export default connect(({ playerpref: { autoPlay} }) => ({
+export default connect(({ playerpref: { autoPlay } }) => ({
   autoPlay
 }))(GeneralSetting);
