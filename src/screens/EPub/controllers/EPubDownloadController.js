@@ -1,11 +1,12 @@
 import download from 'js-file-download';
+import store from 'store';
 import { prompt } from 'utils/prompt';
 import EPubParser from './file-builders/EPubParser';
 import { EPubFileBuilder, HTMLFileBuilder, PDFFileBuilder, LatexFileBuilder } from './file-builders';
 
 const _download = async (Builder, filenameSuffix, options) => {
   options = Builder.getOptions(options);
-  const { epub } = window.temp_app._store.getState();
+  const { epub } = store.getState();
   const filename = epub.epub.filename + filenameSuffix;
   const parsedData = await EPubParser.parse(epub, options);
   const fileBuffer = await Builder.toBuffer(parsedData);
