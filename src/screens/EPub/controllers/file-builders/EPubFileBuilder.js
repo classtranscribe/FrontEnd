@@ -83,9 +83,10 @@ class EPubFileBuilder {
 
     // IMAGES — add one <item> per embedded image
     if (Array.isArray(this.imageItems) && this.imageItems.length) {
-      contentItems += '\n\t\t' + this.imageItems.map(img =>
+      const temp = this.imageItems.map(img =>
         `<item id="${img.id}" href="${img.href}" media-type="${img.mediaType}" />`
       ).join('\n\t\t');
+      contentItems += `\n\t\t${temp}`;
     }
 
     // content itemrefs
@@ -219,7 +220,9 @@ class EPubFileBuilder {
 
     const rewriteImageObject = (imgObj) => {
       if (!imgObj) return;
-      let buffer = null, mime = null, ext = 'jpg';
+      let buffer = null
+      let mime = null
+      let ext = 'jpg';
 
       if (typeof imgObj.src === 'string' && imgObj.src.startsWith('data:')) {
         const parts = dataUrlParts(imgObj.src);
