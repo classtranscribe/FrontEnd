@@ -230,7 +230,8 @@ const CTPopup = ({ time = 0 }) => {
                       data-setup="{}"
                       autoPlay
                       muted
-                    ><source src={signURL.URL} type='video/mp4' />
+                    >
+                      <source src={signURL.URL} type='video/mp4' />
                     </video>
                     {cite(signURL)}
                   </>)}
@@ -249,8 +250,9 @@ const CTPopup = ({ time = 0 }) => {
                     muted
                   >
                     <source src={definitionURL.URL} type='video/mp4' />
-                  </video>{cite(definitionURL)}
-                  </>)}
+                  </video>
+                  {cite(definitionURL)}
+                </>)}
               </TabPanel>)}
             {exampleURL !== '' && (
               <TabPanel>
@@ -264,9 +266,11 @@ const CTPopup = ({ time = 0 }) => {
                     data-setup="{}"
                     autoPlay
                     muted
-                  ><source src={exampleURL.URL} type='video/mp4' />
-                  </video>{cite(exampleURL)}
-                  </>)}
+                  >
+                    <source src={exampleURL.URL} type='video/mp4' />
+                  </video>
+                  {cite(exampleURL)}
+                </>)}
               </TabPanel>)}
           </Tabs>
 

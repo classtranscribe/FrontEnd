@@ -38,26 +38,26 @@ function Videos({
         ) : medias.length === 0 ? (
           <div className="w-100 d-flex justify-content-center align-items-center m-5">NO VIDEO</div>
         ) : (
-              medias.map((me) => (
-                  <div className='playlist-item'>
-                    <MediaCard
-                      row
-                      dark
-                      posterSize="small"
-                      label={currMediaId === me.id ? 'NOW PLAYING' : null}
-                      {...MediaCard.parse(me)}
-                    />
-                    <Button
-                      id="inote-button"
-                      className={btnClassName}
-                      startIcon={<i className="material-icons">import_contacts</i>}
-                      href={links.mspEpubSettings(me.id)}
-                    >
-                      I-Note
-                    </Button>
-                  </div>
-              ))
-            )}
+          medias.map((me) => (
+            <div className='playlist-item' key={me.id}>
+              <MediaCard
+                row
+                dark
+                posterSize="small"
+                label={currMediaId === me.id ? 'NOW PLAYING' : null}
+                {...MediaCard.parse(me)}
+              />
+              <Button
+                id="inote-button"
+                className={btnClassName}
+                startIcon={<i className="material-icons">import_contacts</i>}
+                href={links.mspEpubSettings(me.id)}
+              >
+                I-Note
+              </Button>
+            </div>
+          ))
+        )}
       </ul>
     </div>
   );
