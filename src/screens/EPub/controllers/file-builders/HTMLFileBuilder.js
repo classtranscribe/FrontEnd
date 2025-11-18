@@ -52,17 +52,13 @@ class HTMLFileBuilder {
     return text;
   }
 
-  static convertImage(content, videoLinks, sourceId, sourceType) {
+  static convertImage(content, videoLinks) {
     let despId = _buildID();
-    let video_source_url = content.link;
-    if(sourceType !== PlaylistTypes.UploadID) {
-      video_source_url = getSourceLink(sourceId, sourceType, content.timestamp);
-    }
     return [
       '<div class="img-block">',
-      videoLinks && video_source_url && video_source_url !== '' ? `<a href="${video_source_url}">` : '',
+      videoLinks && content.link && content.link !== '' ? `<a href="${content.link}">` : '',
       `\t<img src="${content.src}" alt="${content.alt}" aria-describedby="${despId}" />`,
-      videoLinks && video_source_url && video_source_url !== '' ? `</a>` : '',
+      videoLinks && content.link && content.link !== '' ? `</a>` : '',
       content.descriptions.length !== 0
         ? `\t<div id="${despId}">${html.markdown(content.descriptions.join('\n'))}</div>`
         : '',
@@ -70,11 +66,11 @@ class HTMLFileBuilder {
     ].join('\n');
   }
 
-  static convertContent(content, includeRawLatex, videoLinks, sourceId = null, sourceType = null) {
+  static convertContent(content, includeRawLatex, videoLinks) {
     if (epubIsText(content)) {
       return HTMLFileBuilder.convertText(content, includeRawLatex);
     }
-    return HTMLFileBuilder.convertImage(content, videoLinks, sourceId, sourceType);
+    return HTMLFileBuilder.convertImage(content, videoLinks);
   }
 
   static convertChapter(
@@ -92,9 +88,15 @@ class HTMLFileBuilder {
       // the first chapter has idx 0, but is chapter 1. Thus, we use idx+1
       `<!-- Chapter -->\n<h2 data-ch id="${chapter.id}">${idx + 1}: ${chapter.title}</h2>`,
       `<div class="wrap-text">`,
-      _.map(chapter.contents, (c) =>
-        HTMLFileBuilder.convertContent(c, includeRawLatex, videoLinks, sourceId, sourceType),
-      ).join('\n'),
+      _.map(chapter.contents, (c) => {
+        if (!(typeof c === 'string' || "latex" in c)) {
+          c.link = c.link || "";
+          if(sourceType !== PlaylistTypes.UploadID) {
+            c.link = getSourceLink(sourceId, sourceType, c.timestamp ? c.timestamp : "00:00:00");
+          }
+        }
+        return HTMLFileBuilder.convertContent(c, includeRawLatex, videoLinks);
+      }).join('\n'),
       `</div>`,
       glossaryText,
     ].join('\n\n');
@@ -111,7 +113,7 @@ class HTMLFileBuilder {
           this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false,
           this.data.includeRawLatex,
           this.videoLinks,
-          (this.data.sourceType === PlaylistTypes.BoxID) ? this.data.jsonMetadata.shared_link.url : this.data.sourceId,
+          (this.data.sourceType === PlaylistTypes.BoxID) ? this.data.jsonMetadata.shared_link.url : this.data.jsonMetadata.id,
           this.data.sourceType
         );
       }).join('\n'),
