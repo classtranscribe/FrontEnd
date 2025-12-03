@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import AdmZip from 'adm-zip';
+import PlaylistTypes from 'entities/Playlists/PlaylistTypes';
 import { dedent } from 'dentist';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
 import { glossaryToHTMLString } from './GlossaryCreator';
@@ -83,19 +84,18 @@ class EPubFileBuilder {
 
     // IMAGES — add one <item> per embedded image
     if (Array.isArray(this.imageItems) && this.imageItems.length) {
-      const temp = this.imageItems.map(img =>
-        `<item id="${img.id}" href="${img.href}" media-type="${img.mediaType}" />`
-      ).join('\n\t\t');
+      const temp = this.imageItems
+        .map((img) => `<item id="${img.id}" href="${img.href}" media-type="${img.mediaType}" />`)
+        .join('\n\t\t');
       contentItems += `\n\t\t${temp}`;
     }
 
     // content itemrefs
-    let contentItemsRefs = _.map(chapters, (ch) => `<itemref idref="${ch.id}"/>`
-    ).join('\n\t\t');
+    let contentItemsRefs = _.map(chapters, (ch) => `<itemref idref="${ch.id}"/>`).join('\n\t\t');
 
     if (this.glossary && !_.isEmpty(this.glossary) && !this.data.chapterGlossary) {
       contentItems += `<item id="glossary" href="glossary.xhtml" media-type="application/xhtml+xml" />`;
-      contentItemsRefs += `<itemref idref="glossary"/>`
+      contentItemsRefs += `<itemref idref="glossary"/>`;
     }
 
     return OEBPS_CONTENT_OPF({
@@ -110,16 +110,20 @@ class EPubFileBuilder {
   }
 
   buildTocXHTML(chapters) {
-    let navContents = "";
+    let navContents = '';
     _.forEach(chapters, (ch, index) => {
       navContents += `
       <dt class="table-of-content">  
         <a href="${ch.id}.xhtml">${index + 1} - ${ch.title} </a>
       </dt>
-      `}
-    )
+      `;
+    });
 
-    const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
+    const toc_xhtml = OEBPS_TOC_XHTML({
+      title: this.data.title,
+      language: this.language,
+      navContents,
+    });
     this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
   }
 
@@ -131,16 +135,20 @@ class EPubFileBuilder {
           <dt class="table-of-content">  
           <a href="${this.data.chapters[chIdx].id}.xhtml"><img src="${img.src}"/></a>
           </dt>
-        `
-      }).join("\n")
-    }).join("\n");
+        `;
+      }).join('\n');
+    }).join('\n');
 
-    const toc_xhtml = OEBPS_TOC_XHTML({ title: this.data.title, language: this.language, navContents });
+    const toc_xhtml = OEBPS_TOC_XHTML({
+      title: this.data.title,
+      language: this.language,
+      navContents,
+    });
 
     this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
   }
   buildTocNCX(chapters) {
-    let navPoints = "";
+    let navPoints = '';
     _.forEach(chapters, (ch, index) => {
       navPoints += `
 		<navPoint id="${ch.id}" playOrder="${index}" class="chapter">
@@ -163,17 +171,29 @@ class EPubFileBuilder {
     this.buildTocNCX(chapters);
   }
   convertGlossary(glossary) {
-    return OEBPS_CONTENT_XHTML({ title: "Glossary", content: glossaryToHTMLString(glossary), language: this.language });
+    return OEBPS_CONTENT_XHTML({
+      title: 'Glossary',
+      content: glossaryToHTMLString(glossary),
+      language: this.language,
+    });
   }
 
   convertChapter(idx, chapter, chapterGlossary) {
-    let text = HTMLFileBuilder.convertChapter(idx, chapter, chapterGlossary, this.data.includeRawLatex, this.videoLinks);
-    
+    let text = HTMLFileBuilder.convertChapter(
+      idx,
+      chapter,
+      chapterGlossary,
+      this.data.includeRawLatex,
+      this.videoLinks,
+      (this.data.sourceType === PlaylistTypes.BoxID) ? this.data.jsonMetadata.shared_link.url : this.data.sourceId,
+      this.data.sourceType,
+    );
+
     // --- Normalize HTML via DOM, strip risky attributes, then XHTML-tidy ---
     try {
       // normalize curly quotes that can break attrs
       text = text
-        .replace(/[\u201C\u201D]/g, '"')  // curly double quotes -> "
+        .replace(/[\u201C\u201D]/g, '"') // curly double quotes -> "
         .replace(/[\u2018\u2019]/g, "'"); // curly single quotes -> '
 
       // Use DOM to normalize attributes & spacing
@@ -181,8 +201,8 @@ class EPubFileBuilder {
       wrapper.innerHTML = text;
 
       // Strip ALL data-* attributes (optional in EPUB, often malformed)
-      wrapper.querySelectorAll('*').forEach(el => {
-        [...el.attributes].forEach(attr => {
+      wrapper.querySelectorAll('*').forEach((el) => {
+        [...el.attributes].forEach((attr) => {
           if (/^data-/.test(attr.name)) {
             el.removeAttribute(attr.name);
           }
@@ -198,7 +218,21 @@ class EPubFileBuilder {
     // Final XHTML safety passes:
     // - self-close <img> tags
     text = text.replace(/<img([^>]*?)>/g, '<img$1 />');
-    const VOID = ['br','hr','meta','link','input','source','track','area','base','col','embed','param','wbr'];
+    const VOID = [
+      'br',
+      'hr',
+      'meta',
+      'link',
+      'input',
+      'source',
+      'track',
+      'area',
+      'base',
+      'col',
+      'embed',
+      'param',
+      'wbr',
+    ];
     const voidRe = new RegExp(`<(${VOID.join('|')})([^/>]*?)>`, 'gi');
     text = text.replace(voidRe, '<$1$2 />');
     const closeVoidRe = new RegExp(`</(?:${VOID.join('|')})\\s*>`, 'gi');
@@ -211,7 +245,7 @@ class EPubFileBuilder {
       </div>
       `);
 
-    return OEBPS_CONTENT_XHTML({ title: chapter.title, content, language: this.language })
+    return OEBPS_CONTENT_XHTML({ title: chapter.title, content, language: this.language });
   }
 
   prepareAndEmbedImages() {
@@ -220,8 +254,8 @@ class EPubFileBuilder {
 
     const rewriteImageObject = (imgObj) => {
       if (!imgObj) return;
-      let buffer = null
-      let mime = null
+      let buffer = null;
+      let mime = null;
       let ext = 'jpg';
 
       if (typeof imgObj.src === 'string' && imgObj.src.startsWith('data:')) {
@@ -256,12 +290,12 @@ class EPubFileBuilder {
           rewriteImageObject.call(this, c);
         }
         if (Array.isArray(c.latex)) {
-          c.latex.forEach(limg => rewriteImageObject.call(this, limg));
+          c.latex.forEach((limg) => rewriteImageObject.call(this, limg));
         }
       }
     };
 
-    (this.data.chapters || []).forEach(ch => {
+    (this.data.chapters || []).forEach((ch) => {
       (ch.contents || []).forEach(scanChapterContent);
     });
 
@@ -270,7 +304,11 @@ class EPubFileBuilder {
 
   convertEPub() {
     _.forEach(this.data.chapters, (ch, idx) => {
-      const contentXHTML = this.convertChapter(idx, ch, this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false);
+      const contentXHTML = this.convertChapter(
+        idx,
+        ch,
+        this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false,
+      );
       this.zip.addFile(`OEBPS/${ch.id}.xhtml`, Buffer.from(contentXHTML));
     });
     if (this.glossary && !_.isEmpty(this.glossary) && !this.data.chapterGlossary) {

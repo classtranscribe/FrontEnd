@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import PlaylistTypes from 'entities/Playlists/PlaylistTypes';
 import { newPDF, STYLE_SHEET, placeholderImg, TextBox } from './file-templates/pdf';
-
+import { getSourceLink } from './utils';
 
 /**
  * File buffer builder for .epub
@@ -137,7 +138,17 @@ class PDFFileBuilder {
   }
 
   convertChapters() {
-    _.forEach(this.data.chapters, (chapter, idx) => this.convertChapter(idx, chapter))
+    _.forEach(this.data.chapters, (chapter, idx) => {
+      _.forEach(chapter.contents, content => {
+        if (!(typeof content === 'string' || "latex" in content)) {
+          content.link = content.link || "";
+          if(this.data.sourceType !== PlaylistTypes.UploadID) {
+            content.link = getSourceLink(this.data.sourceType === PlaylistTypes.BoxID ? this.data.jsonMetadata.shared_link.url : this.data.jsonMetadata.id, this.data.sourceType, content.timestamp ? content.timestamp : "00:00:00");
+          }
+        }
+      });
+      this.convertChapter(idx, chapter)
+    });
   }
   writeGlossaryEntry(key, value) {
     this.writeTextToPDF(`${key}: ${value.description}`, STYLE_SHEET.font.glossary);
