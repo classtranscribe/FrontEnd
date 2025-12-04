@@ -31,9 +31,15 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
   const shortcutModal = makeEl(ShortcutModal);
   const fileSettingsModal = makeEl(EPubFileInfoModal);
+  
+  // The useEffect below is triggered before the component is mounted
+  // Hence, an error is being thrown. Disabling for now can update when purpose is clear.
+  /*
   useEffect(() => {
     setTimeout(() => document.getElementById('ct-epb-main').focus(), 1000)
   }, [])
+  */
+
   /*
   onUndo(e) {
     this.preventDefault(e);

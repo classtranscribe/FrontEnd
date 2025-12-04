@@ -7,8 +7,8 @@ function ImageDescription({
   descriptions,
   onChange
 }) {
-  let myDescriptions = [...descriptions]
   if (Array.isArray(descriptions)) {
+    let myDescriptions = [...descriptions];
     if (descriptions[descriptions.length - 1] !== "") {
       myDescriptions.push("");
     }

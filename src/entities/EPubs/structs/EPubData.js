@@ -6,11 +6,13 @@ import EPubChapterData from './EPubChapterData';
 import EPubImageData from './EPubImageData';
 
 /**
- * The error which occurred when the required information 
+ * The error which occurred when the required information
  * for creating an ePub file is invalid
  */
-export const EPubDataValidationError =
-  new CTError('EPubDataValidationError', 'Invalid I-Note data.');
+export const EPubDataValidationError = new CTError(
+  'EPubDataValidationError',
+  'Invalid I-Note data.',
+);
 
 /**
  * The class for an ePub data
@@ -26,7 +28,8 @@ export default class EPubData {
     cover: null,
     chapters: [],
     h3: true,
-    condition: { 'default': true },
+    condition: { default: true },
+    jsonMetadata: {},
   };
 
   /**
@@ -45,10 +48,9 @@ export default class EPubData {
     else if (typeof data === 'object') {
       this.__data__ = {
         ...this.__data__,
-        ...data
+        ...data,
       };
-    }
-    else {
+    } else {
       throw EPubDataValidationError;
     }
 
@@ -72,6 +74,10 @@ export default class EPubData {
       this.h3 = true;
     }
 
+    if (!this.jsonMetadata) {
+      this.jsonMetadata = data.jsonMetadata;
+    }
+
     // set up cover image
     if (!this.cover) {
       this.cover = new EPubImageData();
@@ -82,18 +88,21 @@ export default class EPubData {
 
   initFromRawData(rawEPubData) {
     this.chapters = [
-      new EPubChapterData({
-        title: 'Default Chapter',
-        items: rawEPubData,
-      }, true, this.sourceId).toObject()
+      new EPubChapterData(
+        {
+          title: 'Default Chapter',
+          items: rawEPubData,
+        },
+        true,
+        this.sourceId,
+      ).toObject(),
     ];
     // this.condition = ['default'];
     this.condition.default = true;
-
-    this.items = rawEPubData.map((item) => (EPubImageData.createWithTimestamp(item, this.sourceId)));
+    this.items = rawEPubData.map((item) => EPubImageData.createWithTimestamp(item, this.sourceId));
 
     if (!this.cover.src && this.items.length > 0) {
-      this.cover = { ...this.items[0], descriptions: [], alt: "cover image" };
+      this.cover = { ...this.items[0], descriptions: [], alt: 'cover image' };
     }
   }
 
@@ -204,6 +213,14 @@ export default class EPubData {
     this.__data__.chapters = chapters;
   }
 
+  set jsonMetadata(jsonMetadata) {
+    this.__data__.jsonMetadata = jsonMetadata;
+  }
+
+  get jsonMetadata() {
+    return this.__data__.jsonMetadata;
+  }
+
   /**
    * @returns {EPubChapterData[]}
    */
@@ -215,7 +232,9 @@ export default class EPubData {
     return {
       ...this.__data__,
       cover: this.cover instanceof EPubImageData ? this.cover.toObject() : this.cover,
-      chapters: this.chapters.map(chapter => (chapter instanceof EPubChapterData ? chapter.toObject() : chapter))
+      chapters: this.chapters.map((chapter) =>
+        chapter instanceof EPubChapterData ? chapter.toObject() : chapter,
+      ),
     };
   }
 
@@ -244,24 +263,19 @@ export default class EPubData {
   removeChapter(index) {
     let chapters = this.chapters;
     let chapter = chapters[index];
-    this.chapters = [
-      ...chapters.slice(0, index),
-      ...chapters.slice(index + 1)
-    ];
+    this.chapters = [...chapters.slice(0, index), ...chapters.slice(index + 1)];
 
     return chapter;
   }
 
-
   static create(rawEPubData, data) {
     const newData = new EPubData({
-      ...data
+      ...data,
     });
     newData.initFromRawData(rawEPubData);
 
     return newData;
   }
-
 
   // static copyChapterStructure(rawEPubData, chapters) {
   //   let lastIdx = 0;
