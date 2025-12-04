@@ -67,30 +67,49 @@ class LatexFileBuilder {
   }
 
   saveImage(content) {
-    const img_path = `images/${content.id}.jpeg`
-    this.zip.addFile(img_path, content.buffer);
-    return img_path
+    if (!content || !content.id) {
+      throw new Error('Invalid image content: missing id');
+    }
+    if (!content.buffer || content.buffer.length === 0) {
+      throw new Error(`Invalid image content: missing or empty buffer for image ${content.id}`);
+    }
+    const img_path = `images/${content.id}.jpeg`;
+    // Ensure images directory exists in zip (AdmZip handles this automatically)
+    this.zip.addFile(img_path, Buffer.from(content.buffer));
+    return img_path;
   }
   convertContent(content) {
     if (epubIsText(content)) {
       return LatexFileBuilder.markdownToLatex(content);
     }
-    const img_path = this.saveImage(content);
-    const captions = _.map(content.descriptions, (d) => {
-      const new_desc = LatexFileBuilder.markdownToLatex(d);
-      return `\\caption*{${new_desc}}`
-    }).join("\n");
+    
+    // Validate image content before processing
+    if (!content || !content.buffer || content.buffer.length === 0) {
+      console.warn('Skipping image with missing or empty buffer:', content);
+      return `% Image skipped: missing or invalid buffer`;
+    }
+    
+    try {
+      const img_path = this.saveImage(content);
+      const captions = _.map(content.descriptions || [], (d) => {
+        const new_desc = LatexFileBuilder.markdownToLatex(d);
+        return `\\caption*{${new_desc}}`
+      }).join("\n");
 
-    const new_alt = LatexFileBuilder.escapeSpecialChars(content.alt);
-    return [
-      `\\begin{figure}`,
-      `\\centering`,
-      this.videoLinks && content.link && content.link !== "" ? `\\href{${content.link}}{` : "",
-      `\\includegraphics[alt={${new_alt}}, width=.8\\textwidth]{${img_path}}`,
-      this.videoLinks && content.link && content.link !== "" ? `}` : "",
-      captions,
-      `\\end{figure}`
-    ].join("\n")
+      const new_alt = LatexFileBuilder.escapeSpecialChars(content.alt || '');
+      return [
+        `\\begin{figure}`,
+        `\\centering`,
+        this.videoLinks && content.link && content.link !== "" ? `\\href{${content.link}}{` : "",
+        `\\includegraphics[alt={${new_alt}}, width=.8\\textwidth]{${img_path}}`,
+        this.videoLinks && content.link && content.link !== "" ? `}` : "",
+        captions,
+        `\\end{figure}`
+      ].join("\n");
+    } catch (error) {
+      console.error('Error converting image to LaTeX:', error, content);
+      return `% Image conversion error: ${error.message}`;
+    }
   }
 
   convertChapter(idx, chapter) {
@@ -132,10 +151,12 @@ class LatexFileBuilder {
     const glossary = this.data.chapterGlossary ? "" : this.convertGlossary(this.glossary)
     return [
       "\\documentclass{article}",
+      "\\usepackage[utf8]{inputenc}",
+      "\\usepackage[T1]{fontenc}",
       "\\usepackage{caption}",
       "\\usepackage{graphicx}",
       "\\usepackage{hyperref}",
-      "\\usepackage[T1]{fontenc}",
+      "\\usepackage{textcomp}",
       "\\begin{document}",
       titlepage,
       TOC,
@@ -227,6 +248,9 @@ class LatexFileBuilder {
   }
 
   static escapeSpecialChars(str) {
+    if (!str) return str;
+    
+    // First escape ASCII special characters
     str = str.replace(/\\/g, '\\textbackslash ');
     str = str.replace(/\$/g, '\\$');
     str = str.replace(/\{/g, '\\{');
@@ -237,6 +261,17 @@ class LatexFileBuilder {
     str = str.replace(/_/g, '\\_');
     str = str.replace(/%/g, '\\%');
     str = str.replace(/~/g, '\\~');
+    
+    // Handle Unicode characters - convert to LaTeX commands or use proper encoding
+    // For characters outside ASCII range, we'll use the textcomp package approach
+    // or convert to LaTeX Unicode commands
+    str = str.replace(/[\u0080-\uFFFF]/g, (char) => {
+      // Common Unicode characters that have LaTeX equivalents
+      // For others, we'll use the character directly with utf8 encoding
+      // The utf8 inputenc package should handle most Unicode
+      return char;
+    });
+    
     return str
   }
   static removeVerbatimEscape(str) {

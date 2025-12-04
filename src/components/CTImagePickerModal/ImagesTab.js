@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { CTText } from 'layout';
 import { uurl } from 'utils/use-url';
 import Image from 'components/Image';
-import _ from 'lodash';
 import ImagePreview from './ImagePreview';
 
 function ImagesTab(props) {
@@ -26,7 +25,14 @@ function ImagesTab(props) {
               className="ct-img-picker-img-con"
               data-current={img === imgUrl}
               onClick={() => setImgUrl(img)}
-              role="listitem"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setImgUrl(img);
+                }
+              }}
+              role="button"
+              aria-label={`Select image ${img}`}
             >
               <Image src={uurl.getMediaUrl(img)} alt="Chapter Cover" />
               <div className="ct-img-picker-img-wrapper ct-d-r-center">
