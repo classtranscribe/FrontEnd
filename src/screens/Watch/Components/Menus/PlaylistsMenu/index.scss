@@ -147,3 +147,14 @@
     display: none;
   }
 }
+.playlist-item {
+  display: flex;
+  white-space: nowrap !important;
+  overflow: hidden; 
+}
+#inote-button {
+  color: white !important;
+  &:hover {
+    color: teal !important;
+  }
+}

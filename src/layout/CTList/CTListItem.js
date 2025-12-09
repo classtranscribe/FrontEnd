@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import { ButtonBase } from '@material-ui/core';
 import { CTFragment, CTText } from 'layout';
 
@@ -35,8 +35,8 @@ function CTListItem(props) {
 
   return (
     <ButtonBase
-      id={id} 
-      role={role} 
+      id={id}
+      role={role}
       title={title}
       className="ct-listitem-con"
       {...baseProps}

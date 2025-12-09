@@ -1,9 +1,10 @@
 /**
- * Editing Page for Departments
+ * Editing Page for Departments (functional version)
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { useParams, useNavigate } from 'react-router-dom';
 import { api, links } from 'utils';
 import { Grid, Form, Input } from 'semantic-ui-react';
 import { updateJson } from '../helpers';
@@ -12,75 +13,76 @@ import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Compo
 
 const { initialDepart } = api.initialData;
 
-export default class DepartmentEditing extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.match.params.id,
-      isNew: this.props.match.params.type === 'new',
-      loading: true,
+export default function DepartmentEditing() {
+  const { id, type } = useParams();
+  const navigate = useNavigate();
+  const isNew = type === 'new';
 
-      depart: _.clone(initialDepart),
-      departInfo: _.clone(initialDepart),
-      confirmed: false,
-    };
-    this.path = 'Departments';
-  }
+  const [loading, setLoading] = useState(true);
+  const [depart, setDepart] = useState(_.clone(initialDepart));
+  const [departInfo, setDepartInfo] = useState(_.clone(initialDepart));
+  const [confirmed, setConfirmed] = useState(false);
 
-  componentDidMount() {
-    const { id, isNew } = this.state;
-    if (!isNew) {
-      api.getDepartById(id).then(({ data }) => this.setState({ depart: data, loading: false }));
+  useEffect(() => {
+    if (!isNew && id) {
+      api.getDepartById(id).then(({ data }) => {
+        setDepart(data);
+        setDepartInfo(_.clone(data));
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
-  }
+  }, [id, isNew]);
 
-  onChange = (value, key) => {
-    const { departInfo } = this.state;
-    departInfo[key] = value;
-    this.setState({ departInfo });
+  const onChange = (value, key) => {
+    setDepartInfo((prev) => ({ ...prev, [key]: value }));
   };
 
-  onSubmit = () => {
-    const { id, departInfo } = this.state;
-    departInfo.universityId = id;
-    api.createDepartment(departInfo).then(() => this.onClose());
+  const onClose = () => {
+    window.location = links.admin('departments'); // or navigate('/admin/departments')
   };
 
-  onUpdate = () => {
-    const { depart, departInfo, id } = this.state;
-    let data = updateJson(departInfo, depart);
+  const onSubmit = () => {
+    const data = { ...departInfo, universityId: id };
+    api.createDepartment(data).then(() => onClose());
+  };
+
+  const onUpdate = () => {
+    const data = updateJson(departInfo, depart);
     data.id = id;
-    api.updateDepartment(data).then(() => this.onClose());
+    api.updateDepartment(data).then(() => onClose());
   };
 
-  onConfirm = () => this.setState({ confirmed: true });
+  const onConfirm = () => setConfirmed(true);
 
-  onInactive = () => {
-    api.deleteDepartment(this.state.id).then(() => this.onClose());
+  const onInactive = () => {
+    api.deleteDepartment(id).then(() => onClose());
   };
 
-  onClose = () => {
-    window.location = links.admin('departments');
+  const onCancel = () => {
+    navigate(-1); // replaces this.props.history.back()
   };
 
-  onCancel = () => {
-    this.props.history.back();
-  };
+  const header = isNew ? 'Create New Department' : 'Edit the Department';
+  const button = isNew
+    ? <SubmitButton {...{ onSubmit, onCancel }} />
+    : <EditButtons {...{ onUpdate, onCancel, onInactive, onConfirm, confirmed }} />;
 
-  render() {
-    const { isNew } = this.state;
-    const header = isNew ? 'Create New Department' : 'Edit the Department';
-    const button = isNew ? <SubmitButton {...this} /> : <EditButtons {...this} />;
-    return (
-      <GeneralModal header={header} open onClose={this.onCancel} button={button}>
-        <DepartForm {...this} />
-      </GeneralModal>
-    );
-  }
+  return (
+    <GeneralModal header={header} open onClose={onCancel} button={button}>
+      <DepartForm
+        isNew={isNew}
+        depart={depart}
+        loading={loading}
+        onChange={onChange}
+      />
+    </GeneralModal>
+  );
 }
 
-function DepartForm({ state: { isNew, depart, loading }, onChange }) {
-  if (isNew) depart = initialDepart;
+function DepartForm({ isNew, depart, loading, onChange }) {
+  const effectiveDepart = isNew ? initialDepart : depart;
 
   return (
     <Form className="ap-form">
@@ -94,7 +96,7 @@ function DepartForm({ state: { isNew, depart, loading }, onChange }) {
                 control={Input}
                 label="Department Name"
                 placeholder="E.g. Mathematics"
-                defaultValue={depart.name}
+                defaultValue={effectiveDepart.name}
                 onChange={({ target: { value } }) => onChange(value, 'name')}
               />
             </Grid.Column>
@@ -105,7 +107,7 @@ function DepartForm({ state: { isNew, depart, loading }, onChange }) {
                 control={Input}
                 label="Acronym"
                 placeholder="E.g. MATH"
-                defaultValue={depart.acronym}
+                defaultValue={effectiveDepart.acronym}
                 onChange={({ target: { value } }) => onChange(value, 'acronym')}
               />
             </Grid.Column>

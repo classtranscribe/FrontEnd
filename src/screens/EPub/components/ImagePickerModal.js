@@ -1,14 +1,13 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { CTImagePickerModal } from 'components';
 
 function ImagePickerModal({ imgPickerData, dispatch, epub, ...playerData }) {
   const show = Boolean(imgPickerData);
-  if(!show) {
+  if (!show) {
     return null;
   }
   const { screenshots = [], chapterScreenshots = [] } = imgPickerData;
-
   let tabs = [
     {
       name: 'All Screenshots',

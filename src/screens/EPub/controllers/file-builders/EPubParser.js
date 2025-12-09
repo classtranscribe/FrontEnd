@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import Prism from 'prismjs';
-import { uurl, api, CTError } from 'utils';
-import { /* EPubData, EPubDataValidationError, */ EPubChapterData } from 'entities/EPubs';
-
-const buildHTMLFromChapter = EPubChapterData.__buildHTMLFromChapter;
+import { uurl, api, CTError, html } from 'utils';
+import html2canvas from 'html2canvas';
+import { getGlossaryData } from './GlossaryCreator';
+import { epubIsImage, epubIsText } from './utils';
 
 /**
  * The error which occurred while loading the images for an ePub
@@ -11,9 +10,220 @@ const buildHTMLFromChapter = EPubChapterData.__buildHTMLFromChapter;
 export const LoadImageError = new CTError('LoadImageError', 'Failed to load images.');
 
 /**
- * EPubData parser for file builders
+ * EPubData parser for file builders. The parser should handle all necessary async functions, not just
+ * the functions common to all four downloaders
  */
 class EPubParser {
+  /**
+  * Create an EPubParser
+  * @param {EPubData} ePubData 
+  */
+  async init(epubData, options) {
+    this.img_id = 1
+    this.options = options
+    this.data = JSON.parse(JSON.stringify(epubData));
+    this.data.chapters = await this.parseChapters(epubData.chapters);
+    this.data.glossary = {}
+    if (this.options.includeGlossary) {
+      let glossaryData = await getGlossaryData(epubData.sourceId);
+      if (this.options.chapterGlossary) {
+        this.data.chapterGlossary = this.getChapterGlossary(glossaryData, epubData.chapters);
+      } else {
+        this.data.glossary = glossaryData;
+      }
+    }
+
+    if (this.options.visualTOC) {
+      this.data.visualTOC = this.getVisualTOC(this.data.chapters);
+    }
+
+    this.data.cover = await this.parseContent(epubData.cover);
+    this.data.includeRawLatex = options.includeRawLatex;
+    this.data.videoLinks = options.videoLinks;
+  }
+  getVisualTOC(chapters) {
+    let visualTOC = _.map(chapters, (chapter) => {
+      return _.filter(chapter.contents, (content) => {
+        return epubIsImage(content);
+      })
+    })
+    return visualTOC;
+  }
+  getChapterGlossary(glossary, chapters) {
+    return _.map(chapters, (chapter) => {
+      const chapter_text = _.filter(chapter.contents, epubIsText).join("\n").toLowerCase();
+      const desc_text = _.filter(chapter.contents, epubIsImage)
+        .map((content) => content.descriptions.join("\n") + content.alt)
+        .join("\n")
+        .toLowerCase();
+      return _.pickBy(glossary, (value, word) =>
+        chapter_text.includes(word.toLowerCase()) || desc_text.includes(word.toLowerCase())
+      );
+    })
+  }
+  async parseChapters(chapters) {
+    let new_chapters = await Promise.all(_.map(chapters, async (ch) => {
+      return this.parseChapter(ch)
+    }));
+    return new_chapters;
+  }
+
+  async parseChapter({ contents, title }) {
+    let new_contents = await Promise.all(_.map(contents, async (content) => {
+      return this.parseContent(content);
+    }));
+    // _.forEach(chapter.contents, async (content, idx, contents) => { contents[idx] = await this.parseContent(content) });
+    // chapter.contents = await Promise.all(chapter.contents);
+    if (this.options.imagesFirst) {
+      let image_contents = _.filter(new_contents, (c) => typeof c !== "string");
+      let other_contents = _.filter(new_contents, (c) => typeof c === "string");
+      new_contents = _.concat(image_contents, other_contents);
+    }
+    return { contents: new_contents, title }
+  }
+
+  async parseContent(content) {
+    if (epubIsImage(content)) {
+      return this.parseImage(content);
+    } if (epubIsText(content)) {
+      return this.parseText(content);
+    }
+    return content;
+  }
+
+  async parseImage(content) {
+    let new_content = JSON.parse(JSON.stringify(content));
+    let img_buffer = await EPubParser.loadImageBuffer(content.src);
+    let img_blob = new Blob([img_buffer]);
+
+    if (this.options.invertColors) {
+      img_blob = await EPubParser.invertImageIfDim(img_blob);
+      const arr_buf = await img_blob.arrayBuffer();
+      img_buffer = new Uint8Array(arr_buf);
+    }
+
+    if (this.options.replaceImageSrc) {
+      new_content.src = await EPubParser.blobToDataUrl(img_blob);
+    } else {
+      new_content.blob = img_blob;
+      new_content.buffer = img_buffer;
+    }
+
+
+    if (new_content.src !== "") {
+      const { height, width } = await EPubParser.getImageDimensions(img_blob);
+      new_content.height = height;
+      new_content.width = width;
+    }
+    new_content.descriptions = await Promise.all(content.descriptions.filter((desc) => desc.trim() !== "")
+      .map((desc) => this.parseText(desc)));
+    new_content.id = this.img_id;
+    this.img_id += 1;
+    return new_content;
+  }
+
+  async parseText(text) {
+    if (!this.options.replaceLatex) {
+      return text;
+    }
+    const regex = /\$\$(.*?)\$\$/g
+    const latexElems = text.match(regex);
+    let latex_parsed = await Promise.all(_.map(latexElems, async (val) => {
+      let img_blob = await this.htmlToImageBlob(html.markdown(val));
+      let data_src = await EPubParser.blobToDataUrl(img_blob);
+      let { height, width } = await EPubParser.getImageDimensions(img_blob);
+      return { src: data_src, height, width };
+    }))
+    return { text, latex: latex_parsed };
+  }
+  async htmlToImageBlob(htmlString) {
+    if (!htmlString) {
+      throw new Error("HTML string is required");
+    }
+
+    try {
+      // Create a temporary container to render the HTML string
+      const container = document.createElement("div");
+      container.style.position = "absolute";
+      container.style.left = "-9999px";
+      container.style.top = "-9999px";
+      container.innerHTML = htmlString;
+      document.body.appendChild(container);
+
+      // Render the container to canvas
+      const canvas = await html2canvas(container, { scale: 20 });
+
+      // Remove the container from the DOM
+      document.body.removeChild(container);
+
+      // Convert canvas to blob
+      return new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error("Canvas to Blob conversion failed"));
+          }
+        }, 'image/png');
+      });
+    } catch (error) {
+      console.error("Error rendering HTML to image:", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create an EPubParser
+   * @param {EPubData} ePubData 
+   * 
+   * The following are fields of options
+   * @param {Boolean} replaceImageSrc Replace the image src from a url to a data url. If false, attaches the buffer of the image.
+   * @param {Boolean} replaceLatex Attempts to replace any latex expressions in md ($$latex$$) with images
+   * 
+   * @param {Boolean} invertColors Invert the colors of images that are overly dark.
+   * @param {Boolean} visualTOC Place images as a table of contents, with links to the relevant chapters
+   * @param {Boolean} includeGlossary Prints the associated glossary
+   * @param {Boolean} includeRawLatex Includes the raw, unparsed latex after rendered image. Does nothing to .tex files.
+   * 
+   * @returns {Any} parsed epubData
+   */
+  static async parse(ePubData, options) {
+    const parser = new EPubParser();
+    await parser.init(ePubData.epub, options)
+
+    return parser.data;
+  }
+
+  static async imageUrlToDataUrl(url) {
+    const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(url))
+    if (img === "") {
+      return ""
+    }
+    const img_blob = new Blob([img]);
+    return EPubParser.blobToDataUrl(img_blob);
+  }
+  /**
+   * load media buffer
+   * @param {String} src path to the src
+   * @returns {Promise<Buffer>} the loaded src buffer
+   */
+  static async loadImageBuffer(src) {
+    try {
+      const buffer = await api.getBuffer(uurl.getMediaUrl(src));
+      return buffer;
+    } catch (error) {
+      this.hasImageError = true;
+      return "";
+      // return "";
+      // throw LoadImageError;
+    }
+  }
+
+  static async getImageDimensions(blob) {
+    const { width, height } = await createImageBitmap(blob);
+    return { width, height }
+  }
+
   static blobToDataUrl(blob) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -23,159 +233,45 @@ class EPubParser {
     })
   };
 
-  /**
-  * Create an EPubParser
-  * @param {EPubData} ePubData 
-  * @param {Boolean} replaceImageSrc
-  */
-  async init(epubData, replaceImageSrc) {
-    const data = JSON.parse(JSON.stringify(epubData)); // deep copy
-    const img = await EPubParser.loadImageBuffer(uurl.getMediaUrl(data.cover.src))
-    const img_blob = new Blob([img]);
-    data.cover.src = await EPubParser.blobToDataUrl(img_blob); // URL.createObjectURL(img_blob)
-    data.chapters = await this.parseChapters(data.chapters, replaceImageSrc);
-    this.data = data;
-  }
+  static async invertImageIfDim(blob, threshold = 100) {
+    // Create an ImageBitmap from the Blob
+    const imageBitmap = await createImageBitmap(blob);
 
-  /**
-   * Create an EPubParser
-   * @param {EPubData} ePubData 
-   * @param {Boolean} replaceImageSrc
-   * @returns {Any} parsed epubData
-   */
-  static async parse(ePubData, replaceImageSrc) {
-    const parser = new EPubParser();
-    await parser.init(ePubData.epub, replaceImageSrc)
-    return parser.data;
-  }
+    // Create an off-screen canvas
+    const canvas = new OffscreenCanvas(imageBitmap.width, imageBitmap.height);
+    const ctx = canvas.getContext("2d");
 
-  /**
-   * load media buffer
-   * @param {String} src path to the src
-   * @returns {Promise<Buffer>} the loaded src buffer
-   */
+    // Draw the image onto the canvas
+    ctx.drawImage(imageBitmap, 0, 0);
 
-  static async loadImageBuffer(src) {
-    try {
-      /*
-      if(src.startsWith('blob')) {
-        return await (await fetch(src)).arrayBuffer()
-      }
-      */
-      const buffer = await api.getBuffer(uurl.getMediaUrl(src));
-      return buffer;
-    } catch (error) {
-      throw LoadImageError;
-    }
-  }
+    // Get image data
+    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let data = imageData.data;
 
-  static async loadEPubImageBuffers({ cover, chapters }) {
-    const coverBuffer = await EPubParser.loadImageBuffer(cover.src);
-
-    const images = [];
-    for (let i = 0; i < chapters.length; i += 1) {
-      const ch = chapters[i];
-      if (ch.images) {
-        /* eslint-disable no-await-in-loop */
-        for (let j = 0; j < ch.images.length; j += 1) {
-          const img = ch.images[j];
-          const buffer = await EPubParser.loadImageBuffer(img.src);
-          images.push({ ...img, buffer });
-        }
-        /* eslint-enable no-await-in-loop */
-      }
+    // quit if below brightness
+    let avg_brightness = _.mean(_.filter(data, (val, idx) => { return idx % 4 !== 3 }));
+    if (avg_brightness > threshold) {
+      imageBitmap.close();
+      return blob;
     }
 
-    return { coverBuffer, images };
-  }
+    // Invert colors
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 255 - data[i];       // Red
+      data[i + 1] = 255 - data[i + 1]; // Green
+      data[i + 2] = 255 - data[i + 2]; // Blue
+      // Alpha (data[i + 3]) remains unchanged
+    }
 
-  /**
-   * Change all the subchapters' id
-   * @param {Any[]} subChapters 
-   * @param {String} chapterId 
-   * @returns {Any[]}
-   */
-  parseSubChapters(subChapters, chapterId) {
-    return _.map(subChapters, (subChapter, schIdx) => ({
-      ...subChapter,
-      id: `${chapterId}-sch-${schIdx + 1}`
-    }));
-  }
+    // Put modified data back on the canvas
+    ctx.putImageData(imageData, 0, 0);
 
-  /**
-   * Create dom for chapter
-   * @param {Any} chapter 
-   * @returns {Document}
-   */
-  async createChapterDOM(chapter) {
-    // Remove invalid syntax for xhtml
-    const htmlLike = (await buildHTMLFromChapter(chapter))
-      .replace(/&nbsp;/g, '&#160;')
-      .replace(/<br>/g, '<br/>');
-    return new DOMParser().parseFromString(htmlLike, 'text/html');
-  }
+    // Convert to Blob and clean up
+    const invertedBlob = await canvas.convertToBlob({ type: "image/png" });
 
-  /**
-   * get all images from dom
-   * @param {Document} dom 
-   * @returns {Any[]}
-   */
-  extractImagesFromDOM(dom, chapterId, replaceSrc) {
-    const imgEls = dom.getElementsByTagName('img');
-    return _.map(imgEls, (imgEl, imgIdx) => {
-      const imgID = `${chapterId}-img-${imgIdx + 1}`;
-      const src = uurl.getMediaUrl(imgEl.src);
-      const relSrc = `images/${imgID}.jpeg`; // relative src path for an image
-      if (replaceSrc) {
-        imgEl.src = relSrc;
-      }
+    imageBitmap.close();
 
-      return { src, relSrc, id: imgID };
-    });
-  }
-
-  /**
-   * get body text from dom
-   * @param {Document} dom 
-   * @returns {String}
-   */
-  extractBodyTextFromDom(dom) {
-    // Serialize xhtml
-    const xhtml = new XMLSerializer().serializeToString(dom);
-
-    // Only keep codes inside the <body>..</body>
-    return xhtml
-      .replace('<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>', '')
-      .replace('</body></html>', '');
-  }
-
-  /**
-   * get parsed EPubData chapters
-   * @param {Any[]} chapters 
-   * @param {Boolean} replaceImageSrc 
-   */
-  // eslint-disable-next-line no-unused-vars
-  async parseChapters(chapters, replaceImageSrc = true) {
-    return Promise.all(_.map(chapters, async (chapter, chIdx) => {
-      const chapterId = `chapter-${chIdx + 1}`;
-
-      const subChapters = this.parseSubChapters(chapter.subChapters, chapterId);
-
-      const dom = await this.createChapterDOM({ ...chapter, id: chapterId, subChapters });
-      Prism.highlightAllUnder(dom);
-      const chapterText = this.extractBodyTextFromDom(dom);
-      const chapterImages = this.extractImagesFromDOM(dom, chapterId, replaceImageSrc=false); 
-      return {
-        id: chapterId,
-        title: chapter.title,
-        condition: chapter.condition,
-        start: chapter.start,
-        link: chapter.link,
-        text: chapterText,
-        images: chapterImages,
-        subChapters,
-      };
-    }));
+    return invertedBlob;
   }
 }
 

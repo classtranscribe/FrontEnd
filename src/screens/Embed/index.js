@@ -4,7 +4,7 @@ import CTPlayer, {
   CTPlayerConstants as PConstants,
   LanguageConstants as LangConstants
 } from 'components/CTPlayer';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 
 /* 
 Set begin time in second: begin

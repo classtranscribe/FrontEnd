@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { MediaCard } from 'components';
 import { links } from 'utils/links';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import {
   timeStrToSec,
   prettierTimeStr,
@@ -19,10 +19,10 @@ const validateOnlySimpleSpanTags = (untrustedHTML) => {
   // This validation check ensures arbitrary search results cant accidentially inject
   // arbitrary html into the page.
   // We're not using regex - prefer simplicity for security-related code..
-  const ignoreSpan = untrustedHTML.replaceAll("<span>","").replaceAll("</span>","");
+  const ignoreSpan = untrustedHTML.replaceAll("<span>", "").replaceAll("</span>", "");
   const isInvalid = ignoreSpan.includes("<") || ignoreSpan.includes(">");
-  
-  if(isInvalid) {
+
+  if (isInvalid) {
     // eslint-disable-next-line no-console
     console.log(`validateOnlySimpleSpanTags failed:${untrustedHTML}`);
   }

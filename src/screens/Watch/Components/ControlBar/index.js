@@ -1,6 +1,6 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import './index.scss';
 
 import {
@@ -28,7 +28,7 @@ import ProgressBar from './ProgressBar';
 // eslint-disable-next-line complexity
 export function ControlBarWithRedux(props) {
   const { dispatch, media = {}, bulkEditing = false } = props;
-  const { isTwoScreen, transcriptions, hasASL , aslCorner} = media;
+  const { isTwoScreen, transcriptions, hasASL, aslCorner } = media;
   const hasTrans = Array.isArray(transcriptions) && transcriptions.length > 0;
   // eslint-disable-next-line no-console
   const showScreenModes = isTwoScreen && !bulkEditing && !isMobile;
@@ -54,7 +54,7 @@ export function ControlBarWithRedux(props) {
         <TimeDisplay />
       </div>
       <div className="watch-ctrl-bar-right-elems">
-        
+
         <GlossaryButton />
 
         {isMobile && <NextVideoButton nextBtn={false} />}
@@ -66,7 +66,7 @@ export function ControlBarWithRedux(props) {
 
         {/* marked for removal in future version */}
         {false && hasTrans && <LanguagePickerButton />}
-        
+
         {hasTrans && <TranscriptionPickerButton />}
 
         {showScreenModes && <ScreenModeSettingButton isTwoScreen={isTwoScreen} />}
@@ -78,6 +78,6 @@ export function ControlBarWithRedux(props) {
   );
 }
 
-export const ControlBar = connect(({ watch : { media, bulkEditing} }) => ({
+export const ControlBar = connect(({ watch: { media, bulkEditing } }) => ({
   media, bulkEditing
 }))(ControlBarWithRedux);

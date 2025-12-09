@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { useButtonStyles } from 'layout';
 import { links } from 'utils';
@@ -19,10 +19,10 @@ const MenuTrigger = (props) => {
   const btn = useButtonStyles();
 
   return !isLoggedIn ? (
-    <Button 
-      component={Link} 
-      variant="contained" 
-      to={links.signIn()} 
+    <Button
+      component={Link}
+      variant="contained"
+      to={links.signIn()}
       className={btn.teal}
     >
       SIGN IN
@@ -44,7 +44,7 @@ const MenuTrigger = (props) => {
       onKeyUp={onKeyUp}
     />
   ) : (
-    <div 
+    <div
       role="button"
       tabIndex={0}
       title="Profile Menu"

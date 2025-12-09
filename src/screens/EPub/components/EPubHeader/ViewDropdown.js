@@ -12,25 +12,17 @@ function ViewDropdown({ view, dispatch }) {
   };
 
   const handleClose = () => setOpen(false);
-  const handleChange = (value) => dispatch({type: 'epub/setView', payload: value}); 
+  const handleChange = (value) => dispatch({ type: 'epub/setView', payload: value });
 
   const viewOptions = [
     {
       value: epub.const.EpbReadOnly,
-      text: 'View I-Note (Read Only)',
+      text: 'View or Download I-Note',
       icon: 'visibility'
-    },{
-      value: epub.const.EpbEditStructure,
-      text: 'Edit I-Note Structure',
-      icon: 'layers'
-    },{
-      value: epub.const.EpbEditChapter,
-      text: 'Edit Chapters',
-      icon: 'dashboard'
     },
     {
       value: epub.const.EditINote,
-      text: 'Edit Chapters and Structure (beta)',
+      text: 'Edit I-Note',
       icon: 'edit'
     }
   ];
@@ -56,7 +48,7 @@ function ViewDropdown({ view, dispatch }) {
       >
         {currentView.text}
       </Button>
-      <CTDropdown 
+      <CTDropdown
         id="ct-epb-view-menu"
         open={open}
         anchorRef={anchorRef}

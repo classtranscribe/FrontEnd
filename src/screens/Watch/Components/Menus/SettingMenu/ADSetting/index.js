@@ -1,13 +1,13 @@
 import React, { /* useState, */useEffect } from 'react';
 import { /* Select, Form, Grid, */Popup } from 'semantic-ui-react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 // import { Adb } from '@material-ui/icons';
 import MenuRadio from '../MenuRadio';
 
 import './slider.scss';
 
 function ADSetting({ show = false, openAD = false, descriptions = [],
-  dispatch, pauseWhileAD = false, ADVolume, ADSpeed}) {
+  dispatch, pauseWhileAD = false, ADVolume, ADSpeed }) {
   const handleAD = (/** { target: { checked } } */) => {
     dispatch({ type: 'playerpref/toggleOpenAD' })
   };
@@ -53,7 +53,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
           description="Turn on to automatically pause video when there is a audio description."
         />
         <div className="w-100">
-          <h3 className="watch-menu-tab-subtitle">AD Volume: {Math.floor( ADVolume * 100)}%</h3>
+          <h3 className="watch-menu-tab-subtitle">AD Volume: {Math.floor(ADVolume * 100)}%</h3>
           <Popup
             label="AD Volume"
             inverted
@@ -68,7 +68,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
               <input
                 id="ad-volume-slider"
                 className="brightness-slider"
-                aria-label={`Audio Description Volume Slider - Current Volume: ${Math.floor( ADVolume * 100)}`}
+                aria-label={`Audio Description Volume Slider - Current Volume: ${Math.floor(ADVolume * 100)}`}
                 type="range"
                 min={0}
                 max={1}
@@ -80,7 +80,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
           />
         </div>
         <div className="w-100">
-          <h3 className="watch-menu-tab-subtitle">AD Speed: {Math.floor( ADSpeed * 100)}%</h3>
+          <h3 className="watch-menu-tab-subtitle">AD Speed: {Math.floor(ADSpeed * 100)}%</h3>
           <Popup
             label="AD Speed"
             inverted
@@ -95,7 +95,7 @@ function ADSetting({ show = false, openAD = false, descriptions = [],
               <input
                 id="ad-speed-slider"
                 className="brightness-slider"
-                aria-label={`Audio Description Speed Slider - Current Speed: ${Math.floor( ADVolume * 100)}`}
+                aria-label={`Audio Description Speed Slider - Current Speed: ${Math.floor(ADVolume * 100)}`}
                 type="range"
                 min={0}
                 max={3}

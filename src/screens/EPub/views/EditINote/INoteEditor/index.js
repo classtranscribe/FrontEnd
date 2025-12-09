@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import './index.scss';
 
 import INoteChapter from './INoteChapter';
@@ -14,12 +14,12 @@ function INoteEditor({ chapters = [], /* foldedIds = [], */ currChIndex, /* setI
   }, []);
 
   return (
-    <ul className='ct-inote-editor'> 
+    <ul className='ct-inote-editor'>
       {chapters.map((chapter, chIdx) => (
-        <INoteChapter 
+        <INoteChapter
           key={chapter.id}
           chapter={chapter}
-          chapters={chapters} 
+          chapters={chapters}
           chIdx={chIdx}
           isSubChapter={false}
           condition={chapter.condition}
@@ -30,6 +30,6 @@ function INoteEditor({ chapters = [], /* foldedIds = [], */ currChIndex, /* setI
   )
 }
 
-export default connect(({ epub: { currChIndex, epub: { chapters, images}, foldedIds } }) => ({
-    currChIndex, chapters, images, foldedIds
-  }))(INoteEditor); 
+export default connect(({ epub: { currChIndex, epub: { chapters, images }, foldedIds } }) => ({
+  currChIndex, chapters, images, foldedIds
+}))(INoteEditor); 

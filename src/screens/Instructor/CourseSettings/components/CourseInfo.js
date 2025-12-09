@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { CourseForm } from 'screens/Instructor/NewCourse/components';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { prompt, api } from 'utils';
 import _ from 'lodash';
 
@@ -24,37 +24,37 @@ export function CourseInfoWithRedux(props) {
     const offeringId = offering.id;
     let newCourses = newOffering.courseIds;
     let oldCourses = _.map(oldOffering.courses, course_ => course_.courseId);
-  
+
     let added = _.difference(newCourses, oldCourses);
     let removed = _.difference(oldCourses, newCourses);
-    
+
     // link added courses to this offering
     if (added.length > 0) {
       await Promise
-      .all(added.map((courseId) => new Promise((resolve) => {
-        api.createCourseOffering({ courseId, offeringId })
-          .then(() => resolve());
-      })))
-      .catch((error) => {
-        console.error(error);
-        prompt.error('Failed to remove course.');
-      });
+        .all(added.map((courseId) => new Promise((resolve) => {
+          api.createCourseOffering({ courseId, offeringId })
+            .then(() => resolve());
+        })))
+        .catch((error) => {
+          console.error(error);
+          prompt.error('Failed to remove course.');
+        });
     }
-  
+
     if (removed.length > 0) {
       await Promise
-      .all(removed.map((courseId) => new Promise((resolve) => {
-        api.deleteCourseOffering(courseId, offeringId)
-          .then(() => resolve());
-      })))
-      .catch((error) => {
-        console.error(error);
-        prompt.error('Failed to add course.');
-      });
+        .all(removed.map((courseId) => new Promise((resolve) => {
+          api.deleteCourseOffering(courseId, offeringId)
+            .then(() => resolve());
+        })))
+        .catch((error) => {
+          console.error(error);
+          prompt.error('Failed to add course.');
+        });
     }
   }
-  
-   const updateCourseInfo = useCallback(async function updateCourseInfo(newOffering) {
+
+  const updateCourseInfo = useCallback(async function updateCourseInfo(newOffering) {
     const oldOffering = offering;
     const updatedOff = {
       id: oldOffering.id,
@@ -76,8 +76,8 @@ export function CourseInfoWithRedux(props) {
 
     // handle linked course templates ?
     await updateCourseOfferings(newOffering);
-    
-    dispatch({type: 'course/setOffering', payload: {...oldOffering, ...updatedOff}}); // update course info
+
+    dispatch({ type: 'course/setOffering', payload: { ...oldOffering, ...updatedOff } }); // update course info
     prompt.addOne({ text: 'Course information updated.', timeout: 3000 });
   });
   return (

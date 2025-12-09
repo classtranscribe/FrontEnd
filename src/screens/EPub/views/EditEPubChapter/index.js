@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash'
 import { CTFragment } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { EPubNavigationProvider } from '../../components';
 import { epub } from '../../controllers';
 import ChapterEditor from './ChapterEditor';
@@ -13,7 +13,7 @@ function EditEPubChapter({ dispatch }) {
   const dispatchScroll = _.debounce((e) => dispatch({ type: 'epub/onScroll', payload: e }), 300)
   const onScroll = (e) => dispatchScroll(e.target)
 
-  return ( 
+  return (
     <EPubNavigationProvider>
       <CTFragment dFlex h100 scrollY id={epub.id.EPubChapterListID} onScroll={onScroll}>
         <CTFragment width="67%">

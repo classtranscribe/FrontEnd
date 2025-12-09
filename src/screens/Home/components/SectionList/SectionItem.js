@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import { CourseCard, MediaCard } from 'components';
 import {
   CTFragment,
@@ -48,7 +48,7 @@ function SectionItem({ section }) {
         {titleElement}
         {subTitleElement}
       </CTFragment>
-      <CTFragment padding={[0,0,0,5]}>
+      <CTFragment padding={[0, 0, 0, 5]}>
         <CTHorizontalScroll>
           {sectionItemsElements(section)}
         </CTHorizontalScroll>

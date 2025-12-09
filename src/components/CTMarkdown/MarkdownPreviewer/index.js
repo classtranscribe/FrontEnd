@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { html } from 'utils';
@@ -22,8 +22,28 @@ function MarkdownPreviewer(props) {
     ...otherProps
   } = props;
 
+  const previewRef = useRef(null);
+
   useEffect(() => {
     Prism.highlightAll();
+    
+    // Render KaTeX math expressions if KaTeX is available
+    if (typeof window !== 'undefined' && window.katex && window.renderMathInElement && previewRef.current) {
+      try {
+        window.renderMathInElement(previewRef.current, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\[', right: '\\]', display: true},
+            {left: '\\(', right: '\\)', display: false}
+          ],
+          throwOnError: false
+        });
+      } catch (error) {
+        // Silently fail if KaTeX rendering fails
+        console.warn('KaTeX rendering error:', error);
+      }
+    }
   }, [value]);
 
   const previewClasses = cx('ct-md', 'preview', className);
@@ -41,10 +61,10 @@ function MarkdownPreviewer(props) {
       ...otherProps
     };
 
-    previewElement = <div {...previewProps} />;
+    previewElement = <div {...previewProps} ref={previewRef} />;
   } else {
     previewElement = (
-      <div id={id} className={htmlClasses} {...otherProps}>
+      <div id={id} className={htmlClasses} ref={previewRef} {...otherProps}>
         {children}
       </div>
     );

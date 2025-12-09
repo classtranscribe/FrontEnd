@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { CTFragment, altEl, makeEl } from 'layout';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { ARRAY_INIT } from 'utils/constants';
 import * as KeyCode from 'keycode-js';
 import { epub as epubController } from './controllers';
@@ -8,12 +8,11 @@ import Constants from './controllers/constants/EPubConstants';
 import {
   EPubHeader,
   PlayerModal,
-  PreviewModal,
   ShortcutModal,
   EPubFileInfoModal,
   ImagePickerModal
 } from './components';
-import { EditEPubStructure, EditEPubChapter, ViewAndDownload, EditINote } from './views';
+import { ViewAndDownload, EditINote } from './views';
 import './index.scss';
 
 function shouldDisable() {
@@ -27,17 +26,20 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
   const loading = chapters === ARRAY_INIT || epub === null;
   const headerElement = altEl(EPubHeader, !loading);
 
-  const editStructView = altEl(EditEPubStructure, view === epubController.const.EpbEditStructure);
-  const editChapterView = altEl(EditEPubChapter, view === epubController.const.EpbEditChapter);
   const readOnlyView = altEl(ViewAndDownload, view === epubController.const.EpbReadOnly);
   const editINoteView = altEl(EditINote, view === epubController.const.EditINote);
 
-  const previewModal = makeEl(PreviewModal);
   const shortcutModal = makeEl(ShortcutModal);
   const fileSettingsModal = makeEl(EPubFileInfoModal);
+  
+  // The useEffect below is triggered before the component is mounted
+  // Hence, an error is being thrown. Disabling for now can update when purpose is clear.
+  /*
   useEffect(() => {
     setTimeout(() => document.getElementById('ct-epb-main').focus(), 1000)
   }, [])
+  */
+
   /*
   onUndo(e) {
     this.preventDefault(e);
@@ -45,7 +47,7 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
     epubData.history.undo(); NOT IMPLEMENTED
     }
   }
-
+  
   onRedo(e) {
     this.preventDefault(e);
     if (epubState.view !== Constants.EpbReadOnly && epubData.history.canRedo) {
@@ -56,19 +58,20 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
   // eslint-disable-next-line complexity
   const onKeyDown = (e) => {
-    const { keyCode, metaKey, shiftKey } = e;
+    const { keyCode, shiftKey } = e;
     if (shouldDisable()) {
       return;
     }
-
-    if (!metaKey) return;
+    if (!shiftKey) return;
+    if (document.activeElement.getAttribute("role") === "textbox") return;
     // Meta key actions
     switch (keyCode) {
       case KeyCode.KEY_1: // 1
-      case KeyCode.KEY_2: // 2
-      case KeyCode.KEY_3: // 3
         e.preventDefault();
-        return dispatch({ type: 'epub/setView', payload: (Constants.EPubViews[keyCode - 49]) })
+        return dispatch({ type: 'epub/setView', payload: (Constants.EpbReadOnly) })
+      case KeyCode.KEY_2: // 2
+        e.preventDefault();
+        return dispatch({ type: 'epub/setView', payload: (Constants.EditINote) })
       case KeyCode.KEY_B: // b
         e.preventDefault();
         return dispatch({ type: 'epub/toggleNav' })
@@ -83,19 +86,6 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
       default:
         break;
     }
-
-    if (!shiftKey) return;
-    // Shift + Meta key actions
-    switch (keyCode) {
-      case KeyCode.KEY_P: // p
-        e.preventDefault();
-        return dispatch({ type: 'epub/togglePreview' })
-      case KeyCode.KEY_Z: // z
-        e.preventDefault();
-        return 0// this.onRedo(event);
-      default:
-        break;
-    }
   }
 
   return (
@@ -104,14 +94,11 @@ function EPubWithRedux({ view, chapters, epub, dispatch }) {
 
       <CTFragment id="ct-epb-view-con">
         {editINoteView}
-        {editStructView}
-        {editChapterView}
         {readOnlyView}
       </CTFragment>
 
       <ImagePickerModal />
       <PlayerModal />
-      {previewModal}
       {shortcutModal}
       {fileSettingsModal}
     </CTFragment>

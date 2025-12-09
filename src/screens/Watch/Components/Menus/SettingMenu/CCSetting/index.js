@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import './index.scss';
 
 import MenuRadio from '../MenuRadio';
@@ -43,6 +43,6 @@ function CCSetting({ show = false, openCC = false, captions = [], dispatch }) {
   );
 }
 
-export default connect(({ watch : { captions}, playerpref: { openCC } }) => ({
+export default connect(({ watch: { captions }, playerpref: { openCC } }) => ({
   openCC, captions
 }))(CCSetting)

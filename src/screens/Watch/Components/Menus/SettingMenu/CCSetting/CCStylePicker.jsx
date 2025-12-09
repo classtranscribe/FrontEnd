@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select, Form, Grid, Popup } from 'semantic-ui-react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import {
   CC_COLOR_WHITE,
   CC_COLOR_BLACK,
@@ -17,7 +17,7 @@ import {
   getCCStyle,
   getCCSelectOptions,
 } from '../../../../Utils';
-  
+
 import './slider.scss';
 
 const CC_EXAMPLE = 'This is an example of closed caption';
@@ -42,7 +42,7 @@ function SettingMenu({
     cc_spacing,
   });
   const handleSpacing = ({ target: { value } }) => {
-    dispatch({ type: 'playerpref/setPreference', payload: { cc_spacing:  value} })
+    dispatch({ type: 'playerpref/setPreference', payload: { cc_spacing: value } })
   };
 
   return (
@@ -161,7 +161,7 @@ function SettingMenu({
             <input
               id="cc-spacing-slider"
               className="brightness-slider"
-              aria-label={`CC Spacing Slider - Current CC Spacing: ${Math.floor( cc_spacing * 100)}`}
+              aria-label={`CC Spacing Slider - Current CC Spacing: ${Math.floor(cc_spacing * 100)}`}
               type="range"
               min={0.25}
               max={2}
@@ -176,6 +176,6 @@ function SettingMenu({
   );
 }
 
-export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing} }) => ({
+export default connect(({ playerpref: { cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing } }) => ({
   cc_color, cc_bg, cc_size, cc_opacity, cc_font, cc_position, cc_spacing
 }))(SettingMenu);

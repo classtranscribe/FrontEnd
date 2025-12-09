@@ -3,15 +3,15 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { CTPopoverLabel, altEl } from 'layout';
 
-function ToolButton({
-  onClick,
-  icon,
-  label,
-  shortcut,
-  anchorRef,
-  ...otherProps
-}) {
+function ToolButton({ onClick, icon, label, shortcut, anchorRef, active, ...otherProps }) {
   const fullLabel = shortcut ? `${label} (${shortcut})` : label;
+  const buttonClassName = active
+    ? 'ct-epb toolbar-btn icon-btn active'
+    : 'ct-epb toolbar-btn icon-btn';
+  const buttonClassNameText = active ? 'ct-epb toolbar-btn active' : 'ct-epb toolbar-btn';
+
+  // Remove active from otherProps to prevent passing it to Material-UI components
+  const { active: _, ...propsWithoutActive } = otherProps;
 
   return (
     <CTPopoverLabel label={fullLabel}>
@@ -19,11 +19,11 @@ function ToolButton({
         <IconButton
           onClick={onClick}
           id={`ct-epb-h-toolbth-${icon}`}
-          className="ct-epb toolbar-btn icon-btn"
+          className={buttonClassName}
           aria-label={fullLabel}
           disableRipple
           ref={anchorRef}
-          {...otherProps}
+          {...propsWithoutActive}
         >
           <span className="ct-epb toolbar-btn-inner" tabIndex="-1">
             <span className="material-icons">{icon}</span>
@@ -32,12 +32,12 @@ function ToolButton({
       ) : (
         <Button
           onClick={onClick}
-          className="ct-epb toolbar-btn"
+          className={buttonClassNameText}
           aria-label={fullLabel}
           disableRipple
           endIcon={<span className="material-icons">arrow_drop_down</span>}
           ref={anchorRef}
-          {...otherProps}
+          {...propsWithoutActive}
         >
           <span className="ct-epb toolbar-btn-inner" tabIndex="-1">
             {label}

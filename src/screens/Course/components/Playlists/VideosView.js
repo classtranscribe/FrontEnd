@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTFragment, CTFooter, CTText } from 'layout';
 import { InfoAndListLayout, MediaCard } from 'components';
@@ -24,19 +24,19 @@ function VideosView({
 
   return error ? null : (
     <InfoAndListLayout.List fadeIn loading={loading} id="cp-pls-view">
-      <CTFragment 
-        sticky 
-        alignItCenter 
-        className="title link" 
-        as={Link} 
-        to={{ pathname: window.location.pathname, search: '', hash: ''}}
+      <CTFragment
+        sticky
+        alignItCenter
+        className="title link"
+        as={Link}
+        to={{ pathname: window.location.pathname, search: '', hash: '' }}
       >
         <i className="material-icons" aria-hidden="true">arrow_back</i>
         <span>{name}</span>
       </CTFragment>
 
       <CTFragment {...vListProps}>
-        {medias.map((me) => <MediaCard row posterSize='normal' {...MediaCard.parse(me)} /> )}
+        {medias.map((me) => <MediaCard row posterSize='normal' {...MediaCard.parse(me)} />)}
       </CTFragment>
 
       <CTFooter />

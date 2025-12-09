@@ -8,7 +8,7 @@ import 'react-tabs/style/react-tabs.scss';
 // import { ButtonGroup } from 'semantic-ui-react';
 import { cthttp } from 'utils/cthttp/request';
 import { env } from 'utils/env';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import Draggable from 'react-draggable';
 import './CTPopup.scss'
 import GlossaryPanel from './GlossaryPanel';
@@ -77,7 +77,7 @@ const CTPopup = ({ time = 0 }) => {
       const res2 = await cthttp.get(`Task/GetGlossaryTimestamp?videoId=${vid}`);
       const times = res2.data.glossaryTimestamp;
       const res = await cthttp.get(`Task/GetGlossary?videoId=${vid}`); // English And potentially ASL Glossary entries
-      
+
       const gdata = [];
       const keys = {};
       let tiebreaker = 0;
@@ -96,7 +96,7 @@ const CTPopup = ({ time = 0 }) => {
           curdata.begin = parseTimestamp(curstamp[0].substring(0, 8));
           curdata.end = parseTimestamp(curstamp[1].substring(0, 8));
           basekey = `${curdata.begin}-${curdata.end}-${basekey}`;
-        } 
+        }
         let key = basekey;
 
         while (keys[key] !== undefined) {
@@ -131,8 +131,8 @@ const CTPopup = ({ time = 0 }) => {
           ret.data.forEach(element => {
             const URL = `${origin}/data/aslvideos/${element.source.toLowerCase()}/original/${element.uniqueASLIdentifier}.mp4`
             element.URL = URL;
-            
-            
+
+
             if (element.kind === 1) {
               setSignURL(element);
             } else if (element.kind === 2) {
@@ -208,7 +208,7 @@ const CTPopup = ({ time = 0 }) => {
           <Tabs>
             <TabList>
               <Tab>{term.word || 'English'}</Tab>
-              {((signURL+definitionURL+exampleURL) !=='') && (<> ASL</>)}
+              {((signURL + definitionURL + exampleURL) !== '') && (<> ASL</>)}
               {signURL !== '' && (<Tab>Sign</Tab>)}
               {definitionURL !== '' && (<Tab>Definition</Tab>)}
               {exampleURL !== '' && (<Tab>Example</Tab>)}
@@ -216,31 +216,14 @@ const CTPopup = ({ time = 0 }) => {
             <TabPanel className='divPanel'>
               <strong>{term.word}</strong>
               <span className='nowrap'>{term.explain}</span>
-              {(term.url?.length>0) && <a href={term.url} target='_blank' rel="noreferrer">Read more</a>}
+              {(term.url?.length > 0) && <a href={term.url} target='_blank' rel="noreferrer">Read more</a>}
             </TabPanel>
             {signURL !== '' && (
-            <TabPanel>
-              {signURL === '' ? (<span>sign video for this term is not found</span>)
-                    :
-                    (<>
-                      <video
-                        className="video-js vjs-default-skin video-player"
-                        controls
-                        preload="auto"
-                        data-setup="{}"
-                        autoPlay
-                        muted
-                      ><source src={signURL.URL} type='video/mp4' />
-                      </video>
-                      {cite(signURL)}
-                     </>)}
-            </TabPanel>)}
-            {definitionURL !== '' && (
-            <TabPanel>
-                 
-              {definitionURL === '' ? (<span>definition video for this term is not found</span>)
-                    :
-                    (<><video
+              <TabPanel>
+                {signURL === '' ? (<span>sign video for this term is not found</span>)
+                  :
+                  (<>
+                    <video
                       className="video-js vjs-default-skin video-player"
                       controls
                       preload="auto"
@@ -248,28 +231,49 @@ const CTPopup = ({ time = 0 }) => {
                       autoPlay
                       muted
                     >
-                      <source src={definitionURL.URL} type='video/mp4' />
-                       </video>{cite(definitionURL)}
-                     </>)}
-            </TabPanel>)}
+                      <source src={signURL.URL} type='video/mp4' />
+                    </video>
+                    {cite(signURL)}
+                  </>)}
+              </TabPanel>)}
+            {definitionURL !== '' && (
+              <TabPanel>
+
+                {definitionURL === '' ? (<span>definition video for this term is not found</span>)
+                  :
+                  (<><video
+                    className="video-js vjs-default-skin video-player"
+                    controls
+                    preload="auto"
+                    data-setup="{}"
+                    autoPlay
+                    muted
+                  >
+                    <source src={definitionURL.URL} type='video/mp4' />
+                  </video>
+                  {cite(definitionURL)}
+                </>)}
+              </TabPanel>)}
             {exampleURL !== '' && (
-            <TabPanel>
-                 
-              {exampleURL === '' ? (<span>example video for this term is not found</span>)
-                    :
-                    (<><video
-                      className="video-js vjs-default-skin video-player"
-                      controls
-                      preload="auto"
-                      data-setup="{}"
-                      autoPlay
-                      muted
-                    ><source src={exampleURL.URL} type='video/mp4' />
-                       </video>{cite(exampleURL)}
-                     </>)}
-            </TabPanel>)}
+              <TabPanel>
+
+                {exampleURL === '' ? (<span>example video for this term is not found</span>)
+                  :
+                  (<><video
+                    className="video-js vjs-default-skin video-player"
+                    controls
+                    preload="auto"
+                    data-setup="{}"
+                    autoPlay
+                    muted
+                  >
+                    <source src={exampleURL.URL} type='video/mp4' />
+                  </video>
+                  {cite(exampleURL)}
+                </>)}
+              </TabPanel>)}
           </Tabs>
-        
+
         </Tabs>
 
         <GlossaryPanel

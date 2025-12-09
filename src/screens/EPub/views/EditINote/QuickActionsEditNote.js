@@ -1,70 +1,59 @@
-import React, {useState} from 'react';
+import React from 'react';
 import cx from 'classnames';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { CTHeading, CTFragment, useButtonStyles } from 'layout';
-import { connect } from 'dva'
+import { CTFragment, useButtonStyles } from 'layout';
+import { connect } from 'react-redux';
 
-function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch }) {
+function QuickActionsEditNote({ chapters = {}, images, currChIndex = 0, dispatch }) {
   const btnStyles = useButtonStyles();
   const btnClasses = cx(btnStyles.tealLink, 'justify-content-start');
-  if (currChIndex >= chapters.length) {currChIndex = 0;}
-  const showResetBtn = chapters.length > 1; // || chapters[0].subChapters.length > 0;
-  const showSplitAllBtn = chapters.length !== items.length;
-
-
-  // default state is min word count of 25 for split by screenshots
-  const [wordInput, setWordInput] = useState("25");
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
-    dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}});
-  };
-  const handleOnWcChange = (event) => {
-    setWordInput(event.target.value);
-  };
+  if (currChIndex >= chapters.length) { currChIndex = 0; }
+  // const showResetBtn = chapters.length > 1; // || chapters[0].subChapters.length > 0;
+  const showResetBtn = false; // currently disabled, since there are no default chapters stored
+  const showSplitAllBtn = chapters.length !== images.length;
 
   return (
     <CTFragment margin="10" padding={[15, 10]} width="auto">
-      <CTHeading uppercase as="h4" icon="offline_bolt">Quick Split</CTHeading>
+      {/* <CTHeading uppercase as="h4" icon="offline_bolt">Quick Split</CTHeading> */}
 
-      
-      {
-          showResetBtn
-          &&
-          <CTFragment margin="7" width="auto">
-            <ButtonGroup fullWidth>
-              <Button
-                className={btnClasses}
-                onClick={() => dispatch({type: 'epub/resetToDefaultChapters'})}
-              >
-                Reset to Default Chapters
-              </Button>
-            </ButtonGroup>
-          </CTFragment>
-        }
 
       {
-          showSplitAllBtn
-          &&
-          <CTFragment margin="7" width="auto">
-            <ButtonGroup fullWidth>
-              <Button
-                className={btnClasses}
-                onClick={() => dispatch({type: 'epub/splitChaptersByScreenshots', payload:{wc: wordInput}})}
-              >
-                Split Chapters by Screenshots
-              </Button>
-            </ButtonGroup>
-          </CTFragment>
-        }
+        showResetBtn
+        &&
+        <CTFragment margin="7" width="auto">
+          <ButtonGroup fullWidth>
+            <Button
+              className={btnClasses}
+              onClick={() => dispatch({ type: 'epub/resetToDefaultChapters' })}
+            >
+              Reset to Default Chapters
+            </Button>
+          </ButtonGroup>
+        </CTFragment>
+      }
 
-        
-      
+      {
+        showSplitAllBtn
+        &&
+        <CTFragment margin="7" width="auto">
+          <ButtonGroup fullWidth>
+            <Button
+              className={btnClasses}
+              onClick={() => dispatch({ type: 'epub/splitChaptersByScreenshots', payload: {} })}
+            >
+              Split Chapters by Screenshots
+            </Button>
+          </ButtonGroup>
+        </CTFragment>
+      }
 
+
+
+      {/* 
       <CTFragment dFlexCol>
-        <form onSubmit={handleOnSubmit}> 
+        <form onSubmit={handleOnSubmit}>
           <TextField
             fullWidth
             variant='standard'
@@ -80,14 +69,14 @@ function QuickActionsEditNote({ chapters = {}, items, currChIndex = 0, dispatch 
             }}
             defaultValue='30'
             helperText='Enter Minimum Word Count For Each Chapter (Default = 25)'
-          />  
+          />
         </form>
-      </CTFragment>
+      </CTFragment> */}
     </CTFragment>
-    
+
   );
 }
 
-export default connect(({ epub: { currChIndex, epub: { chapters }, items } }) => ({
-  currChIndex, chapters, items
+export default connect(({ epub: { currChIndex, epub: { chapters }, images } }) => ({
+  currChIndex, chapters, images
 }))(QuickActionsEditNote);

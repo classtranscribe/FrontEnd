@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import cx from 'classnames';
 import { uurl } from 'utils/use-url';
 import Image from 'components/Image';
@@ -27,7 +27,7 @@ function ChapterImage({
   images,
   dispatch
 }) {
-  const { alt, src, description } = image;
+  const { alt, src, descriptions, timestamp, link } = image;
 
   const onSave = (newImage) => {
     if (onChooseImage) {
@@ -36,24 +36,35 @@ function ChapterImage({
   };
 
   const handleImageChange = (imgLike) => {
-    onSave({ src, alt, description, ...imgLike });
+    onSave({ src, alt, descriptions, timestamp, link, ...imgLike });
   };
 
   const onSrcChange = (val) => {
-    if (val !== src) handleImageChange({ src: val });
+    if (val !== src) {
+      handleImageChange({ src: val });
+    }
   };
 
   const onAltChange = (val) => {
     if (val !== alt) handleImageChange({ alt: val });
   };
 
-  const onDescriptionChange = (val) => {
-    if (val !== description) handleImageChange({ description: val });
+  const onDescriptionChange = (val, index) => {
+    // if (val !== description) handleImageChange({ description: val });
+    let new_desc = [...descriptions];
+    if (index >= new_desc.length) {
+      new_desc.push(val);
+    } else if (val.trim().length === 0 && new_desc.length > 1) {
+      new_desc.splice(index, 1);
+    } else {
+      new_desc[index] = val
+    }
+    handleImageChange({ descriptions: new_desc });
   };
 
   const openImagePicker = () => {
     const imgData = {
-      screenshots: images,
+      screenshots: images.map(img => img.src),
       onSave: onSrcChange,
       defaultImage: src
     };
@@ -72,6 +83,7 @@ function ChapterImage({
     // console.log(newEpub);
     dispatch({ type: 'epub/setEPub', payload: newEpub });
   }
+
   return (
     <>
       {image ? (
@@ -82,6 +94,8 @@ function ChapterImage({
               epub={epub}
               id={id}
               imageAlt={alt}
+              videoLink={link}
+              timestamp={timestamp}
               chapter={epub.chapters[currChIndex]}
               onChooseImage={openImagePicker}
               onRemoveImage={onRemoveImage}
@@ -95,14 +109,14 @@ function ChapterImage({
             &&
             <ImageDescription
               id={id}
-              description={description}
+              descriptions={descriptions}
               onChange={onDescriptionChange}
             />
           }
         </div>
       ) : (
         <NewImageButton onClick={openImagePicker} />
-        )}
+      )}
     </>
   );
 }
