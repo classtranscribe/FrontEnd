@@ -1,4 +1,4 @@
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import EPubConstants from './constants/EPubConstants';
 import EPubIDs from './constants/EPubIDs';
 import EPubDownloadController from './EPubDownloadController';
@@ -13,7 +13,7 @@ export const epub = {
 };
 // Transition Function
 export const connectWithRedux = (Component, property) => {
-  return connect(({ epub : _epub}) => {
+  return connect(({ epub: _epub }) => {
     if (!property) {
       return {};
     }

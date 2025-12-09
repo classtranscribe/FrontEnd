@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Select, Form, Popup} from 'semantic-ui-react';
-import { connect } from 'dva';
+import { Select, Form, Popup } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 import './index.scss';
 import './slider.scss';
 import MenuRadio from '../MenuRadio';
@@ -16,39 +16,39 @@ import {
   // // cc_positionOptions,
   // cc_fontOptions,
   // cc_sizeOptions,
-  getCCSelectOptions,PS_MODE,screen_zoomOptions,
+  getCCSelectOptions, PS_MODE, screen_zoomOptions,
   screenModes,
 } from '../../../../Utils';
 
-function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, scale, dispatch, mode, isSwitched /* magnifyX, magnifyY */}) {
+function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightness, contrast, scale, dispatch, mode, isSwitched /* magnifyX, magnifyY */ }) {
   const handleBrightness = ({ target: { value } }) => {
-    dispatch({ type: 'playerpref/setPreference', payload: { brightness:  value} })
+    dispatch({ type: 'playerpref/setPreference', payload: { brightness: value } })
   };
   const handleContrast = ({ target: { value } }) => {
-    dispatch({ type: 'playerpref/setPreference', payload: { contrast:  value} })
+    dispatch({ type: 'playerpref/setPreference', payload: { contrast: value } })
   };
   const handleMap0 = () => {
-    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor:  '0'} })
-    dispatch({ type: 'playerpref/setPreference', payload: { invert:  0} })
+    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor: '0' } })
+    dispatch({ type: 'playerpref/setPreference', payload: { invert: 0 } })
   };
   const handleMapInverted = () => {
-    dispatch({ type: 'playerpref/setPreference', payload: { invert:  1} })
-    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor:  '1deg'} })
+    dispatch({ type: 'playerpref/setPreference', payload: { invert: 1 } })
+    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor: '1deg' } })
   };
 
   const handleMap1 = () => {
-    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor:  '120deg'} })
-    dispatch({ type: 'playerpref/setPreference', payload: { invert:  0} })
+    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor: '120deg' } })
+    dispatch({ type: 'playerpref/setPreference', payload: { invert: 0 } })
   };
   const handleMap2 = () => {
-    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor:  '240deg'} })
-    dispatch({ type: 'playerpref/setPreference', payload: { invert:  0} })
+    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor: '240deg' } })
+    dispatch({ type: 'playerpref/setPreference', payload: { invert: 0 } })
   };
   const handleDefaults = () => {
-    dispatch({ type: 'playerpref/setPreference', payload: { contrast:  1} })
-    dispatch({ type: 'playerpref/setPreference', payload: { brightness:  1} })
-    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor:  '0'} })
-    dispatch({ type: 'playerpref/setPreference', payload: { invert:  0} })
+    dispatch({ type: 'playerpref/setPreference', payload: { contrast: 1 } })
+    dispatch({ type: 'playerpref/setPreference', payload: { brightness: 1 } })
+    dispatch({ type: 'playerpref/setPreference', payload: { rotateColor: '0' } })
+    dispatch({ type: 'playerpref/setPreference', payload: { invert: 0 } })
     dispatch({ type: 'playerpref/setPreference', payload: { scale: 1 } })
     dispatch({ type: 'playerpref/setPreference', payload: { magnifyX: 0 } })
     dispatch({ type: 'playerpref/setPreference', payload: { magnifyY: 0 } })
@@ -128,9 +128,9 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
           </span>
         </button>
       </div>
-  
+
       <div className="w-100">
-        <h3 className="watch-menu-tab-subtitle">Brightness: {Math.floor( brightness * 100)}%</h3>
+        <h3 className="watch-menu-tab-subtitle">Brightness: {Math.floor(brightness * 100)}%</h3>
         <Popup
           label="Brightness"
           inverted
@@ -145,7 +145,7 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
             <input
               id="brightness-slider"
               className="brightness-slider"
-              aria-label={`Brightness Slider - Current Brightness: ${Math.floor( brightness * 100)}`}
+              aria-label={`Brightness Slider - Current Brightness: ${Math.floor(brightness * 100)}`}
               type="range"
               min={0}
               max={2}
@@ -157,7 +157,7 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
         />
       </div>
       <div className="w-100">
-        <h3 className="watch-menu-tab-subtitle">Contrast: {Math.floor( contrast * 100)}%</h3>
+        <h3 className="watch-menu-tab-subtitle">Contrast: {Math.floor(contrast * 100)}%</h3>
         <Popup
           label="Contrast"
           inverted
@@ -172,7 +172,7 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
             <input
               id="brightness-slider"
               className="brightness-slider"
-              aria-label={`Contrast Slider - Current Contrast: ${Math.floor( contrast * 100)}`}
+              aria-label={`Contrast Slider - Current Contrast: ${Math.floor(contrast * 100)}`}
               type="range"
               min={0}
               max={2}
@@ -229,7 +229,7 @@ function DisplaySetting({ show = false, rotateColor = '0', invert = 0, brightnes
         />
       </div>
     </form>
-    
+
   );
 }
 export default connect(({ playerpref: { brightness, contrast, rotateColor, invert, scale, magnifyX, magnifyY }, watch: { mode, isSwitched } }) => ({

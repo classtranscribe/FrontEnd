@@ -1,8 +1,9 @@
 /**
- * Editing Page for Universities
+ * Editing Page for Universities (Functional Version)
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Grid, Form, Input, Dimmer, Loader } from 'semantic-ui-react';
 import { api, links } from 'utils';
 import { updateJson } from '../helpers';
@@ -11,79 +12,81 @@ import { SubmitButton, EditButtons, GeneralModal } from '../Components';
 
 const { initialUni } = api.initialData;
 
-export default class UniversityEditing extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.match.params.id,
-      isNew: this.props.match.params.type === 'new',
-      loading: true,
+export default function UniversityEditing() {
+  const { id, type } = useParams();
+  const navigate = useNavigate();
 
-      uni: { ...initialUni },
-      uniInfo: { ...initialUni },
-      confirmed: false,
-    };
-  }
+  const isNew = type === 'new';
 
-  componentDidMount() {
-    const { id, isNew } = this.state;
-    if (!isNew) {
+  const [loading, setLoading] = useState(true);
+  const [uni, setUni] = useState({ ...initialUni });
+  const [uniInfo, setUniInfo] = useState({ ...initialUni });
+  const [confirmed, setConfirmed] = useState(false);
+
+  useEffect(() => {
+    if (!isNew && id) {
       api.getUniversityById(id).then((response) => {
-        this.setState({ uni: response.data, loading: false });
+        setUni(response.data);
+        setUniInfo({ ...response.data });
+        setLoading(false);
       });
+    } else {
+      setLoading(false);
     }
-  }
+  }, [id, isNew]);
 
-  onChange = (value, key) => {
-    this.setState((preState) => {
-      const newData = preState.uniInfo;
-      newData[key] = value;
-      return { uniInfo: { ...newData } };
-    });
+  const onChange = (value, key) => {
+    setUniInfo((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
-  onSubmit = () => {
-    const data = this.state.uniInfo;
-    api.createUniversity(data).then(() => this.onClose());
+  const onClose = () => {
+    window.location = links.admin('universities'); // or navigate('/admin/universities')
   };
 
-  onUpdate = () => {
-    const { uni, uniInfo, id } = this.state;
-    let data = updateJson(uniInfo, uni);
+  const onSubmit = () => {
+    api.createUniversity(uniInfo).then(onClose);
+  };
+
+  const onUpdate = () => {
+    const data = updateJson(uniInfo, uni);
     data.id = id;
-    api.updateUniversity(data).then(() => this.onClose());
+    api.updateUniversity(data).then(onClose);
   };
 
-  onConfirm = () => this.setState({ confirmed: true });
+  const onConfirm = () => setConfirmed(true);
 
-  onInactive = () => {
-    api.deleteUniversity(this.state.id).then(() => this.onClose());
+  const onInactive = () => {
+    api.deleteUniversity(id).then(onClose);
   };
 
-  onClose = () => {
-    window.location = links.admin('universities');
+  const onCancel = () => {
+    navigate(-1); // replaces this.props.history.back()
   };
 
-  onCancel = () => {
-    this.props.history.back();
-  };
+  const header = isNew ? 'Create New University' : 'Edit University';
+  const button = isNew
+    ? <SubmitButton onSubmit={onSubmit} onCancel={onCancel} />
+    : <EditButtons
+        onUpdate={onUpdate}
+        onCancel={onCancel}
+        onInactive={onInactive}
+        onConfirm={onConfirm}
+        confirmed={confirmed}
+    />;
 
-  render() {
-    const { isNew } = this.state;
-    // console.log(id)
-    const header = isNew ? 'Create New University' : 'Edit University';
-    const button = isNew ? <SubmitButton {...this} /> : <EditButtons {...this} />;
-
-    return (
-      <GeneralModal header={header} open onClose={this.onCancel} button={button}>
-        <UniForm {...this} />
-      </GeneralModal>
-    );
-  }
+  return (
+    <GeneralModal header={header} open onClose={onCancel} button={button}>
+      <UniForm isNew={isNew} uni={uni} loading={loading} onChange={onChange} />
+    </GeneralModal>
+  );
 }
 
-function UniForm({ state: { uni, isNew, loading }, onChange }) {
-  if (isNew) uni = initialUni;
+function UniForm({ isNew, uni, loading, onChange }) {
+  const effectiveUni = isNew ? { ...initialUni } : uni;
+
   return (
     <Form className="ap-form">
       {!loading || isNew ? (
@@ -95,8 +98,8 @@ function UniForm({ state: { uni, isNew, loading }, onChange }) {
                 id="uni-name-edit"
                 control={Input}
                 label="University Name"
-                placeholder="E.g. University of Illinois at Urbana Champaign"
-                defaultValue={uni.name}
+                placeholder="E.g. University of Illinois at Urbana-Champaign"
+                defaultValue={effectiveUni.name}
                 onChange={({ target: { value } }) => onChange(value, 'name')}
               />
             </Grid.Column>
@@ -106,8 +109,8 @@ function UniForm({ state: { uni, isNew, loading }, onChange }) {
                 id="uni-domain"
                 control={Input}
                 label="Domain"
-                placeholder="E.g. ..."
-                defaultValue={uni.domain}
+                placeholder="E.g. illinois.edu"
+                defaultValue={effectiveUni.domain}
                 onChange={({ target: { value } }) => onChange(value, 'domain')}
               />
             </Grid.Column>

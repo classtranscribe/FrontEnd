@@ -13,14 +13,18 @@ const NoSectionHolder = () => (
   </CTFragment>
 );
 
-const addReactKey = (sections) => sections.map((section, index) => {section.reactKey=`Section-${section.id}-${index}`;return section;});
+const addReactKey = (sections) =>
+  sections.map((section, index) => ({
+    ...section,
+    reactKey: `Section-${section.id}-${index}`
+  }));
 
 function SectionList({
   sections,
   hasDepartmentSections
 }) {
   const hasSections = sections.length > 0;
-  const sectionsWithKey = hasSections? addReactKey(sections) : [];
+  const sectionsWithKey = hasSections ? addReactKey(sections) : [];
   const slHasDepartmentSections = hasSections && hasDepartmentSections;
 
   const noSectionHolderEl = makeEl(NoSectionHolder);

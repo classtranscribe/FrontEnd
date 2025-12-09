@@ -237,9 +237,9 @@ export const keydownControl = {
    * Function for handling down-arrow key down
    */
   handleDownArrow(e) {
-    // If there is no menu opening - decrease the volume by 0.1 each time
+    // If there is no menu opening - decrease the volume by slider amount each time
     if (!this.isMenuOpen()) {
-      $('#volume-slider').focus(); // NEED TO MODIFY
+      window.focusVolumeSlider?.();
       return;
     }
 
@@ -367,8 +367,12 @@ export const keydownControl = {
     // then focus on the switch screen trigger
     if ($('#volume-mute-btn:focus').length) {
       const switchScreenBtnElem = $('#switch-screen-btn');
-      if (switchScreenBtnElem.length) switchScreenBtnElem.focus();
-      else $('#play-btn').focus();
+      if (switchScreenBtnElem.length) {
+        switchScreenBtnElem.focus();
+      } else {
+        // $('#play-btn').focus();
+        window.focusPlayButton?.();
+      }
       return;
     }
     // if is focusing on the playback rate menu trigger
@@ -557,10 +561,12 @@ export const keydownControl = {
   },
 
   openTabHelper() {
-    $('#skip-to-ctrl-bar').focus();
+    // $('#skip-to-ctrl-bar').focus();
+    window.focusSkipToCtrlBar?.();
   },
   skipToControlBar() {
-    $('#play-btn').focus();
+    // $('#play-btn').focus();
+    window.focusPlayButton?.();
   },
   skipToCaptionBox() {
     $('#trans-setting-btn').focus();

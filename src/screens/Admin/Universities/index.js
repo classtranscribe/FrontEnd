@@ -2,17 +2,15 @@
  * Pane for Universities of Admin Page
  */
 
-import React from 'react';
-import { Route } from 'dva/router';
-// UI
+import React, { useContext } from 'react';
 import { Tab, Divider } from 'semantic-ui-react';
-import UniversityEditing from './UniversityEditing';
 import { CreateNewButton, AdminListItem, AdminHeading } from '../Components';
+import { AdminContext } from '..';
 
-export default function UniPane({ state: { universities } }) {
+export default function UniPane() {
+  const { universities } = useContext(AdminContext);
   return (
     <Tab.Pane attached={false} className="ap-list">
-      <Route path="/admin/universities/:type?=:id" component={UniversityEditing} />
       <AdminHeading name="Universities" />
       <CreateNewButton name="Create New University" id="new" path="universities" />
 

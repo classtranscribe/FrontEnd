@@ -66,7 +66,7 @@ function ChapterText({
 
   const deleteButton = text !== "" ? (
     <div>
-      <div style={{float: 'right'}}>
+      <div style={{ float: 'right' }}>
         <IconButton
           aria-label="delete"
           onClick={handleDeleteText}
@@ -92,7 +92,7 @@ function ChapterText({
           <Button onClick={handleNo} autoFocus>NO</Button>
           <Button onClick={handleYes}>YES</Button>
         </DialogActions>
-      </Dialog> 
+      </Dialog>
     </div>
   ) : null;
 
@@ -126,9 +126,9 @@ function ChapterText({
             position="top center"
             disabled={!isNotEmpty}
             trigger={
-              <ChapterEditButton 
-                onClick={startEditing} 
-                muted={!isNotEmpty} 
+              <ChapterEditButton
+                onClick={startEditing}
+                muted={!isNotEmpty}
                 attached={attached}
                 data-empty={isNotEmpty}
               >

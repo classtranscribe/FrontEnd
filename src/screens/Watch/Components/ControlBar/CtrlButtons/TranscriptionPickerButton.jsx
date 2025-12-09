@@ -1,14 +1,14 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import WatchCtrlButton from '../../WatchCtrlButton';
 import { MENU_HIDE, MENU_TRANSCRIPTION } from '../../../Utils';
 
 export function TranscriptionPickerButtonWithRedux({ menu = MENU_HIDE, currentTranscriptionMulti = {}, dispatch }) {
   const handleMenuTrigger = () => {
     if (menu !== MENU_TRANSCRIPTION) {
-      dispatch({type: 'watch/menu_open', payload: { type: MENU_TRANSCRIPTION } });
+      dispatch({ type: 'watch/menu_open', payload: { type: MENU_TRANSCRIPTION } });
     } else {
-      dispatch({type: 'watch/menu_close'});
+      dispatch({ type: 'watch/menu_close' });
     }
   };
 

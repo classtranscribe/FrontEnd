@@ -1,56 +1,25 @@
-class EPubImageData {
-  __data__ = {
-    src: '',
-    alt: 'Video screenshot',
-    description: ''
-  };
-  
-  constructor(imageLike) {
-    if (imageLike instanceof EPubImageData) {
-      this.__data__ = { ...imageLike.__data__ };
-    } else if (typeof imageLike === 'string') {
-      this.src = imageLike;
-    } else if (imageLike) {
-      if (imageLike.src) {
-        this.src = imageLike.src;
-      }
-      
-      if (imageLike.alt) {
-        this.alt = imageLike.alt;
-      }
+import { getShareableVideoURL } from 'screens/Watch/Utils';
+import TimeString from 'utils/use-time';
 
-      if (imageLike.description) {
-        this.description = imageLike.description;
-      }
-    }
+class EPubImageData {
+  constructor(imageLike = {}) {
+    this.src = typeof imageLike === 'string' ? imageLike : imageLike.src || '';
+    this.alt = imageLike.alt || 'Video screenshot';
+    this.descriptions = Array.isArray(imageLike.descriptions) ? [...imageLike.descriptions] : [''];
+    this.timestamp = imageLike.timestamp || '';
+    this.link = imageLike.link && typeof imageLike.link === 'string' ? imageLike.link : '';
   }
 
   toObject() {
-    return { ...this.__data__ };
+    return { src: this.src, alt: this.alt, descriptions: this.descriptions, timestamp: this.timestamp, link: this.link };
   }
 
-  get src() {
-    return this.__data__.src;
+  static create(raw) {
+    return { src: raw.image, alt: raw.title, descriptions: raw.ocrElements, timestamp: raw.start }
   }
 
-  set src(src) {
-    this.__data__.src = src;
-  }
-
-  get alt() {
-    return this.__data__.alt;
-  }
-
-  set alt(alt) {
-    this.__data__.alt = alt;
-  }
-
-  get description() {
-    return this.__data__.description;
-  }
-
-  set description(description) {
-    this.__data__.description = description;
+  static createWithTimestamp(raw, sourceId) {
+    return { ...EPubImageData.create(raw), link: getShareableVideoURL(sourceId, TimeString.toSeconds(raw.start)) }
   }
 }
 

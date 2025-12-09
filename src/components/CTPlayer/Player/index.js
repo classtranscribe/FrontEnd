@@ -1,10 +1,10 @@
 import * as KeyCode from 'keycode-js';
 import React, { useEffect } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import {
-    ErrorWrapper,
-    ClassTranscribePlayer,
-  } from 'screens/Watch/Components';
+  ErrorWrapper,
+  ClassTranscribePlayer,
+} from 'screens/Watch/Components';
 import Wrapper from '../Wrapper';
 import './index.scss';
 
@@ -98,7 +98,7 @@ const Player = (props) => {
   );
 }
 export default connect(({
-    watch: { error, isFullscreen }
-})=>({
-    error, isFullscreen
+  watch: { error, isFullscreen }
+}) => ({
+  error, isFullscreen
 }))(Player);

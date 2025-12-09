@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import { FLASH_DETECT_YES, FLASH_SET_YES } from 'utils/constants';
 
 import './index.scss';
@@ -7,34 +7,34 @@ import './index.scss';
 
 function FlashWarningButtonWithRedux(props) {
   const { isPrimary = false, paused, media, flashAcknowledged = false, dispatch } = props;
-  
+
   const warningText = "WARNING: This video may potentially trigger seizures for individuals sensitive to flashing or large changes in visual contrast. Viewer discretion advised.";
 
-  const showFlash = paused && ! flashAcknowledged && 
-  (media.flashWarning === FLASH_DETECT_YES || media.flashWarning === FLASH_SET_YES);
+  const showFlash = paused && !flashAcknowledged &&
+    (media.flashWarning === FLASH_DETECT_YES || media.flashWarning === FLASH_SET_YES);
   const handleClick = () => {
-      dispatch({ type: 'watch/acknowledgeflashwarning' });
+    dispatch({ type: 'watch/acknowledgeflashwarning' });
   };
 
-  return ( isPrimary && showFlash )? (
+  return (isPrimary && showFlash) ? (
     <div className="ack-overlay">
       <div
         className="ack-button-container"
         aria-hidden="true"
         onClick={handleClick}
-      > 
+      >
         <span className="ack-text"><i className="material-icons">warning</i><i className="material-icons">bolt</i>
           {warningText}
         </span>
-      
+
         <span className="ack-button-content" tabIndex="-1" />
       </div>
     </div>
-      ) : null
+  ) : null
 }
 
 export const FlashWarningButton = connect(({ watch: { paused, media, flashAcknowledged, ctpPriEvent } }) => ({
-  media, flashAcknowledged, ctpPriEvent,paused
+  media, flashAcknowledged, ctpPriEvent, paused
 }))(FlashWarningButtonWithRedux);
 
 

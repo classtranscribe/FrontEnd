@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import ErrorTypes from 'entities/ErrorTypes';
 import { CTFilter, CTText, CTFooter } from 'layout';
 import { InfoAndListLayout } from 'components';
@@ -118,7 +118,7 @@ function MediaListWithRedux(props) {
                 <CTText muted center margin={[30, 0]}>
                   No Result
                 </CTText>
-                  )
+              )
             }
           </>
         )}

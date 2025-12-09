@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { MODAL_SHARE, MODAL_HIDE } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function ShareTrigger({ modal = MODAL_HIDE, dispatch }) {
   const handleShare = () => {
-    dispatch({type: 'watch/modal_open', payload: { type: MODAL_SHARE } });
+    dispatch({ type: 'watch/modal_open', payload: { type: MODAL_SHARE } });
   };
 
   return (

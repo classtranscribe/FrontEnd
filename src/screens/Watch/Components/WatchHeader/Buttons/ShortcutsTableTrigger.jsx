@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { MENU_HIDE, MENU_SHORTCUTS } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function ShortcutsTableTrigger({ menu = MENU_HIDE, dispatch }) {
   const handleMenuTrigger = () => {
-    dispatch({type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS, option: 'b'}});
+    dispatch({ type: 'watch/menu_open', payload: { type: MENU_SHORTCUTS, option: 'b' } });
   };
 
   return (
