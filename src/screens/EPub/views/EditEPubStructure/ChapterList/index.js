@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import EPubChapterItem from './EPubChapterItem';
 import './index.scss';
 

@@ -2,24 +2,20 @@
  * Pane for Terms of Admin Page
  */
 
-import React from 'react';
-import { Route } from 'dva/router';
-// UI
+import React, { useContext } from 'react';
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
-import TermEditing from './TermEditing';
 import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
+import { AdminContext } from '..';
 
 
-export default function TermPane(props) {
-  const { terms, universities, currentUni } = props.state;
-  const uniOptions = props.getSelectOptions(universities);
+export default function TermPane() {
+  const { terms, universities, currentUni, getSelectOptions, updateUniversity } = useContext(AdminContext);
+  const uniOptions = getSelectOptions(universities);
   const displayUni = currentUni || { name: 'none', id: 0 };
-  
+
   return (
     <Tab.Pane attached={false} className="ap-list">
       <AdminHeading name="Terms" />
-      
-      <Route path="/admin/terms/:type?=:id" component={TermEditing} />
       <Message color="black">
         {/* <p>
           <strong>{displayUni.name}</strong>
@@ -30,7 +26,7 @@ export default function TermPane(props) {
             label='University'
             control={Select}
             options={uniOptions}
-            onChange={(e,data)=>props.updateUniversity(data.value)}
+            onChange={(e, data) => updateUniversity(data.value)}
           />
         </Form>
       </Message>

@@ -1,6 +1,7 @@
+/* eslint-disable no-unreachable */
 import SourceTypes from 'entities/SourceTypes';
 import ErrorTypes from 'entities/ErrorTypes';
-import { api, prompt, links } from 'utils';
+import { api, prompt, links, uurl } from 'utils';
 import { EPubData } from 'entities/EPubs/structs';
 import Constants from 'screens/EPub/controllers/constants/EPubConstants';
 import { LanguageConstants } from '../../CTPlayer';
@@ -22,6 +23,8 @@ class EPubListController {
   async createEPub(sourceType, sourceId, data) {
     prompt.addOne({ text: 'Creating I-Note...', timeout: 4000 });
     const rawEPubData = await this.getRawEPubData(sourceType, sourceId, data.language);
+
+
     if (rawEPubData === ErrorTypes.NotFound404) {
       prompt.error('Failed to create the I-Note.');
       return false;
@@ -31,6 +34,8 @@ class EPubListController {
     const ePubData = EPubData.create(rawEPubData, {
       sourceType, sourceId, ...data
     }).toObject();
+
+    // throw Error();
 
     delete ePubData.id;
     // console.log(ePubData);
@@ -43,9 +48,9 @@ class EPubListController {
     }
     const url = links.epub(newEPubData.id, Constants.EditINote, Constants.HFromNew);
 
-    window.location.href = url;
+    // window.location.href = url;
     // Don't open in new tab; the user may not have enabled that.
-    // nope: uurl.openNewTab(url)
+    uurl.openNewTab(url)
 
     return newEPubData;
   }

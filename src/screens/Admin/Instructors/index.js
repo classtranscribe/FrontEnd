@@ -2,18 +2,18 @@
  * Pane for Instructors of Admin Page
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import _ from 'lodash';
-import { Route } from 'dva/router';
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import { api, prompt } from '../../../utils';
 // UI
 import InstructorEditing from './InstructorEditing';
 import InstructorList from './InstructorList';
 import { CreateNewButton, GeneralAlert, AdminHeading } from '../Components';
+import { AdminContext } from '..';
 
-export default function InstructorPane(props) {
-  const { state: { universities}, getSelectOptions } = props;
+export default function InstructorPane() {
+  const { universities, getSelectOptions } = useContext(AdminContext);
   const [instructors, setInstructors] = useState([]); // 'unset'
   const [loading, setLoading] = useState(true);
   const [uniOptions, setUniOptions] = useState([]);
@@ -51,9 +51,6 @@ export default function InstructorPane(props) {
   return (
     <Tab.Pane attached={false} className="ap-list" loading={false}>
       <AdminHeading name="Instructors" />
-
-      <Route path="/admin/instructors/:type?=:id" component={InstructorEditing} />
-
       <Message color="black">
         <p>
           University: <strong>{currUni.name}</strong>

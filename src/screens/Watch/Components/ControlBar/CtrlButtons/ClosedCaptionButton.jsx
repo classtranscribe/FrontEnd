@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
-export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], dispatch, liveMode, englishTrack}) {
+export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], dispatch, liveMode, englishTrack }) {
   let disabled = captions.length <= 0;
   if (liveMode) {
     disabled = false;
   }
 
-  let isOpen = openCC && !disabled ;
+  let isOpen = openCC && !disabled;
 
   const handleCCTrigger = () => {
     dispatch({ type: 'playerpref/toggleOpenCC' })
@@ -46,6 +46,6 @@ export function ClosedCaptionButtonWithRedux({ openCC = false, captions = [], di
   );
 }
 
-export const ClosedCaptionButton = connect(({ watch : { captions, liveMode, englishTrack}, playerpref: { openCC } }) => ({
+export const ClosedCaptionButton = connect(({ watch: { captions, liveMode, englishTrack }, playerpref: { openCC } }) => ({
   openCC, captions, liveMode, englishTrack
 }))(ClosedCaptionButtonWithRedux)

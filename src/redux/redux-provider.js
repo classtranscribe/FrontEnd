@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 /**
+ * @deprecated Use redux toolkit instead
  * Connect the component to the provided redux store
  * @param {*} Component - the component to connect
  * @param {*} reduxStore - the redux store to this component

@@ -1,9 +1,10 @@
 /**
- * Editing Page for Courses
+ * Editing Page for Courses (Functional Version)
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Grid, Form, Input } from 'semantic-ui-react';
 import { api, links } from 'utils';
 import { updateJson } from '../helpers';
@@ -12,75 +13,73 @@ import { SubmitButton, EditButtons, GeneralModal, GeneralLoader } from '../Compo
 
 const { initialCourse } = api.initialData;
 
-export default class CourseEditing extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.match.params.id,
-      isNew: this.props.match.params.type === 'new',
-      loading: true,
+export default function CourseEditing() {
+  const { id, type } = useParams();
+  const navigate = useNavigate();
 
-      course: _.clone(initialCourse),
-      courseInfo: _.clone(initialCourse),
-      confirmed: false,
-    };
-  }
+  const isNew = type === 'new';
 
-  componentDidMount() {
-    const { isNew, id } = this.state;
-    if (!isNew) {
-      api.getCourseById(id).then(({ data }) => this.setState({ course: data, loading: false }));
+  const [loading, setLoading] = useState(true);
+  const [course, setCourse] = useState(_.clone(initialCourse));
+  const [courseInfo, setCourseInfo] = useState(_.clone(initialCourse));
+  const [confirmed, setConfirmed] = useState(false);
+
+  useEffect(() => {
+    if (!isNew && id) {
+      api.getCourseById(id).then(({ data }) => {
+        setCourse(data);
+        setCourseInfo(_.clone(data));
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
     }
-  }
+  }, [id, isNew]);
 
-  onChange = (value, key) => {
-    const { courseInfo } = this.state;
-    courseInfo[key] = value;
-    this.setState({ courseInfo });
+  const onChange = (value, key) => {
+    setCourseInfo((prev) => ({ ...prev, [key]: value }));
   };
 
-  onSubmit = () => {
-    const { courseInfo, id } = this.state;
-    courseInfo.departmentId = id;
-    api.createCourse(courseInfo).then(() => this.onSave());
+  const onSave = () => {
+    window.location = links.admin('course-template'); // or navigate('/admin/course-template')
   };
 
-  onUpdate = () => {
-    const { course, courseInfo, id } = this.state;
-    let data = updateJson(courseInfo, course);
+  const onSubmit = () => {
+    const data = { ...courseInfo, departmentId: id };
+    api.createCourse(data).then(() => onSave());
+  };
+
+  const onUpdate = () => {
+    const data = updateJson(courseInfo, course);
     data.id = id;
-    api.updateCourse(data).then(() => this.onSave());
+    api.updateCourse(data).then(() => onSave());
   };
 
-  onConfirm = () => this.setState({ confirmed: true });
+  const onConfirm = () => setConfirmed(true);
 
-  onInactive = () => {
-    api.deleteCourse(this.state.id).then(() => this.onSave());
+  const onInactive = () => {
+    api.deleteCourse(id).then(() => onSave());
   };
 
-  onSave = () => {
-    window.location = links.admin('course-template');
+  const onCancel = () => {
+    navigate(-1);
   };
 
-  onCancel = () => {
-    this.props.history.back();
-  };
+  const header = isNew ? 'Create New Course' : 'Edit the Course';
+  const button = isNew
+    ? <SubmitButton onSubmit={onSubmit} onCancel={onCancel} />
+    : <EditButtons onUpdate={onUpdate} onCancel={onCancel} onInactive={onInactive} onConfirm={onConfirm} confirmed={confirmed} />;
 
-  render() {
-    const { isNew } = this.state;
-    const header = isNew ? 'Create New Course' : 'Edit the Course';
-    const button = isNew ? <SubmitButton {...this} /> : <EditButtons {...this} />;
-
-    return (
-      <GeneralModal header={header} open onClose={this.onCancel} button={button}>
-        <CourseForm {...this} />
-      </GeneralModal>
-    );
-  }
+  return (
+    <GeneralModal header={header} open onClose={onCancel} button={button}>
+      <CourseForm isNew={isNew} course={course} loading={loading} onChange={onChange} />
+    </GeneralModal>
+  );
 }
 
-function CourseForm({ state: { isNew, course, loading }, onChange }) {
-  if (isNew) course = _.clone(initialCourse);
+function CourseForm({ isNew, course, loading, onChange }) {
+  const effectiveCourse = isNew ? _.clone(initialCourse) : course;
+
   return (
     <Form className="ap-form">
       {!loading || isNew ? (
@@ -93,7 +92,7 @@ function CourseForm({ state: { isNew, course, loading }, onChange }) {
                 control={Input}
                 label="Course Number"
                 placeholder="E.g. 241"
-                defaultValue={course.courseNumber}
+                defaultValue={effectiveCourse.courseNumber}
                 onChange={({ target: { value } }) => onChange(value, 'courseNumber')}
               />
             </Grid.Column>

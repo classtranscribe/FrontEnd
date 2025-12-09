@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { /* CROWDEDIT_ALLOW, */CROWDEDIT_FREEZE_ALL } from 'utils/constants.js';
 import {
   // transControl,
@@ -38,7 +38,7 @@ function TranscriptionsWithRedux(props) {
   } = props;
 
   const allowEdit = crowdEditMode !== CROWDEDIT_FREEZE_ALL;
-  
+
   // console.log(transcript, props, "TSC")
   const handleMourseOver = (bool) => () => {
     dispatch({ type: 'watch/setMouseOnCaption', payload: bool });
@@ -48,7 +48,7 @@ function TranscriptionsWithRedux(props) {
     if (liveMode) {
       return Boolean(currCaption) && (String(currCaption.text) + String(currCaption.startTime)) === id;
     }
-      return Boolean(currCaption) && currCaption.id === id;
+    return Boolean(currCaption) && currCaption.id === id;
 
 
     // || (Boolean(currDescription) && currDescription.id === id)
@@ -77,11 +77,11 @@ function TranscriptionsWithRedux(props) {
             No Transcriptions selected
           </div>
         ) : transView === LINE_VIEW ? (
-          <div className="trans-list" style={{zIndex: 10}} aria-label='Captions and Descriptions' role='table'>
+          <div className="trans-list" style={{ zIndex: 10 }} aria-label='Captions and Descriptions' role='table'>
             {transcript.map((caption) => {
               return <CaptionLine
                 role='row'
-                key={liveMode ? String(caption.text) + String(caption.startTime): caption.id}
+                key={liveMode ? String(caption.text) + String(caption.startTime) : caption.id}
                 caption={caption}
                 fontSize={fontSize}
                 currCaption={currCaption}
@@ -111,8 +111,8 @@ function TranscriptionsWithRedux(props) {
 }
 
 export const Transcriptions = connect(({ playerpref: { transView },
-  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating, 
-    currCaptionIndex, currentTime, liveMode, fontSize, media:{crowdEditMode}} }) => ({
-    transView,crowdEditMode,
-    transcript, currCaption, currEditing, bulkEditing, mode, search,updating, currCaptionIndex, currentTime, liveMode, fontSize
-  }))(TranscriptionsWithRedux);
+  watch: { transcript, currCaption, currEditing, bulkEditing, mode, search, updating,
+    currCaptionIndex, currentTime, liveMode, fontSize, media: { crowdEditMode } } }) => ({
+      transView, crowdEditMode,
+      transcript, currCaption, currEditing, bulkEditing, mode, search, updating, currCaptionIndex, currentTime, liveMode, fontSize
+    }))(TranscriptionsWithRedux);

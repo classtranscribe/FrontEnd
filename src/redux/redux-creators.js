@@ -1,9 +1,10 @@
 import { createStore, applyMiddleware } from 'redux';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import logger from 'redux-logger';
 import { isDeveloping } from 'utils';
 
 /**
+ * @deprecated Use redux toolkit instead
  * Create a Redux action for dispatches
  * @param {String} type the action type
  */
@@ -12,6 +13,7 @@ export function createAction(type) {
 }
 
 /**
+ * @deprecated Use redux toolkit instead
  * Create a Redux selector
  * @param {Function[]} actions action functions
  * @param {Object} options options for creating a Redux selector
@@ -77,6 +79,7 @@ export function createSelector(
 }
 
 /**
+ * @deprecated Use redux toolkit instead
  * Create a redux store
  * @param {Reducer} reducer
  */

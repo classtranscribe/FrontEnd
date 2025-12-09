@@ -1,6 +1,6 @@
 import React from 'react';
 import { CTLayout, CTFragment } from 'layout';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { Students, Staffs, CourseInfo, RemoveCourse } from './components';
 
 const CourseSettingsWithRedux = (props) => {

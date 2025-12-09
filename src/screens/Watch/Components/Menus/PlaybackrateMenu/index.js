@@ -1,4 +1,4 @@
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 // unused import * as KeyCode from 'keycode-js';
@@ -60,7 +60,7 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
         <div className="customize-playbackrate">
           <label className="customize-playbackrate-title" htmlFor="playback-rate-slider">
             Playback rate <span className="customize-playbackrate-num">{sliderValue}</span>
-          
+
             <input
               id="playback-rate-slider"
               className="playbackrate-slider"
@@ -73,7 +73,7 @@ function PlaybackrateMenu({ onClose = null, playbackrate = 1, dispatch }) {
               onKeyDown={handleKeyDown}
             />
           </label>
-          
+
         </div>
       )}
 

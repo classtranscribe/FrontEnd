@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'react-redux';
 import { MENU_HIDE, MENU_PLAYLISTS } from '../../../Utils';
 import WatchCtrlButton from '../../WatchCtrlButton';
 
 function PlaylistMenuTrigger({ menu = MENU_HIDE, dispatch }) {
   const handleMenuTrigger = () => {
-    dispatch({type: 'watch/menu_open', payload: { type: MENU_PLAYLISTS, option: 'b'}});
+    dispatch({ type: 'watch/menu_open', payload: { type: MENU_PLAYLISTS, option: 'b' } });
   };
 
   return (

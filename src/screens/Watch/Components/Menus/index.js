@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'dva'
+import { connect } from 'react-redux';
 import {
   MENU_PLAYLISTS,
   MENU_PLAYBACKRATE,
@@ -24,7 +24,7 @@ import ShortcutsTable from './ShortcutsTable';
 import CTPopup from '../CTPopup/CTPopup'; // May 20 Jiaxi
 
 export function MenusWithRedux({ menu, transcriptions, dispatch }) {
-  const closeMenu = () => dispatch({type: 'watch/menu_close'});
+  const closeMenu = () => dispatch({ type: 'watch/menu_close' });
   // const hideBefore = menu === MENU_BEFORE_HIDE
 
   // CSS class watch-menus creates a semi-transparent "curtain" that 
@@ -33,52 +33,52 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
   // Therefore, some components should not be rendered through it.
   const [shouldFullscreen, setShouldFullscreen] = useState(true);
   const [selectedMenu, setSelectedMenu] = useState();
-  
-  useEffect(() =>{
+
+  useEffect(() => {
     switch (menu) {
       case MENU_PLAYLISTS:
         setSelectedMenu(<PlaylistsMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_PLAYBACKRATE:
         setSelectedMenu(<PlaybackrateMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_SCREEN_MODE:
         setSelectedMenu(<ScreenModeMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_SETTING:
         setSelectedMenu(<SettingMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_LANGUAGE: // Marked for removal; replaced by MENU_TRANSCRIPTION
         setSelectedMenu(<LanguageMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_TRANSCRIPTION:
         setSelectedMenu(<TranscriptionMenu onClose={closeMenu} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_DOWNLOAD:
         setSelectedMenu(<DownloadMenu onClose={closeMenu} trans={transcriptions} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_SHORTCUTS:
         setSelectedMenu(<ShortcutsTable onClose={closeMenu} />);
         setShouldFullscreen(true);
-      break;
+        break;
       case MENU_GLOSSARY:
-        setSelectedMenu(<CTPopup onClose={closeMenu} /> );
+        setSelectedMenu(<CTPopup onClose={closeMenu} />);
         setShouldFullscreen(false);
         /* May 20 Jiaxi */
-      break;
+        break;
       default:
         setSelectedMenu(null);
         setShouldFullscreen(false);
     }
   }, [menu]);
-  
+
   // Select the JSX component to be rendered.
 
 
@@ -88,7 +88,7 @@ export function MenusWithRedux({ menu, transcriptions, dispatch }) {
         <div className="watch-menu-blur" />
         {selectedMenu}
       </div>
-    ); 
+    );
   }
   return selectedMenu;
 }

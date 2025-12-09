@@ -1,15 +1,39 @@
 import React from 'react'
-import ChapterText from '../ChapterText'
+import { _buildID } from 'utils';
+import DescriptionText from '../DescriptionText';
 
 function ImageDescription({
   id,
-  description,
+  descriptions,
   onChange
 }) {
+  if (Array.isArray(descriptions)) {
+    let myDescriptions = [...descriptions];
+    if (descriptions[descriptions.length - 1] !== "") {
+      myDescriptions.push("");
+    }
+    return (
+      <>
+        {
+          myDescriptions.map((item, index) =>
+            <DescriptionText
+              key={`epb-img-des-${_buildID()}`}
+              id={`epb-img-des-${id}-${index}`}
+              text={item}
+              attached="top"
+              addNewText="Add description for above image"
+              onSaveText={(text) => onChange(text, index)}
+              height='200px'
+            />
+          )
+        }
+      </>
+    )
+  }
   return (
-    <ChapterText
+    <DescriptionText
       id={`epb-img-des-${id}`}
-      text={description}
+      text={descriptions}
       attached="top"
       addNewText="Add description for above image"
       onSaveText={onChange}

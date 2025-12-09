@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 
 export function SidebarSubItem(props) {
   let {
@@ -20,7 +20,7 @@ export function SidebarSubItem(props) {
     <button className="ct-nsb-li-sub-content" onClick={onClick}>
       <span>{children}</span>
     </button>
-  ) : href.includes("http")? (
+  ) : href.includes("http") ? (
     <a className="ct-nsb-li-sub-content" href={href} target='_blank' rel="noreferrer">
       <i aria-hidden="true" className="material-icons">link</i> {children}
     </a>

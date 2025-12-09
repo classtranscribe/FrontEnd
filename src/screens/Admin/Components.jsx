@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Button, Message, Icon, Modal } from 'semantic-ui-react';
-import { Link } from 'dva/router';
+import { Link } from 'react-router-dom';
 
 export { CTLoader as GeneralLoader } from 'layout';
 export { GeneralAlert } from './Alerts';
@@ -58,7 +58,7 @@ export function AdminListItem({ header, items, path, id, inactive, loading }) {
             as={Link}
             secondary
             compact
-            to={`/admin/${path}/id=${id}`}
+            to={`/admin/${path}/${id}`}
             aria-label="Edit"
           >
             <Icon name="edit" />
@@ -81,7 +81,7 @@ export function CreateNewButton({ path, id, name }) {
     <div className="ap-buttons">
       <Button
         as={Link}
-        to={`/admin/${path}/new=${id}`}
+        to={`/admin/${path}/${id}/new`}
         secondary
         content={name}
         aria-label={name}

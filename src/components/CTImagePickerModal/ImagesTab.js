@@ -19,13 +19,20 @@ function ImagesTab(props) {
         {description && <CTText margin="5">{description}</CTText>}
         <div role="list" className="ct-img-picker-imgs">
           {images.map(img => (
-            <div 
-              key={img} 
+            <div
+              key={img}
               tabIndex={0}
               className="ct-img-picker-img-con"
               data-current={img === imgUrl}
               onClick={() => setImgUrl(img)}
-              role="listitem"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setImgUrl(img);
+                }
+              }}
+              role="button"
+              aria-label={`Select image ${img}`}
             >
               <Image src={uurl.getMediaUrl(img)} alt="Chapter Cover" />
               <div className="ct-img-picker-img-wrapper ct-d-r-center">

@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'dva';
-    
-const OpenMenuButton = (props)=> {
+import { connect } from 'react-redux';
+
+const OpenMenuButton = (props) => {
   const { show, menu, name, dispatch } = props;
   const openMenu = () => dispatch({ type: 'watch/menu_open', payload: { type: menu } });
 
