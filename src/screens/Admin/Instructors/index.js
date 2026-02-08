@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
 import { api, prompt } from '../../../utils';
 // UI
-import InstructorEditing from './InstructorEditing';
+// unused import InstructorEditing from './InstructorEditing';
 import InstructorList from './InstructorList';
 import { CreateNewButton, GeneralAlert, AdminHeading } from '../Components';
 import { AdminContext } from '..';

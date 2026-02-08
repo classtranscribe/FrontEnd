@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react'; // unused , { useEffect }
 import { CTFragment, altEl, makeEl } from 'layout';
 import { connect } from 'react-redux';
 import { ARRAY_INIT } from 'utils/constants';

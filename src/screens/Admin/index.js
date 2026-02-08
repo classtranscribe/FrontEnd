@@ -5,7 +5,7 @@
  *   universities, departments, terms, and courses
  */
 
-import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { createContext, useState, useCallback, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import _ from 'lodash';
 import './index.css';
@@ -15,7 +15,7 @@ import { api, user, links, _getSelectOptions } from 'utils';
 export const AdminContext = createContext(null);
 
 export function Admin() {
-  const navigate = useNavigate();
+  // unused const navigate = useNavigate();
 
   // State
   const [universities, setUniversities] = useState([]);
@@ -106,10 +106,10 @@ export function Admin() {
     populateCoursesForDepartmentId(id);
   };
 
-  const onSignOut = () => {
-    user.signOut();
-    navigate(-1); // history.back()
-  };
+  // const onSignOut = () => {
+  //   user.signOut();
+  //   navigate(-1); // history.back()
+  // };
 
   const getLayoutProps = () =>
     CTLayout.createProps({
