@@ -8,7 +8,7 @@ import {
   PlaylistInfo,
   MediaList,
   Confirmation,
-  UploadFiles
+  // unused UploadFiles
 } from './components';
 
 // export class InstPlaylistWithRedux extends Component {

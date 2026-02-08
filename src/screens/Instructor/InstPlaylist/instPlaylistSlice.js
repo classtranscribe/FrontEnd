@@ -124,9 +124,13 @@ export const renameMedia = createAsyncThunk('instplaylist/renameMedia', async ({
 export const deleteMedias = createAsyncThunk('instplaylist/deleteMedias', async (mediaIds, { dispatch, getState }) => {
   try {
     const { instplaylist } = getState();
-    for (const mediaId of mediaIds) {
-      await api.deleteMedia(mediaId);
-    }
+    // for (const mediaId of mediaIds) {
+    //   await api.deleteMedia(mediaId);
+    // }
+    // Don't await inside a loop. Here's the equivalent parallelized version
+    await Promise.all(
+      mediaIds.map(mediaId => api.deleteMedia(mediaId))
+    );
     const newMedias = _.filter(instplaylist.medias, me => !_.includes(mediaIds, me.id));
     dispatch(setMedias(newMedias));
     prompt.addOne({ text: 'Video deleted.', timeout: 3000 });
