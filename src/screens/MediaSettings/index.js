@@ -1,10 +1,10 @@
 import React from 'react';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation,/* useNavigate, */ useParams } from 'react-router-dom';
 import { links } from 'utils';
 import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect';
 import { CTErrorWrapper, CTLayout } from 'layout';
-import { TAB_EPUB, TAB_EDIT_TRANS } from './controllers/constants';
+import { TAB_EPUB /* , TAB_EDIT_TRANS */ } from './controllers/constants';
 import { MSPHeaderTabTitle } from './Components';
 import './index.scss';
 

@@ -3,7 +3,7 @@ import { isMobile } from 'react-device-detect';
 import * as KeyCode from 'keycode-js';
 import {
   WEBVTT_SUBTITLES,
-  WEBVTT_DESCRIPTIONS,
+  // unused WEBVTT_DESCRIPTIONS,
 } from '../../../Utils/constants.util';
 import { prettierTimeStr } from '../../../Utils';
 import './index.scss';
@@ -125,7 +125,7 @@ function CaptionLine({ caption = {}, allowEdit, dispatch, fontSize }) {
 
   const handleTextBlur = () => {
     if (textRef.current) {
-      const { lines, violationArr = [] } = validateText(savedText);
+      const { lines } = validateText(savedText); // unused violationArr = [] 
       textRef.current.innerText = lines.join('\n');
     }
   };

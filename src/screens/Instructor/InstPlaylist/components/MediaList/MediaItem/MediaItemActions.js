@@ -12,7 +12,7 @@ import { links } from 'utils';
 import { CROWDEDIT_ALLOW, CROWDEDIT_FREEZE_ALL, FLASH_SET_YES, FLASH_DETECT_YES, FLASH_SET_NO /* , FLASH_DETECT_NO,FLASH_UNKNOWN */ } from 'utils/constants.js';
 import { Outlet } from 'react-router-dom';
 import UploadASLButton from './UploadASLButton.js';
-import { UploadSingleFile } from '../UploadFile/index.js';
+// unused import { UploadSingleFile } from '../UploadFile/index.js';
 
 
 function MediaItemActions({ playlistId, mediaId, media, isUnavailable, dispatch }) {
