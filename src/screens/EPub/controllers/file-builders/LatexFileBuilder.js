@@ -78,6 +78,8 @@ class LatexFileBuilder {
     this.zip.addFile(img_path, Buffer.from(content.buffer));
     return img_path;
   }
+
+  // eslint-disable-next-line complexity
   convertContent(content) {
     if (epubIsText(content)) {
       return LatexFileBuilder.markdownToLatex(content);

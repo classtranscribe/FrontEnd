@@ -5,7 +5,7 @@
 import React, { useContext } from 'react';
 // UI
 import { Tab, Divider, Message, Form, Select } from 'semantic-ui-react';
-import DepartmentEditing from './DepartmentEditing';
+// unused import DepartmentEditing from './DepartmentEditing';
 import { CreateNewButton, AdminListItem, GeneralAlert, AdminHeading } from '../Components';
 import { AdminContext } from '..';
 
