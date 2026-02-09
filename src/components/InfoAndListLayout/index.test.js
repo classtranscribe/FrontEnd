@@ -4,7 +4,7 @@ import InfoAndListLayout from './index';
 // Mock the layout components
 jest.mock('layout', () => ({
     CTFragment: ({ children, className, ...props }) => (
-        <div className={className} {...props}>{children}</div>
+      <div className={className} {...props}>{children}</div>
     )
 }));
 
@@ -15,9 +15,9 @@ describe('InfoAndListLayout', () => {
 
     it('renders children', () => {
         render(
-            <InfoAndListLayout>
-                <div data-testid="child">Child Content</div>
-            </InfoAndListLayout>
+          <InfoAndListLayout>
+            <div data-testid="child">Child Content</div>
+          </InfoAndListLayout>
         );
         expect(screen.getByTestId('child')).toBeInTheDocument();
         expect(screen.getByText('Child Content')).toBeInTheDocument();
@@ -50,9 +50,9 @@ describe('InfoAndListLayout', () => {
 
         it('renders children', () => {
             render(
-                <InfoAndListLayout.Info>
-                    <span>Info Content</span>
-                </InfoAndListLayout.Info>
+              <InfoAndListLayout.Info>
+                <span>Info Content</span>
+              </InfoAndListLayout.Info>
             );
             expect(screen.getByText('Info Content')).toBeInTheDocument();
         });
@@ -71,9 +71,9 @@ describe('InfoAndListLayout', () => {
 
         it('renders children', () => {
             render(
-                <InfoAndListLayout.List>
-                    <span>List Content</span>
-                </InfoAndListLayout.List>
+              <InfoAndListLayout.List>
+                <span>List Content</span>
+              </InfoAndListLayout.List>
             );
             expect(screen.getByText('List Content')).toBeInTheDocument();
         });

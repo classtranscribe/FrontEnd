@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { Search } from './index';
 import { ARRAY_INIT } from 'utils/constants';
+import { Search } from './index';
 
 // Mock layout components
 jest.mock('layout', () => ({
@@ -18,13 +18,13 @@ beforeAll(() => {
 
 // Mock sub-components
 jest.mock('./components/SearchInput', () => () => (
-    <div data-testid="search-input">
-        <input placeholder="Search..." />
-    </div>
+  <div data-testid="search-input">
+    <input placeholder="Search..." />
+  </div>
 ));
 
 jest.mock('./components/SearchResult', () => () => (
-    <div data-testid="search-result">Search Results</div>
+  <div data-testid="search-result">Search Results</div>
 ));
 
 // Create a mock store
@@ -46,18 +46,18 @@ describe('Search Screen', () => {
     it('renders without crashing', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Search />
-            </Provider>
+          <Provider store={store}>
+            <Search />
+          </Provider>
         );
     });
 
     it('displays CTLayout wrapper', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Search />
-            </Provider>
+          <Provider store={store}>
+            <Search />
+          </Provider>
         );
         expect(screen.getByTestId('ct-layout')).toBeInTheDocument();
     });
@@ -65,9 +65,9 @@ describe('Search Screen', () => {
     it('displays search input component', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Search />
-            </Provider>
+          <Provider store={store}>
+            <Search />
+          </Provider>
         );
         expect(screen.getByTestId('search-input')).toBeInTheDocument();
     });
@@ -75,9 +75,9 @@ describe('Search Screen', () => {
     it('displays search result component', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Search />
-            </Provider>
+          <Provider store={store}>
+            <Search />
+          </Provider>
         );
         expect(screen.getByTestId('search-result')).toBeInTheDocument();
     });
@@ -85,9 +85,9 @@ describe('Search Screen', () => {
     it('has search input field', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Search />
-            </Provider>
+          <Provider store={store}>
+            <Search />
+          </Provider>
         );
         expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
     });

@@ -5,7 +5,7 @@ import { SelectCtrlButton } from './index';
 // Mock the layout components
 jest.mock('layout', () => ({
     CTPopoverLabel: ({ children, label }) => (
-        <div data-testid="popover" data-label={label}>{children}</div>
+      <div data-testid="popover" data-label={label}>{children}</div>
     )
 }));
 

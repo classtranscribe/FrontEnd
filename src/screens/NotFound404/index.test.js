@@ -16,11 +16,11 @@ jest.mock('utils', () => ({
 // Mock layout
 jest.mock('layout', () => ({
     CTErrorWrapper: ({ show, goHomeButton, navbar }) => (
-        <div data-testid="error-wrapper">
-            {navbar && <div data-testid="navbar">Navbar</div>}
-            {show && <div data-testid="error-content">404 Error</div>}
-            {goHomeButton && <button data-testid="go-home">Go Home</button>}
-        </div>
+      <div data-testid="error-wrapper">
+        {navbar && <div data-testid="navbar">Navbar</div>}
+        {show && <div data-testid="error-content">404 Error</div>}
+        {goHomeButton && <button data-testid="go-home">Go Home</button>}
+      </div>
     )
 }));
 

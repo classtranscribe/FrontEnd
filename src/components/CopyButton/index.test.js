@@ -6,7 +6,7 @@ import CopyButton from './index';
 jest.mock('layout', () => ({
     useButtonStyles: () => ({ tealLink: 'teal-link-class' }),
     CTPopoverLabel: ({ children, label }) => (
-        <div data-testid="popover" data-label={label}>{children}</div>
+      <div data-testid="popover" data-label={label}>{children}</div>
     )
 }));
 

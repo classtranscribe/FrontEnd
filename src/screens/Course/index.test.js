@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { Course } from './index';
 import { ARRAY_INIT } from 'utils/constants';
 import ErrorTypes from 'entities/ErrorTypes';
+import { Course } from './index';
 
 // Mock utils
 jest.mock('utils', () => ({
@@ -23,9 +23,9 @@ jest.mock('entities/ErrorTypes', () => ({
 jest.mock('layout', () => ({
     CTLayout: ({ children }) => <div data-testid="ct-layout">{children}</div>,
     CTErrorWrapper: ({ header, code }) => (
-        <div data-testid="error-wrapper">
-            <span>Error {code}: {header}</span>
-        </div>
+      <div data-testid="error-wrapper">
+        <span>Error {code}: {header}</span>
+      </div>
     )
 }));
 
@@ -77,18 +77,18 @@ describe('Course Screen', () => {
     it('renders without crashing', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Course />
-            </Provider>
+          <Provider store={store}>
+            <Course />
+          </Provider>
         );
     });
 
     it('displays CTLayout wrapper', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Course />
-            </Provider>
+          <Provider store={store}>
+            <Course />
+          </Provider>
         );
         expect(screen.getByTestId('ct-layout')).toBeInTheDocument();
     });
@@ -96,9 +96,9 @@ describe('Course Screen', () => {
     it('shows loading when offering is null', () => {
         const store = createTestStore({ offering: null });
         render(
-            <Provider store={store}>
-                <Course />
-            </Provider>
+          <Provider store={store}>
+            <Course />
+          </Provider>
         );
         expect(screen.getByTestId('loading')).toBeInTheDocument();
     });
@@ -106,9 +106,9 @@ describe('Course Screen', () => {
     it('shows error when offering is NotFound404', () => {
         const store = createTestStore({ offering: 'NOT_FOUND_404' });
         render(
-            <Provider store={store}>
-                <Course />
-            </Provider>
+          <Provider store={store}>
+            <Course />
+          </Provider>
         );
         expect(screen.getByTestId('error-wrapper')).toBeInTheDocument();
         expect(screen.getByText(/Couldn't find the course/)).toBeInTheDocument();
@@ -119,9 +119,9 @@ describe('Course Screen', () => {
             offering: { id: 'test-id', fullNumber: 'CS 101' }
         });
         render(
-            <Provider store={store}>
-                <Course />
-            </Provider>
+          <Provider store={store}>
+            <Course />
+          </Provider>
         );
         expect(screen.getByTestId('course-info')).toBeInTheDocument();
     });
@@ -131,9 +131,9 @@ describe('Course Screen', () => {
             offering: { id: 'test-id', fullNumber: 'CS 101' }
         });
         render(
-            <Provider store={store}>
-                <Course />
-            </Provider>
+          <Provider store={store}>
+            <Course />
+          </Provider>
         );
         expect(screen.getByTestId('playlists')).toBeInTheDocument();
     });
@@ -143,9 +143,9 @@ describe('Course Screen', () => {
             offering: { id: 'test-id', fullNumber: 'CS 101' }
         });
         render(
-            <Provider store={store}>
-                <Course />
-            </Provider>
+          <Provider store={store}>
+            <Course />
+          </Provider>
         );
         expect(screen.getByTestId('info-list-layout')).toBeInTheDocument();
     });

@@ -2,6 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+// Import after mocks
+import ImagePickerModal from './index';
+
 // Mock lodash to pass through
 jest.mock('lodash', () => ({
     ...jest.requireActual('lodash'),
@@ -11,12 +14,12 @@ jest.mock('lodash', () => ({
 // Mock layout
 jest.mock('layout', () => ({
     CTModal: ({ open, title, children, action, onClose }) => open ? (
-        <div data-testid="modal" role="dialog">
-            <h2>{title}</h2>
-            <button data-testid="close-btn" onClick={onClose}>Close</button>
-            {children}
-            <div data-testid="actions">{action}</div>
-        </div>
+      <div data-testid="modal" role="dialog">
+        <h2>{title}</h2>
+        <button data-testid="close-btn" onClick={onClose}>Close</button>
+        {children}
+        <div data-testid="actions">{action}</div>
+      </div>
     ) : null,
     makeEl: (Component, props) => <Component {...props} />
 }));
@@ -25,14 +28,14 @@ jest.mock('layout', () => ({
 jest.mock('semantic-ui-react', () => {
     const MockTabPane = ({ children }) => <div data-testid="tab-pane">{children}</div>;
     const MockTab = ({ panes }) => (
-        <div data-testid="tabs">
-            {panes && panes.map((pane, i) => (
-                <div key={i} data-testid={`tab-${i}`}>
-                    <span data-testid={`tab-menu-${i}`}>{pane.menuItem}</span>
-                    <div data-testid={`tab-content-${i}`}>{pane.render()}</div>
-                </div>
+      <div data-testid="tabs">
+        {panes && panes.map((pane, i) => (
+          <div key={i} data-testid={`tab-${i}`}>
+            <span data-testid={`tab-menu-${i}`}>{pane.menuItem}</span>
+            <div data-testid={`tab-content-${i}`}>{pane.render()}</div>
+          </div>
             ))}
-        </div>
+      </div>
     );
     MockTab.Pane = MockTabPane;
     return { Tab: MockTab };
@@ -40,41 +43,38 @@ jest.mock('semantic-ui-react', () => {
 
 // Mock sub-components
 jest.mock('./ImagesTab', () => ({ images, imgUrl, setImgUrl }) => (
-    <div data-testid="images-tab">
-        {images.map((img, i) => (
-            <button key={i} onClick={() => setImgUrl(img)} data-testid={`image-${i}`}>
-                {img}
-            </button>
+  <div data-testid="images-tab">
+    {images.map((img, i) => (
+      <button key={i} onClick={() => setImgUrl(img)} data-testid={`image-${i}`}>
+        {img}
+      </button>
         ))}
-        <span data-testid="selected-image">{imgUrl}</span>
-    </div>
+    <span data-testid="selected-image">{imgUrl}</span>
+  </div>
 ));
 
 jest.mock('./UploadTab', () => ({ imgUrl, setImgUrl }) => (
-    <div data-testid="upload-tab">
-        <input
-            data-testid="upload-input"
-            onChange={(e) => setImgUrl(e.target.value)}
-        />
-        <span data-testid="upload-selected">{imgUrl}</span>
-    </div>
+  <div data-testid="upload-tab">
+    <input
+      data-testid="upload-input"
+      onChange={(e) => setImgUrl(e.target.value)}
+    />
+    <span data-testid="upload-selected">{imgUrl}</span>
+  </div>
 ));
 
 jest.mock('./ImagePickerModalActions', () => ({ canSave, onSave, onClose }) => (
-    <div data-testid="modal-actions">
-        <button
-            data-testid="save-btn"
-            onClick={() => onSave()}
-            disabled={!canSave}
-        >
-            Save
-        </button>
-        <button data-testid="cancel-btn" onClick={onClose}>Cancel</button>
-    </div>
+  <div data-testid="modal-actions">
+    <button
+      data-testid="save-btn"
+      onClick={() => onSave()}
+      disabled={!canSave}
+    >
+      Save
+    </button>
+    <button data-testid="cancel-btn" onClick={onClose}>Cancel</button>
+  </div>
 ));
-
-// Import after mocks
-import ImagePickerModal from './index';
 
 describe('ImagePickerModal', () => {
     const baseProps = {
@@ -133,11 +133,11 @@ describe('ImagePickerModal', () => {
             description: 'test'
         }];
         render(
-            <ImagePickerModal
-                {...baseProps}
-                tabs={tabs}
-                defaultImage="default.jpg"
-            />
+          <ImagePickerModal
+            {...baseProps}
+            tabs={tabs}
+            defaultImage="default.jpg"
+          />
         );
 
         expect(screen.getByTestId('selected-image')).toHaveTextContent('default.jpg');
@@ -150,11 +150,11 @@ describe('ImagePickerModal', () => {
             description: 'test'
         }];
         render(
-            <ImagePickerModal
-                {...baseProps}
-                tabs={tabs}
-                defaultImage="image1.jpg"
-            />
+          <ImagePickerModal
+            {...baseProps}
+            tabs={tabs}
+            defaultImage="image1.jpg"
+          />
         );
 
         const saveButton = screen.getByTestId('save-btn');
@@ -200,11 +200,11 @@ describe('ImagePickerModal', () => {
             description: 'test'
         }];
         render(
-            <ImagePickerModal
-                {...baseProps}
-                tabs={tabs}
-                defaultImage="image1.jpg"
-            />
+          <ImagePickerModal
+            {...baseProps}
+            tabs={tabs}
+            defaultImage="image1.jpg"
+          />
         );
 
         const saveButton = screen.getByTestId('save-btn');

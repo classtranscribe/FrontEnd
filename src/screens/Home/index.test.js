@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { Home } from './index';
 import { ARRAY_INIT } from 'utils/constants';
+import { Home } from './index';
 
 // Mock utils
 jest.mock('utils', () => ({
@@ -16,9 +16,9 @@ jest.mock('utils', () => ({
 jest.mock('layout', () => ({
     CTLayout: ({ children }) => <div data-testid="ct-layout">{children}</div>,
     CTLoadable: ({ loading, loadingElement, children }) => (
-        <div data-testid="ct-loadable">
-            {loading ? loadingElement : children}
-        </div>
+      <div data-testid="ct-loadable">
+        {loading ? loadingElement : children}
+      </div>
     ),
     altEl: (Component, condition, props) => condition ? <Component {...props} /> : null,
     makeEl: (Component, props) => <Component {...props} />
@@ -34,9 +34,9 @@ beforeAll(() => {
 jest.mock('./components', () => ({
     Placeholder: () => <div data-testid="placeholder">Loading...</div>,
     SectionList: ({ sections }) => (
-        <div data-testid="section-list">
-            {sections.map((s, i) => <div key={i}>{s.title || 'Section'}</div>)}
-        </div>
+      <div data-testid="section-list">
+        {sections.map((s, i) => <div key={i}>{s.title || 'Section'}</div>)}
+      </div>
     ),
     CourseFilter: () => <div data-testid="course-filter">Filter</div>,
     MaintenanceMesg: ({ message }) => message ? <div data-testid="maintenance">{message}</div> : null
@@ -59,18 +59,18 @@ describe('Home Screen', () => {
     it('renders without crashing', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Home />
-            </Provider>
+          <Provider store={store}>
+            <Home />
+          </Provider>
         );
     });
 
     it('displays CTLayout wrapper', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Home />
-            </Provider>
+          <Provider store={store}>
+            <Home />
+          </Provider>
         );
         expect(screen.getByTestId('ct-layout')).toBeInTheDocument();
     });
@@ -78,9 +78,9 @@ describe('Home Screen', () => {
     it('shows loading placeholder when sections are not loaded', () => {
         const store = createTestStore({ sections: ARRAY_INIT });
         render(
-            <Provider store={store}>
-                <Home />
-            </Provider>
+          <Provider store={store}>
+            <Home />
+          </Provider>
         );
         expect(screen.getByTestId('placeholder')).toBeInTheDocument();
     });
@@ -91,9 +91,9 @@ describe('Home Screen', () => {
             hasDepartmentSections: true
         });
         render(
-            <Provider store={store}>
-                <Home />
-            </Provider>
+          <Provider store={store}>
+            <Home />
+          </Provider>
         );
         expect(screen.getByTestId('section-list')).toBeInTheDocument();
     });
@@ -104,9 +104,9 @@ describe('Home Screen', () => {
             hasDepartmentSections: false
         });
         render(
-            <Provider store={store}>
-                <Home />
-            </Provider>
+          <Provider store={store}>
+            <Home />
+          </Provider>
         );
         expect(screen.getByTestId('course-filter')).toBeInTheDocument();
     });
@@ -114,9 +114,9 @@ describe('Home Screen', () => {
     it('displays screen reader heading', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Home />
-            </Provider>
+          <Provider store={store}>
+            <Home />
+          </Provider>
         );
         expect(screen.getByRole('heading', { name: 'Course Browser' })).toBeInTheDocument();
     });

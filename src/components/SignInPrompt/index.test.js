@@ -1,6 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+// Import after mocks are set up
+import { user as mockUser } from 'utils';
+import { SignInPrompt } from './index';
+
 // Mock the user utility - must be before component import
 jest.mock('utils', () => ({
     user: { isLoggedIn: false }
@@ -9,15 +13,11 @@ jest.mock('utils', () => ({
 // Mock the SignInButton component
 jest.mock('layout', () => ({
     SignInButton: ({ children, onAfterClick }) => (
-        <button onClick={onAfterClick} data-testid="signin-button">
-            {children}
-        </button>
+      <button onClick={onAfterClick} data-testid="signin-button">
+        {children}
+      </button>
     )
 }));
-
-// Import after mocks are set up
-import { SignInPrompt } from './index';
-import { user as mockUser } from 'utils';
 
 describe('SignInPrompt', () => {
     beforeEach(() => {

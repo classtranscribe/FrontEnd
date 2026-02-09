@@ -3,21 +3,21 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import * as KeyCode from 'keycode-js';
-import { EPub } from './index';
 import { ARRAY_INIT } from 'utils/constants';
+import { EPub } from './index';
 
 // Mock layout
 jest.mock('layout', () => ({
     CTFragment: ({ children, loading, id, onKeyDown, tabIndex, as: Component = 'div' }) => (
-        <Component
-            data-testid="ct-fragment"
-            data-loading={loading ? 'true' : 'false'}
-            id={id}
-            onKeyDown={onKeyDown}
-            tabIndex={tabIndex}
-        >
-            {!loading && children}
-        </Component>
+      <Component
+        data-testid="ct-fragment"
+        data-loading={loading ? 'true' : 'false'}
+        id={id}
+        onKeyDown={onKeyDown}
+        tabIndex={tabIndex}
+      >
+        {!loading && children}
+      </Component>
     ),
     altEl: (Component, condition, props) => condition ? <Component {...props} /> : null,
     makeEl: (Component, props) => <Component {...props} />
@@ -82,18 +82,18 @@ describe('EPub Screen', () => {
     it('renders without crashing', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
     });
 
     it('shows loading state when chapters are ARRAY_INIT', () => {
         const store = createTestStore({ chapters: ARRAY_INIT });
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         const fragment = screen.getByTestId('ct-fragment');
         expect(fragment).toHaveAttribute('data-loading', 'true');
@@ -102,9 +102,9 @@ describe('EPub Screen', () => {
     it('shows loading state when epub is null', () => {
         const store = createTestStore({ epub: null });
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         const fragment = screen.getByTestId('ct-fragment');
         expect(fragment).toHaveAttribute('data-loading', 'true');
@@ -113,9 +113,9 @@ describe('EPub Screen', () => {
     it('shows content when loaded', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         // Get the main fragment by ID
         const mainFragment = document.getElementById('ct-epb-main');
@@ -125,9 +125,9 @@ describe('EPub Screen', () => {
     it('displays EPub header when loaded', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         expect(screen.getByTestId('epub-header')).toBeInTheDocument();
     });
@@ -135,9 +135,9 @@ describe('EPub Screen', () => {
     it('displays EditINote view when view is EditINote', () => {
         const store = createTestStore({ view: 'v-edit-inote' });
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         expect(screen.getByTestId('edit-inote')).toBeInTheDocument();
     });
@@ -145,9 +145,9 @@ describe('EPub Screen', () => {
     it('displays ViewAndDownload view when view is ReadOnly', () => {
         const store = createTestStore({ view: 'v-read-only' });
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         expect(screen.getByTestId('view-download')).toBeInTheDocument();
     });
@@ -155,9 +155,9 @@ describe('EPub Screen', () => {
     it('displays modals', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         expect(screen.getByTestId('image-picker-modal')).toBeInTheDocument();
         expect(screen.getByTestId('player-modal')).toBeInTheDocument();
@@ -168,9 +168,9 @@ describe('EPub Screen', () => {
     it('has correct main element ID', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <EPub />
-            </Provider>
+          <Provider store={store}>
+            <EPub />
+          </Provider>
         );
         expect(document.getElementById('ct-epb-main')).toBeInTheDocument();
     });
@@ -179,9 +179,9 @@ describe('EPub Screen', () => {
         it('dispatches setView to ReadOnly on Shift+1', () => {
             const store = createTestStore();
             render(
-                <Provider store={store}>
-                    <EPub />
-                </Provider>
+              <Provider store={store}>
+                <EPub />
+              </Provider>
             );
 
             const mainEl = document.getElementById('ct-epb-main');
@@ -193,9 +193,9 @@ describe('EPub Screen', () => {
         it('dispatches setView to EditINote on Shift+2', () => {
             const store = createTestStore({ view: 'v-read-only' });
             render(
-                <Provider store={store}>
-                    <EPub />
-                </Provider>
+              <Provider store={store}>
+                <EPub />
+              </Provider>
             );
 
             const mainEl = document.getElementById('ct-epb-main');
@@ -207,9 +207,9 @@ describe('EPub Screen', () => {
         it('does not trigger shortcuts without shift key', () => {
             const store = createTestStore({ view: 'v-edit-inote' });
             render(
-                <Provider store={store}>
-                    <EPub />
-                </Provider>
+              <Provider store={store}>
+                <EPub />
+              </Provider>
             );
 
             const mainEl = document.getElementById('ct-epb-main');

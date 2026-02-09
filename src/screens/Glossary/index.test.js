@@ -24,16 +24,16 @@ jest.mock('utils/cthttp/request.js', () => ({
 
 // Mock sub-components
 jest.mock('./components/GlossaryTable/index.js', () => ({ words }) => (
-    <div data-testid="glossary-table">
-        Glossary Table ({words.length} words)
-    </div>
+  <div data-testid="glossary-table">
+    Glossary Table ({words.length} words)
+  </div>
 ));
 
 jest.mock('./components/GlossaryBar/index.js', () => ({ setSelectCourse, setSelectOffering }) => (
-    <div data-testid="glossary-bar">
-        <button onClick={() => setSelectCourse('course-1')}>Select Course</button>
-        <button onClick={() => setSelectOffering('offering-1')}>Select Offering</button>
-    </div>
+  <div data-testid="glossary-bar">
+    <button onClick={() => setSelectCourse('course-1')}>Select Course</button>
+    <button onClick={() => setSelectOffering('offering-1')}>Select Offering</button>
+  </div>
 ));
 
 // Create mock store
@@ -49,18 +49,18 @@ describe('Glossary Screen', () => {
     it('renders without crashing', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Glossary />
-            </Provider>
+          <Provider store={store}>
+            <Glossary />
+          </Provider>
         );
     });
 
     it('displays CTLayout wrapper', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Glossary />
-            </Provider>
+          <Provider store={store}>
+            <Glossary />
+          </Provider>
         );
         expect(screen.getByTestId('ct-layout')).toBeInTheDocument();
     });
@@ -68,9 +68,9 @@ describe('Glossary Screen', () => {
     it('displays Glossary heading', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Glossary />
-            </Provider>
+          <Provider store={store}>
+            <Glossary />
+          </Provider>
         );
         expect(screen.getByRole('heading', { name: 'Glossary' })).toBeInTheDocument();
     });
@@ -78,9 +78,9 @@ describe('Glossary Screen', () => {
     it('displays GlossaryBar component', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Glossary />
-            </Provider>
+          <Provider store={store}>
+            <Glossary />
+          </Provider>
         );
         expect(screen.getByTestId('glossary-bar')).toBeInTheDocument();
     });
@@ -88,9 +88,9 @@ describe('Glossary Screen', () => {
     it('displays GlossaryTable component', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Glossary />
-            </Provider>
+          <Provider store={store}>
+            <Glossary />
+          </Provider>
         );
         expect(screen.getByTestId('glossary-table')).toBeInTheDocument();
     });
@@ -98,9 +98,9 @@ describe('Glossary Screen', () => {
     it('shows empty table initially', () => {
         const store = createTestStore();
         render(
-            <Provider store={store}>
-                <Glossary />
-            </Provider>
+          <Provider store={store}>
+            <Glossary />
+          </Provider>
         );
         expect(screen.getByText('Glossary Table (0 words)')).toBeInTheDocument();
     });

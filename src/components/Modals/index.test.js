@@ -5,10 +5,10 @@ import { CTModal } from './index';
 // Mock pico-ui Button
 jest.mock('pico-ui', () => {
     const Button = ({ onClick, icon, text, children, ...props }) => (
-        <button onClick={onClick} {...props}>
-            {icon && <span className="icon">{icon}</span>}
-            {text || children}
-        </button>
+      <button onClick={onClick} {...props}>
+        {icon && <span className="icon">{icon}</span>}
+        {text || children}
+      </button>
     );
     Button.Group = ({ children }) => <div className="button-group">{children}</div>;
     return { Button };
@@ -52,9 +52,9 @@ describe('CTModal', () => {
 
     it('renders children content', () => {
         render(
-            <CTModal {...baseProps}>
-                <p>Modal content here</p>
-            </CTModal>
+          <CTModal {...baseProps}>
+            <p>Modal content here</p>
+          </CTModal>
         );
         expect(screen.getByText('Modal content here')).toBeInTheDocument();
     });
@@ -67,11 +67,11 @@ describe('CTModal', () => {
 
     it('uses custom button text for save and cancel', () => {
         render(
-            <CTModal
-                {...baseProps}
-                saveBtnText="Confirm"
-                cancelBtnText="Dismiss"
-            />
+          <CTModal
+            {...baseProps}
+            saveBtnText="Confirm"
+            cancelBtnText="Dismiss"
+          />
         );
         expect(screen.getByText('Confirm')).toBeInTheDocument();
         expect(screen.getByText('Dismiss')).toBeInTheDocument();
@@ -79,7 +79,7 @@ describe('CTModal', () => {
 
     it('renders custom actions when provided', () => {
         render(
-            <CTModal {...baseProps} actions={<button>Custom Action</button>} />
+          <CTModal {...baseProps} actions={<button>Custom Action</button>} />
         );
         expect(screen.getByText('Custom Action')).toBeInTheDocument();
         expect(screen.queryByText('Save')).not.toBeInTheDocument();

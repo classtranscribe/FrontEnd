@@ -1,6 +1,9 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
+// Import after mocks
+import Image from './index';
+
 // Mock URL.createObjectURL
 const mockObjectUrl = 'blob:http://localhost/test-image';
 global.URL.createObjectURL = jest.fn(() => mockObjectUrl);
@@ -10,9 +13,6 @@ const mockLoadImageBuffer = jest.fn();
 jest.mock('screens/EPub/controllers/file-builders/EPubParser', () => ({
     loadImageBuffer: (...args) => mockLoadImageBuffer(...args)
 }));
-
-// Import after mocks
-import Image from './index';
 
 describe('Image', () => {
     beforeEach(() => {
@@ -62,13 +62,13 @@ describe('Image', () => {
         const dataUrl = 'data:image/png;base64,test';
 
         render(
-            <Image
-                src={dataUrl}
-                alt="test image"
-                className="custom-class"
-                width={100}
-                height={100}
-            />
+          <Image
+            src={dataUrl}
+            alt="test image"
+            className="custom-class"
+            width={100}
+            height={100}
+          />
         );
 
         await waitFor(() => {

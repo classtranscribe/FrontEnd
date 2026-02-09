@@ -12,12 +12,12 @@ jest.mock('./use-url', () => ({
         createSearch: (params) => {
             const entries = Object.entries(params).filter(([, v]) => v);
             if (entries.length === 0) return '';
-            return '?' + entries.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+            return `?${ entries.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&')}`;
         },
         createHash: (params) => {
             const entries = Object.entries(params).filter(([, v]) => v);
             if (entries.length === 0) return '';
-            return '#' + entries.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+            return `#${ entries.map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&')}`;
         }
     }
 }));

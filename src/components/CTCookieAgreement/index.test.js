@@ -1,6 +1,9 @@
 import React from 'react';
 import { render, screen, waitFor, act, fireEvent } from '@testing-library/react';
+import { user } from 'utils';
 import CTCookieAgreement, { AGREEMENT_ACCEPTED_KEY } from './index';
+
+// Get reference to mocked user
 
 // Mock react-device-detect
 jest.mock('react-device-detect', () => ({
@@ -15,25 +18,22 @@ jest.mock('utils', () => ({
     }
 }));
 
-// Get reference to mocked user
-import { user } from 'utils';
-
 // Mock layout components
 jest.mock('layout', () => ({
     CTFragment: ({ children, ...props }) => <div {...props}>{children}</div>,
     CTText: ({ children, ...props }) => <span {...props}>{children}</span>,
     CTBrand: () => <span>ClassTranscribe</span>,
     CTList: ({ items }) => (
-        <div data-testid="ct-list">
-            {items.map((item, i) => (
-                <button key={i} onClick={item.onClick} data-testid={`option-${i}`}>
-                    {item.title}
-                </button>
+      <div data-testid="ct-list">
+        {items.map((item, i) => (
+          <button key={i} onClick={item.onClick} data-testid={`option-${i}`}>
+            {item.title}
+          </button>
             ))}
-        </div>
+      </div>
     ),
     CTModal: ({ open, children }) => open ? (
-        <div data-testid="modal" role="dialog">{children}</div>
+      <div data-testid="modal" role="dialog">{children}</div>
     ) : null
 }));
 
