@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
-import * as KeyCode from 'keycode-js';
+// unused import * as KeyCode from 'keycode-js';
 import InstructorList from './InstructorList';
 
 describe('Instructor List', () => {

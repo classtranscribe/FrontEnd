@@ -1,0 +1,227 @@
+CODE REVIEW FINDINGS
+====================
+Issues discovered while creating unit tests for the FrontEnd codebase.
+These items should be carefully reviewed and potentially fixed.
+
+================================================================================
+CRITICAL ISSUES
+================================================================================
+
+1. BUG: plaintext2Html always returns empty string
+   File: src/utils/2html/plaintext.js
+   Lines: 10-47
+
+   Problem:
+   - plaintext2Html() calls strList2Html(paragraphs) without a 'key' parameter
+   - strList2Html() only populates the paragraphs array when a 'key' is provided (lines 14-16)
+   - Without a key, the paragraphs array stays empty [], resulting in empty string output
+
+   Current behavior:
+   ```javascript
+   plaintext2Html('First\nSecond\nThird') // Returns '' (empty string)
+   ```
+
+   Expected behavior:
+   ```javascript
+   plaintext2Html('First\nSecond\nThird') // Should return '<p>\n\tFirst\n</p>\n\n<p>\n\tSecond\n</p>...'
+   ```
+
+   Fix needed:
+   In strList2Html(), handle the case where textdata is an array of strings (not objects):
+   ```javascript
+   if (Array.isArray(textdata)) {
+     if (key) {
+       paragraphs = textdata.map((data) => _.get(data, key));
+     } else {
+       paragraphs = textdata; // Add this line
+     }
+   }
+   ```
+
+   Impact: HIGH - This function appears to be completely broken for its intended use case
+
+================================================================================
+HIGH PRIORITY ISSUES
+================================================================================
+
+2. Console.log statements in production code
+   File: src/utils/cthttp/entities/Captions.js
+   Lines: 33, 49, 51, 53
+
+   Problem:
+   - updateCaptionLine() contains multiple console.log and console.error statements
+   - These will pollute the browser console in production
+   - Should use a proper logging framework or be removed
+
+   Recommendation:
+   - Remove console statements or replace with proper logging utility
+   - If debugging is needed, use environment-based logging (only in development)
+
+3. Mixed synchronous/asynchronous error handling
+   File: src/utils/cthttp/entities/Captions.js
+   Lines: 31-56
+
+   Problem:
+   - updateCaptionLine() throws errors synchronously (line 39)
+   - But also has .catch() for async errors (lines 51-55)
+   - This inconsistency can lead to confusion and improper error handling
+
+   Recommendation:
+   - Make error handling consistent - either all sync or all async
+   - If validation fails, either throw before the async call or return rejected promise
+
+4. Space in template literal
+   File: src/utils/cthttp/entities/Logs.js
+   Line: 49
+
+   Problem:
+   ```javascript
+   return cthttp.get(`Playlists/ByOffering2/${ offeringId}`, ...
+   ```
+   Notice the space before 'offeringId' - should be `${offeringId}`
+
+   Impact: LOW - Still works, but inconsistent formatting
+
+================================================================================
+MEDIUM PRIORITY ISSUES
+================================================================================
+
+5. Inconsistent function naming
+   Files: Multiple entity files
+
+   Examples:
+   - getDepartById vs getDepartmentById (Departments.js line 13)
+   - getTermsByUniId vs getTermsByUniversityId (Terms.js line 13)
+
+   Recommendation:
+   - Standardize on either abbreviated or full names
+   - Update to use consistent naming: getDepartmentById, getTermsByUniversityId
+
+6. Missing input validation
+   Files: All entity files
+
+   Problem:
+   - Entity functions don't validate inputs before making API calls
+   - No checks for null/undefined parameters
+   - Could result in unhelpful error messages or failed API calls
+
+   Example from Media.js:
+   ```javascript
+   export function getMediaById(mediaId) {
+     return cthttp.get(`Media/${mediaId}`); // What if mediaId is null?
+   }
+   ```
+
+   Recommendation:
+   - Add basic input validation for required parameters
+   - Throw meaningful errors early if invalid inputs detected
+
+7. Hardcoded timeout values
+   Files: src/utils/cthttp/entities/Media.js (line 3)
+          src/utils/cthttp/entities/Logs.js (line 3)
+
+   Problem:
+   - UPLOAD_MEDIA_TIMEOUT = 6000000 (100 minutes)
+   - GET_LOG_TIMEOUT = 6000000 (100 minutes)
+   - These very long timeouts are hardcoded
+
+   Recommendation:
+   - Consider making these configurable via environment variables
+   - Document why such long timeouts are needed
+   - Consider adding progress indicators for long-running operations
+
+================================================================================
+LOW PRIORITY / NICE TO HAVE
+================================================================================
+
+8. Unused/commented code
+   File: src/utils/cthttp/entities/Captions.js
+   Line: 3
+
+   Problem:
+   - `// const qs = require('qs')` - commented out, should be removed if not needed
+
+9. Testing challenges with markdown2Html
+   File: src/utils/2html/markdown.js
+
+   Issue:
+   - showdown-katex performs DOM manipulations that fail in jsdom test environment
+   - Error: "Failed to execute 'replaceChild' on 'Node': parameter 1 is not of type 'Node'"
+   - Makes comprehensive testing difficult
+
+   Recommendation:
+   - Consider alternative markdown libraries with better test compatibility
+   - Or add browser-based integration tests for markdown functionality
+   - Document this limitation in the codebase
+
+10. No error handling for file uploads
+    Files: Media.js, Images.js
+
+    Problem:
+    - uploadVideo() and createImage() don't validate file types or sizes
+    - No client-side validation before upload
+
+    Recommendation:
+    - Add file type validation (e.g., only allow video/image types)
+    - Add file size checks to prevent large uploads
+    - Provide user-friendly error messages
+
+11. Duplicate or similar functions
+    File: src/utils/cthttp/entities/Logs.js
+
+    Problem:
+    - getPlayListsByCourseId() is in Logs.js but seems misplaced
+    - Should probably be in Playlists.js
+    - The endpoint `Playlists/ByOffering2/` suggests there's also a ByOffering1
+
+    Recommendation:
+    - Review API organization and move playlist-related functions to Playlists.js
+    - Investigate the ByOffering vs ByOffering2 naming
+
+================================================================================
+DOCUMENTATION ISSUES
+================================================================================
+
+12. Missing JSDoc for many functions
+    Files: All entity files
+
+    Problem:
+    - Most entity functions lack JSDoc comments
+    - Parameters and return types are not documented
+
+    Recommendation:
+    - Add JSDoc comments for all exported functions
+    - Document parameter types, return types, and any side effects
+
+================================================================================
+TEST COVERAGE NOTES
+================================================================================
+
+Tests Created:
+- Priority 1: 10 test files, 92 tests (Pure utility functions)
+- Priority 2: 16 test files, 113 tests (cthttp utilities and entities)
+- Total new tests: 26 test files, 205+ test cases
+
+All tests are passing.
+
+Areas that still need test coverage:
+- Component tests (Priority 3 in TEST_PLAN.md - 67 files)
+- DOM-heavy utilities (Priority 4 in TEST_PLAN.md)
+- User authentication flows (Auth0.js, CILogon.js, User.js)
+- User preference management
+- Request.js (complex with axios mocking)
+
+================================================================================
+RECOMMENDED NEXT STEPS
+================================================================================
+
+1. Fix the critical plaintext2Html bug (Issue #1)
+2. Remove console.log statements from Captions.js (Issue #2)
+3. Standardize error handling in updateCaptionLine (Issue #3)
+4. Review and standardize function naming across entity files (Issue #5)
+5. Add input validation to entity functions (Issue #6)
+6. Continue with component tests as outlined in TEST_PLAN.md
+
+================================================================================
+END OF REVIEW
+================================================================================

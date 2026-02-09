@@ -148,7 +148,9 @@ checkBrowsers(paths.appPath, isInteractive)
       openBrowser(urls.localUrlForBrowser);
     });
 
+    // eslint-disable-next-line func-names
     ['SIGINT', 'SIGTERM'].forEach(function (sig) {
+      // eslint-disable-next-line func-names
       process.on(sig, function () {
         devServer.close();
         process.exit();
@@ -157,6 +159,7 @@ checkBrowsers(paths.appPath, isInteractive)
 
     if (process.env.CI !== 'true') {
       // Gracefully exit when stdin ends
+      // eslint-disable-next-line func-names
       process.stdin.on('end', function () {
         devServer.close();
         process.exit();

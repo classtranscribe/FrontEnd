@@ -6,7 +6,7 @@
  */
 
 import { createContext, useState, useCallback, useEffect } from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { /* useNavigate, */ Outlet } from 'react-router-dom';
 import _ from 'lodash';
 import './index.css';
 import { CTLayout } from 'layout';

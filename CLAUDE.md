@@ -68,3 +68,10 @@ import { api } from '../../../utils/cthttp';
 ## Node Version
 
 v18.20.4 (see `.nvmrc`)
+
+## Development Notes
+
+Project documentation and development notes are maintained in the `DEVNOTES/` directory:
+- `TEST-STATUS.md` - Current test suite status and lint results
+- `TESTING-PATTERNS.md` - Jest patterns, common pitfalls, and testing tips
+- `TODOs.md` - Known code bugs and issues to fix

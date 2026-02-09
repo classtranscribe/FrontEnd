@@ -35,7 +35,7 @@ jest.mock('./components', () => ({
     Placeholder: () => <div data-testid="placeholder">Loading...</div>,
     SectionList: ({ sections }) => (
       <div data-testid="section-list">
-        {sections.map((s, i) => <div key={i}>{s.title || 'Section'}</div>)}
+        {sections.map((s, i) => <div key={s.title || `section-${i}`}>{s.title || 'Section'}</div>)}
       </div>
     ),
     CourseFilter: () => <div data-testid="course-filter">Filter</div>,

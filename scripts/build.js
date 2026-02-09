@@ -146,6 +146,7 @@ function build(previousFileSizes) {
 
   const compiler = webpack(config);
   return new Promise((resolve, reject) => {
+    // eslint-disable-next-line complexity
     compiler.run((err, stats) => {
       let messages;
       if (err) {

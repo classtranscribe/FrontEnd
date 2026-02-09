@@ -1,4 +1,4 @@
-import { links, ClassTranscribeLinks } from './links';
+import { links /* , ClassTranscribeLinks */ } from './links';
 
 // Mock dependencies
 jest.mock('utils/env', () => ({
