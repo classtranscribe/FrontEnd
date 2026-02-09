@@ -252,6 +252,7 @@ class EPubFileBuilder {
     const imagesDir = 'OEBPS/images/';
     const imageItems = [];
 
+    // eslint-disable-next-line complexity
     const rewriteImageObject = (imgObj) => {
       if (!imgObj) return;
       let buffer = null;

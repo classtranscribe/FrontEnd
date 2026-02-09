@@ -24,8 +24,9 @@ class TimeString {
     const formatter = 'HH:mm:ss';
 
     let fraction = parseFloat(sec % 1)
-                    .toPrecision(2)
-                    .substring(1, 3);
+                    .toFixed(2)
+                    .substring(1)
+                    .replace(/0$/, '');
 
     return moment()
             .startOf('day')

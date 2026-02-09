@@ -10,7 +10,7 @@ export class CTSearch {
    *
    * @returns {[Function]}
    */
-  static getRegExpTests(value = '', keys, options = { flags: 'gi' }) {
+  static getRegExpTests(value = '', keys, options = { flags: 'i' }) {
     const { flags } = options;
     const tests = [];
     let attrs = keys;
@@ -73,7 +73,7 @@ export class CTSearch {
    *
    * @returns {Function}
    */
-  static getMatchFunction(value = '', attrs, options = { flags: 'gi' }) {
+  static getMatchFunction(value = '', attrs, options = { flags: 'i' }) {
     const tests = this.getRegExpTests(value, attrs, options);
     // combine the test item
     const isMatch = (item) => {
@@ -100,7 +100,7 @@ export class CTSearch {
    * let results = search.getResults(books, value, ['title', 'author'], {flags: 'i'})
    * ```
    */
-  static getResults(items = [], value = '', attrs, options = { flags: 'gi' }) {
+  static getResults(items = [], value = '', attrs, options = { flags: 'i' }) {
     const isMatch = this.getMatchFunction(value, attrs, options);
     return _.filter(items, isMatch);
   }

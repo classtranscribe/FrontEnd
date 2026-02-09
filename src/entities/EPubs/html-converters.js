@@ -10,6 +10,7 @@ export function buildMDFromItems(items) {
   ].join('\n');
 }
 
+// eslint-disable-next-line complexity
 export async function buildMDFromContent(content) {
   if (typeof content === 'string') return content;
   
