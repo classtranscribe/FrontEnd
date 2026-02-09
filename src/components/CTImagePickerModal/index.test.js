@@ -30,7 +30,7 @@ jest.mock('semantic-ui-react', () => {
     const MockTab = ({ panes }) => (
       <div data-testid="tabs">
         {panes && panes.map((pane, i) => (
-          <div key={i} data-testid={`tab-${i}`}>
+          <div key={pane.menuItem || i} data-testid={`tab-${i}`}>
             <span data-testid={`tab-menu-${i}`}>{pane.menuItem}</span>
             <div data-testid={`tab-content-${i}`}>{pane.render()}</div>
           </div>
@@ -45,7 +45,7 @@ jest.mock('semantic-ui-react', () => {
 jest.mock('./ImagesTab', () => ({ images, imgUrl, setImgUrl }) => (
   <div data-testid="images-tab">
     {images.map((img, i) => (
-      <button key={i} onClick={() => setImgUrl(img)} data-testid={`image-${i}`}>
+      <button key={img || i} onClick={() => setImgUrl(img)} data-testid={`image-${i}`}>
         {img}
       </button>
         ))}

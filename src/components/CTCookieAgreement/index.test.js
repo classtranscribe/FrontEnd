@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, act, fireEvent } from '@testing-library/react';
+import { render, screen, /* waitFor, */ act, fireEvent } from '@testing-library/react';
 import { user } from 'utils';
 import CTCookieAgreement, { AGREEMENT_ACCEPTED_KEY } from './index';
 
@@ -26,7 +26,7 @@ jest.mock('layout', () => ({
     CTList: ({ items }) => (
       <div data-testid="ct-list">
         {items.map((item, i) => (
-          <button key={i} onClick={item.onClick} data-testid={`option-${i}`}>
+          <button key={item.title || i} onClick={item.onClick} data-testid={`option-${i}`}>
             {item.title}
           </button>
             ))}

@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { ARRAY_INIT } from 'utils/constants';
-import ErrorTypes from 'entities/ErrorTypes';
+// unused import { ARRAY_INIT } from 'utils/constants';
+// unused import ErrorTypes from 'entities/ErrorTypes';
 import { Course } from './index';
 
 // Mock utils
