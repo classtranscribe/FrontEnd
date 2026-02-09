@@ -1,2 +1,6 @@
 node_modules
 .git
+DEVNOTES
+.claude
+.github
+.vscode
