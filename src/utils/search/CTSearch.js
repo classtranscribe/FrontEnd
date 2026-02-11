@@ -20,7 +20,8 @@ export class CTSearch {
     // get test functions for each word
     let testFunc = null;
 
-    value.split(' ').forEach((word) => {
+    // split string and filter out invalid tokens
+    value.split(/\s+/).filter(Boolean).forEach((word) => {
       const reg = new RegExp(_.escapeRegExp(word), flags);
 
       if (!attrs) {
@@ -75,6 +76,8 @@ export class CTSearch {
    */
   static getMatchFunction(value = '', attrs, options = { flags: 'i' }) {
     const tests = this.getRegExpTests(value, attrs, options);
+    if (tests.length === 0) return () => false;
+
     // combine the test item
     const isMatch = (item) => {
       let match = true;
@@ -101,6 +104,8 @@ export class CTSearch {
    * ```
    */
   static getResults(items = [], value = '', attrs, options = { flags: 'i' }) {
+    if (value.trim() === '') return [];
+
     const isMatch = this.getMatchFunction(value, attrs, options);
     return _.filter(items, isMatch);
   }
