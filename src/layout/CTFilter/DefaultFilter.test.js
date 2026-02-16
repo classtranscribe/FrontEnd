@@ -148,10 +148,10 @@ describe('DefaultFilter', () => {
 
         test('it passes inputProps to input element', () => {
             render(
-                <DefaultFilter
-                    {...baseProps}
-                    inputProps={{ 'data-testid': 'custom-input', maxLength: 10 }}
-                />
+              <DefaultFilter
+                {...baseProps}
+                inputProps={{ 'data-testid': 'custom-input', maxLength: 10 }}
+              />
             );
 
             const input = screen.getByTestId('custom-input');
@@ -224,7 +224,7 @@ describe('DefaultFilter', () => {
         test('it applies reversed class to button when reversed', () => {
             const onToggleReverse = jest.fn();
             const { container } = render(
-                <DefaultFilter {...baseProps} onToggleReverse={onToggleReverse} reversed />
+              <DefaultFilter {...baseProps} onToggleReverse={onToggleReverse} reversed />
             );
 
             const reversedButton = container.querySelector('.reverse-btn.reversed');
@@ -234,7 +234,7 @@ describe('DefaultFilter', () => {
         test('it does not apply reversed class when not reversed', () => {
             const onToggleReverse = jest.fn();
             const { container } = render(
-                <DefaultFilter {...baseProps} onToggleReverse={onToggleReverse} reversed={false} />
+              <DefaultFilter {...baseProps} onToggleReverse={onToggleReverse} reversed={false} />
             );
 
             const reversedButton = container.querySelector('.reverse-btn.reversed');

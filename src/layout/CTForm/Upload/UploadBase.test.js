@@ -24,7 +24,7 @@ describe('UploadBase', () => {
     const baseProps = {
         id: 'test-upload',
         children: (isDragActive) => (
-            <span>{isDragActive ? 'Drop here' : 'Browse files'}</span>
+          <span>{isDragActive ? 'Drop here' : 'Browse files'}</span>
         ),
     };
 
@@ -74,7 +74,7 @@ describe('UploadBase', () => {
 
     test('it sets accept prop on file input', () => {
         const { container } = render(
-            <UploadBase {...baseProps} accept=".pdf,.doc" />
+          <UploadBase {...baseProps} accept=".pdf,.doc" />
         );
         const input = container.querySelector('input[type="file"]');
         expect(input.getAttribute('accept')).toBe('.pdf,.doc');
@@ -107,7 +107,7 @@ describe('UploadBase', () => {
     test('it calls onFileChange when file is selected via input', () => {
         const onFileChange = jest.fn();
         const { container } = render(
-            <UploadBase {...baseProps} onFileChange={onFileChange} />
+          <UploadBase {...baseProps} onFileChange={onFileChange} />
         );
         const input = container.querySelector('input[type="file"]');
         const file = new File(['content'], 'test.pdf', { type: 'application/pdf' });
@@ -127,7 +127,7 @@ describe('UploadBase', () => {
     test('it calls onFileChange with multiple files', () => {
         const onFileChange = jest.fn();
         const { container } = render(
-            <UploadBase {...baseProps} onFileChange={onFileChange} />
+          <UploadBase {...baseProps} onFileChange={onFileChange} />
         );
         const input = container.querySelector('input[type="file"]');
         const file1 = new File(['a'], 'a.pdf', { type: 'application/pdf' });
@@ -153,7 +153,7 @@ describe('UploadBase', () => {
 
     test('it accepts image file types', () => {
         const { container } = render(
-            <UploadBase {...baseProps} accept="image/*" />
+          <UploadBase {...baseProps} accept="image/*" />
         );
         const input = container.querySelector('input[type="file"]');
         expect(input.getAttribute('accept')).toBe('image/*');
@@ -162,7 +162,7 @@ describe('UploadBase', () => {
     test('it calls onFileChange with empty file list', () => {
         const onFileChange = jest.fn();
         const { container } = render(
-            <UploadBase {...baseProps} onFileChange={onFileChange} />
+          <UploadBase {...baseProps} onFileChange={onFileChange} />
         );
         const input = container.querySelector('input[type="file"]');
         fireEvent.change(input, { target: { files: [] } });
