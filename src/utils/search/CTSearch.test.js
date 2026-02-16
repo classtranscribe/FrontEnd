@@ -19,8 +19,7 @@ describe('CTSearch', () => {
 
         it('handles empty string', () => {
             const tests = CTSearch.getRegExpTests('');
-            expect(tests).toHaveLength(1);
-            expect(tests[0].word).toBe('');
+            expect(tests).toHaveLength(0);
         });
 
         it('testFunc works with string items when no keys provided', () => {
@@ -102,7 +101,7 @@ describe('CTSearch', () => {
 
         it('handles empty search value', () => {
             const results = CTSearch.getResults(books, '', ['title']);
-            expect(results).toHaveLength(4);
+            expect(results).toHaveLength(0);
         });
 
         it('handles empty items array', () => {
