@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ARRAY_INIT, api, user, links } from 'utils';
+import { ARRAY_INIT, api, user, links, prompt } from 'utils';
 import _ from 'lodash';
 import ErrorTypes from 'entities/ErrorTypes';
 import { addSubscription } from 'model/listener';
