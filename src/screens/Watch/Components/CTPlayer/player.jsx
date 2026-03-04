@@ -88,9 +88,30 @@ const Video = React.memo((props) => {
         // if (this.PAUSED) this.play();
         setCTPEvent(CTP_PLAYING);
     }, [isPrimary]);
-    const onEndedPri = useCallback(() => {
+    const onEndedPri = useCallback((e) => {
+        const { currentTime, duration } = e.target;
+        // Some browsers (e.g. Safari/iOS) fire the 'ended' event when the video
+        // fails to load mid-playback (network error, expired URL, etc.) rather
+        // than firing 'waiting' or 'error'. Guard against this by checking
+        // whether we're actually at the end of the video.
+        if (duration > 0 && currentTime < duration - 1) {
+            setCTPEvent(CTP_LOADING);
+            e.target.currentTime = Math.max(0, currentTime - 0.5);
+            try {
+                const playPromise = e.target.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => setCTPEvent(CTP_ENDED));
+                }
+            } catch {
+                setCTPEvent(CTP_ENDED);
+            }
+            return;
+        }
         setCTPEvent(CTP_ENDED);
         dispatch({ type: 'watch/media_pause' });
+    }, [isPrimary]);
+    const onStalledPri = useCallback(() => {
+        setCTPEvent(CTP_LOADING);
     }, [isPrimary]);
     const onSeekingPri = useCallback(() => {
         dispatch({ type: 'watch/onSeekingPri', payload: { seeked: false, priVideo: isPrimary } })
@@ -121,6 +142,7 @@ const Video = React.memo((props) => {
         onLoadStart={onLoadStartPri}
         onLoadedData={onLoadedDataPri}
         onWaiting={onWaitingPri}
+        onStalled={onStalledPri}
         onPlaying={onPlayingPri}
         onEnded={onEndedPri}
         onSeeking={onSeekingPri}

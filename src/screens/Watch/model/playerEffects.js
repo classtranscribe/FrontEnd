@@ -30,10 +30,6 @@ const setPrevmode = (state, action) => {
   state.prevmode = action.payload;
 }
 
-const setCTPEvent = (state, action) => {
-  state.ctpPriEvent = action.payload.event;
-}
-
 const setFlashAcknowledged = (state, action) => {
   state.media.flashAcknowledged = action.payload;
 }
@@ -47,6 +43,5 @@ export default {
   switchScreen,
   setMode,
   setPrevmode,
-  setCTPEvent,
   setFlashAcknowledged
 };
