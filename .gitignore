@@ -64,6 +64,13 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# Playwright report and results
+playwright-report
+test-results
+
+# Playwright stored login status
+e2e/.auth/
+
 # dotenv environment variables file
 .env
 
