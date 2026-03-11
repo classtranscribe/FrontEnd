@@ -12,7 +12,7 @@ const { test, expect } = require('@playwright/test');
 //   {filename}.epub         → EPubFileBuilder
 //   {filename}.zip          → HTMLFileBuilder (HTML + CSS + images)
 //   {filename}.pdf          → PDFFileBuilder
-//   {filename} - latex.zip  → LatexFileBuilder
+//   {filename}.zip          → LatexFileBuilder
 //
 // Downloads are triggered client-side via js-file-download (Blob URL + anchor click).
 // Playwright intercepts them with page.waitForEvent('download').
@@ -96,6 +96,14 @@ test.describe('EPub (Video to Book) - I-Note List', () => {
     await newPage.waitForURL(/\/epub\//, { timeout: 10000 });
     await expect(newPage.locator('#ct-epb-main')).toBeVisible({ timeout: 20000 });
   });
+
+  test('I-Note list items show non-empty titles', async ({ page }) => {
+    await page.goto(`/media-settings/${mediaId}/epub`);
+    const firstItem = page.locator('.ct-listitem-con[role="listitem"]').first();
+    await firstItem.waitFor({ timeout: 15000 });
+    const title = await firstItem.textContent();
+    expect(title?.trim().length).toBeGreaterThan(0);
+  });
 });
 
 test.describe('EPub (Video to Book) - Editor & Download', () => {
@@ -173,5 +181,69 @@ test.describe('EPub (Video to Book) - Editor & Download', () => {
     ]);
 
     expect(download.suggestedFilename()).toMatch(/\.zip$/);
+  });
+
+  test('clicking .pdf download triggers file download', async ({ page }) => {
+    await page.goto(epubUrl);
+    await expect(page.locator('#ct-epb-view-dropdown-btn')).toBeVisible({ timeout: 20000 });
+
+    await page.locator('#ct-epb-view-dropdown-btn').click();
+    await page.getByText('View or Download I-Note').click();
+
+    // PDFFileBuilder button: description "Print/Save as PDF file"
+    const pdfBtn = page.locator('.ct-file-btn').filter({ hasText: 'Print/Save as PDF file' });
+    await pdfBtn.waitFor({ timeout: 10000 });
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download', { timeout: 60000 }),
+      pdfBtn.click(),
+    ]);
+
+    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+  });
+
+  test('clicking latex download triggers file download', async ({ page }) => {
+    await page.goto(epubUrl);
+    await expect(page.locator('#ct-epb-view-dropdown-btn')).toBeVisible({ timeout: 20000 });
+
+    await page.locator('#ct-epb-view-dropdown-btn').click();
+    await page.getByText('View or Download I-Note').click();
+
+    // LatexFileBuilder button: description "Save as .tex file with bundled images"
+    const latexBtn = page.locator('.ct-file-btn').filter({ hasText: 'Save as .tex file' });
+    await latexBtn.waitFor({ timeout: 10000 });
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download', { timeout: 60000 }),
+      latexBtn.click(),
+    ]);
+
+    expect(download.suggestedFilename()).toMatch(/\.zip$/);
+  });
+
+  test('default view on load is Edit I-Note (chapter editor visible, no download buttons)', async ({ page }) => {
+    await page.goto(epubUrl);
+    await expect(page.locator('#ct-epb-view-dropdown-btn')).toBeVisible({ timeout: 20000 });
+
+    // EditINote renders the chapter list; DownloadOptions is NOT rendered in this view
+    await expect(page.locator('ul.ct-inote-editor')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('.ct-file-btn')).toHaveCount(0);
+  });
+
+  test('switching back to Edit I-Note mode hides the download panel', async ({ page }) => {
+    await page.goto(epubUrl);
+    await expect(page.locator('#ct-epb-view-dropdown-btn')).toBeVisible({ timeout: 20000 });
+
+    // Switch to View mode
+    await page.locator('#ct-epb-view-dropdown-btn').click();
+    await page.getByText('View or Download I-Note').click();
+    await expect(page.locator('.ct-file-btn').first()).toBeVisible({ timeout: 10000 });
+
+    // Switch back to Edit mode
+    await page.locator('#ct-epb-view-dropdown-btn').click();
+    await page.getByText('Edit I-Note').click();
+
+    await expect(page.locator('.ct-file-btn')).toHaveCount(0, { timeout: 5000 });
+    await expect(page.locator('ul.ct-inote-editor')).toBeVisible({ timeout: 10000 });
   });
 });
