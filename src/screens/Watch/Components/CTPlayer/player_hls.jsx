@@ -141,14 +141,30 @@ const Video = React.memo((props) => {
     const onLoadedDataPri = useCallback(() => {
         setCTPEvent(CTP_PLAYING);
     }, [isPrimary]);
-    // const onWaitingPri = useCallback(() => {
-    //     setCTPEvent(CTP_LOADING);
-    // }, [isPrimary]);
-    // const onPlayingPri = useCallback(() => {
-    //     // if (this.PAUSED) this.play();
-    //     setCTPEvent(CTP_PLAYING);
-    // }, [isPrimary]);
-    const onEndedPri = useCallback(() => {
+    const onWaitingPri = useCallback(() => {
+        setCTPEvent(CTP_LOADING);
+    }, [isPrimary]);
+    const onPlayingPri = useCallback(() => {
+        setCTPEvent(CTP_PLAYING);
+    }, [isPrimary]);
+    const onStalledPri = useCallback(() => {
+        setCTPEvent(CTP_LOADING);
+    }, [isPrimary]);
+    const onEndedPri = useCallback((e) => {
+        const { currentTime, duration } = e.target;
+        if (duration > 0 && currentTime < duration - 1) {
+            setCTPEvent(CTP_LOADING);
+            e.target.currentTime = Math.max(0, currentTime - 0.5);
+            try {
+                const playPromise = e.target.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => setCTPEvent(CTP_ENDED));
+                }
+            } catch {
+                setCTPEvent(CTP_ENDED);
+            }
+            return;
+        }
         setCTPEvent(CTP_ENDED);
         dispatch({ type: 'watch/media_pause' });
     }, [isPrimary]);
@@ -416,6 +432,9 @@ const Video = React.memo((props) => {
           onPause={onPause}
           onLoadStart={onLoadStartPri}
           onLoadedData={onLoadedDataPri}
+          onWaiting={onWaitingPri}
+          onStalled={onStalledPri}
+          onPlaying={onPlayingPri}
           onEnded={onEndedPri}
           onSeeking={onSeekingPri}
           onSeeked={onSeekedPri}

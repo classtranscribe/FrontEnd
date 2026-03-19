@@ -219,7 +219,8 @@ const duplicateEPub = createAsyncThunk("epub/duplicateEPub",
   });
 
 const deleteEPub = createAsyncThunk("epub/deleteEPub",
-  async ({ ePubId }) => {
+  async (payload) => {
+    const ePubId = typeof payload === 'string' ? payload : payload?.ePubId;
     try {
       await api.deleteEPub(ePubId);
       window.close();
