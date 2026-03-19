@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # COMPILE REACT APP
 # ----------------------------------------------------------------------
-FROM --platform=$BUILDPLATFORM node:18 AS frontend
+FROM --platform=$BUILDPLATFORM node:24 AS frontend
 WORKDIR /frontend
 
 COPY scripts scripts/
@@ -13,6 +13,7 @@ RUN yarn && yarn install
 # COPY jsconfig.json .
 COPY public/ public/
 COPY src/ src/
+COPY index.html vite.config.js /frontend/
 
 RUN yarn build
 
@@ -25,7 +26,7 @@ ARG BRANCH="unknown"
 ARG BUILDNUMBER="local"
 ARG GITSHA1="unknown"
 
-COPY --from=frontend /frontend/build /build/
+COPY --from=frontend /frontend/dist /build/
 COPY config.template /config.template
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
