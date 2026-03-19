@@ -19,7 +19,9 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '16.x'
+          # Vite 7 / @vitejs/plugin-react 5 require Node >= 20.19
+          # Keep CI aligned with local development version (.nvmrc -> v24.13.0).
+          node-version: '24.x'
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
