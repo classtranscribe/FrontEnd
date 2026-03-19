@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { env } from 'utils/env';
-import { Agent } from 'https'
 import { links, uurl } from 'utils';
 import { accountStorage } from 'utils/user/storage';
 
@@ -24,21 +23,11 @@ class CTHTTPRequest {
       authToken = loginAsAuthToken;
     }
     const baseURL = env.baseURL || window.location.origin;
-    const beSecure = ! baseURL.startsWith("https://localhost");
-    // For Chrome Testing: open the API in the browser (e.g. https://localhost:8443/api/Universities ) and accept as unsafe
-
-    const httpsAgent = new Agent({
-        rejectUnauthorized: beSecure,
-        requestCert: beSecure,
-        // agent: beSecure
-     });
     const Authorization = (authToken && withAuth) ? `Bearer ${authToken}` : undefined;
     return axios.create({
       baseURL,
       timeout,
       withCredentials: false, // dont send session cookies (which we don't use anyway)
-      httpsAgent,
-      httpAgent: httpsAgent,
       headers: { ...corsheaders, Authorization},
     });
   }

@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import Papa from 'papaparse';
 import { api } from 'utils';
-
-const fileDownload = require('js-file-download');
+import fileDownload from 'js-file-download';
 
 const A_VERY_OLD_DATE_ISO_STR = '2010-04-03T11:11:11.111Z';
 

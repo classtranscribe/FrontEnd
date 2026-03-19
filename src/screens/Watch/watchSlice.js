@@ -347,7 +347,7 @@ export const {
   setTranscriptionsReducer,
   setCurrentTranscriptionMultiReducer,
   setUpdating,
-  setFontSizeReducer,
+  setFontSize,
   setTranscript,
   setCaptions,
   setCurrCaption,
@@ -374,6 +374,9 @@ export const {
   resetStates,
   toggleFullScreen
 } = watchSlice.actions;
+
+// Backward-compatible alias used by existing tests.
+export const setFontSizeReducer = setFontSize;
 
 export default watchSlice.reducer;
 

@@ -1,3 +1,5 @@
-export const adSample = require('./ad.example.json');
+import adSample from './ad.example.json';
+
+export { adSample };
 
 export { shortcuts } from './shortcuts';

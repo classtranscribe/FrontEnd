@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import AdmZip from 'adm-zip';
+import JSZip from 'jszip';
 
 import { html } from 'utils';
 import { epubIsText } from './utils';
@@ -11,7 +11,7 @@ class LatexFileBuilder {
    * @param {Boolean} forPreview
    */
   constructor() {
-    this.zip = new AdmZip();
+    this.zip = new JSZip();
     this.ch_id = 0;
   }
 
@@ -75,7 +75,7 @@ class LatexFileBuilder {
     }
     const img_path = `images/${content.id}.jpeg`;
     // Ensure images directory exists in zip (AdmZip handles this automatically)
-    this.zip.addFile(img_path, Buffer.from(content.buffer));
+    this.zip.file(img_path, content.buffer instanceof Uint8Array ? content.buffer : new Uint8Array(content.buffer));
     return img_path;
   }
 
@@ -172,9 +172,9 @@ class LatexFileBuilder {
     const zip = this.zip;
 
     const indexHTML = this.getMainText();
-    zip.addFile('main.tex', Buffer.from(indexHTML));
+    zip.file('main.tex', indexHTML);
 
-    return zip.toBuffer();
+    return zip.generateAsync({ type: 'blob' });
   }
 
 

@@ -47,11 +47,10 @@ const epubSlice = createSlice({
       state.media = payload;
     },
     setEPub(state, { payload }) {
-      const items = getAllItemsInChapters(payload.chapters);
-
       if (!payload.chapters) {
-        payload.chapters = []
+        payload.chapters = [];
       }
+      const items = getAllItemsInChapters(payload.chapters);
       state.epub = payload;
       state.images = items;
     },

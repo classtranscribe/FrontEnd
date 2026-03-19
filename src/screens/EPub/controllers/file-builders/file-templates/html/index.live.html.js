@@ -1,7 +1,7 @@
-import raw from 'raw.macro';
 import { ROOT_CSS, PRISM_CSS } from '../styles';
+import STYLE_CSS_RAW from './style.css?raw';
 
-export const STYLE_CSS = raw('./style.css') + ROOT_CSS;
+export const STYLE_CSS = STYLE_CSS_RAW + ROOT_CSS;
 
 export default ({
   title = '',

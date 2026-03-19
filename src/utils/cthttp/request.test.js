@@ -110,14 +110,12 @@ describe('CTHTTPRequest', () => {
       );
     });
 
-    it('includes httpsAgent configuration', () => {
+    it('does not include Node-specific agent configuration in browser client', () => {
       cthttp.request();
-      expect(axios.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          httpsAgent: expect.any(Object),
-          httpAgent: expect.any(Object),
-        })
-      );
+      expect(axios.create).toHaveBeenCalledTimes(1);
+      const requestConfig = axios.create.mock.calls[0][0];
+      expect(requestConfig).not.toHaveProperty('httpsAgent');
+      expect(requestConfig).not.toHaveProperty('httpAgent');
     });
 
     it('uses loginAs auth token when available and not on admin page', () => {
