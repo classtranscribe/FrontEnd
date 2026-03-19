@@ -74,6 +74,7 @@
     "mk-guide": "^1.10.5",
     "moment": "^2.29.4",
     "papaparse": "^5.2.0",
+    "path-to-regexp": "^1.8.0",
     "pico-ui": "^0.0.13",
     "popper.js": "^1.16.1",
     "postcss-flexbugs-fixes": "4.2.1",
