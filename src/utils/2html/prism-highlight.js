@@ -1,8 +1,8 @@
-const registerHighlightLanguages = () => {
-  require('prismjs');
-  require('prismjs/components/prism-javascript');
-  require('prismjs/components/prism-jsx');
-  require('prismjs/components/prism-python');
-};
+import 'prismjs';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-python';
+
+const registerHighlightLanguages = () => {};
 
 export default registerHighlightLanguages;

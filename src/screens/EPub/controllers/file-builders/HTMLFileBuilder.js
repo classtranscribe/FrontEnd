@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import AdmZip from 'adm-zip';
+import JSZip from 'jszip';
 import PlaylistTypes from 'entities/Playlists/PlaylistTypes';
 import { _buildID, html } from 'utils';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
@@ -15,7 +15,7 @@ class HTMLFileBuilder {
    * @param {Boolean} forPreview
    */
   constructor() {
-    this.zip = new AdmZip();
+    this.zip = new JSZip();
   }
 
   init(parsedData, createLinks = true) {
@@ -188,16 +188,16 @@ class HTMLFileBuilder {
 
     // styles
     // styles/style.css
-    zip.addFile('styles/style.css', Buffer.from(STYLE_CSS));
+    zip.file('styles/style.css', STYLE_CSS);
     // styles/katex.min.css
-    zip.addFile('styles/katex.min.css', Buffer.from(KATEX_MIN_CSS));
+    zip.file('styles/katex.min.css', KATEX_MIN_CSS);
     // styles/prism.css
-    zip.addFile('styles/prism.css', Buffer.from(PRISM_CSS));
+    zip.file('styles/prism.css', PRISM_CSS);
 
     const indexHTML = this.getIndexHTML();
-    zip.addFile('index.html', Buffer.from(indexHTML));
+    zip.file('index.html', indexHTML);
 
-    return zip.toBuffer();
+    return zip.generateAsync({ type: 'blob' });
   }
 
   static getOptions(options) {

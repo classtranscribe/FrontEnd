@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import AdmZip from 'adm-zip';
+import JSZip from 'jszip';
 import PlaylistTypes from 'entities/Playlists/PlaylistTypes';
 import { dedent } from 'dentist';
 import { KATEX_MIN_CSS, PRISM_CSS } from './file-templates/styles';
@@ -36,10 +36,20 @@ function bufferFromDataUrl(dataUrl) {
   if (!parts) return null;
   const { isBase64, payload } = parts;
   if (isBase64) {
-    return Buffer.from(payload, 'base64');
+    const binary = atob(payload);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
   }
-  // unescaped text payload
-  return Buffer.from(decodeURIComponent(payload), 'utf8');
+  return new TextEncoder().encode(decodeURIComponent(payload));
+}
+
+function toUint8Array(value) {
+  if (value instanceof Uint8Array) return value;
+  if (value instanceof ArrayBuffer) return new Uint8Array(value);
+  return new Uint8Array(value);
 }
 
 /**
@@ -51,7 +61,7 @@ class EPubFileBuilder {
    * @param {EPubData} ePubData
    */
   constructor() {
-    this.zip = new AdmZip();
+    this.zip = new JSZip();
   }
 
   async init(parsedData) {
@@ -124,7 +134,7 @@ class EPubFileBuilder {
       language: this.language,
       navContents,
     });
-    this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
+    this.zip.file('OEBPS/toc.xhtml', toc_xhtml);
   }
 
   buildVisualTocXHTML(visualTOC) {
@@ -145,7 +155,7 @@ class EPubFileBuilder {
       navContents,
     });
 
-    this.zip.addFile('OEBPS/toc.xhtml', toc_xhtml);
+    this.zip.file('OEBPS/toc.xhtml', toc_xhtml);
   }
   buildTocNCX(chapters) {
     let navPoints = '';
@@ -159,7 +169,7 @@ class EPubFileBuilder {
 		`;
     });
     const toc_ncx = OEBPS_TOC_NCX({ title: this.data.title, author: this.data.author, navPoints });
-    this.zip.addFile('OEBPS/toc.NCX', toc_ncx);
+    this.zip.file('OEBPS/toc.NCX', toc_ncx);
   }
   convertTableOfContents() {
     const chapters = this.data.chapters;
@@ -267,8 +277,8 @@ class EPubFileBuilder {
           buffer = bufferFromDataUrl(imgObj.src);
         }
       }
-      if (!buffer && (imgObj.buffer instanceof Uint8Array || Buffer.isBuffer(imgObj.buffer))) {
-        buffer = Buffer.from(imgObj.buffer);
+      if (!buffer && (imgObj.buffer instanceof Uint8Array || imgObj.buffer instanceof ArrayBuffer)) {
+        buffer = toUint8Array(imgObj.buffer);
       }
 
       if (!buffer) return;
@@ -278,7 +288,7 @@ class EPubFileBuilder {
       const href = `images/${filename}`;
       const mediaType = mime || 'image/jpeg';
 
-      this.zip.addFile(`${imagesDir}${filename}`, Buffer.from(buffer));
+      this.zip.file(`${imagesDir}${filename}`, toUint8Array(buffer));
 
       imgObj.src = href;
 
@@ -310,11 +320,11 @@ class EPubFileBuilder {
         ch,
         this.data.chapterGlossary ? this.data.chapterGlossary[idx] : false,
       );
-      this.zip.addFile(`OEBPS/${ch.id}.xhtml`, Buffer.from(contentXHTML));
+      this.zip.file(`OEBPS/${ch.id}.xhtml`, contentXHTML);
     });
     if (this.glossary && !_.isEmpty(this.glossary) && !this.data.chapterGlossary) {
       const glossaryXHTML = this.convertGlossary(this.glossary);
-      this.zip.addFile(`OEBPS/glossary.xhtml`, Buffer.from(glossaryXHTML));
+      this.zip.file(`OEBPS/glossary.xhtml`, glossaryXHTML);
     }
   }
 
@@ -323,17 +333,17 @@ class EPubFileBuilder {
     const zip = this.zip;
 
     // mimetype
-    zip.addFile('mimetype', Buffer.from(MIMETYPE));
+    zip.file('mimetype', MIMETYPE);
     // META-INF/container.xml
-    zip.addFile('META-INF/container.xml', Buffer.from(META_INF_CONTAINER_XML));
+    zip.file('META-INF/container.xml', META_INF_CONTAINER_XML);
 
     // OEBPS
     // OEBPS/style.css
-    zip.addFile('OEBPS/style.css', Buffer.from(OEBPS_STYLE_CSS));
+    zip.file('OEBPS/style.css', OEBPS_STYLE_CSS);
     // OEBPS/katex.min.css
-    zip.addFile('OEBPS/katex.min.css', Buffer.from(KATEX_MIN_CSS));
+    zip.file('OEBPS/katex.min.css', KATEX_MIN_CSS);
     // OEBPS/prism.css
-    zip.addFile('OEBPS/prism.css', Buffer.from(PRISM_CSS));
+    zip.file('OEBPS/prism.css', PRISM_CSS);
 
     // OEBPS/chapter-id.xhtml
     // Note: convertEPub populates the chapter ids, so it has to be done first
@@ -350,9 +360,9 @@ class EPubFileBuilder {
       new Date(),
       chapters,
     );
-    zip.addFile('OEBPS/content.opf', Buffer.from(contentOPF));
+    zip.file('OEBPS/content.opf', contentOPF);
 
-    return zip.toBuffer();
+    return zip.generateAsync({ type: 'blob' });
   }
 
   static getOptions(options) {

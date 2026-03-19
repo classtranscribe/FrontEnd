@@ -1,8 +1,9 @@
 import { env } from '../env'
+import initialData from '../json/initialData.json'
+import offeringAccessType from '../json/offeringAccessTypes.json'
+import playlistTypes from '../json/playlistTypes.json'
 
-export const initialData = require('../json/initialData.json')
-export const offeringAccessType = require('../json/offeringAccessTypes.json')
-export const playlistTypes = require('../json/playlistTypes.json')
+export { initialData, offeringAccessType, playlistTypes }
 
 /**
  * HTTP request's base url for this web

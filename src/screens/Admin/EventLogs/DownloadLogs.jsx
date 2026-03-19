@@ -3,9 +3,8 @@ import { DateRangePicker } from 'react-dates';
 import { Button } from 'semantic-ui-react';
 import { api } from 'utils';
 import Moment from 'moment';
+import fileDownload from 'js-file-download';
 import { momentToISOString } from '../helpers';
-
-const fileDownload = require('js-file-download');
 
 export default function DownloadLogs() {
   const [focusedInput, setFocusedInput] = useState(null);

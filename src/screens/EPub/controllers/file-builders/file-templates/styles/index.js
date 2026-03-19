@@ -1,5 +1,5 @@
-import raw from 'raw.macro';
+import KATEX_MIN_CSS from './katex.min.css?raw';
+import ROOT_CSS from './root.css?raw';
+import PRISM_CSS from './prism.css?raw';
 
-export const KATEX_MIN_CSS = raw('./katex.min.css');
-export const ROOT_CSS = raw('./root.css');
-export const PRISM_CSS = raw('./prism.css');
+export { KATEX_MIN_CSS, ROOT_CSS, PRISM_CSS };

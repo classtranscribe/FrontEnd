@@ -209,8 +209,18 @@ class EPubParser {
    */
   static async loadImageBuffer(src) {
     try {
-      const buffer = await api.getBuffer(uurl.getMediaUrl(src));
-      return buffer;
+      // Prefer local dev server for static frontend assets to avoid cross-origin CORS
+      // requests when running Vite on localhost.
+      const mediaUrl = src.startsWith('/src/assets/')
+        ? `${window.location.origin}${src}`
+        : uurl.getMediaUrl(src);
+
+      const response = await fetch(mediaUrl, { credentials: 'omit' });
+      if (!response.ok) {
+        throw new Error(`Failed to load image: ${response.status} ${response.statusText}`);
+      }
+      const buffer = await response.arrayBuffer();
+      return new Uint8Array(buffer);
     } catch (error) {
       this.hasImageError = true;
       return "";
