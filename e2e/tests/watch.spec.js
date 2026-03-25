@@ -1,13 +1,13 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect, mockContext } = require('../fixtures');
 
 // Full user flow: Home → Course (/offering/:id) → Playlist → Watch page (/video?id=...)
-// All API calls go to ct-dev.ncsa.illinois.edu (real staging data)
+// API calls to ct-dev.ncsa.illinois.edu are intercepted by mock routes (fixtures.js)
 
 // Navigate the full user path and return a /video?id=... URL.
 // Must use an authenticated context — browser.newPage() bypasses storageState.
 async function discoverVideoUrl(browser) {
-  // Create an authenticated context matching the chromium project storageState
-  const context = await browser.newContext({ storageState: 'e2e/.auth/user.json' });
+  // Create an authenticated context with mock routes pre-installed
+  const context = await mockContext(browser, { storageState: 'e2e/.auth/user.json' });
   const page = await context.newPage();
 
   await page.goto('/');

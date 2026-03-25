@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../fixtures');
 
 // CTCookieAgreement (src/components/CTCookieAgreement/index.js):
 //   - Shows modal after 1500ms setTimeout

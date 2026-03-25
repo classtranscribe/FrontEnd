@@ -1,7 +1,8 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../fixtures');
 
 // Tests NavHeader navigation, user menu (logged-in state), routing, and sign-out
 // storageState (authToken + userInfo) is injected via playwright.config.js → chromium project
+// API calls to ct-dev.ncsa.illinois.edu are intercepted by mock routes (fixtures.js)
 
 test.describe('Navigation', () => {
   test('nav header is visible on all main pages', async ({ page }) => {
