@@ -1,0 +1,13 @@
+[
+  {
+    "id": "mock-epub-001",
+    "sourceType": 2,
+    "sourceId": "mock-media-001",
+    "title": "CS 101 Lecture 1 I-Note",
+    "filename": "CS-101-Lecture-1",
+    "language": "en-US",
+    "author": "Test User",
+    "publisher": "ClassTranscribe",
+    "publishStatus": 0
+  }
+]

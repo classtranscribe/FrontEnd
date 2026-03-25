@@ -1,8 +1,8 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../fixtures');
 
 // Search input from src/screens/Search/components/SearchInput/index.js:
 //   <input id="sp-input" role="searchbox" ... />
-// All search API calls go to ct-dev.ncsa.illinois.edu
+// API calls to ct-dev.ncsa.illinois.edu are intercepted by mock routes (fixtures.js)
 
 test.describe('Search Page', () => {
   test.beforeEach(async ({ page }) => {

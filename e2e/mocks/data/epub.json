@@ -1,0 +1,35 @@
+{
+  "id": "mock-epub-001",
+  "sourceType": 2,
+  "sourceId": "mock-media-001",
+  "title": "CS 101 Lecture 1 I-Note",
+  "filename": "CS-101-Lecture-1",
+  "language": "en-US",
+  "author": "Test User",
+  "publisher": "ClassTranscribe",
+  "cover": { "src": "/api/static/mock-cover.png", "alt": "Cover image", "descriptions": [], "timestamp": null, "link": null },
+  "chapters": [
+    {
+      "id": "mock-chapter-001",
+      "title": "Chapter 1: Introduction",
+      "condition": ["default"],
+      "contents": [
+        "Welcome to CS 101. This course covers fundamental computer science concepts.",
+        "We will explore algorithms, data structures, and programming paradigms."
+      ],
+      "subChapters": []
+    },
+    {
+      "id": "mock-chapter-002",
+      "title": "Chapter 2: Basic Programming",
+      "condition": ["default"],
+      "contents": [
+        "Programming is the art of instructing computers to perform tasks."
+      ],
+      "subChapters": []
+    }
+  ],
+  "h3": false,
+  "jsonMetadata": {},
+  "publishStatus": 0
+}

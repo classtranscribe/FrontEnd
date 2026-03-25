@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect, mockContext } = require('../fixtures');
 
 // EPub (I-Note / "Video to Book") — two-step navigation:
 //   Step 1: /media-settings/:mediaId/epub  → CTEPubListScreen (I-Note books list for the media)
@@ -17,11 +17,11 @@ const { test, expect } = require('@playwright/test');
 // Downloads are triggered client-side via js-file-download (Blob URL + anchor click).
 // Playwright intercepts them with page.waitForEvent('download').
 
-// Discover (mediaId, epubUrl) from staging:
+// Discover (mediaId, epubUrl) by navigating the app with mock routes active:
 // - mediaId: extracted from the first video URL found via the instructor playlist
 // - epubUrl: href of the first I-Note item in the media's I-Note list (/epub/:epubId)
 async function discoverEPubUrls(browser) {
-  const context = await browser.newContext({ storageState: 'e2e/.auth/user.json' });
+  const context = await mockContext(browser, { storageState: 'e2e/.auth/user.json' });
   const page = await context.newPage();
 
   // --- Step A: get a mediaId via instructor playlist ---

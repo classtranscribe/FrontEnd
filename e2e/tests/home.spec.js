@@ -1,7 +1,7 @@
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('../fixtures');
 
 // storageState (auth) is injected via playwright.config.js → chromium project
-// All API calls go to https://ct-dev.ncsa.illinois.edu (set by public/config.js)
+// API calls to https://ct-dev.ncsa.illinois.edu are intercepted by mock routes (fixtures.js)
 
 test.describe('Home Page', () => {
   test.beforeEach(async ({ page }) => {
