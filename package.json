@@ -155,7 +155,7 @@
     "react-error-overlay": "6.0.9",
     "sass": "^1.98.0",
     "update-browserslist-db": "^1.0.13",
-    "vite": "^7.3.1"
+    "vite": "^7.3.2"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"
