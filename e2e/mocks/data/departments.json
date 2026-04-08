@@ -1,0 +1,8 @@
+[
+  {
+    "id": "mock-dept-001",
+    "name": "Computer Science",
+    "acronym": "CS",
+    "universityId": "mock-uni-001"
+  }
+]

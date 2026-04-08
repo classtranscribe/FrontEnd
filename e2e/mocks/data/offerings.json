@@ -1,0 +1,35 @@
+[
+  {
+    "offering": {
+      "id": "mock-offering-001",
+      "courseName": "Introduction to Computer Science",
+      "description": "An introductory CS course.",
+      "accessType": 0,
+      "sectionName": "Section A",
+      "termId": "mock-term-001",
+      "jsonMetadata": {}
+    },
+    "courses": [
+      {
+        "id": "mock-course-001",
+        "departmentId": "mock-dept-001",
+        "departmentAcronym": "CS",
+        "acronym": "CS",
+        "courseNumber": "101"
+      }
+    ],
+    "term": {
+      "id": "mock-term-001",
+      "name": "Fall 2024",
+      "universityId": "mock-uni-001"
+    },
+    "instructorIds": [
+      {
+        "id": "mock-user-001",
+        "email": "testuser@classtranscribe.com",
+        "firstName": "Test",
+        "lastName": "User"
+      }
+    ]
+  }
+]

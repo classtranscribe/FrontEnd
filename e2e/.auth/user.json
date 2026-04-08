@@ -1,0 +1,26 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "CT_preference",
+          "value": "{\"volume\":1,\"muted\":false,\"playbackrate\":1,\"cc_color\":\"white\",\"cc_bg\":\"black\",\"cc_size\":1,\"cc_font\":\"sans-serif\",\"cc_position\":\"bottom\",\"cc_opacity\":0.75,\"cc_spacing\":\"0.25\",\"transView\":\"Caption Line View\",\"prevTransView\":null,\"openCC\":true,\"openAD\":false,\"aslCorner\":0,\"autoPlay\":true,\"brightness\":1,\"contrast\":1,\"rotateColor\":0,\"invert\":0,\"scale\":1,\"magnifyX\":0,\"magnifyY\":0,\"pauseWhileAD\":false,\"description\":\"\",\"ADVolume\":0.5,\"ADSpeed\":0.7,\"stopAD\":false,\"autoScroll\":true,\"pauseWhileEditing\":true,\"showCaptionTips\":true}"
+        },
+        {
+          "name": "userInfo",
+          "value": "{\"exp\":\"2286-11-20T17:46:39.000Z\",\"roles\":[\"Instructor\",\"Admin\"],\"firstName\":\"Test\",\"lastName\":\"User\",\"fullName\":\"Test User\",\"userId\":\"mock-user-001\",\"emailId\":\"testuser@classtranscribe.com\",\"authMethod\":\"Test\",\"universityId\":\"mock-uni-001\"}"
+        },
+        {
+          "name": "authToken",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0dXNlckBjbGFzc3RyYW5zY3JpYmUuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZ2l2ZW5uYW1lIjoiVGVzdCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL3N1cm5hbWUiOiJVc2VyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoidGVzdHVzZXJAY2xhc3N0cmFuc2NyaWJlLmNvbSIsImNsYXNzdHJhbnNjcmliZS9Vc2VySWQiOiJtb2NrLXVzZXItMDAxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIkluc3RydWN0b3IiLCJBZG1pbiJdLCJleHAiOjk5OTk5OTk5OTl9.mock-sig"
+        },
+        {
+          "name": "latest-sha",
+          "value": "unknown"
+        }
+      ]
+    }
+  ]
+}

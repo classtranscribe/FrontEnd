@@ -2,12 +2,13 @@
 /* eslint-disable no-console */
 /* eslint-disable complexity */
 // import { parseSec } from 'screens/Watch/Utils';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.scss';
 // import { ButtonGroup } from 'semantic-ui-react';
 import { cthttp } from 'utils/cthttp/request';
 import { env } from 'utils/env';
+import { user } from 'utils';
 import { connect } from 'react-redux';
 import Draggable from 'react-draggable';
 import './CTPopup.scss'
@@ -45,7 +46,6 @@ const CTPopup = ({ time = 0 }) => {
   const [definitionURL, setDefinitionURL] = useState('');
   const [exampleURL, setExampleURL] = useState('');
 
-
   // eslint-disable-next-line no-unused-vars
   const [show, setShow] = useState([{
     word: 'toy',
@@ -54,6 +54,9 @@ const CTPopup = ({ time = 0 }) => {
   }])
 
   const [glossaries, setGlossaries] = useState([]);
+  const [videoId, setVideoId] = useState('');
+  const [generating, setGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState('');
 
   // stamp might be 00:00:00 or 00:00
   const parseTimestamp = (stamp) => {
@@ -67,54 +70,74 @@ const CTPopup = ({ time = 0 }) => {
     return sec;
   }
 
-  // const [queryParameters, getqueryParameters] = React.useState('0699a60e-3926-48c6-9e28-01f3c2d35c10');
+  const loadGlossary = useCallback(async (vid) => {
+    const res2 = await cthttp.get(`Task/GetGlossaryTimestamp?videoId=${vid}`);
+    const times = (res2.status === 200 && res2.data?.glossaryTimestamp) ? res2.data.glossaryTimestamp : {};
+    const res = await cthttp.get(`Task/GetGlossary?videoId=${vid}`);
+    const rawGlossary = res.data?.Glossary;
+    if (!Array.isArray(rawGlossary) || rawGlossary.length === 0) return [];
+
+    const gdata = [];
+    const keys = {};
+    let tiebreaker = 0;
+    rawGlossary.forEach(element => {
+      const curdata = {
+        word: element[0],
+        explain: element[1],
+        source: element[3],
+        url: element[5],
+        detail: element[6],
+      };
+      const curword = element[0];
+      let basekey = curword;
+      const curstamp = times[curword];
+      if (curstamp !== undefined) {
+        curdata.begin = parseTimestamp(curstamp[0].substring(0, 8));
+        curdata.end = parseTimestamp(curstamp[1].substring(0, 8));
+        basekey = `${curdata.begin}-${curdata.end}-${basekey}`;
+      }
+      let key = basekey;
+      while (keys[key] !== undefined) { tiebreaker += 1; key = `${tiebreaker}-${basekey}`; }
+      keys[key] = true;
+      curdata.key = key;
+      gdata.push(curdata);
+    });
+    return gdata;
+  }, []);
+
   useEffect(() => {
     async function fetchData() {
       const queryParameter = new URLSearchParams(window.location.search);
       const mid = queryParameter.get('id');
       const ret = await cthttp.get(`Media/${mid}`);
       const vid = ret.data.video.id;
-      const res2 = await cthttp.get(`Task/GetGlossaryTimestamp?videoId=${vid}`);
-      const times = res2.data.glossaryTimestamp;
-      const res = await cthttp.get(`Task/GetGlossary?videoId=${vid}`); // English And potentially ASL Glossary entries
-
-      const gdata = [];
-      const keys = {};
-      let tiebreaker = 0;
-      res.data.Glossary.forEach(element => {
-        const curdata = {
-          word: element[0],
-          explain: element[1],
-          source: element[3],
-          url: element[5],
-          detail: element[6],
-        };
-        const curword = element[0];
-        let basekey = curword;
-        const curstamp = times[curword];
-        if (curstamp !== undefined) {
-          curdata.begin = parseTimestamp(curstamp[0].substring(0, 8));
-          curdata.end = parseTimestamp(curstamp[1].substring(0, 8));
-          basekey = `${curdata.begin}-${curdata.end}-${basekey}`;
-        }
-        let key = basekey;
-
-        while (keys[key] !== undefined) {
-          tiebreaker += 1;
-          key = `${tiebreaker}-${basekey}`;
-        }
-        keys[key] = true;
-        curdata.key = key;
-        gdata.push(curdata);
-      });
-
+      setVideoId(vid);
+      const gdata = await loadGlossary(vid);
       setGlossaries(gdata);
       const curstamp = parseInt(time, 10);
-      const newShow = glossaries.filter(word => word.begin <= curstamp && word.end >= curstamp);
+      const newShow = gdata.filter(word => word.begin <= curstamp && word.end >= curstamp);
       setShow([...newShow]);
     }
     fetchData();
   }, []);
+
+  const handleGenerate = async () => {
+    if (!videoId) return;
+    setGenerating(true);
+    setGenerateError('');
+    try {
+      const res = await cthttp.post(`Task/ExtractGlossary?videoId=${videoId}&force=true`);
+      if (res.status === 200) {
+        const gdata = await loadGlossary(videoId);
+        setGlossaries(gdata);
+      } else {
+        setGenerateError(`Failed (${res.status})`);
+      }
+    } catch (e) {
+      setGenerateError(e.message || 'Error');
+    }
+    setGenerating(false);
+  };
 
 
 
@@ -281,6 +304,22 @@ const CTPopup = ({ time = 0 }) => {
           time={time}
           setTerm={setTerm}
         />
+
+        {(user.isAdmin || user.isInstructor) && (
+          <div className="glossary-generate-bar">
+            {glossaries.length === 0 && !generating && (
+              <span className="glossary-empty-hint">No glossary terms yet.</span>
+            )}
+            <button
+              className="glossary-generate-btn"
+              onClick={handleGenerate}
+              disabled={generating}
+            >
+              {generating ? 'Generating…' : glossaries.length === 0 ? 'Generate from Captions/OCR' : 'Regenerate'}
+            </button>
+            {generateError && <span className="glossary-generate-error">{generateError}</span>}
+          </div>
+        )}
 
       </div>
     </Draggable>

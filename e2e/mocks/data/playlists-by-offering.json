@@ -1,0 +1,19 @@
+[
+  {
+    "id": "mock-playlist-001",
+    "offeringId": "mock-offering-001",
+    "name": "Week 1 Lectures",
+    "description": "",
+    "playlistIndex": 0,
+    "medias": [
+      {
+        "id": "mock-media-001",
+        "playlistId": "mock-playlist-001",
+        "name": "Lecture 1 - Introduction",
+        "sourceType": 0,
+        "ready": true,
+        "duration": 3600
+      }
+    ]
+  }
+]

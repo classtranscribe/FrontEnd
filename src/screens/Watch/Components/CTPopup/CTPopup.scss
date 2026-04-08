@@ -148,3 +148,35 @@
 .list-tabs {
   margin-left: 20px;
 }
+
+.glossary-generate-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  flex-wrap: wrap;
+}
+
+.glossary-empty-hint {
+  font-size: 0.78rem;
+  opacity: 0.65;
+}
+
+.glossary-generate-btn {
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover:not(:disabled) { background: rgba(255,255,255,0.1); }
+  &:disabled { opacity: 0.5; cursor: wait; }
+}
+
+.glossary-generate-error {
+  font-size: 0.75rem;
+  color: #ff6b6b;
+}
