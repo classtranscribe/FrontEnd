@@ -9,11 +9,11 @@ export { default as CTFilterInput } from './DefaultFilter';
 
 /**
  * A general filter component for classtranscribe
- * can be used to get the data at least one of specified attributes of which 
+ * can be used to get the data at least one of specified attributes of which
  * contains all the target values
- * 
+ *
  * @example
- * // render a filter with input field, which will filter the data on 'name' for the value entered in the input field 
+ * // render a filter with input field, which will filter the data on 'name' for the value entered in the input field
  * and show the result as a list of MediaItem.
  * <CTFilter
  *    withDefaultFilter
@@ -58,7 +58,7 @@ function CTFilter(props) {
       flags: regexFlags
     });
   };
-  
+
   useEffect(() => {
     // in the case when withDefaultFilter = false,
     // update target value when new `value` passed from the outer input field changes
@@ -80,7 +80,9 @@ function CTFilter(props) {
 
   useEffect(() => {
     // update result when target value changes
-    let res = getResult(filterVal);
+    // Skip filtering when input is empty; show all items instead.
+    const hasFilter = filterVal.trim() !== '';
+    const res = hasFilter ? getResult(filterVal) : data;
     setResult(res);
 
     // if the callback is provided

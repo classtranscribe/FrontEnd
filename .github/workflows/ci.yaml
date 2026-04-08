@@ -49,8 +49,11 @@ jobs:
         run: |
           yarn lint:quiet
 
-      - name: Run tests
-        run: yarn test
+      - name: Run Jest tests
+        run: yarn test:jest:ci
+
+      - name: Run E2E tests
+        run: yarn test:e2e:ci
 
       - name: Compile application
         env:

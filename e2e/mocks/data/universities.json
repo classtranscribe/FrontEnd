@@ -1,0 +1,13 @@
+[
+  {
+    "id": "mock-uni-001",
+    "name": "University of Illinois",
+    "abbreviation": "UIUC",
+    "universityName": "University of Illinois at Urbana-Champaign",
+    "emailDomain": "illinois.edu",
+    "loginType": 0,
+    "homePage": null,
+    "logo": null,
+    "jsonMetadata": {}
+  }
+]

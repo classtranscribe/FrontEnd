@@ -1,0 +1,10 @@
+[
+  {
+    "id": "mock-term-001",
+    "name": "Fall 2024",
+    "universityId": "mock-uni-001",
+    "startDate": "2024-08-26",
+    "endDate": "2024-12-20",
+    "isActive": true
+  }
+]
