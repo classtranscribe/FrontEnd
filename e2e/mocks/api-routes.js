@@ -10,29 +10,29 @@
 
 const BASE = 'https://ct-dev.ncsa.illinois.edu';
 
-const universities   = require('./data/universities.json');
-const terms          = require('./data/terms.json');
-const departments    = require('./data/departments.json');
-const offerings      = require('./data/offerings.json');
+const universities = require('./data/universities.json');
+const terms = require('./data/terms.json');
+const departments = require('./data/departments.json');
+const offerings = require('./data/offerings.json');
 const playlistsByOff = require('./data/playlists-by-offering.json');
-const playlist       = require('./data/playlist.json');
-const media          = require('./data/media.json');
-const epubList       = require('./data/epub-list.json');
-const epub           = require('./data/epub.json');
+const playlist = require('./data/playlist.json');
+const media = require('./data/media.json');
+const epubList = require('./data/epub-list.json');
+const epub = require('./data/epub.json');
 
 /**
  * Generate a mock JWT whose payload jwtDecode() (used client-side) can read.
  * Only the base64url-encoded payload matters; the signature is intentionally fake.
  */
 function makeMockJwt() {
-  const header  = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
   const payload = Buffer.from(JSON.stringify({
     sub: 'testuser@classtranscribe.com',
-    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname':    'Test',
-    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname':       'User',
-    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress':  'testuser@classtranscribe.com',
-    'classtranscribe/UserId':                                              'mock-user-001',
-    'http://schemas.microsoft.com/ws/2008/06/identity/claims/role':        ['Instructor', 'Admin'],
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname': 'Test',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname': 'User',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress': 'testuser@classtranscribe.com',
+    'classtranscribe/UserId': 'mock-user-001',
+    'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': ['Instructor', 'Admin'],
     exp: 9999999999,
   })).toString('base64url');
   return `${header}.${payload}.mock-sig`;

@@ -1,6 +1,6 @@
-const { test: setup, expect } = require('./fixtures');
 const path = require('path');
 const fs = require('fs');
+const { test: setup, expect } = require('./fixtures');
 
 const authFile = path.join(__dirname, '.auth/user.json');
 
