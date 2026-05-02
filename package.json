@@ -115,7 +115,7 @@
     "semver": "7.3.2",
     "showdown": "^1.9.1",
     "showdown-katex": "^0.8.0",
-    "uuid": "^9.0.0",
+    "uuid": "^14.0.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
