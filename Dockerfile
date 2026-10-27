@@ -21,6 +21,7 @@ RUN yarn build
 # FINAL IMAGE
 # ----------------------------------------------------------------------
 FROM nginx:alpine
+RUN apk upgrade --no-cache
 
 ARG BRANCH="unknown"
 ARG BUILDNUMBER="local"
